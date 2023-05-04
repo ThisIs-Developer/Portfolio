@@ -374,6 +374,11 @@ nav .fa-solid{
     .header-text h1{
         font-size: 45px;
     }
+	.header-text h1 span{
+        background: linear-gradient(to right, rgba(255,0,79,1) 38%, rgb(0, 42, 255) 77%);
+        -webkit-text-fill-color: transparent;
+        -webkit-background-clip: text;
+    }
     nav .fa-solid{
         display: block;
         font-size: 25px;
