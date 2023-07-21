@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/issues</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/pulls</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/actions</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/projects?query=is%3Aopen</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/security</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/ff4fbdf1142edce9f13186852abc8bfba840f527</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/ceba640e76a4688470e164ee2510022d806a5564</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/f1cb1fc46be33f7f50f938a787573493c4e2068c</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/releases</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/labels</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/compare</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/afac739ce80ea541b48cf6943ca3f3ca0d1bb807</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/70e228e6db128a5dcaca1bd9ff552c6e2bfc2bc8</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/19e91c961a054364af8309dae8cfa92b7c4e66b4</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/labels?sort=name-asc</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/labels?sort=name-desc</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/labels?sort=count-desc</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/labels?sort=count-asc</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/labels/bug</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/labels/documentation</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/labels/duplicate</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/labels/enhancement</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/labels/good%20first%20issue</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/labels/help%20wanted</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/labels/invalid</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/labels/question</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/labels/wontfix</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?state=open</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?state=closed</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=desc&amp;sort=due_date&amp;state=open</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=asc&amp;sort=due_date&amp;state=open</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=asc&amp;sort=completeness&amp;state=open</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=desc&amp;sort=completeness&amp;state=open</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=asc&amp;sort=title&amp;state=open</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=desc&amp;sort=title&amp;state=open</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=desc&amp;sort=count&amp;state=open</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=asc&amp;sort=count&amp;state=open</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/0872786604d1f17b76fb018b511e35de31df6df3</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/7ce1309d3ac607c24989e749b112b668fd0be41a</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/a0bacc27539b82e18870cd613f77036edde82f44</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=desc&amp;sort=due_date&amp;state=closed</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=asc&amp;sort=due_date&amp;state=closed</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=asc&amp;sort=completeness&amp;state=closed</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=desc&amp;sort=completeness&amp;state=closed</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=asc&amp;sort=title&amp;state=closed</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=desc&amp;sort=title&amp;state=closed</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=desc&amp;sort=count&amp;state=closed</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/milestones?direction=asc&amp;sort=count&amp;state=closed</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/3888925769e7a71cc52d4b07f5fba2b15f17abf5</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/d31226cf5bc0470d81d019e4cacaa0277e49c713</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/90dc50a81e77faf35693cb8d8843d8712482361a</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/9c39df01ef7b420f6685a7b5f2f90282372002c2</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.33</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/4df82a934531980edb0cd5e7a04e6d942faeb565</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.26</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/cff8db12a80fc788e563962a70ac48dad5f204b7</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.26</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/7dff6cdf74e31ebb6107722861517b212c97f459</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.21</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/9537063eb87e2de46cef6378d07a07f84876ef6a</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.21</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/d179603396edcc7af25e2f1da009f7093af886c6</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.17</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/7414dea505f62521259e974560800416a0c8ab5d</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.17</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/ffa8d1a392a8b7fb3edda53826a01cfa4bdd9b33</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.13</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/14a1e0419d3379ef5ee6c47339e8ab73a4c5b642</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.13</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/a4b3464cf9a356aac995594229bb19cd58c15fb6</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.11</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/a66f133fedbd17c9889d8df0a1ae134a929b2f1d</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.11</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/5428e398729fe6292963e9b4a2f1fcea58f168cc</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.09</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/d34c236d563fdbc06a73e4ec4edd12a69d229d37</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.09</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/999b3624e073ba375708e193c96b447522f48466</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.07</priority>
+</url>
+<url>
+  <loc>https://github.com/ThisIs-Developer/Portfolio/commit/9fddcbf9632434a32aaca0b6f7c13864f39d12ef</loc>
+  <lastmod>2023-07-21T16:31:44+00:00</lastmod>
+  <priority>0.05</priority>
+</url>
+
+
+</urlset>
