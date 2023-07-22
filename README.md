@@ -1,7 +1,7 @@
 # Portfolio [![Actions Status](https://github.com/cfgnunes/numerical-methods-python/workflows/build/badge.svg)](https://github.com/ThisIs-Developer/Portfolio)
 
-Portfolio can include a range of projects, assignments, and work experiences that showcase your skills, knowledge, and achievements in the field. **Deploy https://baivabsarkar.netlify.app/ - https://baivabsarkar.vercel.app/**
-This site was built using [GitHub Pages](https://pages.github.com/).
+Portfolio can include a range of projects, assignments, and work experiences that showcase your skills, knowledge, and achievements in the field. **Deploy / - https://baivabsarkar.vercel.app/**
+This Portfolio is [Live](https://baivabsarkar.netlify.app).
 ## Author
 - [@ThisIs-Developer](https://github.com/ThisIs-Developer)
 
