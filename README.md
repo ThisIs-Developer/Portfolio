@@ -4,6 +4,7 @@ Portfolio can include a range of projects, assignments, and work experiences tha
 ## Author
 - [@ThisIs-Developer](https://github.com/ThisIs-Developer)
 
-![screencapture-baivabsarkar-me-2023-07-23-02_01_32](https://github.com/ThisIs-Developer/Portfolio/assets/109382325/fa651374-cf69-4e2c-97ef-a93b8e0f28f0)
+![screencapture-baivabsarkar-me-2023-07-23-23_47_51](https://github.com/ThisIs-Developer/Portfolio/assets/109382325/7420487f-9b9d-449a-aa5b-0a9e4275df7b)
+
 
 
