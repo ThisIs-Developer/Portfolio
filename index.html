@@ -188,6 +188,7 @@
                         <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
                         <button type="submit" class="btn btn2">Submit</button>
                     </form>
+                    <span id="wait-msg"></span>
                     <span id="msg"></span>
                 </div>
             </div>
@@ -224,19 +225,26 @@
         const scriptURL = 'https://script.google.com/macros/s/AKfycbzwGkCv4dbdFpYjSYbThchpqYSgudoYmK_KtdmS6RkK-vyFqgPCKwxicx0xdmTErDjM/exec'
         const form = document.forms['submit-to-google-sheet']
         const msg = document.getElementById("msg")
+        const waitMsg = document.getElementById("wait-msg")
         form.addEventListener('submit', e => {
-            e.preventDefault()
+            e.preventDefault();
+            waitMsg.innerHTML = "Please wait...";
             fetch(scriptURL, { method: 'POST', body: new FormData(form) })
                 .then(response => {
-                    msg.innerHTML = "Message sent successfully"
+                    waitMsg.innerHTML = "";
+                    msg.innerHTML = "Message sent successfully";
                     setTimeout(function () {
-                        msg.innerHTML = ""
-                    }, 5000)
-                    form.reset()
+                        msg.innerHTML = "";
+                    }, 5000);
+                    form.reset();
                 })
-                .catch(error => console.error('Error!', error.message))
-        })
+                .catch(error => {
+                    waitMsg.innerHTML = "";
+                    console.error('Error!', error.message);
+                });
+        });
     </script>
+
 </body>
 
 </html>
