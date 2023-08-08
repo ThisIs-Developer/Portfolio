@@ -76,5 +76,5 @@ function doPost (e) {
                     console.error('Error!', error.message);
                 });
         });
-    </script>
+</script>
 ```
