@@ -482,3 +482,8 @@ nav .fa-solid{
     margin-top: -40px;
     display: block;
 }
+@media (max-width: 600px) {
+     #msg {
+        padding-top: 7%;
+    }
+}
