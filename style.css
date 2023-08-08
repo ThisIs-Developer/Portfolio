@@ -471,6 +471,12 @@ nav .fa-solid{
         -webkit-animation-name: fadeInUp;
     }
 }
+#wait-msg{
+    color: #61b752;
+    margin-top: -40px;
+    display: block;
+    padding-bottom: 6%;
+}
 #msg{
     color: #61b752;
     margin-top: -40px;
