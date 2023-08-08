@@ -38,7 +38,11 @@ Discover the Process: Learn from [@jamiewilson](https://github.com/jamiewilson) 
 ![Screenshot 2023-08-08 135921](https://github.com/ThisIs-Developer/Portfolio/assets/109382325/146c609a-9141-46b4-8f12-9591d80f9add)
 ## After clicking the "Submit" buttom.
 ### "Please wait..."
+![Screenshot (47)](https://github.com/ThisIs-Developer/Portfolio/assets/109382325/c9c2f094-cd90-4a15-a38c-a398d7a2aa76)
 
 ## After sending Message.
 ### "Message sent successfully"
+![Screenshot (495)](https://github.com/ThisIs-Developer/Portfolio/assets/109382325/1a4f6710-d88e-4f76-8ef2-2fb391479683)
+
+![screencapture-baivabsarkar-me-2023-08-08-13_48_17](https://github.com/ThisIs-Developer/Portfolio/assets/109382325/e7cb5fd5-5be0-4ded-966a-4eea793623f4)
 
