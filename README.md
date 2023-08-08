@@ -4,28 +4,10 @@
 ### Owner
 - [@ThisIs-Developer](https://github.com/ThisIs-Developer)
 ### Website is Live: [baivabsarkar.me](https://baivabsarkar.netlify.app)
+## Key Feature
+### Submit a Form to Google Sheets
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Submit a Form to Google Sheets | [Demo](https://form-to-google-sheets.surge.sh)
-
-#### How to create an HTML form that stores the submitted form data in Google Sheets using plain 'ol JavaScript (ES6), [Google Apps Script](https://developers.google.com/apps-script/), [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) and [FormData](https://developer.mozilla.org/en-US/docs/Web/API/FormData).
+#### This Portfolio Contact form can stores the submitted form data in Google Sheets using plain 'ol JavaScript (ES6), [Google Apps Script](https://www.google.com/script/start/).
 
 ## 1. Create a new Google Sheet
 
@@ -33,11 +15,10 @@
 - Rename it `Email Subscribers`. Or whatever, it doesn't matter.
 - Put the following headers into the first row:
 
-|   |     A     |   B   | C | ... |
-|---|:---------:|:-----:|:-:|:---:|
-| 1 | timestamp | email |   |     |
+|   |   Name    |   Email  | Message | ... |
+|---|:---------:|:--------:|:-------:|:---:|
+| 1 |  Example  | @email   |         |     |
 
-> To learn how to add additional input fields, [checkout section 7 below](#7-adding-additional-form-data).
 
 ## 2. Create a Google Apps Script
 
