@@ -2,7 +2,7 @@
 > **Portfolio** can include a range of projects, assignments, and work experiences that showcase your skills, knowledge, and achievements in the field.
 **📂🌟 Beyond Downloadable Portfolios: Unleash Your Creativity and Craft Your Own with My Interactive Learning Experience! 🎨**
 ## Showstopper
-**🚀 Explore the Simplicity of HTML, CSS, and a Touch of JS in Building Your Unique Showcase. Let's Elevate Your Portfolio Game Together! 💼❤️ #InteractiveLearning #CodeYourDreams #ShareTheLove 💬👇** 
+🚀 Explore the **Simplicity of HTML, CSS, and a Touch of JS** in Building Your Unique Showcase. Let's Elevate **Your Portfolio Game** Together! 💼❤️ #InteractiveLearning #CodeYourDreams #ShareTheLove 💬👇
 
 **This Portfolio is [Live](https://baivabsarkar.netlify.app).**
 ## Author
