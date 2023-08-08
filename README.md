@@ -1,8 +1,10 @@
 # Portfolio [![Actions Status](https://github.com/cfgnunes/numerical-methods-python/workflows/build/badge.svg)](https://github.com/ThisIs-Developer/Portfolio)
 
-📂🌟 Beyond Downloadable Portfolios: Unleash Your Creativity and Craft Your Own with My Interactive Learning Experience! 🎨
+**📂🌟 Beyond Downloadable Portfolios: Unleash Your Creativity and Craft Your Own with My Interactive Learning Experience! 🎨**
+## Showstopper
+**🚀 Explore the Simplicity of HTML, CSS, and a Touch of JS in Building Your Unique Showcase. Let's Elevate Your Portfolio Game Together! 💼❤️ #InteractiveLearning #CodeYourDreams #ShareTheLove 💬👇** 
 
-🚀 Explore the Simplicity of HTML, CSS, and a Touch of JS in Building Your Unique Showcase. Let's Elevate Your Portfolio Game Together! 💼❤️ #InteractiveLearning #CodeYourDreams #ShareTheLove 💬👇 **This Portfolio is [Live](https://baivabsarkar.netlify.app).**
+**This Portfolio is [Live](https://baivabsarkar.netlify.app).**
 ## Author
 - [@ThisIs-Developer](https://github.com/ThisIs-Developer)
 
