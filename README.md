@@ -1,8 +1,8 @@
 # Portfolio [![Actions Status](https://github.com/cfgnunes/numerical-methods-python/workflows/build/badge.svg)](https://github.com/ThisIs-Developer/Portfolio)
-## Owner
-- [@ThisIs-Developer](https://github.com/ThisIs-Developer)
 ## Showstopper🌐
 🚀 Explore the **Simplicity of HTML, CSS, and a Touch of JS** in Building Your Unique Showcase. Let's Elevate **Your Portfolio Game** Together! 💼❤️ #InteractiveLearning #CodeYourDreams #ShareTheLove 💬👇
+### Owner
+- [@ThisIs-Developer](https://github.com/ThisIs-Developer)
 ### Website is Live: [baivabsarkar.me](https://baivabsarkar.netlify.app)
 
 
