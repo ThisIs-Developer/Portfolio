@@ -9,7 +9,7 @@
 
 #### This Portfolio Contact form can stores the submitted form data in Google Sheets using plain 'ol JavaScript (ES6), [Google Apps Script](https://www.google.com/script/start/).
 
-Discover the Process: Learn from @jamiewilson [Form-to-Google-Sheets Repository](https://github.com/jamiewilson/form-to-google-sheets/tree/master) 📝🔗 #OpenSource"
+Discover the Process: Learn from [@jamiewilson](https://github.com/jamiewilson) [Form-to-Google-Sheets Repository](https://github.com/jamiewilson/form-to-google-sheets/tree/master) 📝🔗 #OpenSource"
 
 ### Google Apps Script
 ```js
