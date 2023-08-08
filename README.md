@@ -38,5 +38,7 @@ Discover the Process: Learn from [@jamiewilson](https://github.com/jamiewilson) 
 ![Screenshot 2023-08-08 135921](https://github.com/ThisIs-Developer/Portfolio/assets/109382325/146c609a-9141-46b4-8f12-9591d80f9add)
 ## After clicking the "Submit" buttom.
 ### "Please wait..."
-![Uploading Screenshot (47).png…]()
+
+## After sending Message.
+### "Message sent successfully"
 
