@@ -23,7 +23,7 @@ function closememu() {
 }
 
 // JavaScript code for form submission and handling messages
-const scriptURL = 'https://script.google.com/macros/s/AKfycbzCAisZMHazohtwuB28nIDN9biC_O-H1zpbO4pPXZjyYdrCFMAVoKcE2ilKe14KjTt_/exec'
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzegdtneDTh4Kfu1iqYQ7AcBu6Q8hlbBnQerZ1H5LFYoGfnuk1KkFu4LRnERdto9oLF/exec'
 const form = document.forms['submit-to-google-sheet']
 const msg = document.getElementById("msg")
 const waitMsg = document.getElementById("wait-msg")
