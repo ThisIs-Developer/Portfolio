@@ -1,244 +1,389 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portfolio</title>
-    <link rel="icon" type="images/png" href="images/logo512.png">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/a36897a85f.js" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-        (function (c, l, a, r, i, t, y) {
-            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
-            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
-        })(window, document, "clarity", "script", "i4u605tz2t");
-    </script>
-</head>
-
-<body>
-    <div id="header">
-        <div class="container">
-            <nav>
-                <img src="images/Logo.jpg" class="logo">
-                <ul id="sidememu">
-                    <li><a href="#header">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#services">My Skills</a></li>
-                    <li><a href="#portfolio">Projects</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <i class="fa-solid fa-xmark" onclick="closememu()"></i>
-                </ul>
-                <i class="fa-solid fa-bars" onclick="openmemu()"></i>
-            </nav>
-            <div class="header-text animated animatedFadeInUp fadeInUp">
-                <p>Friendly Coder</p>
-                <h1>Hi i'm <span>Baivab</span><br>Sarkar,from India</h1>
-            </div>
+    <link rel="icon" type="image/png" href="./assets/favicon.png" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="mediaqueries.css" />
+  </head>
+  <body>
+    <nav id="desktop-nav">
+      <div class="logo">Baivab Sarkar</div>
+      <div>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+    <nav id="hamburger-nav">
+      <div class="logo">Baivab Sarkar</div>
+      <div class="hamburger-menu">
+        <div class="hamburger-icon" onclick="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-    </div>
-    <!-- --------about-------->
-    <div id="about">
-        <div class="container">
-            <div class="row">
-                <div class="about-col-1">
-                    <img src="images/user.jpg">
-                </div>
-                <div class="about-col-2">
-                    <h1 class="sub-title">About Me</h1>
-                    <p>I am a dedicated and enthusiastic developer. I am pursuing B.Tech from JISCE, Kalyani. I have
-                        always been fascinated by technology and its potential to change the world, and that's what led
-                        me to pursue a career in computer science.</p>
-                    <p><br>Apart from academics, if I'm learning or developing anything, I'll be completely focused on
-                        it, even if it takes months. I'm eager to learn about new technologies in the market. I'm a
-                        voracious reader. It could be anything from self-help books to blogs or Twitter threads.</p>
-                    <p><br>In the future, I aspire to become a software developer and contribute to the development of
-                        innovative solutions that can make a difference in people's lives.</p>
-                    <div class="tab-titles">
-                        <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
-                        <p class="tab-links" onclick="opentab('experience')">Experience</p>
-                        <p class="tab-links" onclick="opentab('education')">Education</p>
-                    </div>
-                    <div class="tab-contents active-tab" id="skills">
-                        <ul>
-                            <li><span>Python</span><br>Django, BNLP and machine learning.</li>
-                            <li><span>C/C++</span><br>Problem solving and object oriented programming</li>
-                            <li><span>Front End Developer</span><br>Building websites using HTML,CSS and JS</li>
-                        </ul>
-                    </div>
-                    <div class="tab-contents" id="experience">
-                        <ul>
-                            <li><span>May 2023 - Jul 2023 <strong>:</strong> Remote</span><br>AI–ML Virtual Internship at <strong>AICTE – NEAT</strong></li>
-                            <li><span>May 2023 <strong>:</strong> On-site</span><br>Artificial Intelligence (AI) Training at <strong>ARDENT COMPUTECH PVT. LTD.</strong></li>
-                            <li><span>Aug 2022 <strong>:</strong> Remote</span><br>Android Application Development Internship at <strong>MTA LEARNING PVT.LTD.</strong></li>
-                        </ul>
-                    </div>
-                    <div class="tab-contents" id="education">
-                        <ul>
-                            <li><span>Oct 2021 – Expected Aug 2025</span><br>B.Tech on Computer Science from <strong>JIS College of Engineering</strong></li>
-                            <li><span>Jul 2019 – Aug 2021</span><br>12th Grade on Pure Science from <strong>Bandel Vidyamandir High School</strong></li>
-                            <li><span>Jan 2013 – Jun 2019</span><br>10th Grade from <strong>Kanailal Vidyamandir (English Section)</strong></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <div class="menu-links">
+          <li><a href="#about" onclick="toggleMenu()">About</a></li>
+          <li><a href="#experience" onclick="toggleMenu()">Experience</a></li>
+          <li><a href="#projects" onclick="toggleMenu()">Projects</a></li>
+          <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
         </div>
-    </div>
-    <!-- -------services--------- -->
-    <div id="services">
-        <div class="container">
-            <h1 class="sub-title">My Skills</h1>
-            <div class="services-list">
+      </div>
+    </nav>
+    <section id="profile">
+      <div class="section__pic-container">
+        <img src="./assets/profile.png" alt="John Doe profile picture" />
+      </div>
+      <div class="section__text">
+        <p class="section__text__p1">Hello, I'm</p>
+        <h1 class="title">Baivab Sarkar</h1>
+        <p class="section__text__p2">Frontend Developer</p>
+        <div class="btn-container">
+          <button
+            class="btn btn-color-2"
+            onclick="window.open('./assets/Resume-BAIVAB SARKAR.pdf', '_blank')"
+          >
+            Download CV
+          </button>
+          <button class="btn btn-color-1" onclick="location.href='./#contact'">
+            Contact Info
+          </button>
+        </div>
+        <div id="socials-container">
+          <img
+            src="./assets/linkedin.png"
+            alt="My LinkedIn profile"
+            class="icon"
+            onclick="location.href='https://www.linkedin.com/in/baivabsarkar'"
+          />
+          <img
+            src="./assets/github.png"
+            alt="My Github profile"
+            class="icon"
+            onclick="location.href='https://github.com/ThisIs-Developer'"
+          />
+        </div>
+      </div>
+    </section>
+    <section id="about">
+      <p class="section__text__p1">Get To Know More</p>
+      <h1 class="title">About Me</h1>
+      <div class="section-container">
+        <div class="section__pic-container">
+          <img
+            src="./assets/profile2.png"
+            alt="Profile picture"
+            class="about-pic"
+          />
+        </div>
+        <div class="about-details-container">
+          <div class="about-containers">
+            <div class="details-container">
+              <img
+                src="./assets/experience.png"
+                alt="Experience icon"
+                class="icon"
+              />
+              <h3>Experience</h3>
+              <p>Web Development - Training<br />Ardent Computech Pvt. Ltd.</p>
+            </div>
+            <div class="details-container">
+              <img
+                src="./assets/education.png"
+                alt="Education icon"
+                class="icon"
+              />
+              <h3>Education</h3>
+              <p>10+2 Major in Pure Science<br />B.Tech on Computer Science</p>
+            </div>
+          </div>
+          <div class="text-container">
+            <p>
+              Enthusiastic and dedicated Computer Science student at JIS College
+              of Engineering, West Bengal, with a strong foundation in
+              technologies such as HTML, CSS, JavaScript, MySQL, and C. Proven
+              team player with experience in leadership roles, adept at
+              collaborating effectively to achieve project goals. Passionate
+              about learning and applying innovative solutions to real-world
+              challenges in the field of technology.
+            </p>
+          </div>
+        </div>
+      </div>
+      <img
+        src="./assets/arrow.png"
+        alt="Arrow icon"
+        class="icon arrow"
+        onclick="location.href='./#experience'"
+      />
+    </section>
+    <section id="experience">
+      <p class="section__text__p1">Explore My</p>
+      <h1 class="title">Experience</h1>
+      <div class="experience-details-container">
+        <div class="about-containers">
+          <div class="details-container">
+            <h2 class="experience-sub-title">Frontend Development</h2>
+            <div class="article-container">
+              <article>
+                <img
+                  src="./assets/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
                 <div>
-                    <i class="fa-solid fa-code"></i>
-                    <h2>Web Design</h2>
-                    <p>As a front-end developer, I can create and implement the user interface of a website or web
-                        application. This involves working with HTML, CSS, and JavaScript to design and develop web
-                        pages that are visually appealing, responsive, and user-friendly. </p>
-                    <a href="#services">Learn more</a>
+                  <h3>HTML</h3>
+                  <p>Experienced</p>
                 </div>
+              </article>
+              <article>
+                <img
+                  src="./assets/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
                 <div>
-                    <i class="fa-brands fa-python"></i>
-                    <h2>Python</h2>
-                    <p>As a Python developer, I can design, develop, and maintain software applications using the Python
-                        programming language. This could involve building web applications like Django or implementing
-                        machine learning algorithms, depending on the specific job requirements. </p>
-                    <a href="https://github.com/ThisIs-Developer/Python" target="_blank">Learn more</a>
+                  <h3>CSS</h3>
+                  <p>Experienced</p>
                 </div>
+              </article>
+              <article>
+                <img
+                  src="./assets/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
                 <div>
-                    <i class="fa-solid fa-bug"></i>
-                    <h2>C/C++</h2>
-                    <p>As a C/C++ developer, I can do problem solving using the C and C++ programming languages. This
-                        could involve developing pointer structure file handling and object oriented programming,
-                        depending on the specific job requirements. </p>
-                    <a href="https://github.com/ThisIs-Developer/C-Plus-Plus" target="_blank">Learn more</a>
+                  <h3>Bootstrap</h3>
+                  <p>Intermediate</p>
                 </div>
+              </article>
+              <article>
+                <img
+                  src="./assets/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>JavaScript</h3>
+                  <p>Intermediate</p>
+                </div>
+              </article>
             </div>
-        </div>
-    </div>
-    <!-- -------portfolio------ -->
-    <div id="portfolio">
-        <div class="container">
-            <h1 class="sub-title">My Projects</h1>
-            <div class="work-list">
-                <div class="work">
-                    <img src="images/work_1.jpg">
-                    <div class="layer">
-                        <h3>Sentiment Analysis of COVID-19 Tweets</h3>
-                        <p>
-                            Sentiment analysis of COVID-19 tweets aims to determine the emotional tone and attitudes
-                            towards the pandemic using natural language processing techniques.</p>
-                        <a href="https://github.com/ThisIs-Developer/Sentiment-Analysis-of-Covid-19-Tweets"
-                            target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                    </div>
+          </div>
+          <div class="details-container">
+            <h2 class="experience-sub-title">Development Techniques</h2>
+            <div class="article-container">
+              <article>
+                <img
+                  src="./assets/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>MySQL</h3>
+                  <p>Intermediate</p>
                 </div>
-                <div class="work">
-                    <img src="images/work_2.jpg">
-                    <div class="layer">
-                        <h3>Sleep Prevention Device</h3>
-                        <p>A sleep prevention device is a tool designed to keep individuals awake and alert, often used
-                            in safety-critical occupations.</p>
-                        <a href="https://github.com/ThisIs-Developer/Sleep-Prevention-Device" target="_blank"><i
-                                class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                    </div>
+              </article>
+              <article>
+                <img
+                  src="./assets/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>Java</h3>
+                  <p>Experienced</p>
                 </div>
-                <div class="work">
-                    <img src="images/work_3.jpg">
-                    <div class="layer">
-                        <h3>Bengali Natural Language Processing(BNLP)</h3>
-                        <p>Bengali Natural Language Processing (BNLP) is the application of computational techniques to
-                            analyze, understand and generate Bengali language.</p>
-                        <p><br>Currently under development </p>
-                        <a href="#portfolio"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                    </div>
+              </article>
+              <article>
+                <img
+                  src="./assets/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>C</h3>
+                  <p>Experienced</p>
                 </div>
+              </article>
+              <article>
+                <img
+                  src="./assets/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>Python</h3>
+                  <p>Intermediate</p>
+                </div>
+              </article>
+              <article>
+                <img
+                  src="./assets/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>Git</h3>
+                  <p>Experienced</p>
+                </div>
+              </article>
+              <article>
+                <img
+                  src="./assets/checkmark.png"
+                  alt="Experience icon"
+                  class="icon"
+                />
+                <div>
+                  <h3>Github</h3>
+                  <p>Experiencedg</p>
+                </div>
+              </article>
             </div>
-            <a href="https://github.com/ThisIs-Developer?tab=repositories" class="btn">See more</a>
+          </div>
         </div>
-    </div>
-    <!-- ------contact------ -->
-    <div id="contact">
-        <div class="container">
-            <div class="row">
-                <div class="contact-left">
-                    <h1 class="sub-title">Contact me</h1>
-                    <p><i class="fa-solid fa-envelope"></i>baivabsarkar@gmail.com</p>
-                    <div class="social-icons">
-                        <a href="https://www.linkedin.com/in/baivabsarkar" target="_blank"><i
-                                class="fa-brands fa-linkedin"></i></a>
-                        <a href="https://github.com/ThisIs-Developer" target="_blank"><i
-                                class="fa-brands fa-github"></i></a>
-                        <a href="https://dev.to/thisisdeveloper" target="_blank"><i 
-                                class="fa-brands fa-dev"></i></a>
-                    </div>
-                    <a href="images/Resume-BAIVAB SARKAR.pdf" download class="btn btn2" class="btn btn2">Download CV</a>
-                </div>
-                <div class="contact-right">
-                    <form name="submit-to-google-sheet">
-                        <input type="text" name="Name" placeholder="Your Name" required>
-                        <input type="email" name="Email" placeholder="Your Email" required>
-                        <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
-                        <button type="submit" class="btn btn2">Submit</button>
-                    </form>
-                    <span id="wait-msg"></span>
-                    <span id="msg"></span>
-                </div>
+      </div>
+      <img
+        src="./assets/arrow.png"
+        alt="Arrow icon"
+        class="icon arrow"
+        onclick="location.href='./#projects'"
+      />
+    </section>
+    <section id="projects">
+      <p class="section__text__p1">Browse My Recent</p>
+      <h1 class="title">Projects</h1>
+      <div class="experience-details-container">
+        <div class="about-containers">
+          <div class="details-container color-container">
+            <div class="article-container">
+              <img
+                src="./assets/project-1.jpg"
+                alt="Project 1"
+                class="project-img"
+              />
             </div>
+            <h2 class="experience-sub-title project-title">Markdown Viewer</h2>
+            <div class="btn-container">
+              <button
+                class="btn btn-color-2 project-btn"
+                onclick="location.href='https://github.com/ThisIs-Developer/Markdown-Viewer'"
+              >
+                Github
+              </button>
+              <button
+                class="btn btn-color-2 project-btn"
+                onclick="location.href='https://markdownviewer.vercel.app/'"
+              >
+                Live Demo
+              </button>
+            </div>
+          </div>
+          <div class="details-container color-container">
+            <div class="article-container">
+              <img
+                src="./assets/project-2.jpg"
+                alt="Project 2"
+                class="project-img"
+              />
+            </div>
+            <h2 class="experience-sub-title project-title">
+              Llama2 CSV Chatbot
+            </h2>
+            <div class="btn-container">
+              <button
+                class="btn btn-color-2 project-btn"
+                onclick="location.href='https://github.com/ThisIs-Developer/Llama-2-GGML-CSV-Chatbot'"
+              >
+                Github
+              </button>
+              <button
+                class="btn btn-color-2 project-btn"
+                onclick="location.href='https://huggingface.co/spaces/ThisIs-Developer/Llama-2-GGML-CSV-Chatbot'"
+              >
+                Live Demo
+              </button>
+            </div>
+          </div>
+          <div class="details-container color-container">
+            <div class="article-container">
+              <img
+                src="./assets/project-3.jpg"
+                alt="Project 3"
+                class="project-img"
+              />
+            </div>
+            <h2 class="experience-sub-title project-title">
+              Sleep Prevention Device
+            </h2>
+            <div class="btn-container">
+              <button
+                class="btn btn-color-2 project-btn"
+                onclick="location.href='https://github.com/ThisIs-Developer/Sleep-Prevention-Device'"
+              >
+                Github
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="copyright">
-            <p>Copyright © 2023 Baivab.</p>
+        <div class="btn-container">
+          <button class="btn btn-color-2" onclick="window.open('project.html')">
+            More Work
+          </button>
         </div>
-    </div>
-
-    <script>
-        var tablinks = document.getElementsByClassName("tab-links");
-        var tabcontents = document.getElementsByClassName("tab-contents");
-        function opentab(tabname) {
-            for (tablink of tablinks) {
-                tablink.classList.remove("active-link")
-            }
-            for (tabcontent of tabcontents) {
-                tabcontent.classList.remove("active-tab")
-            }
-            event.currentTarget.classList.add("active-link")
-            document.getElementById(tabname).classList.add("active-tab");
-        }
-    </script>
-    <script>
-        var sidememu = document.getElementById("sidememu")
-        function openmemu() {
-            sidememu.style.right = "0";
-        }
-        function closememu() {
-            sidememu.style.right = "-200px";
-        }
-    </script>
-    <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzCAisZMHazohtwuB28nIDN9biC_O-H1zpbO4pPXZjyYdrCFMAVoKcE2ilKe14KjTt_/exec'
-        const form = document.forms['submit-to-google-sheet']
-        const msg = document.getElementById("msg")
-        const waitMsg = document.getElementById("wait-msg")
-        form.addEventListener('submit', e => {
-            e.preventDefault();
-            waitMsg.innerHTML = "Please wait...";
-            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-                .then(response => {
-                    waitMsg.innerHTML = "";
-                    msg.innerHTML = "Message sent successfully";
-                    setTimeout(function () {
-                        msg.innerHTML = "";
-                    }, 5000);
-                    form.reset();
-                })
-                .catch(error => {
-                    waitMsg.innerHTML = "";
-                    console.error('Error!', error.message);
-                });
-        });
-    </script>
-
-</body>
-
+      </div>
+      <img
+        src="./assets/arrow.png"
+        alt="Arrow icon"
+        class="icon arrow"
+        onclick="location.href='./#contact'"
+      />
+    </section>
+    <section id="contact">
+      <p class="section__text__p1">Get in Touch</p>
+      <h1 class="title">Contact Me</h1>
+      <div class="contact-info-upper-container">
+        <div class="contact-info-container">
+          <img
+            src="./assets/email.png"
+            alt="Email icon"
+            class="icon contact-icon email-icon"
+          />
+          <p>
+            <a href="mailto:baivabsarkar@gmail.com">baivabsarkar@gmail.com</a>
+          </p>
+        </div>
+        <div class="contact-info-container">
+          <img
+            src="./assets/linkedin.png"
+            alt="LinkedIn icon"
+            class="icon contact-icon"
+          />
+          <p><a href="https://www.linkedin.com/in/baivabsarkar">LinkedIn</a></p>
+        </div>
+      </div>
+    </section>
+    <footer>
+      <nav>
+        <div class="nav-links-container">
+          <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+      </nav>
+      <p>Copyright &#169; 2024 Baivab Sarkar. All Rights Reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+  </body>
 </html>
