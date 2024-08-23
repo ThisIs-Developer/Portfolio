@@ -1,16 +1,11 @@
 # Portfolio 
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
+
 🚀 Explore the **Simplicity of HTML, CSS, and a Touch of JS** in Building Your Unique Showcase. Let's Elevate **Your Portfolio Game** Together! 💼❤
 ### Website is Live: [baivabsarkar.pages.dev](https://baivabsarkar.pages.dev)
 ## Key Feature
 ### Welcome Message Pre-Loader
-
-
-https://github.com/ThisIs-Developer/Portfolio/assets/169576921/c97f5c52-aa05-46b6-ad40-a4b3b162d367
-
-
-
 
 
 ### Input the <SCRIPT> in `index.html`:
@@ -56,12 +51,16 @@ function showNextMessage() {
 }
 ```
 ## UI 📈
-![WelcomePreloader-ezgif com-video-to-gif-converter](https://github.com/ThisIs-Developer/Portfolio/assets/169576921/a93c9f43-cac1-47bf-a749-9fd9f54b121a)
+
+
+
 ### Landing Page
-![screencapture-127-0-0-1-5500-index-html-2024-05-28-22_58_30](https://github.com/ThisIs-Developer/Portfolio/assets/169576921/37046985-bf11-456f-97aa-2d55c9a2dedf)
+
+
 
 ### Projects Page
-![screencapture-127-0-0-1-5500-project-html-2024-05-28-23_11_49](https://github.com/ThisIs-Developer/Portfolio/assets/169576921/1c63c804-6c00-4b90-b62c-43a9baccacad)
+
+
 
 
 [license-shield]: https://img.shields.io/badge/License-MIT-red.svg
