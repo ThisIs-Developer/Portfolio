@@ -6,7 +6,7 @@
 ### Website is Live: [baivabsarkar.pages.dev](https://baivabsarkar.pages.dev)
 ## Key Feature
 ### Welcome Message Pre-Loader
-
+https://github.com/user-attachments/assets/4909eb6c-d449-418a-b934-72f1ce3b2a08
 
 ### Input the <SCRIPT> in `index.html`:
 ```js
@@ -51,17 +51,14 @@ function showNextMessage() {
 }
 ```
 ## UI 📈
-
-
+![WelcomePreloader-gif](https://github.com/user-attachments/assets/b3b0982a-66c8-4078-b1e7-9708258b51e3)
 
 ### Landing Page
-
+![Capture 1](https://github.com/user-attachments/assets/6d116436-f3b2-4cab-b04b-e078f08b1268)
 
 
 ### Projects Page
-
-
-
+![Capture 2](https://github.com/user-attachments/assets/0854c622-736f-4854-a514-948d0523fd39)
 
 [license-shield]: https://img.shields.io/badge/License-MIT-red.svg
 [license-url]: https://github.com/ThisIs-Developer/Action-Plan/blob/main/LICENSE
