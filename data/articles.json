@@ -1,0 +1,36 @@
+[
+  {
+    "title": "A Markdown Editor That Lives in Your Browser, Your Desktop, and a Single URL",
+    "url": "https://dev.to/thisisdeveloper/a-markdown-editor-that-lives-in-your-browser-your-desktop-and-a-single-url-488m",
+    "date": "2026-05-08",
+    "tags": [
+      "javascript",
+      "productivity",
+      "showdev",
+      "webdev"
+    ],
+    "readingTime": 7,
+    "summary": "Inside the rebuild: document tabs, a desktop app, GitHub imports and sharing through a URL."
+  },
+  {
+    "title": "Introducing Markdown Viewer v2.0",
+    "url": "https://dev.to/thisisdeveloper/introducing-markdown-viewer-v20-com",
+    "date": "2025-05-14",
+    "tags": [],
+    "readingTime": 3,
+    "summary": "How live preview evolved into a richer writing tool with diagrams, math and a redesigned interface."
+  },
+  {
+    "title": "Getting Verified on GitHub!",
+    "url": "https://dev.to/thisisdeveloper/secure-your-github-commits-with-verification-3hja",
+    "date": "2024-09-15",
+    "tags": [
+      "github",
+      "bash",
+      "git",
+      "tutorial"
+    ],
+    "readingTime": 3,
+    "summary": "A practical walkthrough of GPG keys and signed commits for a verifiable Git history."
+  }
+]

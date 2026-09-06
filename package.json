@@ -1,0 +1,20 @@
+{
+  "name": "baivab-sarkar-portfolio",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "description": "An accessible, static portfolio for Baivab Sarkar.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "serve": "node scripts/serve.mjs --port 4173",
+    "test": "node scripts/verify.mjs",
+    "test:performance": "node scripts/performance.mjs",
+    "check": "node scripts/build.mjs --check"
+  },
+  "engines": { "node": ">=22" },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "lighthouse": "13.4.1",
+    "playwright": "1.63.0"
+  }
+}

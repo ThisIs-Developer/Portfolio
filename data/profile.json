@@ -1,0 +1,19 @@
+{
+  "name": "Baivab Sarkar",
+  "title": "Software Developer",
+  "location": "West Bengal, India",
+  "email": "baivabsarkar@gmail.com",
+  "site": "https://baivabsarkar.pages.dev",
+  "resume": "/assets/resume/Baivab_Sarkar_Resume.pdf",
+  "description": "Baivab Sarkar is a software developer and Computer Science graduate building open-source tools, web applications, and test automation with Java and JavaScript.",
+  "intro": "I’m Baivab, a software developer building open-source tools, thoughtful web experiences, and the tests that keep them reliable.",
+  "about": "I like turning everyday friction into useful software. A better place to write Markdown. A way to trace a medicine’s journey. A test that catches the next broken workflow.",
+  "approach": "My work connects Java and JavaScript development with a growing practice in test automation. I care about the whole journey: how something works, how it feels to use, and what happens when it breaks.",
+  "education": "B.Tech in Computer Science & Engineering, JIS College of Engineering. Graduated May 2025.",
+  "socials": [
+    { "label": "GitHub", "url": "https://github.com/ThisIs-Developer" },
+    { "label": "LinkedIn", "url": "https://www.linkedin.com/in/baivabsarkar/" },
+    { "label": "DEV", "url": "https://dev.to/thisisdeveloper" }
+  ],
+  "reviewed": "2026-09-06"
+}

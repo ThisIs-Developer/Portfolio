@@ -1,0 +1,5 @@
+[
+  { "title": "Build", "description": "From an interface to the system behind it.", "tools": ["Java", "JavaScript", "HTML & CSS", "REST APIs", "MySQL"], "evidence": "MediChain & academic workflows" },
+  { "title": "Test", "description": "Make the important journeys repeatable.", "tools": ["Selenium", "TestNG", "JUnit", "Cucumber", "Postman"], "evidence": "BlazeDemo automation & SDET training" },
+  { "title": "Ship", "description": "Keep the development loop moving.", "tools": ["Git & GitHub", "Maven", "Jenkins", "Docker", "Cloudflare Workers"], "evidence": "Markdown Viewer & CI pipelines" }
+]

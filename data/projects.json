@@ -1,0 +1,118 @@
+[
+  {
+    "id": "markdown-viewer",
+    "title": "Markdown Viewer",
+    "category": "Developer tools · Open source",
+    "year": "2024–2026",
+    "summary": "A local-first Markdown workspace, from the first draft to the shared document.",
+    "problem": "Technical writing needs more than a preview: documents, diagrams, review and sharing should work together.",
+    "contribution": "Created and maintain the editor, its document workspace, rendering workflows and web/desktop delivery.",
+    "features": [
+      "Folders, tabs, IndexedDB autosave and encrypted workspace storage.",
+      "Rich rendering, anchored review comments and optional Live Share."
+    ],
+    "stack": [
+      "JavaScript",
+      "IndexedDB",
+      "Cloudflare",
+      "Neutralinojs",
+      "Playwright"
+    ],
+    "source": "https://github.com/ThisIs-Developer/Markdown-Viewer",
+    "live": "https://markdownviewer.pages.dev/",
+    "liveLabel": "Open editor",
+    "status": "Actively maintained",
+    "image": "assets/work/markdown-viewer-1400.webp",
+    "imageAlt": "Markdown Viewer workspace showing its document explorer, editor and rendered preview.",
+    "imageSrcset": "assets/work/markdown-viewer-800.webp 800w, assets/work/markdown-viewer-1400.webp 1400w",
+    "imageWidth": 1400,
+    "imageHeight": 787
+  },
+  {
+    "id": "medichain",
+    "title": "MediChain",
+    "category": "Full stack · Blockchain prototype",
+    "year": "2024–2025",
+    "summary": "Making a medicine's journey visible across a pharmaceutical supply chain.",
+    "problem": "Medicine registration, inventory and purchase history need a shared record across supply-chain roles.",
+    "contribution": "Led full-stack development in a four-person team, connecting the web interface with blockchain workflows.",
+    "features": [
+      "Track medicine batches, lifecycle states and purchase history.",
+      "Connect role-based web interfaces to Ethereum contracts."
+    ],
+    "stack": [
+      "JavaScript",
+      "Solidity",
+      "Ethereum",
+      "Web3.js",
+      "MetaMask"
+    ],
+    "source": "https://github.com/ThisIs-Developer/MediChain",
+    "live": "https://medichain.pages.dev/",
+    "liveLabel": "Visit project",
+    "status": "Team prototype",
+    "image": "assets/work/medichain-1400.webp",
+    "imageAlt": "MediChain dashboard showing medicine stock and supply-chain records.",
+    "imageSrcset": "assets/work/medichain-800.webp 800w, assets/work/medichain-1400.webp 1400w",
+    "imageWidth": 1400,
+    "imageHeight": 612
+  },
+  {
+    "id": "notemarker",
+    "title": "NoteMarker",
+    "category": "Browser extension · Productivity",
+    "year": "2024",
+    "summary": "Keep the useful parts of the web, right where you found them.",
+    "problem": "Research gets fragmented when highlights and notes are separated from the pages that inspired them.",
+    "contribution": "Built and maintain an open-source extension for highlighting webpages and creating persistent notes.",
+    "features": [
+      "Persistent five-color highlights and rich-text sticky notes.",
+      "Move, resize and manage annotations on the original webpage."
+    ],
+    "stack": [
+      "JavaScript",
+      "WebExtensions",
+      "Browser Storage",
+      "HTML & CSS"
+    ],
+    "source": "https://github.com/ThisIs-Developer/NoteMarker-Extension",
+    "live": "https://notemarker.pages.dev/",
+    "liveLabel": "Get extension",
+    "status": "Released for Firefox & Chromium",
+    "image": "assets/work/notemarker-1400.webp",
+    "imageAlt": "NoteMarker highlights and sticky notes on a research paper webpage.",
+    "imageSrcset": "assets/work/notemarker-800.webp 800w, assets/work/notemarker-1400.webp 1400w",
+    "imageWidth": 1400,
+    "imageHeight": 787
+  },
+  {
+    "id": "blazedemo",
+    "title": "BlazeDemo Automation",
+    "category": "Test engineering · Capstone",
+    "year": "2026",
+    "summary": "An end-to-end flight-booking test framework built for repeatable feedback.",
+    "problem": "Booking flows need reliable checks across test data, browser configurations and negative scenarios.",
+    "contribution": "Authored this Wipro capstone framework using page objects, data-driven test cases, reports and a CI pipeline.",
+    "features": [
+      "Excel-driven booking checks with page objects and TestNG.",
+      "Jenkins/Docker execution, reports and screenshot evidence."
+    ],
+    "stack": [
+      "Java 17",
+      "Selenium",
+      "TestNG",
+      "Maven",
+      "Jenkins",
+      "Docker"
+    ],
+    "source": "https://github.com/ThisIs-Developer/Wipro-Capstone-Project",
+    "live": null,
+    "liveLabel": null,
+    "status": "2026 capstone project",
+    "image": "assets/work/blazedemo-1400.webp",
+    "imageAlt": "Booking confirmation captured during a BlazeDemo automated test run.",
+    "imageSrcset": "assets/work/blazedemo-800.webp 800w, assets/work/blazedemo-1400.webp 1400w",
+    "imageWidth": 1400,
+    "imageHeight": 788
+  }
+]
