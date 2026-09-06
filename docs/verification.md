@@ -47,6 +47,14 @@ The redesign removes the blocking preloader and runtime framework/API needs. It 
 - Titles, descriptions, canonical URLs, Open Graph/Twitter metadata, preview image references and valid JSON-LD are verified for both pages. Existing `CNAME` and Google verification file contents are preserved.
 - Generated files are checked for drift. The build publishes static files without Functions, secrets or environment variables. The existing root deployment remains usable, with `dist/` available for an explicit build configuration. GitHub Actions installs Chromium and repeats the build, consistency and browser checks on pull requests.
 
+## Remote PR checks
+
+The initial redesign commit `f2c83f9` passed GitHub's Ubuntu/Node 24 build and browser workflow, GitGuardian, and Cloudflare Pages deployment. The [Cloudflare preview](https://104ae033.baivabsarkar.pages.dev/) returned 200 for home, archive and the latest PDF with the configured content policy. A browser smoke test verified its mobile navigation and README toggle without page errors.
+
+The existing Netlify integration failed before the site build because its UI-installed Lighthouse plugin v4 required Node below 20, while its host ran 22.23.2. `netlify.toml` declares the build/output directory. A trial of plugin 6.0.4 supported the host's Node version but introduced 13 npm advisories through its old Lighthouse/Puppeteer dependencies, so that dependency was not retained. Updating or removing the account-installed plugin requires authenticated Netlify access, unavailable here. The repository's standalone Lighthouse 13 checks remain available. [Netlify documents plugin management](https://docs.netlify.com/extend/install-and-use/build-plugins/); the [failed build log](https://app.netlify.com/projects/baivabsarkar/deploys/6a9d45c64947bf0008492529) records the exact engine conflict.
+
+The existing Vercel preview also initially failed, but its detailed logs require authentication unavailable in this session. `vercel.json` now explicitly selects the static build and `dist/` output, following [Vercel's configuration documentation](https://vercel.com/docs/project-configuration). The initial Vercel root cause is unconfirmed. Current remote status is visible on [PR #1](https://github.com/ThisIs-Developer/Portfolio/pull/1).
+
 ## Limits of verification
 
 WebKit on Windows is automated engine coverage; an actual Safari installation, physical iPhone/iPad/Android device and assistive-technology session were not available. Automated accessibility checks and keyboard review do not certify full WCAG conformance. Clipboard denial was tested; browser permission policy can affect successful copying, while the email link and selectable address remain usable.

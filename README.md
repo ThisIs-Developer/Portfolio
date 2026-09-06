@@ -71,6 +71,8 @@ The existing no-build deployment can continue publishing the **repository root**
 
 The PR does not merge or deploy the production branch. Any connected Cloudflare preview is controlled by the repository's existing integration.
 
+The repository also has existing Netlify and Vercel preview integrations. `netlify.toml` and `vercel.json` explicitly build and publish `dist/`. Netlify's account-installed Lighthouse plugin v4 rejects Node 22 and must be updated or removed in that account; the repository already provides current Lighthouse 13 checks. The trial v6 plugin dependency was not retained because its obsolete transitive audit dependencies introduced 13 npm advisories. See verification notes for remote-check status and access limitations.
+
 ## Research and assets
 
 - [Design research and audit](docs/design-research.md)
