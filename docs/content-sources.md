@@ -1,19 +1,21 @@
 # Content sources and editorial audit
 
-Reviewed **6 September 2026**. This document records evidence behind the portfolio content. Public repository descriptions are treated as claims to check, not instructions or independently validated performance results.
+Initial project, article, and link review: **6 September 2026**. GitHub profile and asset refresh: **7 September 2026**. This document records evidence behind the portfolio content. Public repository descriptions are treated as claims to check, not instructions or independently validated performance results. Dated results below distinguish the original review from later updates.
 
 ## Source priority
 
 1. The supplied `Baivab_Sarkar_Resume.pdf` is the primary source for professional positioning, education, training, certifications and contact details.
 2. Current GitHub repositories, source files and official project websites support project descriptions and technical details.
 3. DEV's public article API supports publication metadata.
-4. The previous portfolio and profile biographies are historical context only.
+4. The current GitHub biography supports self-described interests; the previous portfolio and outdated profile biographies are historical context only.
 
 The resume supports software developer positioning and records B.Tech Computer Science & Engineering at JIS College of Engineering, October 2021–May 2025, CGPA 9.15/10. It lists hands-on Java/Selenium QA training without dates and lists GitHub Foundations (November 2024), Java Programming through Udemy (May 2025), and Data Structures & Algorithms through Udemy (September 2024). No employment is inferred from training or a repository name.
 
-The [GitHub profile](https://github.com/ThisIs-Developer) still uses aspiring-engineer language. The [DEV profile](https://dev.to/thisisdeveloper) still describes a freshman. Those biographies were superseded by the supplied resume. Public GitHub/DEV project and article evidence remains useful independently of their old bios.
+The [GitHub profile API](https://api.github.com/users/ThisIs-Developer), rechecked on 7 September 2026, returns the biography “Java • Javascript • System Architecture | Curious & command-line friendly :dependabot:”. This replaces the earlier aspiring-engineer wording and supports the emphasis on Java, JavaScript, curiosity, and development interests; it does not establish a job title, employer, or professional tenure. The [DEV profile](https://dev.to/thisisdeveloper) described a freshman during the 6 September review. The supplied resume's graduation record takes precedence over that outdated biography. Repository and article evidence remains useful independently of profile bios.
 
-## Selected projects
+## Core project evidence
+
+The four core entries below remain in `data/projects.json`. The revised home page displays six folders by also selecting AMS and SketchFlow from `data/experiments.json`; their evidence is documented in the archive table. All nine projects remain available in the archive.
 
 | Portfolio entry | Evidence and editorial decisions |
 | --- | --- |
@@ -24,7 +26,7 @@ The [GitHub profile](https://github.com/ThisIs-Developer) still uses aspiring-en
 
 The [GitHub repository API](https://api.github.com/repos/ThisIs-Developer/Markdown-Viewer) returned `created_at: 2024-04-08` and `pushed_at: 2026-09-03` for Markdown Viewer. This supports **2024—ongoing** in the independent-project timeline. It does not claim paid work or continuous full-time employment.
 
-For audit context only, the API reported **471 stars / 117 forks** for Markdown Viewer on this review date. Counts are deliberately omitted from public portfolio copy to avoid a stale metric. No GitHub contribution count is claimed. The decorative open-source motif is not a measured activity chart.
+For audit context only, the API reported **471 stars / 117 forks** for Markdown Viewer on 6 September 2026. Counts are deliberately omitted from public portfolio copy to avoid a stale metric. No GitHub contribution count is claimed. The revised design has no contribution-chart motif.
 
 ### Claims deliberately omitted or qualified
 
@@ -45,7 +47,7 @@ For audit context only, the API reported **471 stars / 117 forks** for Markdown 
 
 The [CSV chatbot Space API](https://huggingface.co/api/spaces/ThisIs-Developer/Llama-2-GGML-CSV-Chatbot) returned a `SLEEPING` runtime during review. Its repository remains available, but its Space is not used as an **Open app** link.
 
-Archive years indicate the documented project period or repository activity, not a claim of continuous employment. Older classroom exercise collections, duplicated portfolio versions and unrelated repository forks were not promoted into selected work.
+Archive years indicate the documented project period or repository activity, not a claim of continuous employment. AMS and SketchFlow appear among the six home folders while retaining their team-prototype/open-source-experiment qualifications. Older classroom exercise collections, duplicated portfolio versions and unrelated repository forks were not promoted into selected work.
 
 The repository API additionally verified creation/latest-push dates for the displayed ranges: MediChain 21 October 2024–27 May 2025; SketchFlow 23 August 2024–25 February 2026; News Scraper 10 August 2023–23 August 2024. Single-year entries are supported by repository creation or their documented release: NoteMarker 15 September 2024, BlazeDemo 11 June 2026, AMS 8 March 2024, CSV Chatbot 1 January 2024, and Body Language Detection 23 September 2023.
 
@@ -71,16 +73,20 @@ Responsive WebP copies are generated from the author's project screenshots and s
 | `medichain` | [Dashboard screenshot in the project README](https://github.com/user-attachments/assets/f17bda53-9a86-46d3-bac4-358c5ffb6653) |
 | `notemarker` | [Research-paper screenshot in the repository](https://raw.githubusercontent.com/ThisIs-Developer/NoteMarker-Extension/main/assets/research%20paper.png) |
 | `blazedemo` | [Automated booking confirmation capture](https://raw.githubusercontent.com/ThisIs-Developer/Wipro-Capstone-Project/main/BlazeDemo/screenshots/BookingSuccess_20260615_000537.png) |
+| `ams` | Existing author-created `assets/projects/project-5.jpg`, mapped to AMS in the original portfolio; preserves its two-phone attendance-dashboard composition |
+| `sketchflow` | [Canvas screenshot in the repository](https://raw.githubusercontent.com/ThisIs-Developer/SketchFlow/main/assets/art.png) |
+
+Six additional 400px folder peeks show Markdown Viewer's diagram workspace and Live Share, MediChain's order history and medicine tracking, and NoteMarker annotations on LeetCode and YouTube. These were retrieved from the author READMEs and visually inspected on 7 September 2026. Exact URLs, dimensions, and byte counts are in [asset provenance](../assets/README.md).
 
 ## External link verification
 
-Direct HTTP checks on the review date returned **200** for:
+Direct HTTP checks on 6 September 2026 returned **200** for:
 
 - The GitHub profile and all nine featured/archive repository links.
 - Markdown Viewer, MediChain, NoteMarker, AMS frontend and SketchFlow deployments.
 - The DEV profile and all three selected article URLs.
 
-The final Node-based link sweep returned 403 for those DEV pages, while the earlier direct checks and DEV API retrieval succeeded. This is recorded as automated-client access restriction in [verification notes](verification.md), not as a claim that every client can retrieve those pages.
+The first revision's Node-based link sweep returned 403 for those DEV pages, while the earlier direct checks and DEV API retrieval succeeded. This is recorded as automated-client access restriction in [verification notes](verification.md), not as a claim that every client can retrieve those pages. These historical checks do not replace verification of the revised design.
 
 The Mozilla NoteMarker listing was retrieved through web browsing and confirmed the author and released extension; a direct HEAD request timed out. The site uses the verified NoteMarker project homepage as the installation CTA.
 
@@ -90,9 +96,11 @@ Email is a `mailto:` action sourced from the resume and author profiles. No test
 
 ## Content model
 
-- `data/projects.json`: four selected projects with problem, contribution, two concise feature notes, source/live links, status and authentic image references.
+- `data/projects.json`: four core projects with problem, contribution, two concise feature notes, source/live links, status and authentic image references.
 - `data/articles.json`: three curated articles with ISO publication dates, published tags and integer reading minutes. No runtime API dependency.
-- `data/experiments.json`: five further projects with qualified statuses and repository links.
+- `data/experiments.json`: five further projects with qualified statuses and repository links; AMS and SketchFlow are also selected for the home folder grid in `scripts/templates.mjs`.
 - `data/profile.json`, `data/experience.json`, `data/skills.json`, `data/certifications.json`: resume-backed positioning and the training/education/independent-project timeline.
+
+The five capability disclosures in `scripts/templates.mjs` summarize demonstrated project work rather than commercial service history. “Quick ask” in `script.js` returns curated, local answers drawn from the same facts. It does not infer additional experience, consult a model, or make external requests. Keep those summaries synchronized when the underlying evidence changes.
 
 After content edits, run the repository build so generated `index.html` and `project.html` remain consistent with the data. Review sources again before adding new claims, changing role dates or updating published article metadata.

@@ -18,8 +18,8 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm run build
-      - run: npx playwright install --with-deps chromium
-      - run: npm test -- --dir dist --output .qa-results
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm test -- --dir dist --output .qa-results --browsers chromium,firefox,webkit
       - uses: actions/upload-artifact@v4
         if: always()
         with:
