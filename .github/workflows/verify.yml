@@ -25,4 +25,5 @@ jobs:
         with:
           name: portfolio-verification
           path: .qa-results/
+          include-hidden-files: true
           retention-days: 14

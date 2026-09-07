@@ -255,12 +255,29 @@ async function navigation(page) {
   await load(page, "/");
   await toggle.click();
   await page.setViewportSize({ width: 1440, height: 1000 });
+  // The menu was already visible on mobile. Wait for the breakpoint handler,
+  // otherwise two fast viewport changes can precede/coalesce its change event.
+  await page.waitForFunction(
+    () =>
+      document.querySelector(".theme-toggle")?.parentElement?.matches(".nav-shell") &&
+      !document.querySelector("#site-nav")?.inert,
+    null,
+    { timeout: 8000 },
+  );
   await menuLink.waitFor({ state: "visible" });
   assert(
     !(await page.locator("#site-nav").evaluate((element) => element.inert)),
     "Desktop navigation available after breakpoint resize",
   );
   await page.setViewportSize({ width: 390, height: 844 });
+  await page.waitForFunction(
+    () =>
+      document.querySelector(".theme-toggle")?.parentElement?.id === "site-nav" &&
+      document.querySelector(".menu-toggle")?.getAttribute("aria-expanded") === "false" &&
+      document.querySelector("#site-nav")?.inert,
+    null,
+    { timeout: 8000 },
+  );
   assert.equal(
     await toggle.getAttribute("aria-expanded"),
     "false",
