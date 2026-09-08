@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { createServer } from "node:net";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -9,6 +9,9 @@ import desktop from "lighthouse/core/config/desktop-config.js";
 import { startServer } from "./serve.mjs";
 
 const root = fileURLToPath(new URL("../", import.meta.url));
+const articles = JSON.parse(
+  await readFile(path.join(root, "data/articles.json"), "utf8"),
+);
 const output = path.join(root, ".qa-results", "lighthouse");
 await mkdir(output, { recursive: true });
 const preview = await startServer({ root: path.join(root, "dist"), port: 0 });
@@ -26,7 +29,9 @@ try {
   for (const [name, route, config] of [
     ["home-mobile", "/", undefined],
     ["home-desktop", "/", desktop],
-    ["archive-mobile", "/project.html", undefined],
+    ["work-mobile", "/work", undefined],
+    ["blog-mobile", "/blog", undefined],
+    ["article-mobile", articles[0].localPath, undefined],
   ]) {
     if (
       process.argv.includes("--page") &&

@@ -56,6 +56,7 @@ export async function startServer({ root = repositoryRoot, port = 4173, host = '
         return fail(403, 'Forbidden');
       }
       let filename = path.resolve(directory, `.${pathname}`);
+      const requestedFilename = filename;
       if (filename !== directory && !filename.startsWith(`${directory}${path.sep}`)) return fail(403, 'Forbidden');
 
       let info;
@@ -67,8 +68,8 @@ export async function startServer({ root = repositoryRoot, port = 4173, host = '
         }
       } catch {
         // Cloudflare Pages resolves extensionless HTML routes such as /project.
-        if (path.extname(filename)) return fail(404, 'Not found');
-        filename += '.html';
+        if (path.extname(requestedFilename)) return fail(404, 'Not found');
+        filename = `${requestedFilename.replace(/[\\/]$/, '')}.html`;
         try { info = await stat(filename); } catch { return fail(404, 'Not found'); }
       }
       if (!info.isFile()) return fail(404, 'Not found');

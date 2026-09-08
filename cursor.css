@@ -1,0 +1,20 @@
+.page-surface {
+  isolation: isolate;
+}
+
+.cursor-dot-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-dot-layer {
+    display: none;
+  }
+}

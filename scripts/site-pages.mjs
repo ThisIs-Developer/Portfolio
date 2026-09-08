@@ -1,0 +1,243 @@
+import { renderPlayground, renderInteractions } from "./playground.mjs";
+
+const esc = (value = "") =>
+  String(value).replace(
+    /[&<>"']/g,
+    (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        c
+      ],
+  );
+const arrow =
+  '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg>';
+const date = (value) =>
+  new Intl.DateTimeFormat("en", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(value));
+const link = (href, label, cls = "text-link") =>
+  `<a class="${cls}" href="${esc(href)}">${esc(label)}${arrow}</a>`;
+const title = (eyebrow, heading, description = "") =>
+  `<header class="page-intro"><p class="eyebrow">${esc(eyebrow)}</p><h1>${heading}</h1>${description ? `<p class="page-description">${description}</p>` : ""}</header>`;
+const photo = (src, alt, width = 1400, height = 900, cls = "", eager = false) =>
+  `<img src="${esc(src.startsWith("/") ? src : `/${src}`)}" alt="${esc(alt)}" width="${width}" height="${height}" class="${cls}" loading="${eager ? "eager" : "lazy"}" decoding="async"${eager ? ' fetchpriority="high"' : ""}>`;
+const projectImage = (p, eager = false) =>
+  photo(
+    p.image || `/assets/placeholders/${p.id}.svg`,
+    p.imageAlt || `${p.title} — replaceable project image`,
+    p.imageWidth || 1400,
+    p.imageHeight || 900,
+    "",
+    eager,
+  );
+const category = (p) =>
+  /AI|vision|Notebook|Retrieval/i.test(p.category)
+    ? "AI & data"
+    : /Test|Automation|Python/i.test(p.category)
+      ? "Automation"
+      : /tools|extension|Canvas|Creative/i.test(p.category)
+        ? "Tools"
+        : "Web apps";
+const articleCategory = (a) =>
+  /markdown|viewer|editor/i.test(a.title)
+    ? "Projects"
+    : /git|github/i.test(a.title)
+      ? "Git & tooling"
+      : /python|chatbot|llama|ai|machine/i.test(a.title)
+        ? "AI & data"
+        : "Notes";
+const metaPanel = (entries) =>
+  `<dl class="detail-meta">${entries.map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join("")}</dl>`;
+function toc(entries, back = "/work", label = "Back to work") {
+  if (!entries.length)
+    return `<aside class="reading-sidebar"><a class="reading-back" href="${back}">← ${label}</a></aside>`;
+  return `<aside class="reading-sidebar"><a class="reading-back" href="${back}">← ${label}</a><details class="reading-toc" open><summary>On this page <span aria-hidden="true">⌄</span></summary><nav aria-label="On this page">${entries.map((entry, i) => `<a href="#${esc(entry.id)}"><span>${String(i + 1).padStart(2, "0")}</span>${esc(entry.text)}</a>`).join("")}</nav></details></aside>`;
+}
+function controls(kind, categories) {
+  return `<div class="collection-toolbar" hidden><div class="collection-filters" role="group" aria-label="Filter ${kind}">${["All", ...categories].map((x, i) => `<button type="button" data-category="${esc(x)}" aria-pressed="${!i}">${esc(x)}</button>`).join("")}</div><div class="collection-search"><label><span class="sr-only">Search ${kind}</span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input type="search" placeholder="Search ${kind}" data-search></label><button type="button" class="sort-button" data-sort aria-label="Sort ${kind}: newest first">↑ Newest</button></div></div>`;
+}
+function articleCard(a, i) {
+  return `<a class="journal-card" href="${esc(a.localPath)}" data-collection-item data-category="${esc(articleCategory(a))}" data-date="${a.date}" data-search-text="${esc(`${a.title} ${a.summary} ${a.tags.join(" ")}`)}"><div class="journal-cover gradient-${i % 6}">${a.cover?.src ? photo(a.cover.src, a.cover.alt || "", a.cover.width, a.cover.height, "", i===0) : ""}<span class="card-category">${articleCategory(a)}</span></div><div class="journal-copy"><p class="article-meta"><time datetime="${a.date}">${date(a.date)}</time> · ${a.readingTime} min read</p><h2>${esc(a.title)}</h2><p class="journal-summary">${esc(a.summary)}</p><div class="journal-author">${photo("/assets/profile/baivab-480.webp", "", 480, 517)}<span>Baivab Sarkar</span><span class="card-arrow">${arrow}</span></div></div></a>`;
+}
+export function renderSitePages(data, ui) {
+  const { profile, articles, experience, certifications, enterprise } = data;
+  const { all, folder, shell, gamePanel } = ui;
+  const pages = {};
+  const enterpriseCards = `<div class="private-grid">${enterprise.projects.map((p, i) => `<a class="private-card gradient-${i % 6}" href="/work/enterprise#${p.id}"><span class="private-lock">Private engagement <span aria-hidden="true">↗</span></span><span class="private-symbol" aria-hidden="true">${p.symbol}</span><span class="eyebrow">${p.label}</span><h3>${p.title}</h3><p>${p.summary}</p></a>`).join("")}</div>`;
+  const enterpriseSection = `<section class="enterprise-section" aria-labelledby="private-title"><div class="section-heading"><p class="eyebrow">PRIVATE FREELANCE WORK</p><h2 id="private-title">Behind the <em>scenes.</em></h2></div><p class="section-description">${enterprise.intro}</p>${enterpriseCards}<p class="confidential-note"><strong>Confidentiality notice.</strong> ${enterprise.notice}</p></section>`;
+  const work = `<div class="collection-page work-page"><header class="page-intro"><div class="view-switch" role="group" aria-label="Work views"><a href="/work" aria-current="page">Work</a><a href="/interactions">Interactions</a></div><h1>A closer look at what<br>I've built.</h1></header><section class="collection work-collection" data-collection aria-label="Public projects">${controls("projects", ["Web apps", "Tools", "AI & data", "Automation"])}<p class="collection-status sr-only" role="status" data-collection-status>${all.length} projects</p><div class="folder-grid" data-collection-grid>${all.map((p, i) => `<div class="folder-item" id="project-${p.id}" data-collection-item data-category="${category(p)}" data-date="${p.year.match(/\d{4}/g)?.at(-1) || "2024"}" data-search-text="${esc(`${p.title} ${p.summary} ${p.stack.join(" ")}`)}">${folder(p, i % 6)}</div>`).join("")}</div><p class="collection-empty" hidden>No projects match that search. Try another word or choose All.</p></section>${enterpriseSection}</div>`;
+  pages["work.html"] = shell(work, {
+    path: "/work",
+    title: "Work — Baivab Sarkar",
+    description:
+      "Open-source tools, full-stack projects, AI experiments and private enterprise applications by Baivab Sarkar.",
+    page: "work",
+  });
+  pages["project.html"] = pages["work.html"];
+  const blog = `<div class="collection-page journal-page">${title("BLOG", "Notes from the process.", "Software, experiments and things I learn along the way. <br>Written down and shared, one article at a time.")}<section class="collection" data-collection aria-label="Blog articles">${controls("posts", ["Projects", "Git & tooling", "AI & data", "Notes"])}<p class="collection-status sr-only" role="status" data-collection-status>${articles.length} posts</p><div class="journal-grid" data-collection-grid>${articles.map(articleCard).join("")}</div><p class="collection-empty" hidden>No posts match that search. Try another word or choose All.</p></section></div>`;
+  pages["blog.html"] = shell(blog, {
+    path: "/blog",
+    title: "Blog — Baivab Sarkar",
+    description:
+      "Read Baivab Sarkar’s articles about software, developer tools and experiments.",
+    page: "blog",
+    type: "CollectionPage",
+  });
+  for (const [i, a] of articles.entries()) {
+    const entries = a.headings?.filter((x) => x.level === 2) || [];
+    const next = articles[(i + 1) % articles.length];
+    const editorNote = a.editorNote
+      ? `<aside class="article-editor-note"><strong>Author’s update</strong><p>${esc(a.editorNote)}</p></aside>`
+      : "";
+    const content = `<div class="reading-layout article-layout">${toc(entries, "/blog", "Back to blog")}<article class="reading-main"><header class="reading-header"><p class="detail-category">${esc(articleCategory(a))}</p><h1>${esc(a.title)}</h1><p class="reading-deck">${esc(a.summary)}</p>${metaPanel(
+      [
+        ["Author", profile.name],
+        ["Published", date(a.date)],
+        ["Read time", `${a.readingTime} min read`],
+      ],
+    )}</header><div class="article-hero gradient-${i % 6}">${a.cover?.src ? photo(a.cover.src, a.cover.alt || a.title, a.cover.width, a.cover.height, "", true) : '<span aria-hidden="true">Aa</span>'}</div>${editorNote}<div class="prose article-body">${a.bodyHtml || ""}</div><div class="article-credit"><p>Written by ${profile.name}. Originally published on DEV on ${date(a.date)}.</p>${link(a.url, "Original publication")}</div>${next && next !== a ? `<a class="next-reading" href="${esc(next.localPath)}"><span>Next post</span><strong>${esc(next.title)}</strong>${arrow}</a>` : ""}</article></div>`;
+    pages[`blog/${a.slug}.html`] = shell(content, {
+      path: a.localPath,
+      title: `${a.title} — Baivab Sarkar`,
+      description: a.summary,
+      page: "article",
+      type: "BlogPosting",
+      article: a,
+    });
+  }
+  const caseEntries = [
+    { id: "overview", text: "Overview" },
+    { id: "problem", text: "The problem" },
+    { id: "contribution", text: "My contribution" },
+    { id: "inside", text: "Inside the build" },
+    { id: "project-notes", text: "Project notes" },
+  ];
+  for (const [i, p] of all.entries()) {
+    const next = all[(i + 1) % all.length];
+    const content = `<div class="reading-layout case-layout">${toc(caseEntries)}<article class="reading-main"><header class="reading-header"><p class="detail-category">${esc(p.category)}</p><h1>${esc(p.title)}</h1><p class="reading-deck">${esc(p.summary)}</p>${metaPanel(
+      [
+        ["Project", p.status],
+        ["Period", p.year],
+        ["Built with", p.stack.slice(0, 3).join(", ")],
+      ],
+    )}</header><figure class="case-hero">${projectImage(p, true)}${!p.image ? "<figcaption>Project image placeholder</figcaption>" : ""}</figure><div class="case-actions">${p.live ? link(p.live, p.liveLabel || "Visit project", "button") : ""}${p.source ? link(p.source, "Source code") : ""}</div><div class="prose"><section id="overview"><h2>Overview</h2><p>${esc(p.summary)}</p><p>${esc(p.contribution)}</p></section><section id="problem"><h2>The problem</h2><p>${esc(p.problem)}</p></section><section id="contribution"><h2>My contribution</h2><p>${esc(p.contribution)}</p><div class="project-facts">${p.stack.map((s) => `<span>${esc(s)}</span>`).join("")}</div></section><section id="inside"><h2>Inside the build</h2><ul>${p.features.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>${["markdown-viewer", "medichain", "notemarker"].includes(p.id) ? `<div class="case-gallery">${[1, 2].map((j) => photo(`/assets/work/${p.id}-peek-${j}.webp`, `${p.title}, interface detail ${j}`, 400, p.id === "markdown-viewer" ? 175 : p.id === "medichain" && j === 1 ? 174 : 225)).join("")}</div>` : ""}</section><section id="project-notes"><h2>Project notes</h2><div class="project-note-panel"><p class="eyebrow">${esc(p.status)}</p><p>${esc(p.note || `${p.title} is part of my work in ${p.category.toLowerCase()}. The links above provide the available project and implementation details.`)}</p></div></section></div><a class="next-reading" href="/work/${next.id}"><span>Next project</span><strong>${esc(next.title)}</strong>${arrow}</a></article></div>`;
+    pages[`work/${p.id}.html`] = shell(content, {
+      path: `/work/${p.id}`,
+      title: `${p.title} — Baivab Sarkar`,
+      description: p.summary,
+      page: "case-study",
+    });
+  }
+  const privateEntries = enterprise.projects.map((x) => ({
+    id: x.id,
+    text: x.title.replace("Enterprise ", ""),
+  }));
+  pages["work/enterprise.html"] = shell(
+    `<div class="reading-layout case-layout">${toc(privateEntries)}<article class="reading-main"><header class="reading-header"><p class="detail-category">Private freelance work</p><h1>Enterprise applications.</h1><p class="reading-deck">${enterprise.intro}</p>${metaPanel(
+      [
+        ["Engagement", "Private freelance"],
+        ["Focus", "Business automation"],
+        ["Availability", "Confidential"],
+      ],
+    )}</header><div class="prose">${enterprise.projects.map((p) => `<section id="${p.id}"><p class="eyebrow">${p.label}</p><h2>${p.title}</h2><p>${p.summary}</p></section>`).join("")}<aside class="confidential-note"><h2>Confidentiality notice</h2><p>${enterprise.notice}</p></aside></div>${link("/work", "Explore public work", "button")}</article></div>`,
+    {
+      path: "/work/enterprise",
+      title: "Enterprise applications — Baivab Sarkar",
+      description: enterprise.intro,
+      page: "case-study",
+    },
+  );
+  const tools = all.filter((p) =>
+    [
+      "markdown-viewer",
+      "notemarker",
+      "sketchflow",
+      "taskflow",
+      "sei-sangeet-bangla",
+    ].includes(p.id),
+  );
+  pages["tools.html"] = shell(
+    `<div class="collection-page tools-page">${title("TOOLS", "Things I've built on the side.", "Small tools for writing, thinking and making everyday work a little easier.")}<div class="tool-grid">${tools.map((p, i) => `<a class="journal-card tool-card" href="/work/${p.id}"><div class="journal-cover gradient-${i % 6}">${projectImage(p, i < 2)}<span class="card-category">${esc(category(p))}</span></div><div class="journal-copy"><h2>${esc(p.title)}</h2><p>${esc(p.summary)}</p><div class="tool-stack">${esc(p.stack.slice(0, 3).join(" · "))}<span class="card-arrow">${arrow}</span></div></div></a>`).join("")}</div></div>`,
+    {
+      path: "/tools",
+      title: "Tools — Baivab Sarkar",
+      description:
+        "Small tools for writing, drawing and productivity, built by Baivab Sarkar.",
+      page: "tools",
+    },
+  );
+  const interests = [
+    "Open source",
+    "JavaScript",
+    "Java",
+    "Test automation",
+    "Browser tools",
+    "Computer science",
+    "Developer experience",
+    "Creative coding",
+  ];
+  const strip = [
+    "/assets/about/desk.svg",
+    "/assets/work/notemarker-800.webp",
+    "/assets/about/campus.svg",
+    "/assets/profile/baivab-480.webp",
+    "/assets/work/markdown-viewer-800.webp",
+    "/assets/work/sketchflow-800.webp",
+    "/assets/about/moments.svg",
+  ];
+  const about = `<div class="about-page"><header class="about-intro"><h1>Hey, I’m Baivab.</h1><p>I build useful software, follow my curiosity,<br>and keep learning along the way.</p></header><div class="photo-fan" aria-label="A few snapshots from my world">${strip.map((src, i) => `<figure class="photo-fan-card photo-${i}">${photo(src, i === 3 ? "Baivab Sarkar" : i === 1 ? "NoteMarker project" : i === 4 ? "Markdown Viewer project" : i === 5 ? "SketchFlow project" : "Replaceable personal photo placeholder", 480, 517, "", true)}</figure>`).join("")}<span class="photo-bubble bubble-left">a work in progress</span><span class="photo-bubble bubble-right">always curious</span></div><div class="about-reading"><div class="about-story"><p>${profile.about}</p><p>${profile.intro}</p><p>${profile.approach}</p></div><section class="profile-board" aria-label="Currently and interests"><p class="eyebrow">CURRENTLY</p><div class="profile-board-inner"><div class="current-location"><span class="tool-icon" aria-hidden="true">⌖</span><div><strong>${profile.location}</strong><p>Building tools. Learning in public.</p></div></div><div class="interest-section"><p class="eyebrow">THINGS I ENJOY WORKING WITH</p><div class="interest-marquee">${[interests, interests.slice().reverse()].map((row, i) => `<div class="interest-track track-${i}">${[...row, ...row].map((s, j) => `<span${j >= row.length ? ' aria-hidden="true"' : ""}>${s}</span>`).join("")}</div>`).join("")}</div></div><div class="selected-tools"><p class="eyebrow">SELECTED TOOLS</p><div>${[
+    ["JS", "JavaScript"],
+    ["Jv", "Java"],
+    ["Py", "Python"],
+    ["Git", "Git"],
+  ]
+    .map(
+      ([s, l], i) =>
+        `<span class="tool-icon tool-${i}" aria-label="${l}" title="${l}">${s}</span>`,
+    )
+    .join(
+      "",
+    )}</div></div></div></section><section class="about-prose"><h2>What I enjoy working on</h2><p>I’m drawn to the small problems that keep getting in the way: a document that needs a better workspace, information that needs to move between people, or a workflow that needs reliable tests.</p><p>That has taken me from Markdown Viewer and NoteMarker to MediChain, academic applications and private enterprise tools.</p><h2>My process</h2><p>I start with the workflow: what someone needs to do, where the friction is, and what a useful first version would look like. Then I build, test and refine the details.</p><p>My Java and Selenium training has made testing part of that process. I want the interface and the behavior behind it to make sense together.</p><h2>Learning in public</h2><p>My public repositories and blog are a record of that learning. There are polished tools, team prototypes and earlier experiments. Each has something that led to the next one.</p>${link("/blog", "Read my notes")}<h2 id="experience">Experience & learning</h2><div class="about-timeline">${experience.map((x) => `<article><p class="eyebrow">${esc(x.period)}</p><h3>${esc(x.title)}</h3><p><strong>${esc(x.organization)}</strong></p><p>${esc(x.description)}</p>${x.link ? link(x.link, x.linkLabel) : ""}</article>`).join("")}<article><p class="eyebrow">PRIVATE FREELANCE WORK</p><h3>Enterprise applications & automation</h3><p>${enterprise.intro}</p>${link("/work/enterprise", "Private work overview")}</article></div><div class="certification-list">${certifications.map((x) => `<p><strong>${esc(x.title)}</strong><span>${esc(x.date)}</span></p>`).join("")}</div><div class="section-bottom">${link(profile.resume, "Download my resume", "button")}</div></section></div></div>`;
+  pages["about.html"] = shell(about, {
+    path: "/about",
+    title: "About — Baivab Sarkar",
+    description: profile.description,
+    page: "about",
+  });
+  pages["playground.html"] = shell(
+    renderPlayground({ profile, projects: all }),
+    {
+      path: "/playground",
+      title: "Playground — Baivab Sarkar",
+      description:
+        "A little space for curiosity, experiments and things in progress.",
+      page: "playground",
+      playground: true,
+    },
+  );
+  pages["interactions.html"] = shell(
+    renderInteractions({ profile, projects: all }),
+    {
+      path: "/interactions",
+      title: "Interactions — Baivab Sarkar",
+      description: "Small interactive experiments by Baivab Sarkar.",
+      page: "interactions",
+      playground: true,
+    },
+  );
+  pages["404.html"] = shell(
+    `<div class="error-page">${title("404", "A small detour.", "This page took a wrong turn. <br>Jump a few bugs, then find your way back.")}<div class="error-game">${gamePanel()}</div><div class="section-bottom">${link("/", "Take me home", "button")}</div></div>`,
+    {
+      path: "/404",
+      title: "Page not found — Baivab Sarkar",
+      description:
+        "This page could not be found. Play Bug Run or return to the portfolio.",
+      page: "404",
+      noindex: true,
+      footer: false,
+    },
+  );
+  return pages;
+}

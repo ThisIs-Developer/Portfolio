@@ -1,58 +1,56 @@
-# Reference-adapted redesign verification
+# Portfolio verification
 
-Measured **7 September 2026** on Windows with Node.js 24.19, Playwright 1.63.0, axe-core 4.13.0 and Lighthouse 13.4.1. This report replaces the first paper-and-moss revision's results. Tests serve the generated `dist/` through the repository server with the actual Cloudflare `_headers` policy.
+Verified **8 September 2026** on Windows with Node.js 24.19, Playwright 1.63.0, axe-core 4.13.0 and Lighthouse 13.4.1. This report covers the complete multipage revision.
 
-## Visual comparison
+## Functional and responsive checks
 
-The reference's desktop/mobile hero, all six work folders, services, personal widgets, navigation, contact and game were inspected. The first PR's split hero, large sans-serif headings, moss accents, dark project panels and editorial sections were replaced with the reference's centered Instrument Serif typography, blue emphasis, dotted warm-white canvas, pastel glass folders, narrow capabilities, personal-card fan, floating dock and dark contact ending.
+- **65 Chromium/shared checks passed, zero Chromium failures**, including 10 page families at 390/1440px, navigation, local readers, collection filters/search/sort, clipboard, theme persistence, keyboard controls, cursor dots and game behavior. All 12 listed projects and 11 full articles were opened in their local readers.
+- **40 light/dark axe scans returned zero automated WCAG A/AA violations**, with separate visible-label/accessibility-name checks. Article code blocks and tables support keyboard scrolling.
+- The final independent sweep checked **31 sitemap routes and 44 responsive views** across 320, 390, 768 and 1440px, including enterprise details. It found no horizontal overflow, broken images or browser exceptions. It also checked all article bodies, malformed playground storage, touch behavior, the JavaScript-free card layout, actual 404 responses and the resume hash.
+- **136 local links and fragments resolved.** Generated-file consistency, article sanitizer self-tests, whitespace validation and npm audit passed; npm reported zero vulnerabilities.
+- JavaScript-disabled navigation, projects and articles remain readable. The playground becomes a normal card grid. Reduced motion disables decorative animation, and touch devices do not create the pointer-dot canvas.
 
-The [measured reference audit](reference-style-audit.md) maps reference dimensions and behaviors to the implementation and documents deliberate adaptations. Baivab's own content and real screenshots remain the basis of the page. Folder labels use darker ink for contrast; writing and career details preserve his DEV articles and resume evidence.
+The Windows Firefox run stalled with `RenderCompositorSWGL failed mapping default framebuffer`; the stuck test browser was terminated and its remaining checks did not complete. This is not recorded as a Firefox pass. The PR workflow runs Chromium, Firefox and WebKit on Ubuntu at 320/390/768/1440px, with screenshots and reports uploaded as artifacts. Consult the current [PR checks](https://github.com/ThisIs-Developer/Portfolio/pull/1/checks) for the independent Linux result. Physical devices and screen-reader sessions were not available; automated scans are not a conformance certification.
 
-Final visual review covers 390px mobile, 768px tablet and 1440px desktop: hero, folders, capabilities, writing, personal cards, experience disclosure, contact, game and archive. Refinements corrected hero alignment/type scale, mobile menu placement, folder accessible names, visible game controls and mobile canvas proportions. Updated renders: [desktop hero](screenshots/home-1440.png), [mobile hero](screenshots/home-390.png), [folders](screenshots/folders-1440.png), [mobile about](screenshots/about-390.png), [full desktop](screenshots/full-1440.png), [full mobile](screenshots/full-390.png).
+## Visual review
 
-## Browser and interaction checks
+Review covered full page structures and reading content, then refined cropped covers, card alignment, the mobile playground/menu clearance, section navigation, placeholders and the cursor response. The supplied video was inspected for motion and interaction details.
 
-The ten-width matrix exercises both home and archive at **320, 360, 375, 390, 430, 768, 1024, 1280, 1440 and 1920px**. Chromium, Chrome and Edge passed; Firefox's separate complete rerun passed all 34 checks. Combined coverage gives **134 successful checks across four local browsers**, including 80 page/width combinations. No browser/page layout failure remains in those engines.
-
-| Browser | Version | Local outcome |
+| Page | Desktop | Mobile |
 | --- | --- | --- |
-| Chromium | 153.0.8010.12 | Full responsive and interaction checks passed |
-| Firefox | 155.0 | Full separate rerun passed |
-| Chrome | 152.0.7977.82 | Full responsive and interaction checks passed |
-| Edge | 152.0.4191.66 | Full responsive and interaction checks passed |
-| WebKit | Installed Playwright build 2359 | Could not launch on this Windows host; CI now runs WebKit on Ubuntu |
-
-The initial combined run recorded 104 passes and 31 failures after Firefox reported `RenderCompositorSWGL failed mapping default framebuffer` and stopped responding. The successful isolated Firefox rerun supersedes its cascading errors. WebKit launch returned `spawn UNKNOWN` in both attempts; this is an explicit local coverage limit, not a passing result. The [PR workflow](../.github/workflows/verify.yml) now installs and tests Chromium, Firefox and WebKit on Ubuntu; consult the PR checks and uploaded artifacts for that independent result.
-
-Checks cover menu opening/closing, backdrop, Escape/focus restoration, breakpoint resizing, first-Tab skip navigation, persistent light/dark theme and unavailable storage, all six folder destinations, five capability disclosures, curated Quick Ask topics, game start/pause/reset/keyboard behavior, successful/denied clipboard feedback, all archive filters, and engineering details. Reduced-motion and JavaScript-disabled paths are exercised in each available engine. The game never autoplays, pauses offscreen, and initializes its canvas only when it enters view.
-
-Eight axe scans cover both pages at 390/1440px in light and dark themes with WCAG 2 A/AA, 2.1 A/AA and 2.2 AA rules. They report **zero violations**; separate visible-label/accessibility-name checks pass. Automated checks complement visual and keyboard review and do not certify full WCAG conformance. Physical devices, actual Safari and screen-reader sessions were not available.
-
-After the final performance and initialization refinements, a fresh **70-check smoke pass completed with zero failures** across Chromium, Firefox, Chrome and Edge at 390/1440px, including all interactions, dark-theme scans, reduced motion and no JavaScript.
-
-The first Ubuntu run on redesign commit `2e5f1c0` launched all three engines, including WebKit, and recorded 100 passes and two navigation assertion failures. On **8 September 2026**, the test was corrected to wait for the actual breakpoint handler to finish between consecutive mobile/desktop resizes; its assertions and application behavior are unchanged. Fifty rapid mobile–desktop–mobile cycles then passed across Chromium and Firefox. CI artifact upload now explicitly includes the hidden `.qa-results/` directory. The latest PR workflow run records the independent rerun result.
+| home | [Desktop](screenshots/home-1440.webp) | [Mobile](screenshots/home-390.webp) |
+| about | [Desktop](screenshots/about-1440.webp) | [Mobile](screenshots/about-390.webp) |
+| work | [Desktop](screenshots/work-1440.webp) | [Mobile](screenshots/work-390.webp) |
+| blog | [Desktop](screenshots/blog-1440.webp) | [Mobile](screenshots/blog-390.webp) |
+| article | [Desktop](screenshots/article-1440.webp) | [Mobile](screenshots/article-390.webp) |
+| tools | [Desktop](screenshots/tools-1440.webp) | [Mobile](screenshots/tools-390.webp) |
+| playground | [Desktop](screenshots/playground-1440.webp) | [Mobile](screenshots/playground-390.webp) |
+| interactions | [Desktop](screenshots/interactions-1440.webp) | [Mobile](screenshots/interactions-390.webp) |
+| work enterprise | [Desktop](screenshots/work-enterprise-1440.webp) | [Mobile](screenshots/work-enterprise-390.webp) |
+| work markdown viewer | [Desktop](screenshots/work-markdown-viewer-1440.webp) | [Mobile](screenshots/work-markdown-viewer-390.webp) |
+| 404 | [Desktop](screenshots/404-1440.webp) | [Mobile](screenshots/404-390.webp) |
 
 ## Performance
 
-These are local lab results, using simulated mobile throttling and the desktop preset with other portfolio browser tests idle. The server does not simulate Cloudflare's compression. Host load produced noticeable TBT variation during iterations; these are measured runs, not production Core Web Vitals guarantees. Home was measured after deferring game initialization; archive was remeasured independently after prioritizing its first visible image.
+These are local Lighthouse lab measurements with simulated mobile throttling, collected with functional browser tests idle. All measured profiles scored 100 for accessibility, best practices and SEO, with layout shift between 0 and 0.004. Mobile performance is lower than desktop, with main-thread layout/rendering and blocking time still the largest costs on this host. Scores are not production Core Web Vitals guarantees.
 
-| Page/profile | Performance | Accessibility | Best practices | SEO | FCP | LCP | TBT | CLS |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| home-mobile | 94 | 100 | 100 | 100 | 1.2 s | 2.6 s | 200 ms | 0.001 |
-| home-desktop | 99 | 100 | 100 | 100 | 0.4 s | 0.6 s | 120 ms | 0 |
-| archive-mobile | 98 | 100 | 100 | 100 | 1.1 s | 2.3 s | 0 ms | 0.001 |
+| Profile | Performance | Accessibility | Best practices | SEO | LCP | TBT | CLS |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| home-mobile | 72 | 100 | 100 | 100 | 2.7 s | 1258 ms | 0.000 |
+| home-desktop | 99 | 100 | 100 | 100 | 0.6 s | 90 ms | 0.000 |
+| work-mobile | 88 | 100 | 100 | 100 | 3.0 s | 310 ms | 0.000 |
+| blog-mobile | 88 | 100 | 100 | 100 | 3.0 s | 277 ms | 0.004 |
+| article-mobile | 81 | 100 | 100 | 100 | 3.1 s | 500 ms | 0.000 |
 
-Performance refinements reserve navigation/filter space before JavaScript initializes, preload the three primary font files, use dedicated 400px folder thumbnails, prioritize the archive's first screenshot, and avoid synchronous offscreen canvas layout during the hero's first render. The four licensed font files total 88,224 bytes. No runtime library, API, third-party font request, analytics or external embed is needed.
+The home page omits inner-page CSS/JS; the blog prioritizes its first cover. Fonts and all 88 article images are local. Article imports resize/convert fresh images to WebP; visitors do not need DEV or another image host to read.
 
-## Content, links and deployment
+## Content and deployment
 
-- The latest supplied resume remains byte-identical at both supported PDF URLs. Project, training, education, certification and article evidence is in [content sources](content-sources.md); image/font provenance is in [assets](../assets/README.md).
-- All local links/fragments, both home/archive URL forms, sitemap, robots, custom 404, CNAME, Google verification and PDF byte ranges pass. Twenty external URLs were checked: fifteen returned 200; LinkedIn returned 999 and four DEV URLs returned 403 to the automated client. Those are recorded as access restrictions, not missing pages. No email was sent.
-- `npm run build`, `npm run check`, whitespace validation and `npm audit` pass; npm reports zero vulnerabilities. Runtime remains static and dependency-free.
-- The redesign is pushed to the existing `feat/editorial-portfolio-redesign` branch and [PR #1](https://github.com/ThisIs-Developer/Portfolio/pull/1). Cloudflare and Vercel deployed commit `2e5f1c0` successfully. Live checks on the [Cloudflare branch preview](https://feat-editorial-portfolio-red.baivabsarkar.pages.dev/) passed at 390/1440px: new hero/font, all six folders, menu, matching archive entry and notes, game controls, CSP and no page errors. The deployed resume's full SHA-256 matches the supplied PDF. The PR remains unmerged and DNS is unchanged.
-- The existing Netlify account plugin previously rejected Node 22 because its installed Lighthouse v4 plugin required Node below 20. Its account-level configuration was not changed. Cloudflare, Vercel and GitHub checks should be read from the updated PR, rather than inferred from the prior revision.
+The Work collection contains the 11 requested projects plus the retained BlazeDemo educational capstone, and five private enterprise summaries. Source code and private client data remain undisclosed. Real public screenshots are used where available; three project visuals and three About photos are clearly labeled placeholders. Both historical chatbot articles carry visible technical corrections.
 
-The final generated home and archive SHA-256 prefixes are `5f32c26a2250` and `92f0fe43a5b7`, respectively. Full logs and per-engine screenshots stay in ignored `.qa-results/`; committed review images and this report provide concise evidence.
+Both supported resume URLs preserve the supplied PDF. SHA-256: `08f8cad9ebb007de02e6874302f04db3f17be7d8e8f7626e98f0d9ee98099d09`.
+
+The update targets the existing [PR #1](https://github.com/ThisIs-Developer/Portfolio/pull/1) and [Cloudflare branch preview](https://feat-editorial-portfolio-red.baivabsarkar.pages.dev/). The PR remains unmerged. The pre-existing Netlify account-installed Lighthouse v4 plugin has a Node compatibility failure; its account configuration is unchanged. Cloudflare/Vercel and the repository workflow have separate checks.
 
 ## Reproduce
 
@@ -60,12 +58,10 @@ The final generated home and archive SHA-256 prefixes are `5f32c26a2250` and `92
 npm ci
 npm run build
 npm run check
+node scripts/import-articles.mjs --self-test
 npx playwright install --with-deps chromium firefox webkit
-npm test -- --dir dist --browsers chromium,firefox,webkit --output .qa-results/release
-npm test -- --dir dist --browsers all --widths 390,1440 --output .qa-results/smoke
+npm test -- --dir dist --browsers chromium,firefox,webkit --widths 320,390,768,1440 --output .qa-results/release
 npm run test:performance
-# Rerun one changed performance target:
-npm run test:performance -- --page archive-mobile
 ```
 
-`--browsers all` also requires installed Chrome and Edge. Run Lighthouse separately from functional browser tests. WebKit on Linux or Windows is engine coverage, not proof of Safari or physical-iPhone compatibility.
+Run Lighthouse separately from browser tests. Local detailed logs remain in ignored .qa-results; CI publishes equivalent reports as workflow artifacts.

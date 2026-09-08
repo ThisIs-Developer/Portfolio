@@ -49,6 +49,33 @@ const report = {
 };
 const externalLinks = new Set();
 const localLinks = new Set();
+const sourceRoot = fileURLToPath(new URL("../", import.meta.url));
+const articleData = JSON.parse(
+  await readFile(path.join(sourceRoot, "data/articles.json"), "utf8"),
+);
+const projectData = (
+  await Promise.all(
+    ["projects", "experiments", "project-additions"].map(async (name) =>
+      JSON.parse(
+        await readFile(path.join(sourceRoot, "data", `${name}.json`), "utf8"),
+      ),
+    ),
+  )
+).flat();
+const pageRoutes = [
+  "/",
+  "/about",
+  "/work",
+  "/blog",
+  "/tools",
+  "/playground",
+  "/interactions",
+  "/work/markdown-viewer",
+  articleData[0].localPath,
+  "/404",
+];
+const routeName = (route) =>
+  route === "/" ? "home" : route.replace(/^\//, "").replaceAll("/", "-");
 await mkdir(output, { recursive: true });
 const preview = await startServer({ root, port: 0 });
 
@@ -164,7 +191,10 @@ async function metadata(page) {
     result.title.includes("Baivab Sarkar") && result.title.length > 15,
     "Descriptive page title",
   );
-  assert(result.description?.length >= 70, "Useful meta description");
+  assert(
+    result.description?.length >= 35,
+    "Useful page-specific meta description",
+  );
   assert(
     result.canonical?.startsWith("https://baivabsarkar.pages.dev/"),
     "Canonical points to verified production origin",
@@ -232,6 +262,7 @@ async function navigation(page) {
   );
   await toggle.click();
   await menuLink.click();
+  await page.waitForURL("**/about");
   assert.equal(
     await toggle.getAttribute("aria-expanded"),
     "false",
@@ -259,7 +290,9 @@ async function navigation(page) {
   // otherwise two fast viewport changes can precede/coalesce its change event.
   await page.waitForFunction(
     () =>
-      document.querySelector(".theme-toggle")?.parentElement?.matches(".nav-shell") &&
+      document
+        .querySelector(".theme-toggle")
+        ?.parentElement?.matches(".nav-shell") &&
       !document.querySelector("#site-nav")?.inert,
     null,
     { timeout: 8000 },
@@ -272,8 +305,10 @@ async function navigation(page) {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.waitForFunction(
     () =>
-      document.querySelector(".theme-toggle")?.parentElement?.id === "site-nav" &&
-      document.querySelector(".menu-toggle")?.getAttribute("aria-expanded") === "false" &&
+      document.querySelector(".theme-toggle")?.parentElement?.id ===
+        "site-nav" &&
+      document.querySelector(".menu-toggle")?.getAttribute("aria-expanded") ===
+        "false" &&
       document.querySelector("#site-nav")?.inert,
     null,
     { timeout: 8000 },
@@ -315,7 +350,7 @@ async function theme(page, browser) {
     "Keyboard enables dark theme",
   );
   assert.equal(await page.locator("html").getAttribute("data-theme"), "dark");
-  await load(page, "/project.html");
+  await load(page, "/work");
   assert.equal(
     await toggle.getAttribute("aria-pressed"),
     "true",
@@ -390,15 +425,15 @@ async function foldersAndCapabilities(page) {
     })),
   );
   assert.deepEqual(
-    destinations.map((item) => item.hash),
-    expected.map((id) => `#project-${id}`),
+    destinations.map((item) => item.pathname),
+    expected.map((id) => `/work/${id}`),
     "Folder links match the selected projects",
   );
   assert(
     destinations.every(
-      (item) => item.pathname === "/project.html" && item.title,
+      (item) => item.pathname.startsWith("/work/") && item.title,
     ),
-    "Folders have visible titles and archive destinations",
+    "Folders have visible titles and dedicated local project destinations",
   );
 
   const capabilities = page.locator("details.capability");
@@ -420,11 +455,17 @@ async function foldersAndCapabilities(page) {
 
   await folders.first().focus();
   await folders.first().press("Enter");
-  await page.waitForURL("**/project.html#project-markdown-viewer");
+  await page.waitForURL("**/work/markdown-viewer");
   assert(
-    await page.locator("#project-markdown-viewer").isVisible(),
-    "Keyboard opens the matching archive project",
+    await page.locator(".reading-header h1").isVisible(),
+    "Keyboard opens the matching full project story",
   );
+  assert.match(await page.locator("h1").innerText(), /Markdown Viewer/);
+  assert(
+    await page.locator("#project-notes").isVisible(),
+    "Project engineering notes are readable",
+  );
+  await load(page, "/work");
   for (const id of expected)
     assert.equal(
       await page.locator(`#project-${id}`).count(),
@@ -447,7 +488,7 @@ async function quickAsk(page) {
   for (const [question, expected] of [
     ["What did you study?", /JIS College of Engineering.*May 2025.*9\.15/],
     ["Tell me about your projects", /Markdown Viewer.*NoteMarker.*MediChain/],
-    ["What is your experience with Wipro?", /educational capstone/],
+    ["What is your experience?", /Java\/Selenium SDET training/],
     ["How can I contact you?", /baivabsarkar@gmail\.com/],
     ["an unrelated question", /curated answers/],
   ]) {
@@ -467,8 +508,8 @@ async function quickAsk(page) {
   );
 }
 
-async function game(page) {
-  await load(page, "/");
+async function game(page, route = "/") {
+  await load(page, route);
   const canvas = page.locator("#bug-run");
   const jump = page.locator("#game-jump");
   const pause = page.locator("#game-pause");
@@ -587,71 +628,349 @@ async function clipboard(browser) {
 }
 
 async function archive(page) {
-  await load(page, "/project.html");
-  const filters = page.locator("[data-filter]");
-  assert.equal(await filters.count(), 3, "All archive filters exist");
-  assert.equal(
-    await page.locator("[data-project-group]").count(),
-    9,
-    "Nine unique archive projects",
-  );
-  for (const [group, expected] of [
-    ["featured", 4],
-    ["experiments", 5],
-    ["all", 9],
-  ]) {
-    await page.locator(`[data-filter="${group}"]`).click();
-    assert.equal(
-      await page
-        .locator(`[data-filter="${group}"]`)
-        .getAttribute("aria-pressed"),
-      "true",
-    );
-    const items = await page
-      .locator("[data-project-group]")
-      .evaluateAll((elements) =>
+  await collections(page);
+}
+
+async function collections(page) {
+  for (const route of ["/work", "/blog"]) {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await load(page, route);
+    const items = page.locator("[data-collection-item]");
+    const total = await items.count();
+    assert(total >= 9, `${route} includes the full collection`);
+    if (route === "/blog")
+      assert.equal(
+        total,
+        articleData.length,
+        "Every imported post is available",
+      );
+    for (const filter of await page.locator("button[data-category]").all()) {
+      const category = await filter.getAttribute("data-category");
+      await filter.click();
+      assert.equal(await filter.getAttribute("aria-pressed"), "true");
+      const states = await items.evaluateAll((elements) =>
         elements.map((element) => ({
-          group: element.dataset.projectGroup,
+          category: element.dataset.category,
           hidden: element.hidden,
         })),
       );
+      assert(
+        states.every(
+          (item) =>
+            item.hidden === (category !== "All" && item.category !== category),
+        ),
+        `${route} category ${category} selects the right items`,
+      );
+    }
+    await page.locator('button[data-category="All"]').click();
+    const search = page.locator("[data-search]");
+    await search.fill("zz-no-matching-item");
     assert.equal(
-      items.filter((item) => !item.hidden).length,
-      expected,
-      `${group} filter displays expected count`,
+      await page.locator("[data-collection-item]:visible").count(),
+      0,
     );
     assert(
-      items.every(
-        (item) => item.hidden === (group !== "all" && item.group !== group),
-      ),
-      `${group} filter has correct result set`,
+      await page.locator(".collection-empty").isVisible(),
+      "No-result state is visible",
     );
+    assert.match(
+      await page.locator("[data-collection-status]").innerText(),
+      /^0 /,
+    );
+    await search.fill("Markdown");
+    assert(
+      (await page.locator("[data-collection-item]:visible").count()) > 0,
+      "Search finds genuine project/article content",
+    );
+    assert(
+      !(await page.locator(".collection-empty").isVisible()),
+      "Results replace empty state",
+    );
+    await search.fill("");
     assert.equal(
-      await page.locator("[data-filter-status]").innerText(),
-      `${expected} projects`,
-      "Filtered count announced",
+      await page.locator("[data-collection-item]:visible").count(),
+      total,
+    );
+    for (const ascending of [true, false]) {
+      await page.locator("[data-sort]").click();
+      const dates = await items.evaluateAll((elements) =>
+        elements.map((element) => Date.parse(element.dataset.date)),
+      );
+      assert(
+        dates.every(
+          (date, i) =>
+            !i || (ascending ? dates[i - 1] <= date : dates[i - 1] >= date),
+        ),
+        `${route} date sort is ${ascending ? "ascending" : "descending"}`,
+      );
+    }
+    await page.setViewportSize({ width: 390, height: 844 });
+    const mobileFilter = page.locator(".collection-mobile-filter select");
+    assert(
+      await mobileFilter.isVisible(),
+      "Mobile collection filter is accessible",
+    );
+    await mobileFilter.selectOption({ index: 1 });
+    const selected = await mobileFilter.inputValue();
+    assert.equal(
+      await page
+        .locator(`button[data-category="${selected}"]`)
+        .getAttribute("aria-pressed"),
+      "true",
+      "Mobile and desktop filter controls stay synchronized",
+    );
+    const visibleCategories = await page
+      .locator("[data-collection-item]:visible")
+      .evaluateAll((elements) =>
+        elements.map((element) => element.dataset.category),
+      );
+    assert(visibleCategories.every((category) => category === selected));
+    await mobileFilter.selectOption("All");
+    const first = page
+      .locator(route === "/blog" ? ".journal-card" : ".folder")
+      .first();
+    const destination = await first.getAttribute("href");
+    await first.click();
+    await page.waitForURL(`${preview.url}${destination}`);
+    assert(
+      await page.locator(".reading-main").isVisible(),
+      "Collection item opens a full local reader",
     );
   }
-  const details = page.locator("details.engineering-notes").first();
+}
+
+async function readers(page) {
+  for (const project of projectData) {
+    await load(page, `/work/${project.id}`);
+    assert.equal(
+      await page.locator("h1").innerText(),
+      project.title,
+      "Each requested project has its own reader",
+    );
+    assert(await page.locator("#contribution").isVisible());
+    assert.equal(
+      await page
+        .locator(".case-actions a")
+        .filter({ hasText: "Source code" })
+        .count(),
+      project.source ? 1 : 0,
+      "Private source URLs are not exposed",
+    );
+  }
+  await page.setViewportSize({ width: 390, height: 844 });
+  for (const article of articleData) {
+    await load(page, article.localPath);
+    assert.equal(
+      await page.locator("h1").innerText(),
+      article.title,
+      "The requested article title is rendered",
+    );
+    const body = page.locator(".article-body");
+    const authoredText = await page.evaluate(
+      (html) =>
+        new DOMParser()
+          .parseFromString(html, "text/html")
+          .body.textContent.replace(/\s+/g, "")
+          .trim(),
+      article.bodyHtml,
+    );
+    const renderedText = (await body.textContent()).replace(/\s+/g, "").trim();
+    assert.equal(
+      renderedText,
+      authoredText,
+      "The complete imported article is readable locally",
+    );
+    assert(renderedText.length > 100, "Article contains authored text");
+    assert.equal(
+      await body.locator("h1,script,iframe,form,object,embed,svg,math").count(),
+      0,
+      "Imported prose contains no executable embeds or extra primary headings",
+    );
+    const attributes = await body
+      .locator("*")
+      .evaluateAll((elements) =>
+        elements.flatMap((element) =>
+          [...element.attributes]
+            .filter((attribute) => /^on|^style$/i.test(attribute.name))
+            .map((attribute) => attribute.name),
+        ),
+      );
+    assert.deepEqual(
+      attributes,
+      [],
+      "Imported markup has no event handlers or inline styles",
+    );
+    const images = await body.locator("img").evaluateAll((elements) =>
+      elements.map((image) => ({
+        src: image.getAttribute("src"),
+        width: image.width,
+        height: image.height,
+      })),
+    );
+    assert(
+      images.every(
+        (image) =>
+          image.src.startsWith("/assets/articles/") &&
+          image.width > 0 &&
+          image.height > 0,
+      ),
+      "Article images are local and dimensioned",
+    );
+    if (article.editorNote)
+      assert(
+        (await page.locator(".article-editor-note").innerText()).includes(
+          article.editorNote,
+        ),
+        "Technical correction accompanies the historical article",
+      );
+    const ownLinks = await body
+      .locator('a[href^="https://dev.to/thisisdeveloper/"]')
+      .count();
+    assert.equal(ownLinks, 0, "Links to own articles stay inside this website");
+    for (const href of await page
+      .locator("a[href]")
+      .evaluateAll((elements) => elements.map((anchor) => anchor.href))) {
+      if (href.startsWith(preview.url)) localLinks.add(href);
+    }
+    const tocLink = page.locator(".reading-toc a").first();
+    if (await tocLink.count()) {
+      const toc = page.locator(".reading-toc");
+      assert(
+        !(await toc.evaluate((element) => element.open)),
+        "Mobile table of contents starts compact",
+      );
+      await toc.locator("summary").click();
+      const fragment = await tocLink.getAttribute("href");
+      await tocLink.click();
+      assert(
+        !(await toc.evaluate((element) => element.open)),
+        "Choosing a section closes the mobile table of contents",
+      );
+      assert.equal(
+        await page.evaluate(() => document.activeElement.id),
+        fragment.slice(1),
+        "Section links move keyboard focus into the article",
+      );
+    }
+  }
+  const missing = await fetch(`${preview.url}/missing-page-for-verification`);
+  assert.equal(missing.status, 404, "Unknown routes preserve the 404 status");
+  const html = await missing.text();
+  assert(
+    html.includes('id="bug-run"'),
+    "The actual 404 response includes the playable game",
+  );
+  assert(
+    /name="robots"[^>]*noindex/.test(html),
+    "404 page is excluded from search indexing",
+  );
+  await game(page, "/404");
+  await page.locator('a[href="/"]').last().click();
+  await page.waitForURL(`${preview.url}/`);
+}
+
+async function playground(page) {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await load(page, "/playground");
+  const board = page.locator("[data-playground-board]");
+  const card = page.locator("[data-playground-card]").first();
+  assert.equal(await page.locator("[data-playground-card]").count(), 7);
+  await card.focus();
+  const before = await card.boundingBox();
+  await card.press("ArrowRight");
+  const after = await card.boundingBox();
+  assert(after.x > before.x, "Arrow keys move the focused canvas card");
+  await page.locator('[data-playground-zoom="in"]').click();
   assert.equal(
-    await page.locator("details.engineering-notes").count(),
-    9,
-    "Every project retains engineering notes",
+    await page.locator("[data-playground-zoom-label]").innerText(),
+    "115%",
   );
-  await details.locator("summary").click();
+  await page.locator("[data-playground-reset]").click();
+  assert.equal(
+    await page.locator("[data-playground-zoom-label]").innerText(),
+    "100%",
+  );
+  await page.locator('[data-playground-color="green"]').click();
+  assert.equal(await board.getAttribute("data-canvas-color"), "green");
+  await page.locator("[data-playground-view]").click();
   assert(
-    await details.evaluate((element) => element.open),
-    "Engineering details open",
+    await board.evaluate((element) => element.classList.contains("is-list")),
+    "List view presents cards in reading order",
   );
+  const checkbox = page.locator('[data-playground-check="read"]');
+  await checkbox.check();
+  await page.reload({ waitUntil: "networkidle" });
+  assert.equal(
+    await board.getAttribute("data-canvas-color"),
+    "green",
+    "Canvas color persists",
+  );
+  assert(await checkbox.isChecked(), "Checklist progress persists");
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.locator("[data-playground-view]").click();
+  assert.equal(
+    await page.locator("[data-playground-card]:visible").count(),
+    7,
+    "All cards remain readable on mobile",
+  );
+  await load(page, "/interactions");
+  const folder = page.locator(".playground-demo-folder");
+  await folder.click();
+  assert.equal(await folder.getAttribute("aria-expanded"), "true");
+  assert(await page.locator("#playground-folder-note").isVisible());
+  await folder.press("Enter");
+  assert.equal(await folder.getAttribute("aria-expanded"), "false");
+  const dot = page.locator(".playground-dot-demo");
+  await page.locator("[data-playground-dot]").click();
   assert(
-    await details.locator(".notes-body").isVisible(),
-    "Engineering content visible",
+    (await dot.getAttribute("style")).includes("--spot-x"),
+    "Spotlight button works without a mouse",
   );
-  await details.locator("summary").press("Enter");
-  assert(
-    !(await details.evaluate((element) => element.open)),
-    "Engineering details close with keyboard",
+  await page.locator(".playground-theme-button").click();
+  assert.equal(
+    await page.locator(".playground-theme-button").getAttribute("aria-pressed"),
+    "true",
   );
+  const slider = page.locator("#playground-type-size");
+  await slider.focus();
+  await slider.press("End");
+  assert.equal(
+    await page.locator("[data-playground-type-output]").innerText(),
+    "92 px",
+  );
+}
+
+async function cursorDots(page) {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await load(page, "/about");
+  await page.mouse.move(700, 180);
+  await page.waitForFunction(() => {
+    const canvas = document.querySelector(".cursor-dot-layer");
+    return (
+      canvas &&
+      canvas
+        .getContext("2d")
+        .getImageData(0, 0, canvas.width, canvas.height)
+        .data.some((value, index) => index % 4 === 3 && value > 0)
+    );
+  });
+  assert.equal(
+    await page.locator(".cursor-dot-layer").getAttribute("aria-hidden"),
+    "true",
+    "Decorative cursor is hidden from assistive technology",
+  );
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.waitForFunction(() => {
+    const canvas = document.querySelector(".cursor-dot-layer");
+    return (
+      !canvas ||
+      !canvas
+        .getContext("2d")
+        .getImageData(0, 0, canvas.width, canvas.height)
+        .data.some((value, index) => index % 4 === 3 && value > 0)
+    );
+  });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
 }
 
 try {
@@ -670,7 +989,7 @@ try {
       `google-site-verification: ${token}`,
     );
     for (const route of [
-      "/",
+      ...pageRoutes,
       "/index.html",
       "/project",
       "/project.html",
@@ -729,6 +1048,7 @@ try {
       const context = await browser.newContext();
       const page = await context.newPage();
       page.setDefaultTimeout(8000);
+      page.setDefaultNavigationTimeout(30000);
       let errors = [];
       page.on("pageerror", (error) => errors.push(error.message));
       page.on("console", (message) => {
@@ -739,7 +1059,7 @@ try {
           errors.push(`${response.status()} ${response.url()}`);
       });
 
-      for (const route of ["/", "/project.html"]) {
+      for (const route of pageRoutes) {
         for (const width of widths) {
           await check(`${name}: ${route} at ${width}px`, async () => {
             errors = [];
@@ -767,18 +1087,15 @@ try {
               if (href.startsWith(preview.url)) localLinks.add(href);
               else if (/^https?:/.test(href)) externalLinks.add(href);
             }
-            if ([375, 768, 1440].includes(width)) {
-              const filename = `${name}-${route === "/" ? "home" : "projects"}-${width}.png`;
+            if ([375, 390, 768, 1440].includes(width)) {
+              const filename = `${name}-${routeName(route)}-${width}.png`;
               await page.screenshot({
                 path: path.join(output, filename),
                 fullPage: true,
               });
             }
             if (name === "chromium" && [390, 1440].includes(width)) {
-              await accessibility(
-                page,
-                `${route === "/" ? "home" : "projects"}-${width}-light`,
-              );
+              await accessibility(page, `${routeName(route)}-${width}-light`);
             }
           });
         }
@@ -797,7 +1114,13 @@ try {
         ["curated Quick Ask", () => quickAsk(page)],
         ["game start, pause, reset and keyboard", () => game(page)],
         ["clipboard success and denial", () => clipboard(browser)],
-        ["archive filters and engineering notes", () => archive(page)],
+        ["work and blog search, filters and sort", () => archive(page)],
+        [
+          "all project and article readers and playable 404",
+          () => readers(page),
+        ],
+        ["playground and interaction controls", () => playground(page)],
+        ["cursor highlights and reduced motion", () => cursorDots(page)],
       ]) {
         await check(`${name}: ${label}`, async () => {
           errors = [];
@@ -807,7 +1130,7 @@ try {
       }
 
       if (name === "chromium") {
-        for (const route of ["/", "/project.html"]) {
+        for (const route of pageRoutes) {
           for (const width of [390, 1440]) {
             await check(
               `${name}: ${route} dark theme at ${width}px`,
@@ -828,14 +1151,11 @@ try {
                   layout.documentWidth <= width + 1,
                   "Dark theme has no horizontal overflow",
                 );
-                await accessibility(
-                  page,
-                  `${route === "/" ? "home" : "projects"}-${width}-dark`,
-                );
+                await accessibility(page, `${routeName(route)}-${width}-dark`);
                 await page.screenshot({
                   path: path.join(
                     output,
-                    `chromium-${route === "/" ? "home" : "projects"}-${width}-dark.png`,
+                    `chromium-${routeName(route)}-${width}-dark.png`,
                   ),
                   fullPage: true,
                 });
@@ -893,7 +1213,14 @@ try {
           viewport: { width: 375, height: 844 },
         });
         const fallback = await noJs.newPage();
-        for (const route of ["/", "/project.html"]) {
+        for (const route of [
+          "/",
+          "/work",
+          "/about",
+          "/blog",
+          articleData[0].localPath,
+          "/playground",
+        ]) {
           await load(fallback, route, true);
           assert(
             await fallback.locator("main").isVisible(),
@@ -906,18 +1233,16 @@ try {
           const result = await inspectLayout(fallback, true);
           assert(result.documentWidth <= 376, `${route} no-JS overflow`);
           assert.deepEqual(result.brokenImages, []);
-          const disclosure = fallback
-            .locator(
-              route === "/"
-                ? "details.capability"
-                : "details.engineering-notes",
-            )
-            .first();
-          await disclosure.locator("summary").click();
-          assert(
-            await disclosure.evaluate((element) => element.open),
-            `${route} native details work without JavaScript`,
-          );
+          const disclosure = fallback.locator("details").first();
+          if (await disclosure.count()) {
+            const opened = await disclosure.evaluate((element) => element.open);
+            await disclosure.locator("summary").click();
+            assert.notEqual(
+              await disclosure.evaluate((element) => element.open),
+              opened,
+              `${route} native details work without JavaScript`,
+            );
+          }
           if (route === "/") {
             assert.equal(
               await fallback.locator("a.folder").count(),

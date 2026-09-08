@@ -1,6 +1,6 @@
 # Published assets
 
-All project visuals depict Baivab's own projects. No reference creator photographs, illustrations, project imagery, or stock imagery are included. WebP variants only resize and compress the original screenshots; they do not invent interface details. The design uses the reference's font families through separately obtained official, licensed Google Fonts files.
+Project screenshots depict Baivab’s own projects. WebP variants resize and compress the original captures. Clearly labeled SVG placeholders in `assets/placeholders/` and three personal photo placeholders in `assets/about/` can be replaced with the author’s images. The fonts were obtained from official, licensed Google Fonts sources.
 
 | Asset | Source | Output dimensions (800 / 1400 widths) | Bytes (800 / 1400) |
 | --- | --- | --- | --- |
@@ -28,7 +28,7 @@ The small folder peeks use additional genuine screenshots linked from each autho
 
 `profile/baivab-480.webp` (480×517, 10.5 KB) and `baivab-800.webp` (800×862, 19.4 KB) are compressed from the existing `profile2.png`, preserving the portrait. The original source portraits and historical project JPEGs remain in version control but are not requested by either page or copied into the optional `dist` build.
 
-The active type system matches the reference's families: **Instrument Serif** for display text, **Instrument Sans** for body/UI text, and **Nanum Pen Script** for handwritten asides. Their Latin WOFF2 subsets were downloaded from the official Google Fonts CSS API, not copied from the reference's hosting. All fonts load locally; there are no third-party font requests at runtime. Georgia, Arial, and cursive provide system fallbacks.
+The active type system uses **Instrument Serif** for display text, **Instrument Sans** for body/UI text, and **Nanum Pen Script** for handwritten asides. Their Latin WOFF2 subsets were downloaded from the official Google Fonts CSS API. All fonts load locally; there are no third-party font requests at runtime. Georgia, Arial, and cursive provide system fallbacks.
 
 | Font asset | Style / weights | Bytes | Included license |
 | --- | --- | ---: | --- |
@@ -37,10 +37,22 @@ The active type system matches the reference's families: **Instrument Serif** fo
 | `fonts/instrument-serif-latin-italic.woff2` | Italic, 400 | 22,128 | `fonts/OFL-Instrument-Serif.txt` |
 | `fonts/nanum-pen-script-latin-regular.woff2` | Normal, 400 | 14,972 | `fonts/OFL-Nanum-Pen-Script.txt` |
 
-These four active files total 88,224 bytes. Exact official binary URLs and Google Fonts license sources are recorded in the [reference audit](../docs/reference-style-audit.md#self-hosted-font-assets-and-licenses). The earlier `fonts/space-grotesk-latin-variable.woff2` and `fonts/OFL-Space-Grotesk.txt` remain in source history/assets but are not requested by the redesigned pages.
+These four active files total 88,224 bytes. Exact official binary URLs and Google Fonts license sources are recorded in the [design system](../docs/design-system.md#self-hosted-font-assets-and-licenses). The earlier `fonts/space-grotesk-latin-variable.woff2` and `fonts/OFL-Space-Grotesk.txt` remain in source history/assets but are not requested by the redesigned pages.
 
 `social-preview.png` is an original 1200×630 typographic composition using the portfolio palette and licensed display fonts (rendered by `node scripts/social-preview.mjs`). `apple-touch-icon.png` and the root `favicon.png` are rendered from the original root `favicon.svg` monogram. No AI-generated imagery is used.
 
 `resume/Baivab_Sarkar_Resume.pdf` is the user-supplied July 2026 resume, copied without modification. `resume/CV-BAIVAB SARKAR.pdf` contains the same bytes to preserve old download links. The portfolio's GitHub URL uses the verified profile address; the resume is preserved as provided.
 
 The six `work/*-400.webp` variants are proportional 400px copies of the existing 800px screenshots, optimized for the small folder sheets. Full archive images retain the 800/1400px variants.
+
+Article images in articles/ are width-limited copies of assets in the author’s published DEV articles. Each article records its local cover and image dimensions; the importer preserves source URLs in the data asset list. No external image host is required while reading.
+
+Additional public project screenshots, reviewed on 8 September 2026:
+
+| Asset | Public source | Largest variant |
+| --- | --- | --- |
+| `work/sei-sangeet-bangla-*.webp` | Browser capture of the [public music experience](https://seisangeetbangla.vercel.app/) | 1400×875 |
+| `work/taskflow-*.webp` | [Public repository board screenshot](https://raw.githubusercontent.com/ThisIs-Developer/TaskFlow/main/assets/board-view.png) | 1366×768 |
+| `work/medical-chatbot-*.webp` | [Public repository conversation screenshot](https://raw.githubusercontent.com/ThisIs-Developer/Llama-2-GGML-Medical-Chatbot/main/conversession%20e.g/ChatBot%20Conversession%20img-4.png) | 1400×633 |
+
+The medical prototype’s historical screenshot uses imprecise training terminology. The article author’s update and project notes clarify that the implementation uses a pretrained model and document retrieval.

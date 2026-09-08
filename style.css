@@ -2264,3 +2264,48 @@ input {
     min-height: 120px;
   }
 }
+
+/* Shared desktop navigation order and compact state. */
+@media (min-width: 768px) {
+  .nav-ready #site-nav,
+  .nav-ready #site-nav[data-open="false"],
+  .nav-ready #site-nav[data-open="true"] {
+    display: contents;
+  }
+  .nav-shell .menu-toggle {
+    order: 0;
+  }
+  .nav-shell .wordmark {
+    order: 3;
+    margin: 0 7px;
+  }
+  #site-nav a:nth-child(1) {
+    order: 1;
+  }
+  #site-nav a:nth-child(2) {
+    order: 2;
+  }
+  #site-nav a:nth-child(3) {
+    order: 4;
+  }
+  #site-nav a:nth-child(4) {
+    order: 5;
+  }
+  #site-nav a:nth-child(5) {
+    order: 6;
+  }
+  #site-nav a:nth-child(6) {
+    order: 7;
+  }
+  .nav-shell > .theme-toggle {
+    order: 8;
+  }
+  .nav-ready
+    #site-nav[data-open="false"]
+    a:not(:nth-child(1)):not(:nth-child(3)) {
+    display: none;
+  }
+  .nav-ready #site-nav[data-open="false"] + .theme-toggle {
+    display: flex;
+  }
+}

@@ -14,6 +14,8 @@ const [
   experience,
   skills,
   certifications,
+  enterprise,
+  projectAdditions,
 ] = await Promise.all(
   [
     "profile",
@@ -23,6 +25,8 @@ const [
     "experience",
     "skills",
     "certifications",
+    "enterprise",
+    "project-additions",
   ].map(readData),
 );
 const esc = (value = "") =>
@@ -33,14 +37,11 @@ const esc = (value = "") =>
         char
       ],
   );
-function metadata(archive = false) {
-  const title = archive
-    ? "Project archive — Baivab Sarkar"
-    : "Baivab Sarkar — Software Developer & Open-Source Builder";
-  const description = archive
-    ? "Explore Baivab Sarkar’s software projects, test automation, AI experiments, browser tools, and earlier web work."
-    : profile.description;
-  const canonical = `${profile.site}${archive ? "/project" : "/"}`;
+function metadata(options = {}) {
+  const title =
+    options.title || "Baivab Sarkar — Software Developer & Open-Source Builder";
+  const description = options.description || profile.description;
+  const canonical = `${profile.site}${options.path || "/"}`;
   const person = {
     "@type": "Person",
     "@id": `${profile.site}/#person`,
@@ -66,26 +67,39 @@ function metadata(archive = false) {
         inLanguage: "en",
       },
       {
-        "@type": archive ? "CollectionPage" : "ProfilePage",
+        "@type": options.type || (options.page ? "WebPage" : "ProfilePage"),
         "@id": `${canonical}#page`,
         url: canonical,
         name: title,
         description,
         mainEntity: { "@id": `${profile.site}/#person` },
         isPartOf: { "@id": `${profile.site}/#website` },
+        ...(options.article
+          ? {
+              headline: options.article.title,
+              datePublished: options.article.date,
+              dateModified:
+                options.article.sourceUpdatedAt || options.article.date,
+              author: { "@id": `${profile.site}/#person` },
+              ...(options.article.cover?.src
+                ? { image: `${profile.site}${options.article.cover.src}` }
+                : {}),
+            }
+          : {}),
       },
     ],
   };
   return `<meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${title}</title>
+  <title>${esc(title)}</title>
   <meta name="description" content="${esc(description)}">
+  ${options.noindex ? '<meta name="robots" content="noindex">' : ""}
   <meta name="theme-color" content="#f5f4f0">
   <meta name="color-scheme" content="light dark">
   <link rel="canonical" href="${canonical}">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="${options.article ? "article" : "website"}">
   <meta property="og:site_name" content="Baivab Sarkar">
-  <meta property="og:title" content="${title}">
+  <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(description)}">
   <meta property="og:url" content="${canonical}">
   <meta property="og:image" content="${profile.site}/assets/social-preview.png">
@@ -93,7 +107,7 @@ function metadata(archive = false) {
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Baivab Sarkar — Thoughtful software for real-world problems.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${title}">
+  <meta name="twitter:title" content="${esc(title)}">
   <meta name="twitter:description" content="${esc(description)}">
   <meta name="twitter:image" content="${profile.site}/assets/social-preview.png">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -102,9 +116,16 @@ function metadata(archive = false) {
   <link rel="preload" href="/assets/fonts/instrument-serif-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/instrument-sans-latin-variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/instrument-serif-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=20260907">
+  <link rel="stylesheet" href="/style.css?v=20260908">
+  ${options.page ? '<link rel="stylesheet" href="/pages.css?v=20260908">' : ""}
+  <link rel="stylesheet" href="/cursor.css?v=20260908">
   <script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script>
-  <script src="/script.js?v=20260907" defer></script>`;
+  <script src="/script.js?v=20260908" defer></script>
+  ${options.page ? '<script src="/pages.js?v=20260908" defer></script>' : ""}
+  <script src="/cursor.js?v=20260908" defer></script>`.replace(
+    /\n[ \t]+\n/g,
+    "\n\n",
+  );
 }
 
 const outputs = {
@@ -117,18 +138,56 @@ const outputs = {
       experience,
       skills,
       certifications,
+      enterprise,
+      projectAdditions,
     },
     metadata,
   ),
-  "sitemap.xml": `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${profile.site}/</loc></url><url><loc>${profile.site}/project</loc></url></urlset>\n`,
   "robots.txt": `User-agent: *\nAllow: /\nSitemap: ${profile.site}/sitemap.xml\n`,
 };
+outputs["sitemap.xml"] =
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${Object.keys(
+    outputs,
+  )
+    .filter(
+      (name) =>
+        name.endsWith(".html") && !["404.html", "project.html"].includes(name),
+    )
+    .map(
+      (name) =>
+        `<url><loc>${profile.site}${name === "index.html" ? "/" : `/${name.replace(/\.html$/, "")}`}</loc></url>`,
+    )
+    .join("")}</urlset>\n`;
+function placeholder(label, symbol, color = "#c8e6f7", height = 900) {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="${height}" viewBox="0 0 1400 ${height}"><title>${esc(label)} — replaceable image</title><defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="${color}"/><stop offset="1" stop-color="#f5f4f0"/></linearGradient><pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="14" cy="14" r="1" fill="#1a1a1a" opacity=".15"/></pattern></defs><rect width="1400" height="${height}" fill="url(#bg)"/><rect width="1400" height="${height}" fill="url(#dots)"/><rect x="130" y="130" width="1140" height="${height - 260}" rx="48" fill="#fff" fill-opacity=".38" stroke="#fff" stroke-width="3"/><text x="700" y="${height * 0.45}" fill="#3b5bdb" font-size="150" font-family="Georgia,serif" text-anchor="middle">${esc(symbol)}</text><text x="700" y="${height * 0.65}" fill="#333742" font-size="42" font-family="Arial,sans-serif" text-anchor="middle">${esc(label)}</text><text x="700" y="${height * 0.76}" fill="#575c69" font-size="20" font-family="Arial,sans-serif" text-anchor="middle" letter-spacing="4">IMAGE PLACEHOLDER</text></svg>\n`;
+}
+for (const [i, p] of [
+  ...projects,
+  ...experiments,
+  ...projectAdditions,
+].entries()) {
+  if (!p.image && !["ams", "sketchflow"].includes(p.id))
+    outputs[`assets/placeholders/${p.id}.svg`] = placeholder(
+      p.title.length > 44 ? p.title.slice(0, 41) + "…" : p.title,
+      ["{ }", "Aa", "↗", "~"][i % 4],
+      ["#c8e6f7", "#d4c9f5", "#b8f0d8", "#f5d4b8"][i % 4],
+    );
+}
+for (const [name, label, symbol, color] of [
+  ["desk", "At my desk", "{ }", "#c8e6f7"],
+  ["campus", "My learning journey", "2025", "#f5d4b8"],
+  ["moments", "Little moments", "✳", "#d4c9f5"],
+])
+  outputs[`assets/about/${name}.svg`] = placeholder(label, symbol, color, 1508);
 const check = process.argv.includes("--check");
 for (const [filename, content] of Object.entries(outputs)) {
   if (check) {
     if ((await readFile(path.join(root, filename), "utf8")) !== content)
       throw new Error(`${filename} is stale; run npm run build.`);
-  } else await writeFile(path.join(root, filename), content);
+  } else {
+    await mkdir(path.dirname(path.join(root, filename)), { recursive: true });
+    await writeFile(path.join(root, filename), content);
+  }
 }
 if (!check) {
   const dist = path.join(root, "dist");
@@ -141,16 +200,23 @@ if (!check) {
     "style.css",
     "script.js",
     "game.js",
+    "pages.css",
+    "pages.js",
+    "cursor.css",
+    "cursor.js",
+    "playground.css",
+    "playground.js",
     "favicon.svg",
     "favicon.png",
-    "404.html",
     "_headers",
     "CNAME",
     "google67e0cac1e39b6336.html",
   ];
-  for (const filename of publicFiles)
+  for (const filename of publicFiles) {
+    await mkdir(path.dirname(path.join(dist, filename)), { recursive: true });
     await cp(path.join(root, filename), path.join(dist, filename));
-  for (const directory of ["fonts", "work"])
+  }
+  for (const directory of ["fonts", "work", "articles"])
     await cp(
       path.join(root, "assets", directory),
       path.join(dist, "assets", directory),

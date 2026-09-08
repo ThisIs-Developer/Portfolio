@@ -5,7 +5,7 @@ const smallScreen = matchMedia("(max-width: 767px)");
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
 function setMenu(open, restoreFocus = false) {
   nav.dataset.open = String(open);
-  nav.inert = !open;
+  nav.inert = !open && smallScreen.matches;
   menu.setAttribute("aria-expanded", String(open));
   menu.querySelector("[data-menu-label]").textContent = open ? "Close" : "Menu";
   backdrop.hidden = !open || !smallScreen.matches;
@@ -14,7 +14,7 @@ function setMenu(open, restoreFocus = false) {
 if (nav && menu) {
   document.documentElement.classList.add("nav-ready");
   menu.hidden = false;
-  setMenu(!smallScreen.matches);
+  setMenu(false);
   menu.addEventListener("click", () =>
     setMenu(menu.getAttribute("aria-expanded") !== "true"),
   );
@@ -157,7 +157,7 @@ if (ask) {
         "Let’s talk: baivabsarkar@gmail.com. You can also find my resume and social profiles in the contact section below.";
     else if (/experien|training|job|wipro|selenium|test|qa|sdet/.test(question))
       answer =
-        "I have hands-on Java and Selenium SDET training, independent open-source work, and team project experience. My BlazeDemo automation framework is a 2026 educational capstone. See “Experience & learning” below for the details.";
+        "My experience includes private freelance enterprise applications, independent open-source work, team projects, and Java/Selenium SDET training. BlazeDemo is an educational capstone, not an employment claim. The About page has my background, and Work includes an overview of the private engagements.";
     else if (/skill|stack|language|java|python|tech/.test(question))
       answer =
         "My work connects Java and JavaScript with web development and test automation. I also use Python for experiments, with tools including Selenium, TestNG, Spring, SQL, and browser APIs.";
@@ -166,7 +166,7 @@ if (ask) {
         "I’m based in West Bengal, India. Online, I’m ThisIs-Developer on GitHub and thisisdeveloper on DEV.";
     else if (/writ|blog|article|dev.to/.test(question))
       answer =
-        "I write about tools I build and things I learn on DEV. The writing section includes my Markdown Viewer posts and notes on verified GitHub commits.";
+        "You can read my full articles here in the Blog, including Markdown Viewer, GitHub workflows and AI experiments. They were originally published on DEV and are also available directly on this website.";
     else if (/project|work|build|markdown|note|medi/.test(question))
       answer =
         "I created and maintain Markdown Viewer and NoteMarker, led full-stack development for the MediChain team prototype, and built a Java/Selenium automation capstone. Open a project folder for screenshots, engineering notes, and source links.";
