@@ -6,6 +6,8 @@ Quick Ask helps visitors find Baivab’s public background, work, skills, educat
 
 The existing Pages Git deployment reads `wrangler.jsonc`, publishes `dist`, and binds Workers AI as `AI`. The only Function route is `POST /api/ask`; static assets and pages bypass the Function. There are no browser API keys, provider secrets or additional database resources.
 
+The project build command is `if [ -f scripts/build.mjs ]; then node scripts/build.mjs; fi`. This creates dist on the new branch and still permits the legacy main branch to publish its existing root files. The dashboard output-directory setting stays `.`; the new branch's Wrangler file overrides it with dist. `.node-version` selects Node.js 24. A missing build command previously caused Pages to skip the build and reject the absent dist directory.
+
 The endpoint uses `@cf/meta/llama-3.1-8b-instruct-fast`, zero temperature and an 80-token output limit. The direct binding avoids an extra gateway service. Cloudflare documents [Pages configuration](https://developers.cloudflare.com/pages/functions/wrangler-configuration/), [Workers AI bindings](https://developers.cloudflare.com/pages/functions/bindings/#workers-ai) and the [fast Llama model](https://developers.cloudflare.com/workers-ai/models/llama-3.1-8b-instruct-fast/).
 
 Existing account quotas apply. This configuration does not purchase or upgrade a plan. If inference is unavailable, slow, invalid or over quota, the visitor gets an answer labeled “From my portfolio”. Other static hosts use the same fallback. The local development server exercises the endpoint without remote inference or usage charges.
