@@ -28,8 +28,8 @@
   --muted: #666660;
   --blue: #3b5bdb;
   --line: rgb(0 0 0 / 0.075);
-  --glass: rgb(255 255 255 / 0.65);
-  --strong-glass: rgb(255 255 255 / 0.88);
+  --glass: #fbfaf7;
+  --strong-glass: #fff;
   --dot: rgb(80 80 75 / 0.15);
   --out: cubic-bezier(0.23, 1, 0.32, 1);
   --spring: cubic-bezier(0.34, 1.4, 0.64, 1);
@@ -41,8 +41,8 @@
   --muted: #aaaab3;
   --blue: #a0afff;
   --line: rgb(255 255 255 / 0.1);
-  --glass: rgb(41 42 49 / 0.75);
-  --strong-glass: rgb(52 53 61 / 0.95);
+  --glass: #292a31;
+  --strong-glass: #34353d;
   --dot: rgb(200 200 210 / 0.14);
   color-scheme: dark;
 }
@@ -191,7 +191,7 @@ input {
   align-items: center;
   justify-content: center;
   padding: 12px 23px;
-  border: 1px solid rgb(255 255 255 / 0.75);
+  border: 0;
   border-radius: 50px;
   background: var(--glass);
   box-shadow:
@@ -257,9 +257,9 @@ input {
   align-items: center;
   gap: 10px;
   padding: 6px 8px;
-  border: 1px solid rgb(255 255 255 / 0.6);
+  border: 0;
   border-radius: 50px;
-  background: color-mix(in srgb, var(--paper) 80%, transparent);
+  background: var(--glass);
   backdrop-filter: blur(22px) saturate(180%);
   box-shadow:
     0 8px 30px #00000012,
@@ -655,7 +655,7 @@ input {
   margin: 34px 0 18px;
   padding: 21px 24px;
   background: #e4e8fa;
-  border: 1px solid #f9faff;
+  border: 0;
   border-radius: 24px;
   box-shadow: 0 5px 12px #00000003;
   color: #3f50a0;
@@ -678,7 +678,7 @@ input {
 .capabilities {
   padding: 15px 13px;
   background: color-mix(in srgb, var(--ink) 4%, var(--paper));
-  border: 1px solid var(--line);
+  border: 0;
   border-radius: 24px;
 }
 .capability-label {
@@ -732,7 +732,7 @@ input {
   height: 37px;
   border-radius: 50%;
   background: var(--glass);
-  border: 1px solid var(--line);
+  border: 0;
   font-size: 12px;
   color: var(--muted);
 }
@@ -771,7 +771,7 @@ input {
   border-radius: 25px;
   padding: 4px 10px;
   background: var(--glass);
-  border: 1px solid var(--line);
+  border: 0;
   color: var(--ink);
 }
 .writing-section {
@@ -789,7 +789,7 @@ input {
 .writing-card {
   border-radius: 22px;
   overflow: hidden;
-  border: 1px solid var(--line);
+  border: 0;
   background: var(--glass);
   transition:
     transform 0.22s var(--spring),
@@ -1013,7 +1013,7 @@ input {
   max-width: 640px;
   margin: -2px auto 0;
   padding: 8px 8px 8px 11px;
-  border: 1px solid #ffffffb0;
+  border: 0;
   background: var(--strong-glass);
   border-radius: 50px;
   box-shadow: 0 5px 25px #00000013;
@@ -1024,7 +1024,7 @@ input {
   white-space: nowrap;
   color: #654397;
   background: #ede3fa;
-  border: 1px solid #dccdf0;
+  border: 0;
   border-radius: 30px;
   padding: 8px 13px;
 }
@@ -1047,7 +1047,7 @@ input {
   box-shadow:
     0 1px 12px #6e89ea80,
     inset 0 1px 1px #ffffff80;
-  border: 1px solid #4e68d1;
+  border: 0;
   width: 38px;
   height: 38px;
   flex-shrink: 0;
@@ -1058,7 +1058,7 @@ input {
   max-width: 620px;
   margin: 16px auto 0;
   padding: 16px 22px;
-  border: 1px solid var(--line);
+  border: 0;
   border-radius: 18px;
   background: var(--glass);
   font-size: 13px;
@@ -1078,7 +1078,7 @@ input {
   max-width: 640px;
   margin: 27px auto 0;
   background: var(--glass);
-  border: 1px solid var(--line);
+  border: 0;
   border-radius: 18px;
   scroll-margin-top: 90px;
 }
@@ -1163,8 +1163,8 @@ input {
 }
 .contact-section .button {
   color: #ececec;
-  background: #ffffff0d;
-  border: 1px solid #ffffff20;
+  background: #191919;
+  border: 0;
   box-shadow: inset 0 1px 0 #ffffff10;
 }
 .email-link {
@@ -1191,16 +1191,16 @@ input {
   place-items: center;
   width: 42px;
   height: 42px;
-  border: 1px solid #ffffff21;
+  border: 0;
   border-radius: 50%;
-  background: #ffffff0a;
+  background: #171717;
   transition:
     transform 0.2s,
     background 0.2s;
 }
 .social-circle:hover {
   transform: translateY(-3px);
-  background: #ffffff17;
+  background: #222;
 }
 .social-circle span {
   font-size: 17px;
@@ -1214,7 +1214,7 @@ input {
   padding: 25px 28px 20px;
   border-radius: 42px;
   background: linear-gradient(140deg, #fefeff, #eff0f7);
-  border: 1px solid #ffffff;
+  border: 0;
   color: #242736;
   box-shadow:
     inset 3px 3px 8px #fff,
@@ -1239,7 +1239,7 @@ input {
   height: 50px;
   border-radius: 15px;
   background: linear-gradient(130deg, #fff, #e5e8f5);
-  border: 1px solid #fff;
+  border: 0;
   display: grid;
   place-items: center;
   font-size: 23px;
@@ -1281,7 +1281,7 @@ input {
   line-height: 1.3;
 }
 .game-stats button {
-  border: 1px solid #fff;
+  border: 0;
   box-shadow: 0 2px 6px #838ba220;
   background: #f9faff;
   border-radius: 50%;
@@ -1299,7 +1299,7 @@ input {
   box-shadow: inset 0 2px 8px #7c88b322;
   background: linear-gradient(#e7effa, #f5f7fc);
   touch-action: manipulation;
-  border: 1px solid #dbe0ef;
+  border: 0;
 }
 .game-bottom {
   display: flex;
@@ -1319,7 +1319,7 @@ input {
   flex-shrink: 0;
 }
 .game-controls button {
-  border: 1px solid #d9deed;
+  border: 0;
   border-radius: 20px;
   background: #ffffffb0;
   padding: 7px 11px;
@@ -1381,7 +1381,7 @@ input {
   display: flex;
   gap: 5px;
   padding: 5px;
-  border: 1px solid var(--line);
+  border: 0;
   border-radius: 35px;
   background: var(--glass);
 }
@@ -1405,7 +1405,7 @@ input {
   align-items: start;
 }
 .archive-item {
-  border: 1px solid var(--line);
+  border: 0;
   background: var(--glass);
   border-radius: 24px;
   overflow: hidden;
@@ -2012,8 +2012,8 @@ input {
     justify-content: center;
     min-height: 50px;
     padding: 12px 21px;
-    border: 1px solid #ffffff90;
-    background: color-mix(in srgb, var(--paper) 85%, transparent);
+    border: 0;
+    background: var(--glass);
     backdrop-filter: blur(22px);
     border-radius: 40px;
     box-shadow: 0 3px 15px #0000000a;
@@ -2027,9 +2027,9 @@ input {
     height: 50px;
     justify-content: center;
     pointer-events: auto;
-    background: color-mix(in srgb, var(--paper) 90%, transparent);
+    background: var(--glass);
     backdrop-filter: blur(22px);
-    border: 1px solid #ffffff90;
+    border: 0;
     box-shadow: 0 3px 15px #0000000a;
     padding: 0;
   }
@@ -2049,7 +2049,7 @@ input {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    border: 1px solid var(--line);
+    border: 0;
     border-radius: 22px;
     background: var(--strong-glass);
     backdrop-filter: blur(25px);
@@ -2068,8 +2068,8 @@ input {
     width: 50px;
     height: 50px;
     pointer-events: auto;
-    border: 1px solid #ffffff90;
-    background: color-mix(in srgb, var(--paper) 90%, transparent);
+    border: 0;
+    background: var(--glass);
     backdrop-filter: blur(22px);
     box-shadow: 0 3px 15px #0000000a;
   }
@@ -2308,4 +2308,23 @@ input {
   .nav-ready #site-nav[data-open="false"] + .theme-toggle {
     display: flex;
   }
+}
+
+/* Controls sit on solid surfaces; pointer clicks do not draw keyboard rings. */
+:root[data-input-modality="pointer"] :is(.quick-ask input, #bug-run):focus {
+  outline: none;
+}
+.quick-ask input:focus-visible {
+  outline: none;
+}
+.quick-ask:has(input:focus-visible) {
+  outline: 2px solid var(--blue);
+  outline-offset: 4px;
+}
+:root[data-input-modality="pointer"] .quick-ask:has(input:focus) {
+  outline: none;
+}
+#bug-run:focus-visible {
+  outline-width: 2px;
+  outline-offset: 4px;
 }

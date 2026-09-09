@@ -4,6 +4,7 @@ import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
+import { polishArticle } from "./article-editorial.mjs";
 
 // Run manually when new writing is published. Normal builds use the checked-in
 // snapshot and do not contact DEV or require a browser.
@@ -20,7 +21,7 @@ const editorNotes = {
   1819015:
     "Technical clarification: this project uses a pretrained, quantized Llama 2 model with retrieval. It does not train or fine-tune the model.",
   1817634:
-    "Technical clarification: this prototype retrieves passages from a reference PDF and passes them to a pretrained, quantized Llama 2 model. It does not train or fine-tune the model on the PDF. It has not been clinically validated and is not a substitute for professional medical advice. The original article is preserved below with its broken code-block formatting repaired.",
+    "Technical clarification: this prototype retrieves passages from a reference PDF and passes them to a pretrained, quantized Llama 2 model. It does not train or fine-tune the model on the PDF. It has not been clinically validated and is not a substitute for professional medical advice.",
 };
 
 // This published article has unmatched code fences that hide its second half
@@ -537,12 +538,14 @@ async function main() {
         };
         imageCount++;
       }
-      const sanitized = await page.evaluate(sanitizeArticle, {
+      let sanitized = await page.evaluate(sanitizeArticle, {
         html: sourceHtml,
         images,
         articleLinks,
         sourceUrl: article.url,
       });
+      const editorial = JSON.parse(await readFile(path.join(root,'data/article-editorial.json'),'utf8'))[article.id];
+      sanitized = await page.evaluate(polishArticle,{...sanitized,editorial});
       const previous = prior.get(article.url);
       const cleanTitle = article.title
         .replace(
@@ -552,7 +555,7 @@ async function main() {
         .trim();
       imported.push({
         id: article.id,
-        title: previous?.title || cleanTitle,
+        title: editorial?.title || previous?.title || cleanTitle,
         originalTitle: article.title,
         slug: article.slug,
         localPath: `/blog/${article.slug}`,
@@ -561,7 +564,8 @@ async function main() {
         sourceUpdatedAt: article.edited_at || article.published_at,
         tags: article.tags || summary.tag_list,
         readingTime: article.reading_time_minutes,
-        summary: previous?.summary || article.description,
+        summary: editorial?.summary || previous?.summary || article.description,
+        ...(previous?.editorialUpdated ? {editorialUpdated:previous.editorialUpdated} : {}),
         featured: previous ? (previous.featured ?? true) : false,
         cover: images[article.cover_image]
           ? {

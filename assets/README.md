@@ -1,5 +1,7 @@
 # Published assets
 
+Article cards and reader headers now use original inline SVG compositions from scripts/editorial.mjs, styled by editorial.css. The document, Git, AI, vision, audio and web illustrations are code-created for this portfolio. Historical imported covers remain in the source snapshot for provenance but are not displayed in the editorial layout.
+
 Project screenshots depict Baivab’s own projects. WebP variants resize and compress the original captures. Clearly labeled SVG placeholders in `assets/placeholders/` and three personal photo placeholders in `assets/about/` can be replaced with the author’s images. The fonts were obtained from official, licensed Google Fonts sources.
 
 | Asset | Source | Output dimensions (800 / 1400 widths) | Bytes (800 / 1400) |

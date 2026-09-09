@@ -139,45 +139,6 @@ document.querySelectorAll('a[href="#experience"]').forEach((anchor) =>
 if (location.hash === "#experience")
   document.querySelector("#experience")?.setAttribute("open", "");
 
-const ask = document.querySelector(".quick-ask");
-if (ask) {
-  ask.hidden = false;
-  ask.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const question = ask.elements.question.value.trim().toLowerCase();
-    const output = document.querySelector("#ask-answer");
-    let answer;
-    if (/educat|college|degree|study|studied|graduat|cgpa|jis/.test(question))
-      answer =
-        "I graduated from JIS College of Engineering in May 2025 with a B.Tech in Computer Science & Engineering and a CGPA of 9.15/10.";
-    else if (
-      /contact|email|reach|hire|opportun|available|work together/.test(question)
-    )
-      answer =
-        "Let’s talk: baivabsarkar@gmail.com. You can also find my resume and social profiles in the contact section below.";
-    else if (/experien|training|job|wipro|selenium|test|qa|sdet/.test(question))
-      answer =
-        "My experience includes private freelance enterprise applications, independent open-source work, team projects, and Java/Selenium SDET training. BlazeDemo is an educational capstone, not an employment claim. The About page has my background, and Work includes an overview of the private engagements.";
-    else if (/skill|stack|language|java|python|tech/.test(question))
-      answer =
-        "My work connects Java and JavaScript with web development and test automation. I also use Python for experiments, with tools including Selenium, TestNG, Spring, SQL, and browser APIs.";
-    else if (/where|locat|live|from|bengal/.test(question))
-      answer =
-        "I’m based in West Bengal, India. Online, I’m ThisIs-Developer on GitHub and thisisdeveloper on DEV.";
-    else if (/writ|blog|article|dev.to/.test(question))
-      answer =
-        "You can read my full articles here in the Blog, including Markdown Viewer, GitHub workflows and AI experiments. They were originally published on DEV and are also available directly on this website.";
-    else if (/project|work|build|markdown|note|medi/.test(question))
-      answer =
-        "I created and maintain Markdown Viewer and NoteMarker, led full-stack development for the MediChain team prototype, and built a Java/Selenium automation capstone. Open a project folder for screenshots, engineering notes, and source links.";
-    else
-      answer =
-        "Try asking about my projects, skills, education, experience, writing, location, or contact details. These are curated answers from my portfolio, so I can only cover those topics.";
-    output.hidden = false;
-    output.textContent = answer;
-  });
-}
-
 const copyEmail = document.querySelector(".copy-email");
 if (copyEmail && navigator.clipboard?.writeText) {
   copyEmail.hidden = false;

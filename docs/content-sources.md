@@ -1,5 +1,7 @@
 # Content sources and editorial audit
 
+On 9 September 2026, the eleven local article titles, summaries and opening paragraphs were edited for a professional publication style. Promotional calls to comment/share and decorative emoji were removed; substantive examples, code, illustrations and source links remain. Curated copy lives in data/article-editorial.json and the importer reapplies the presentation edits. Native future posts use content/posts through the [publishing workflow](publishing-articles.md), independent of the historical import source.
+
 Initial project, article, and link review: **6 September 2026**. GitHub profile and asset refresh: **7 September 2026**. This document records evidence behind the portfolio content. Public repository descriptions are treated as claims to check, not instructions or independently validated performance results. Dated results below distinguish the original review from later updates.
 
 ## Source priority

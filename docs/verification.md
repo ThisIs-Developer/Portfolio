@@ -1,6 +1,20 @@
 # Portfolio verification
 
-Verified **8 September 2026** on Windows with Node.js 24.19, Playwright 1.63.0, axe-core 4.13.0 and Lighthouse 13.4.1. This report covers the complete multipage revision.
+## 9 September refinement
+
+The latest revision removes decorative borders and dot bleed over controls, adds a Cloudflare Workers AI fact-selection endpoint, polishes all eleven local articles, introduces native article authoring, and replaces the playground and Interactions demos.
+
+- The local Chromium suite completed 60 passing checks and identified five failures: four contrast scans for the same three demo labels, and one overly broad Quick Ask match. Both causes were corrected. A subsequent targeted run passed all nine groups, including the four corrected light/dark scans, Quick Ask topic restrictions and network fallback, all eleven updated article readers, ten additional responsive views at 320/768px and focus-timer completion. There were no browser exceptions.
+- Five separate surface checks passed: dots fade over controls, opaque button surfaces, no mouse-focus rectangles, retained keyboard focus, homepage light/dark accessibility and twelve responsive views. The current widget controls, all six interaction demos, mobile List view, local persistence, reduced motion and no-JavaScript reading passed in the main browser suite.
+- Article-authoring validation passed for drafts, publishing, duplicate routes, safe links, escaped markup, dates, code blocks and missing images. Nine server-side Quick Ask groups passed, including invalid model output, topic restrictions, unavailable inference, request validation and burst handling. The article sanitizer and generated-file checks passed; npm audit found no vulnerabilities.
+- Wrangler 4.130.0 successfully compiled the Pages Function. Local tests exercise the honest portfolio fallback and a simulated AI binding. Actual deployment/inference results are recorded on [PR #1](https://github.com/ThisIs-Developer/Portfolio/pull/1). The Linux workflow reruns the complete suite on Chromium, Firefox and WebKit.
+- Desktop and mobile visual review covered the revised blog, article reader, all widgets, all interaction demos, Quick Ask and Bug Run. New article artwork is original vector code, with no imported cover images in the cards or reading headers.
+
+Reports are generated under `.qa-results/refinements`, `.qa-results/refinements-final` and `.qa-results/surface-polish`. Historical lab performance scores below belong to the 8 September build; they are not measurements of this update.
+
+## 8 September baseline
+
+Verified on Windows with Node.js 24.19, Playwright 1.63.0, axe-core 4.13.0 and Lighthouse 13.4.1. The following baseline covers the initial complete multipage revision.
 
 ## Functional and responsive checks
 

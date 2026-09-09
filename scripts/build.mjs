@@ -2,6 +2,8 @@ import { readFile, writeFile, mkdir, cp, rm } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderPages } from "./templates.mjs";
+import { buildKnowledge } from "./knowledge.mjs";
+import { loadLocalArticles, mergeArticles } from "./local-articles.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const readData = async (name) =>
@@ -9,7 +11,7 @@ const readData = async (name) =>
 const [
   profile,
   projects,
-  articles,
+  importedArticles,
   experiments,
   experience,
   skills,
@@ -29,6 +31,7 @@ const [
     "project-additions",
   ].map(readData),
 );
+const articles = mergeArticles(importedArticles, await loadLocalArticles(root));
 const esc = (value = "") =>
   String(value).replace(
     /[&<>"']/g,
@@ -79,7 +82,7 @@ function metadata(options = {}) {
               headline: options.article.title,
               datePublished: options.article.date,
               dateModified:
-                options.article.sourceUpdatedAt || options.article.date,
+                options.article.editorialUpdated || options.article.sourceUpdatedAt || options.article.date,
               author: { "@id": `${profile.site}/#person` },
               ...(options.article.cover?.src
                 ? { image: `${profile.site}${options.article.cover.src}` }
@@ -116,13 +119,15 @@ function metadata(options = {}) {
   <link rel="preload" href="/assets/fonts/instrument-serif-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/instrument-sans-latin-variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/instrument-serif-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=20260908">
-  ${options.page ? '<link rel="stylesheet" href="/pages.css?v=20260908">' : ""}
-  <link rel="stylesheet" href="/cursor.css?v=20260908">
+  <link rel="stylesheet" href="/style.css?v=20260909">
+  ${options.page ? '<link rel="stylesheet" href="/pages.css?v=20260909">' : ""}
+  <link rel="stylesheet" href="/cursor.css?v=20260909">
+  <link rel="stylesheet" href="/editorial.css?v=20260909">
+  ${!options.page ? '<link rel="stylesheet" href="/quick-ask.css?v=20260909"><script type="module" src="/quick-ask.js?v=20260909"></script>' : ""}
   <script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script>
-  <script src="/script.js?v=20260908" defer></script>
-  ${options.page ? '<script src="/pages.js?v=20260908" defer></script>' : ""}
-  <script src="/cursor.js?v=20260908" defer></script>`.replace(
+  <script src="/script.js?v=20260909" defer></script>
+  ${options.page ? '<script src="/pages.js?v=20260909" defer></script>' : ""}
+  <script src="/cursor.js?v=20260909" defer></script>`.replace(
     /\n[ \t]+\n/g,
     "\n\n",
   );
@@ -144,7 +149,15 @@ const outputs = {
     metadata,
   ),
   "robots.txt": `User-agent: *\nAllow: /\nSitemap: ${profile.site}/sitemap.xml\n`,
+  "assets/portfolio-knowledge.json": JSON.stringify(buildKnowledge({profile,projects,experiments,projectAdditions,experience,skills,enterprise,articles})),
 };
+const serverKnowledge = `// Generated from public portfolio content by npm run build.\nexport default ${outputs["assets/portfolio-knowledge.json"]};\n`;
+if(process.argv.includes('--check')) {
+  if(await readFile(path.join(root,'server/knowledge.js'),'utf8')!==serverKnowledge) throw new Error('Assistant knowledge is stale; run npm run build.');
+} else {
+  await mkdir(path.join(root,'server'),{recursive:true});
+  await writeFile(path.join(root,'server/knowledge.js'),serverKnowledge);
+}
 outputs["sitemap.xml"] =
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${Object.keys(
     outputs,
@@ -204,6 +217,11 @@ if (!check) {
     "pages.js",
     "cursor.css",
     "cursor.js",
+    "editorial.css",
+    "quick-ask.css",
+    "quick-ask.js",
+    "quick-ask-core.js",
+    "_routes.json",
     "playground.css",
     "playground.js",
     "favicon.svg",

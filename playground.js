@@ -9,7 +9,7 @@
     const positions = new Map(cards.map((card) => [card, { x: 0, y: 0 }]));
     let zoom = 1;
     let fit = 1;
-    let list = false;
+    let list = matchMedia("(max-width: 767px)").matches;
     let drag = null;
     let layer = 2;
     let saved;
@@ -47,6 +47,163 @@
         /* The canvas also works without browser storage. */
       }
     }
+    const note = board.querySelector("[data-widget-note]");
+    if (typeof saved.note === "string") note.value = saved.note.slice(0, 240);
+    const countNote = () =>
+      (board.querySelector("[data-widget-note-count]").textContent =
+        `${note.value.length} / 240`);
+    countNote();
+    note.addEventListener("input", () => {
+      saved.note = note.value;
+      countNote();
+      save();
+    });
+    const votes = [...board.querySelectorAll("[data-widget-vote]")];
+    function vote(value) {
+      for (const button of votes)
+        button.setAttribute(
+          "aria-pressed",
+          String(button.dataset.widgetVote === value),
+        );
+      const chosen = votes.find((b) => b.dataset.widgetVote === value);
+      if (chosen)
+        board.querySelector("[data-widget-vote-status]").textContent =
+          `Your pick: ${chosen.querySelector("span").textContent}. Saved only in this browser.`;
+    }
+    vote(saved.vote);
+    for (const button of votes)
+      button.addEventListener("click", () => {
+        saved.vote = button.dataset.widgetVote;
+        vote(saved.vote);
+        save();
+      });
+    const checks = [...board.querySelectorAll("[data-playground-check]")];
+    function taskProgress() {
+      const count = checks.filter((x) => x.checked).length;
+      board.querySelector("[data-widget-task-progress]").style.width =
+        `${(count / 3) * 100}%`;
+      board.querySelector("[data-widget-task-count]").textContent =
+        `${count} of 3 little wins`;
+    }
+    board.addEventListener("change", taskProgress);
+    const hue = board.querySelector("[data-widget-hue-input]");
+    if (Number.isInteger(saved.hue) && saved.hue >= 0 && saved.hue <= 359)
+      hue.value = saved.hue;
+    let colour;
+    function mix() {
+      const h = Number(hue.value),
+        s = 0.58,
+        l = 0.85;
+      const a = s * Math.min(l, 1 - l);
+      const f = (n) => {
+        const k = (n + h / 30) % 12;
+        return l - a * Math.max(-1, Math.min(k - 3, 9 - k, 1));
+      };
+      colour =
+        "#" +
+        [f(0), f(8), f(4)]
+          .map((n) =>
+            Math.round(n * 255)
+              .toString(16)
+              .padStart(2, "0"),
+          )
+          .join("")
+          .toUpperCase();
+      board.querySelector(
+        "[data-widget-colour-preview]",
+      ).style.backgroundColor = colour;
+      board.querySelector("[data-widget-colour-code]").textContent = colour;
+      board.querySelector("[data-widget-hue]").textContent = `${h}°`;
+    }
+    mix();
+    hue.addEventListener("input", () => {
+      saved.hue = Number(hue.value);
+      mix();
+      save();
+    });
+    board
+      .querySelector("[data-widget-colour-copy]")
+      .addEventListener("click", async () => {
+        const status = board.querySelector("[data-widget-colour-status]");
+        try {
+          await navigator.clipboard.writeText(colour);
+          status.textContent = `Copied ${colour}`;
+        } catch {
+          status.textContent = `Select and copy ${colour} from the colour swatch.`;
+        }
+      });
+    let duration = 300,
+      remaining = 300,
+      deadline = 0,
+      ticking = null;
+    const timer = board.querySelector("[data-widget-timer]"),
+      toggle = board.querySelector("[data-widget-timer-toggle]");
+    const timerStatus = board.querySelector("[data-widget-timer-status]");
+    function displayTime() {
+      timer.value = `${Math.floor(remaining / 60)
+        .toString()
+        .padStart(2, "0")}:${(remaining % 60).toString().padStart(2, "0")}`;
+      board
+        .querySelector(".widget-timer-ring")
+        .style.setProperty(
+          "--timer-progress",
+          `${(remaining / duration) * 100}%`,
+        );
+    }
+    function pause() {
+      clearInterval(ticking);
+      ticking = null;
+      toggle.textContent =
+        remaining === duration ? "Start focus" : "Resume focus";
+    }
+    function tick() {
+      remaining = Math.max(0, Math.ceil((deadline - Date.now()) / 1000));
+      displayTime();
+      if (!remaining) {
+        pause();
+        toggle.textContent = "Start again";
+        timerStatus.textContent =
+          "Focus session complete. Take a moment to rest.";
+      }
+    }
+    toggle.addEventListener("click", () => {
+      if (ticking) {
+        tick();
+        pause();
+        timerStatus.textContent = "Focus session paused.";
+      } else {
+        if (!remaining) remaining = duration;
+        deadline = Date.now() + remaining * 1000;
+        ticking = setInterval(tick, 250);
+        toggle.textContent = "Pause focus";
+        timerStatus.textContent = "Focus session started.";
+        tick();
+      }
+    });
+    board
+      .querySelector("[data-widget-timer-reset]")
+      .addEventListener("click", () => {
+        remaining = duration;
+        pause();
+        displayTime();
+        timerStatus.textContent = "Timer reset.";
+      });
+    board.querySelectorAll("[data-widget-duration]").forEach((button) =>
+      button.addEventListener("click", () => {
+        duration = Number(button.dataset.widgetDuration) * 60;
+        remaining = duration;
+        pause();
+        displayTime();
+        board
+          .querySelectorAll("[data-widget-duration]")
+          .forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
+        timerStatus.textContent = `${duration / 60} minute session selected.`;
+      }),
+    );
+    window.addEventListener("pagehide", pause);
+    document.addEventListener("visibilitychange", () => {
+      if (ticking) tick();
+    });
     function setColor(color) {
       board.dataset.canvasColor = color;
       board
@@ -67,6 +224,7 @@
         save();
       });
     });
+    taskProgress();
     board.querySelectorAll("[data-playground-color]").forEach((button) =>
       button.addEventListener("click", () => {
         saved.color = button.dataset.playgroundColor;
@@ -118,7 +276,7 @@
         if (
           list ||
           event.button !== 0 ||
-          event.target.closest("a, button, input, label")
+          !event.target.closest(".widget-heading")
         )
           return;
         const position = positions.get(card);
@@ -227,6 +385,10 @@
       board.querySelector(".playground-clock-minute").style.transform =
         `rotate(${minute * 6}deg)`;
     }
+    board.classList.toggle("is-list", list);
+    view.setAttribute("aria-pressed", String(list));
+    view.textContent = list ? "Canvas view" : "List view";
+    for (const card of cards) card.tabIndex = list ? -1 : 0;
     board.classList.add("playground-ready");
     view.hidden = false;
     board.querySelector(".playground-palette").hidden = false;
@@ -241,59 +403,176 @@
       once: true,
     });
   }
+})();
 
-  const folder = document.querySelector(".playground-demo-folder");
-  folder?.addEventListener("click", () => {
-    const open = folder.getAttribute("aria-expanded") !== "true";
-    folder.setAttribute("aria-expanded", String(open));
-    folder.querySelector(".playground-folder-front small").textContent = open
-      ? "CLICK TO CLOSE"
-      : "CLICK TO OPEN";
-    document.querySelector("#playground-folder-note").hidden = !open;
-  });
-  const dot = document.querySelector(".playground-dot-demo");
-  if (dot) {
-    let point = 0;
-    const points = [
-      [24, 29],
-      [74, 40],
-      [48, 74],
-    ];
-    dot.querySelector("[data-playground-dot]").addEventListener("click", () => {
-      const [x, y] = points[point++ % points.length];
-      dot.style.setProperty("--spot-x", `${x}%`);
-      dot.style.setProperty("--spot-y", `${y}%`);
+(() => {
+  const motion = matchMedia("(prefers-reduced-motion: reduce)");
+  const shape = document.querySelector("[data-interaction-shape]");
+  document.querySelectorAll("[data-shape-choice]").forEach((button) =>
+    button.addEventListener("click", () => {
+      shape.dataset.interactionShape = button.dataset.shapeChoice;
+      shape.querySelector("span").textContent = {
+        flower: "✳",
+        circle: "◉",
+        square: "▦",
+        star: "✦",
+      }[button.dataset.shapeChoice];
+      document
+        .querySelectorAll("[data-shape-choice]")
+        .forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
+      document.querySelector("[data-shape-status]").textContent =
+        `${button.textContent} shape selected.`;
+    }),
+  );
+  const ball = document.querySelector(".interaction-spring-ball");
+  let spring = "snappy",
+    right = false,
+    animation;
+  document.querySelectorAll("[data-spring-character]").forEach((button) =>
+    button.addEventListener("click", () => {
+      spring = button.dataset.springCharacter;
+      document
+        .querySelectorAll("[data-spring-character]")
+        .forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
+      document.querySelector("[data-spring-status]").textContent =
+        `${spring} motion selected.`;
+    }),
+  );
+  document
+    .querySelector("[data-spring-launch]")
+    ?.addEventListener("click", () => {
+      const from = getComputedStyle(ball).transform;
+      animation?.cancel();
+      right = !right;
+      const target = right ? ball.parentElement.clientWidth - 43 : -34;
+      ball.style.transform = `translateX(${target}px)`;
+      if (!motion.matches) {
+        const bounce = spring === "bouncy" ? 28 : spring === "soft" ? 5 : 12;
+        animation = ball.animate(
+          [
+            { transform: from },
+            {
+              transform: `translateX(${target + (right ? bounce : -bounce)}px) scaleX(.92)`,
+              offset: 0.65,
+            },
+            {
+              transform: `translateX(${target - (right ? bounce / 3 : -bounce / 3)}px)`,
+              offset: 0.83,
+            },
+            { transform: `translateX(${target}px)` },
+          ],
+          {
+            duration: { soft: 1000, snappy: 500, bouncy: 1100 }[spring],
+            easing: "cubic-bezier(.2,.7,.3,1)",
+          },
+        );
+      }
+      document.querySelector("[data-spring-status]").textContent =
+        `Moved to the ${right ? "right" : "left"} with ${spring} motion.`;
     });
-    dot.addEventListener(
-      "pointermove",
-      (event) => {
-        if (
-          event.pointerType === "touch" ||
-          matchMedia("(prefers-reduced-motion: reduce)").matches
-        )
-          return;
-        const bounds = dot.getBoundingClientRect();
-        dot.style.setProperty("--spot-x", `${event.clientX - bounds.left}px`);
-        dot.style.setProperty("--spot-y", `${event.clientY - bounds.top}px`);
-      },
-      { passive: true },
-    );
-  }
-  const theme = document.querySelector(".playground-theme-button");
-  theme?.addEventListener("click", () => {
-    const dark = theme.getAttribute("aria-pressed") !== "true";
-    theme.setAttribute("aria-pressed", String(dark));
-    theme.closest(".playground-theme-demo").classList.toggle("is-dark", dark);
-    theme.querySelector("span").textContent = dark ? "☾" : "☀";
-    document.querySelector("[data-playground-theme-caption]").textContent = dark
-      ? "After hours."
-      : "A brighter idea.";
+  const depth = document.querySelector("[data-depth-card]");
+  depth?.addEventListener("click", () => {
+    const back = depth.getAttribute("aria-pressed") !== "true";
+    depth.setAttribute("aria-pressed", String(back));
+    depth.querySelector(".depth-card-front").hidden = back;
+    depth.querySelector(".depth-card-back").hidden = !back;
   });
-  const type = document.querySelector("#playground-type-size");
-  type?.addEventListener("input", () => {
-    document.querySelector(".playground-type-sample").style.fontSize =
-      `${type.value}px`;
-    document.querySelector("[data-playground-type-output]").value =
-      `${type.value} px`;
+  const resetTilt = () => {
+    depth?.style.setProperty("--tilt-x", "0deg");
+    depth?.style.setProperty("--tilt-y", "0deg");
+  };
+  depth?.addEventListener("pointermove", (event) => {
+    if (motion.matches || event.pointerType === "touch") return;
+    const r = depth.getBoundingClientRect();
+    depth.style.setProperty(
+      "--tilt-x",
+      `${((event.clientY - r.top - r.height / 2) / r.height) * -18}deg`,
+    );
+    depth.style.setProperty(
+      "--tilt-y",
+      `${((event.clientX - r.left - r.width / 2) / r.width) * 18}deg`,
+    );
+  });
+  depth?.addEventListener("pointerleave", resetTilt);
+  depth?.addEventListener("blur", resetTilt);
+  let joys = 0;
+  const particles = [
+    ...document.querySelectorAll(".interaction-joy-orbit>span"),
+  ];
+  document.querySelector("[data-joy-button]")?.addEventListener("click", () => {
+    joys++;
+    document.querySelector("[data-joy-status]").textContent =
+      `${joys} little ${joys === 1 ? "moment" : "moments"} of joy. Keep going.`;
+    if (motion.matches) return;
+    particles.forEach((p, i) => {
+      p.getAnimations().forEach((a) => a.cancel());
+      const angle = (i / particles.length) * Math.PI * 2;
+      p.animate(
+        [
+          { opacity: 0, transform: "translate(-50%,-50%) scale(.3)" },
+          { opacity: 1, offset: 0.18 },
+          {
+            opacity: 0,
+            transform: `translate(${Math.cos(angle) * 150}px,${Math.sin(angle) * 105}px) rotate(${i * 60}deg) scale(1)`,
+          },
+        ],
+        { duration: 800, easing: "cubic-bezier(.12,.66,.35,1)" },
+      );
+    });
+  });
+  const tabs = [...document.querySelectorAll("[data-flow-tab]")];
+  const flowContent = {
+    idea: [
+      "Start with a what if.",
+      "A question. A scribble. A possibility worth exploring.",
+      "01 / THE SPARK",
+    ],
+    build: [
+      "Make the idea tangible.",
+      "A small prototype turns a possibility into something you can try.",
+      "02 / THE MAKING",
+    ],
+    ship: [
+      "Share it with the world.",
+      "Put it in someone’s hands. Listen, learn, and make it better.",
+      "03 / THE HELLO",
+    ],
+  };
+  function select(tab) {
+    tabs.forEach((t) => {
+      t.setAttribute("aria-selected", String(t === tab));
+      t.tabIndex = t === tab ? 0 : -1;
+    });
+    const key = tab.dataset.flowTab;
+    document.querySelector("[data-flow]").dataset.flow = key;
+    document
+      .querySelector("#flow-panel")
+      .setAttribute("aria-labelledby", tab.id);
+    const [title, description, step] = flowContent[key];
+    document.querySelector("[data-flow-title]").textContent = title;
+    document.querySelector("[data-flow-description]").textContent = description;
+    document.querySelector("[data-flow-step]").textContent = step;
+  }
+  tabs.forEach((tab, i) => {
+    tab.addEventListener("click", () => select(tab));
+    tab.addEventListener("keydown", (event) => {
+      let index;
+      if (event.key === "ArrowRight") index = (i + 1) % tabs.length;
+      else if (event.key === "ArrowLeft")
+        index = (i - 1 + tabs.length) % tabs.length;
+      else if (event.key === "Home") index = 0;
+      else if (event.key === "End") index = tabs.length - 1;
+      else return;
+      event.preventDefault();
+      select(tabs[index]);
+      tabs[index].focus();
+    });
+  });
+  motion.addEventListener("change", () => {
+    if (motion.matches) {
+      animation?.cancel();
+      resetTilt();
+      particles.forEach((p) => p.getAnimations().forEach((a) => a.cancel()));
+    }
   });
 })();

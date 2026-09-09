@@ -1,0 +1,480 @@
+/* Shared original artwork for article cards and the full reading experience. */
+.editorial-art {
+  --art-bg: #e6ebfa;
+  --art-ink: #4e62ad;
+  --art-shade: #cad5f1;
+  isolation: isolate;
+  height: auto;
+  min-height: 210px;
+  aspect-ratio: 1.5;
+  background:
+    radial-gradient(ellipse at 80% 15%, #ffffffa8, transparent 65%),
+    var(--art-bg);
+  color: var(--art-ink);
+  border-radius: 18px;
+}
+.editorial-art::before,
+.editorial-art::after {
+  content: none;
+}
+.editorial-art.art-git {
+  --art-bg: #e3eee6;
+  --art-ink: #42745b;
+  --art-shade: #c7dfcf;
+}
+.editorial-art.art-ai {
+  --art-bg: #eae5f6;
+  --art-ink: #7260a5;
+  --art-shade: #d8cbee;
+}
+.editorial-art.art-vision {
+  --art-bg: #fae7db;
+  --art-ink: #a96647;
+  --art-shade: #edcfb7;
+}
+.editorial-art.art-audio {
+  --art-bg: #e0ecf2;
+  --art-ink: #4c7a94;
+  --art-shade: #bfd8e7;
+}
+.editorial-art.art-web {
+  --art-bg: #f0e9de;
+  --art-ink: #8a7350;
+  --art-shade: #e4d6be;
+}
+.editorial-art > svg {
+  width: 82%;
+  max-height: 90%;
+  z-index: 1;
+  transition: transform 0.45s var(--out);
+}
+.editorial-art .art-sheet {
+  fill: #ffffffbf;
+  filter: drop-shadow(0 8px 8px #2932540a);
+}
+.editorial-art .art-back {
+  fill: var(--art-shade);
+}
+.editorial-art .art-line {
+  stroke: currentColor;
+  stroke-width: 5;
+  stroke-linecap: round;
+  opacity: 0.35;
+}
+.editorial-art .art-icon {
+  stroke: currentColor;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.editorial-art .art-connector {
+  stroke: currentColor;
+  stroke-width: 7;
+  stroke-linecap: round;
+  opacity: 0.65;
+}
+.editorial-art .art-node {
+  fill: var(--art-ink);
+}
+.editorial-art > .art-orbit {
+  position: absolute;
+  inset: auto -10% -70% 15%;
+  width: 95%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #ffffff38;
+  transform: none;
+  z-index: 0;
+}
+.editorial-art > .art-caption {
+  position: absolute;
+  top: 20px;
+  left: 22px;
+  font:
+    600 11px/1.2 "Instrument Sans",
+    sans-serif;
+  letter-spacing: 0.04em;
+  transform: none;
+}
+.editorial-art > .art-edition {
+  position: absolute;
+  bottom: 18px;
+  left: 22px;
+  font:
+    500 8px/1.3 "Instrument Sans",
+    sans-serif;
+  letter-spacing: 0.12em;
+  transform: none;
+  opacity: 0.85;
+}
+.writing-card {
+  background: var(--strong-glass);
+  border: 0;
+}
+.writing-card .editorial-art {
+  border-radius: 0;
+  min-height: 180px;
+}
+.writing-card:hover .editorial-art > svg,
+.journal-card:hover .editorial-art > svg {
+  transform: translateY(-4px) rotate(-2deg);
+}
+.writing-copy h3 {
+  font:
+    600 22px/1.3 "Instrument Sans",
+    sans-serif;
+  letter-spacing: -0.035em;
+  min-height: 88px;
+}
+.writing-copy .article-meta {
+  font-size: 11px;
+}
+.editorial-index {
+  max-width: 1328px;
+}
+.editorial-index .page-intro {
+  text-align: left;
+  padding-bottom: 54px;
+  max-width: 760px;
+  margin-left: 0;
+}
+.editorial-index .page-intro h1 {
+  font:
+    600 clamp(42px, 5vw, 68px) / 1.04 "Instrument Sans",
+    sans-serif;
+  letter-spacing: -0.055em;
+}
+.editorial-index .page-description {
+  max-width: 630px;
+  font-size: 19px;
+  line-height: 1.6;
+  margin-left: 0;
+  letter-spacing: -0.02em;
+}
+.editorial-index .eyebrow {
+  color: var(--blue);
+}
+.editorial-index .collection-toolbar {
+  margin-bottom: 34px;
+}
+.editorial-index .journal-grid {
+  gap: 42px 28px;
+}
+.editorial-index .journal-card {
+  background: var(--strong-glass);
+  border: 0;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 22px;
+}
+.editorial-index .journal-card .editorial-art {
+  border-radius: 0;
+}
+.editorial-index .journal-copy {
+  padding: 25px 26px 27px;
+}
+.editorial-index .journal-copy h2 {
+  font-size: 23px;
+  line-height: 1.25;
+  letter-spacing: -0.035em;
+  margin: 10px 0 14px;
+}
+.editorial-index .journal-summary {
+  display: block;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.editorial-index .article-meta {
+  font-size: 11px;
+  margin: 0;
+}
+.editorial-index .journal-author {
+  padding-top: 24px;
+  font-size: 12px;
+}
+.editorial-index .journal-author img {
+  width: 28px;
+  height: 28px;
+}
+.editorial-index .journal-card:first-child {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  background: var(--strong-glass);
+}
+.editorial-index .journal-card:first-child .editorial-art {
+  min-height: 350px;
+  height: 100%;
+  aspect-ratio: auto;
+}
+.editorial-index .journal-card:first-child .journal-copy {
+  padding: 42px;
+  justify-content: center;
+}
+.editorial-index .journal-card:first-child h2 {
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.15;
+}
+.editorial-index .journal-card:first-child .journal-summary {
+  font-size: 16px;
+}
+.editorial-index .journal-card:first-child .journal-author {
+  margin-top: 6px;
+}
+.editorial-reader {
+  max-width: 1272px;
+  grid-template-columns: 192px minmax(0, 780px);
+  gap: 64px;
+  padding-top: 105px;
+}
+.editorial-reader .reading-header h1 {
+  font:
+    600 clamp(36px, 4.6vw, 62px) / 1.08 "Instrument Sans",
+    sans-serif;
+  letter-spacing: -0.05em;
+}
+.editorial-reader .detail-category {
+  color: var(--blue);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+.editorial-reader .reading-deck {
+  font-size: 20px;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+  margin-top: 24px;
+}
+.editorial-byline {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin: 30px 0 35px;
+  font-size: 13px;
+}
+.editorial-byline img {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.editorial-byline p {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 2px;
+}
+.editorial-reader .editorial-art {
+  aspect-ratio: 1.9;
+  min-height: 240px;
+  margin-bottom: 48px;
+  border-radius: 22px;
+}
+.editorial-reader .editorial-art > svg {
+  width: 65%;
+}
+.editorial-reader .article-body {
+  font:
+    400 18px/1.85 "Instrument Sans",
+    sans-serif;
+  color: var(--ink);
+  letter-spacing: -0.012em;
+}
+.editorial-reader .article-body > :first-child {
+  margin-top: 0;
+}
+.editorial-reader .article-body h2 {
+  font:
+    600 30px/1.25 "Instrument Sans",
+    sans-serif;
+  letter-spacing: -0.04em;
+  margin-top: 58px;
+}
+.editorial-reader .article-body h3 {
+  font:
+    600 23px/1.35 "Instrument Sans",
+    sans-serif;
+  letter-spacing: -0.025em;
+}
+.editorial-reader .article-body h4 {
+  font:
+    600 19px/1.4 "Instrument Sans",
+    sans-serif;
+}
+.editorial-reader .article-body p {
+  margin-bottom: 24px;
+}
+.editorial-reader .article-body img {
+  border: 0;
+  border-radius: 12px;
+  background: var(--strong-glass);
+}
+.editorial-reader .article-body pre {
+  font-size: 13px;
+  line-height: 1.8;
+  border: 0;
+  border-radius: 12px;
+  padding: 24px;
+  background: #1e2430;
+  color: #e7edf7;
+}
+.editorial-reader .article-body blockquote {
+  background: var(--glass);
+  border: 0;
+  padding: 24px 28px;
+  border-radius: 12px;
+  font:
+    400 20px/1.65 "Instrument Sans",
+    sans-serif;
+}
+.editorial-reader .article-body em {
+  font-family: inherit;
+}
+.editorial-reader .article-editor-note {
+  border: 0;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 36px;
+  background: var(--glass);
+  font-size: 14px;
+}
+.editorial-reader .article-credit {
+  font-size: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+  align-items: center;
+  border: 0;
+  padding-top: 40px;
+}
+.editorial-reader .next-reading {
+  border: 0;
+  background: var(--strong-glass);
+  padding: 28px;
+  border-radius: 18px;
+}
+.editorial-reader .next-reading strong {
+  font:
+    600 25px/1.3 "Instrument Sans",
+    sans-serif;
+  letter-spacing: -0.03em;
+}
+.tool-art {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  aspect-ratio: 1.45;
+  flex-shrink: 0;
+}
+.tool-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+@media (max-width: 1100px) {
+  .editorial-index .journal-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .editorial-reader {
+    gap: 36px;
+    grid-template-columns: 170px minmax(0, 1fr);
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+}
+@media (max-width: 760px) {
+  .editorial-index .page-intro {
+    padding-bottom: 34px;
+  }
+  .editorial-index .page-description {
+    font-size: 16px;
+    margin-top: 22px;
+  }
+  .editorial-index .journal-grid {
+    gap: 28px;
+  }
+  .editorial-index .journal-card:first-child {
+    display: flex;
+    grid-column: auto;
+  }
+  .editorial-index .journal-card:first-child .editorial-art {
+    aspect-ratio: 1.5;
+    height: auto;
+    min-height: 210px;
+  }
+  .editorial-index .journal-card:first-child .journal-copy,
+  .editorial-index .journal-copy {
+    padding: 24px;
+  }
+  .editorial-index .journal-card:first-child h2 {
+    font-size: 25px;
+  }
+  .editorial-index .journal-card:first-child .journal-summary {
+    font-size: 14px;
+  }
+  .editorial-index .journal-card:first-child .journal-author {
+    margin-top: auto;
+  }
+  .editorial-reader {
+    display: block;
+    padding: 110px 24px 70px;
+  }
+  .editorial-reader .reading-deck {
+    font-size: 18px;
+  }
+  .editorial-reader .editorial-art {
+    min-height: 190px;
+    aspect-ratio: 1.5;
+    margin-bottom: 36px;
+  }
+  .editorial-reader .editorial-art > svg {
+    width: 84%;
+  }
+  .editorial-reader .article-body {
+    font-size: 17px;
+    line-height: 1.8;
+  }
+  .editorial-reader .article-body h2 {
+    font-size: 27px;
+  }
+  .editorial-reader .article-body pre {
+    margin-left: 0;
+    margin-right: 0;
+    padding: 20px;
+  }
+  .editorial-reader .article-body blockquote {
+    padding: 20px;
+    font-size: 18px;
+  }
+  .editorial-reader .next-reading strong {
+    font-size: 22px;
+  }
+}
+@media (max-width: 560px) {
+  .editorial-index .journal-grid {
+    grid-template-columns: 1fr;
+  }
+  .writing-card .editorial-art {
+    min-height: 170px;
+  }
+  .writing-copy h3 {
+    min-height: 0;
+    font-size: 22px;
+  }
+  .editorial-art > .art-caption {
+    font-size: 10px;
+  }
+  .editorial-art > .art-edition {
+    font-size: 7px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .editorial-art > svg {
+    transition: none;
+  }
+  .writing-card:hover .editorial-art > svg,
+  .journal-card:hover .editorial-art > svg {
+    transform: none;
+  }
+}

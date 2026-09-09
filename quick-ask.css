@@ -1,0 +1,121 @@
+.ask-widget {
+  position: relative;
+  z-index: 2;
+  max-width: 760px;
+  margin: 0 auto;
+}
+.ask-widget .quick-ask {
+  width: 100%;
+  margin: 0;
+  max-width: none;
+}
+.ask-spark {
+  font-size: 16px;
+}
+.ask-extras {
+  padding: 14px 20px 0;
+  text-align: center;
+}
+.ask-extras > p {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0 0 12px;
+}
+.ask-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.ask-suggestions button,
+.ask-sources a {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--ink);
+  background: #eae9e5;
+  text-decoration: none;
+  cursor: pointer;
+  min-height: 38px;
+}
+.ask-suggestions button:hover,
+.ask-sources a:hover {
+  background: #dfdef7;
+}
+.ask-widget .ask-answer {
+  max-width: none;
+  width: 100%;
+  margin: 20px 0 0;
+  padding: 24px 28px;
+  border: 0;
+  border-radius: 24px;
+  background: #fff;
+  text-align: left;
+  box-shadow: 0 8px 36px #24223a09;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+.ask-answer-label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--muted);
+}
+.ask-answer p {
+  margin: 0 0 12px;
+}
+.ask-answer p:last-child {
+  margin: 0;
+}
+.ask-sources {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+}
+.ask-sources a {
+  display: inline-flex;
+  align-items: center;
+  background: #f0eff8;
+  color: #41416f;
+}
+.ask-answer small {
+  display: block;
+  margin-top: 12px;
+  color: var(--muted);
+}
+.quick-ask[aria-busy="true"] button {
+  opacity: 0.55;
+  cursor: wait;
+}
+html[data-theme="dark"] .ask-widget .ask-answer {
+  background: #24252a;
+}
+html[data-theme="dark"] .ask-suggestions button,
+html[data-theme="dark"] .ask-sources a {
+  background: #313239;
+  color: #ededf0;
+}
+@media (max-width: 767px) {
+  .ask-extras {
+    padding-inline: 4px;
+  }
+  .ask-widget .ask-answer {
+    padding: 20px;
+  }
+  .ask-widget .quick-ask label {
+    font-size: 10px;
+  }
+  .ask-spark {
+    display: none;
+  }
+  .ask-suggestions button {
+    padding: 9px 12px;
+  }
+}

@@ -18,6 +18,7 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm run build
+      - run: npm run test:content && npm run test:ask
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm test -- --dir dist --output .qa-results --browsers chromium,firefox,webkit --widths 320,390,768,1440
       - uses: actions/upload-artifact@v4

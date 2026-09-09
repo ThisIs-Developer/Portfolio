@@ -3,6 +3,7 @@ import { createReadStream } from 'node:fs';
 import { readFile, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { handleAsk } from '../server/quick-ask.js';
 
 const repositoryRoot = fileURLToPath(new URL('../', import.meta.url));
 const mimeTypes = {
@@ -42,6 +43,17 @@ export async function startServer({ root = repositoryRoot, port = 4173, host = '
       response.writeHead(status, { 'Content-Type': custom404 ? 'text/html; charset=utf-8' : 'text/plain; charset=utf-8' });
       response.end(request.method === 'HEAD' ? undefined : custom404 || message);
     };
+    if (new URL(request.url,'http://localhost').pathname === '/api/ask') {
+      try {
+        const facts = JSON.parse(await readFile(path.join(directory,'assets/portfolio-knowledge.json'),'utf8'));
+        const url = `http://${request.headers.host}${request.url}`;
+        const incoming = new Request(url,{method:request.method,headers:request.headers,...(!['GET','HEAD'].includes(request.method)?{body:request,duplex:'half'}:{})});
+        const answer = await handleAsk(incoming,{},facts);
+        response.writeHead(answer.status,Object.fromEntries(answer.headers));
+        response.end(await answer.text());
+      } catch { fail(503,'Quick Ask is temporarily unavailable.'); }
+      return;
+    }
     if (!['GET', 'HEAD'].includes(request.method)) {
       response.setHeader('Allow', 'GET, HEAD');
       return fail(405, 'Method not allowed');

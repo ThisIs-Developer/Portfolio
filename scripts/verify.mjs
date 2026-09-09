@@ -4,6 +4,7 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { startServer } from "./serve.mjs";
+import {loadLocalArticles,mergeArticles} from './local-articles.mjs';
 
 const args = process.argv.slice(2);
 const option = (name, fallback) =>
@@ -50,9 +51,9 @@ const report = {
 const externalLinks = new Set();
 const localLinks = new Set();
 const sourceRoot = fileURLToPath(new URL("../", import.meta.url));
-const articleData = JSON.parse(
+const articleData = mergeArticles(JSON.parse(
   await readFile(path.join(sourceRoot, "data/articles.json"), "utf8"),
-);
+), await loadLocalArticles(sourceRoot));
 const projectData = (
   await Promise.all(
     ["projects", "experiments", "project-additions"].map(async (name) =>
@@ -490,11 +491,12 @@ async function quickAsk(page) {
     ["Tell me about your projects", /Markdown Viewer.*NoteMarker.*MediChain/],
     ["What is your experience?", /Java\/Selenium SDET training/],
     ["How can I contact you?", /baivabsarkar@gmail\.com/],
-    ["an unrelated question", /curated answers/],
+    ["an unrelated question", /verified information/],
   ]) {
     await input.fill(question);
     await input.press("Enter");
     await answer.waitFor({ state: "visible" });
+    await page.waitForFunction(()=>!document.querySelector('.quick-ask').hasAttribute('aria-busy'));
     assert.match(
       await answer.innerText(),
       expected,
@@ -914,30 +916,38 @@ async function playground(page) {
     "All cards remain readable on mobile",
   );
   await load(page, "/interactions");
-  const folder = page.locator(".playground-demo-folder");
-  await folder.click();
-  assert.equal(await folder.getAttribute("aria-expanded"), "true");
-  assert(await page.locator("#playground-folder-note").isVisible());
-  await folder.press("Enter");
-  assert.equal(await folder.getAttribute("aria-expanded"), "false");
-  const dot = page.locator(".playground-dot-demo");
-  await page.locator("[data-playground-dot]").click();
-  assert(
-    (await dot.getAttribute("style")).includes("--spot-x"),
-    "Spotlight button works without a mouse",
-  );
-  await page.locator(".playground-theme-button").click();
-  assert.equal(
-    await page.locator(".playground-theme-button").getAttribute("aria-pressed"),
-    "true",
-  );
-  const slider = page.locator("#playground-type-size");
-  await slider.focus();
-  await slider.press("End");
-  assert.equal(
-    await page.locator("[data-playground-type-output]").innerText(),
-    "92 px",
-  );
+
+  assert.equal(await page.locator('.playground-experiment').count(),6);
+  await page.locator('[data-shape-choice="star"]').click();
+  assert.equal(await page.locator('[data-interaction-shape]').getAttribute('data-interaction-shape'),'star');
+  await page.locator('[data-spring-character="bouncy"]').click();
+  await page.locator('[data-spring-launch]').click();
+  assert.match(await page.locator('[data-spring-status]').innerText(),/right.*bouncy/);
+  const pass=page.locator('[data-depth-card]');await pass.click();
+  assert.equal(await pass.getAttribute('aria-pressed'),'true');
+  assert(await page.locator('.depth-card-back').isVisible());
+  await page.locator('[data-joy-button]').click();
+  assert.match(await page.locator('[data-joy-status]').innerText(),/1 little moment/);
+  await page.locator('#flow-idea').focus();await page.locator('#flow-idea').press('End');
+  assert.equal(await page.locator('#flow-ship').getAttribute('aria-selected'),'true');
+  assert.match(await page.locator('#flow-panel').innerText(),/Share it with the world/);
+  await page.locator('.interaction-disclosures summary').nth(1).click();
+  assert(await page.locator('.interaction-disclosures details').nth(1).evaluate(e=>e.open));
+  await load(page,'/playground');
+  const note=page.locator('[data-widget-note]');await note.fill('A useful new idea.');
+  await page.locator('[data-widget-vote="tool"]').click();
+  await page.locator('[data-widget-duration="15"]').click();
+  assert.equal(await page.locator('[data-widget-timer]').innerText(),'15:00');
+  await page.locator('[data-widget-timer-toggle]').click();
+  assert.match(await page.locator('[data-widget-timer-toggle]').innerText(),/Pause/);
+  await page.locator('[data-widget-timer-reset]').click();
+  const hue=page.locator('[data-widget-hue-input]');await hue.focus();await hue.press('End');
+  assert.equal(await page.locator('[data-widget-hue]').innerText(),'359°');
+  await page.reload({waitUntil:'networkidle'});
+  assert.equal(await note.inputValue(),'A useful new idea.');
+  assert.equal(await page.locator('[data-widget-vote="tool"]').getAttribute('aria-pressed'),'true');
+  assert.equal(await hue.inputValue(),'359');
+
 }
 
 async function cursorDots(page) {
@@ -1111,7 +1121,7 @@ try {
           "project folders and capabilities",
           () => foldersAndCapabilities(page),
         ],
-        ["curated Quick Ask", () => quickAsk(page)],
+        ["grounded Quick Ask", () => quickAsk(page)],
         ["game start, pause, reset and keyboard", () => game(page)],
         ["clipboard success and denial", () => clipboard(browser)],
         ["work and blog search, filters and sort", () => archive(page)],

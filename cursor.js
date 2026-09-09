@@ -4,6 +4,26 @@
 
   const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+  const controls =
+    "a, button, input, textarea, select, summary, [role='button'], .quick-ask, .ask-answer, .game-panel, .playground-card, .widget-card, .nav-shell";
+  // Browsers keep text fields focus-visible after mouse clicks. Track modality
+  // so keyboard users retain a clear ring without outlining clicked controls.
+  document.addEventListener(
+    "pointerdown",
+    () => {
+      document.documentElement.dataset.inputModality = "pointer";
+    },
+    { capture: true, passive: true },
+  );
+  document.addEventListener(
+    "keydown",
+    (event) => {
+      if (event.key === "Tab" || event.key.startsWith("Arrow"))
+        document.documentElement.dataset.inputModality = "keyboard";
+    },
+    { capture: true },
+  );
+
   const spacing = 28;
   const radius = 200;
   const dots = new Map();
@@ -132,7 +152,7 @@
   function move(event) {
     if (!enabled() || event.pointerType === "touch") return;
     const nextSurface = event.target.closest?.(".page-surface");
-    if (!nextSurface) return leave();
+    if (!nextSurface || event.target.closest?.(controls)) return leave();
     if (!canvas) {
       canvas = document.createElement("canvas");
       canvas.className = "cursor-dot-layer";

@@ -6,7 +6,7 @@ A complete portfolio for Baivab Sarkar: software projects, private freelance wor
 
 ## Develop
 
-Use Node.js 22 or newer. There are no runtime dependencies.
+Use Node.js 22 or newer. The pages have no client framework dependencies. Cloudflare Pages runs the optional Quick Ask endpoint with a Workers AI binding.
 
 ```sh
 npm ci
@@ -28,13 +28,17 @@ Open http://127.0.0.1:4173. To serve deployment output, run `node scripts/serve.
 | /tools | Selected developer and creative tools |
 | /blog | All published articles with search and categories |
 | /blog/:slug | Complete local article content |
-| /playground | Movable personal cards, palette, clock and checklist |
-| /interactions | Small interactive UI experiments |
+| /playground | Movable widgets: editable note, focus timer, vote, colour mixer, checklist, clock and project |
+| /interactions | Six studies in shape, spring motion, depth, feedback, tabs and disclosure |
 | missing URLs | 404 message and Bug Run game |
 
 The legacy /project and /project.html links still serve the project collection.
 
 Edit data/*.json, then build and commit the generated HTML and sitemap. Shared templates live in scripts/templates.mjs and scripts/site-pages.mjs; the playground has its own renderer. style.css contains the home/shared foundation, pages.css handles collections and reading pages, and cursor.css/js supplies the pointer effect.
+
+Create a native article with `npm run post:new -- "Your article title"`. Fill in the structured draft in content/posts, set `draft` to `false` when ready, and build. Titles, sections, code, screenshots, links, artwork, reading time and local URLs are handled by the publishing pipeline. See the [article publishing guide](docs/publishing-articles.md). The editorial presentation uses original article-art compositions in place of imported covers.
+
+Quick Ask answers questions about public portfolio content. Cloudflare Workers AI selects approved facts; all displayed wording and source links come from the checked-in content. Other hosts and local development use an explicitly labeled portfolio fallback. No API keys are sent to browsers. See [Quick Ask configuration](docs/quick-ask.md).
 
 Refresh full articles with `node scripts/import-articles.mjs`. Its sanitizer preserves readable text, code, safe links and local images while removing executable embeds. `node scripts/import-articles.mjs --self-test` verifies the sanitizer. Article imports happen during maintenance, never in the visitor's browser. The build itself is network-independent.
 
@@ -44,6 +48,8 @@ Project images live in assets/work. Personal and project image placeholders are 
 
 ```sh
 npm run check
+npm run test:content
+npm run test:ask
 npx playwright install --with-deps chromium firefox webkit
 npm test -- --dir dist --browsers chromium,firefox,webkit --output .qa-results/release
 npm run test:performance
@@ -58,4 +64,4 @@ Run performance audits with functional browser tests idle. CI uploads its report
 - [Asset provenance and font licenses](assets/README.md)
 - [Verification results](docs/verification.md)
 
-The current Cloudflare and Vercel integrations deploy this static output. CNAME, verification files and legacy resume links remain intact. The PR stays open for review.
+The current Cloudflare and Vercel integrations deploy dist. Cloudflare additionally discovers functions/api/ask.js and the AI binding in wrangler.jsonc. CNAME, verification files and legacy resume links remain intact. The PR stays open for review.

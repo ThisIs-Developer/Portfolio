@@ -1,4 +1,5 @@
 import { renderPlayground, renderInteractions } from "./playground.mjs";
+import { articleArt, articleCategory } from "./editorial.mjs";
 
 const esc = (value = "") =>
   String(value).replace(
@@ -40,14 +41,6 @@ const category = (p) =>
       : /tools|extension|Canvas|Creative/i.test(p.category)
         ? "Tools"
         : "Web apps";
-const articleCategory = (a) =>
-  /markdown|viewer|editor/i.test(a.title)
-    ? "Projects"
-    : /git|github/i.test(a.title)
-      ? "Git & tooling"
-      : /python|chatbot|llama|ai|machine/i.test(a.title)
-        ? "AI & data"
-        : "Notes";
 const metaPanel = (entries) =>
   `<dl class="detail-meta">${entries.map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join("")}</dl>`;
 function toc(entries, back = "/work", label = "Back to work") {
@@ -59,7 +52,7 @@ function controls(kind, categories) {
   return `<div class="collection-toolbar" hidden><div class="collection-filters" role="group" aria-label="Filter ${kind}">${["All", ...categories].map((x, i) => `<button type="button" data-category="${esc(x)}" aria-pressed="${!i}">${esc(x)}</button>`).join("")}</div><div class="collection-search"><label><span class="sr-only">Search ${kind}</span><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input type="search" placeholder="Search ${kind}" data-search></label><button type="button" class="sort-button" data-sort aria-label="Sort ${kind}: newest first">↑ Newest</button></div></div>`;
 }
 function articleCard(a, i) {
-  return `<a class="journal-card" href="${esc(a.localPath)}" data-collection-item data-category="${esc(articleCategory(a))}" data-date="${a.date}" data-search-text="${esc(`${a.title} ${a.summary} ${a.tags.join(" ")}`)}"><div class="journal-cover gradient-${i % 6}">${a.cover?.src ? photo(a.cover.src, a.cover.alt || "", a.cover.width, a.cover.height, "", i===0) : ""}<span class="card-category">${articleCategory(a)}</span></div><div class="journal-copy"><p class="article-meta"><time datetime="${a.date}">${date(a.date)}</time> · ${a.readingTime} min read</p><h2>${esc(a.title)}</h2><p class="journal-summary">${esc(a.summary)}</p><div class="journal-author">${photo("/assets/profile/baivab-480.webp", "", 480, 517)}<span>Baivab Sarkar</span><span class="card-arrow">${arrow}</span></div></div></a>`;
+  return `<a class="journal-card" href="${esc(a.localPath)}" data-collection-item data-category="${esc(articleCategory(a))}" data-date="${a.date}" data-search-text="${esc(`${a.title} ${a.summary} ${a.tags.join(" ")}`)}">${articleArt(a)}<div class="journal-copy"><p class="article-meta"><time datetime="${a.date}">${date(a.date)}</time> · ${a.readingTime} min read</p><h2>${esc(a.title)}</h2><p class="journal-summary">${esc(a.summary)}</p><div class="journal-author">${photo("/assets/profile/baivab-480.webp", "", 480, 517)}<span>Baivab Sarkar</span><span class="card-arrow">${arrow}</span></div></div></a>`;
 }
 export function renderSitePages(data, ui) {
   const { profile, articles, experience, certifications, enterprise } = data;
@@ -76,7 +69,7 @@ export function renderSitePages(data, ui) {
     page: "work",
   });
   pages["project.html"] = pages["work.html"];
-  const blog = `<div class="collection-page journal-page">${title("BLOG", "Notes from the process.", "Software, experiments and things I learn along the way. <br>Written down and shared, one article at a time.")}<section class="collection" data-collection aria-label="Blog articles">${controls("posts", ["Projects", "Git & tooling", "AI & data", "Notes"])}<p class="collection-status sr-only" role="status" data-collection-status>${articles.length} posts</p><div class="journal-grid" data-collection-grid>${articles.map(articleCard).join("")}</div><p class="collection-empty" hidden>No posts match that search. Try another word or choose All.</p></section></div>`;
+  const blog = `<div class="collection-page journal-page editorial-index">${title("ENGINEERING & IDEAS", "Built with care.<br>Shared in detail.", "Inside the software I build: product decisions, practical guides and lessons from working with code.")}<section class="collection" data-collection aria-label="Blog articles">${controls("posts", ["Projects", "Git & tooling", "AI & data", "Notes"])}<p class="collection-status sr-only" role="status" data-collection-status>${articles.length} posts</p><div class="journal-grid" data-collection-grid>${articles.map(articleCard).join("")}</div><p class="collection-empty" hidden>No posts match that search. Try another word or choose All.</p></section></div>`;
   pages["blog.html"] = shell(blog, {
     path: "/blog",
     title: "Blog — Baivab Sarkar",
@@ -91,13 +84,7 @@ export function renderSitePages(data, ui) {
     const editorNote = a.editorNote
       ? `<aside class="article-editor-note"><strong>Author’s update</strong><p>${esc(a.editorNote)}</p></aside>`
       : "";
-    const content = `<div class="reading-layout article-layout">${toc(entries, "/blog", "Back to blog")}<article class="reading-main"><header class="reading-header"><p class="detail-category">${esc(articleCategory(a))}</p><h1>${esc(a.title)}</h1><p class="reading-deck">${esc(a.summary)}</p>${metaPanel(
-      [
-        ["Author", profile.name],
-        ["Published", date(a.date)],
-        ["Read time", `${a.readingTime} min read`],
-      ],
-    )}</header><div class="article-hero gradient-${i % 6}">${a.cover?.src ? photo(a.cover.src, a.cover.alt || a.title, a.cover.width, a.cover.height, "", true) : '<span aria-hidden="true">Aa</span>'}</div>${editorNote}<div class="prose article-body">${a.bodyHtml || ""}</div><div class="article-credit"><p>Written by ${profile.name}. Originally published on DEV on ${date(a.date)}.</p>${link(a.url, "Original publication")}</div>${next && next !== a ? `<a class="next-reading" href="${esc(next.localPath)}"><span>Next post</span><strong>${esc(next.title)}</strong>${arrow}</a>` : ""}</article></div>`;
+    const content = `<div class="reading-layout article-layout editorial-reader">${toc(entries, "/blog", "Back to blog")}<article class="reading-main"><header class="reading-header"><p class="detail-category">${esc(articleCategory(a))}</p><h1>${esc(a.title)}</h1><p class="reading-deck">${esc(a.summary)}</p><div class="editorial-byline">${photo("/assets/profile/baivab-480.webp", "", 480, 517)}<div><strong>${esc(profile.name)}</strong><p><time datetime="${a.date}">${date(a.date)}</time> · ${a.readingTime} min read</p></div></div></header>${articleArt(a, "article-hero-art")}${editorNote}<div class="prose article-body">${a.bodyHtml || ""}</div><div class="article-credit"><p>Written by ${esc(profile.name)}.</p>${a.url ? link(a.url, "Publication history") : `<span>Published on this website.</span>`}</div>${next && next !== a ? `<a class="next-reading" href="${esc(next.localPath)}"><span>Continue reading</span><strong>${esc(next.title)}</strong>${arrow}</a>` : ""}</article></div>`;
     pages[`blog/${a.slug}.html`] = shell(content, {
       path: a.localPath,
       title: `${a.title} — Baivab Sarkar`,
@@ -159,7 +146,7 @@ export function renderSitePages(data, ui) {
     ].includes(p.id),
   );
   pages["tools.html"] = shell(
-    `<div class="collection-page tools-page">${title("TOOLS", "Things I've built on the side.", "Small tools for writing, thinking and making everyday work a little easier.")}<div class="tool-grid">${tools.map((p, i) => `<a class="journal-card tool-card" href="/work/${p.id}"><div class="journal-cover gradient-${i % 6}">${projectImage(p, i < 2)}<span class="card-category">${esc(category(p))}</span></div><div class="journal-copy"><h2>${esc(p.title)}</h2><p>${esc(p.summary)}</p><div class="tool-stack">${esc(p.stack.slice(0, 3).join(" · "))}<span class="card-arrow">${arrow}</span></div></div></a>`).join("")}</div></div>`,
+    `<div class="collection-page tools-page">${title("TOOLS", "Things I've built on the side.", "Small tools for writing, thinking and making everyday work a little easier.")}<div class="tool-grid">${tools.map((p, i) => `<a class="journal-card tool-card" href="/work/${p.id}"><div class="tool-art gradient-${i % 6}">${projectImage(p, i < 2)}<span class="card-category">${esc(category(p))}</span></div><div class="journal-copy"><h2>${esc(p.title)}</h2><p>${esc(p.summary)}</p><div class="tool-stack">${esc(p.stack.slice(0, 3).join(" · "))}<span class="card-arrow">${arrow}</span></div></div></a>`).join("")}</div></div>`,
     {
       path: "/tools",
       title: "Tools — Baivab Sarkar",
