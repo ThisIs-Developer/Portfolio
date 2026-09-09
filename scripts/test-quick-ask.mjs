@@ -132,6 +132,39 @@ await test("Missing AI binding and provider errors use an honest portfolio fallb
     assert.match(result.answer, /Markdown Viewer.*NoteMarker.*MediChain/);
   }
 });
+await test("Fallback diagnostics never expose questions, model prose or provider error text", async () => {
+  for (const [env, reason, code] of [
+    [{}, "missing-binding", null],
+    [
+      {
+        AI: {
+          run: async () => {
+            throw Error("AI_ERROR 3006: private provider details");
+          },
+        },
+      },
+      "provider-error",
+      "3006",
+    ],
+    [
+      { AI: { run: async () => ({ response: "private model text" }) } },
+      "selection-error",
+      null,
+    ],
+  ]) {
+    const response = await handleAsk(
+      request("Tell me about your projects"),
+      env,
+      facts,
+    );
+    assert.equal(response.headers.get("X-Quick-Ask-Fallback"), reason);
+    assert.equal(response.headers.get("X-Quick-Ask-Provider-Code"), code);
+    assert.doesNotMatch(
+      JSON.stringify([...response.headers]),
+      /private|Tell me/,
+    );
+  }
+});
 await test("Method, origin and content-type checks reject incorrect requests", async () => {
   assert.equal(
     (await handleAsk(new Request("https://portfolio.test/api/ask"), {}, facts))

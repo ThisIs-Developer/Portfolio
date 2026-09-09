@@ -22,6 +22,8 @@ Requests are limited to 240 question characters and 2 KB bodies. The endpoint ch
 
 Inference has a 4.5-second response budget, with a 6.5-second browser request timeout. Timing depends on network and provider availability; there is no guarantee of an instantaneous generated answer. The fallback remains usable when inference cannot complete.
 
+Fallback responses include an `X-Quick-Ask-Fallback` header identifying a missing binding, provider failure, timeout or invalid selection. A numeric Cloudflare error code may also be included. Diagnostic headers contain no question, model output or error text and do not change the visitor-facing answer.
+
 ## Maintain and verify
 
 Update the relevant portfolio data and run `npm run build` to refresh both knowledge snapshots. Add new aliases in `scripts/knowledge.mjs` when useful. `npm run test:ask` covers retrieval, topic restrictions, invalid model output, unavailable inference, request validation and burst fallback. The browser suite verifies source-linked answers and that typing does not start the game.

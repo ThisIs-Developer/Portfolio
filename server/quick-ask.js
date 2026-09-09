@@ -74,8 +74,12 @@ export async function handleAsk(request, env, facts) {
   if (burst && burst.until > now) burst.count++;
   else if (bursts.size < 4096)
     bursts.set(key, { count: 1, until: now + 60000 });
-  if (!env.AI?.run) return json(compose(candidates.slice(0, 1)));
+  if (!env.AI?.run)
+    return json(compose(candidates.slice(0, 1)), 200, {
+      "X-Quick-Ask-Fallback": "missing-binding",
+    });
   let timeout;
+  let stage = "provider";
   try {
     // AI can select approved facts; it cannot publish generated claims or URLs.
     const result = await Promise.race([
@@ -105,6 +109,7 @@ export async function handleAsk(request, env, facts) {
         timeout = setTimeout(() => reject(new Error("timeout")), 4500);
       }),
     ]);
+    stage = "selection";
     const raw = typeof result?.response === "string" ? result.response : "";
     const parsed = JSON.parse(raw.replace(/^```(?:json)?\s*|\s*```$/g, ""));
     if (
@@ -117,8 +122,17 @@ export async function handleAsk(request, env, facts) {
       candidates.find((f) => f.id === id),
     );
     return json(compose(selected, "ai"));
-  } catch {
-    return json(compose(candidates.slice(0, 1)));
+  } catch (error) {
+    // Expose a fixed diagnostic reason, never the question, model output or error text.
+    const reason = error?.message === "timeout" ? "timeout" : `${stage}-error`;
+    const providerCode =
+      stage === "provider"
+        ? String(error?.message || "").match(/\b\d{4,5}\b/)?.[0]
+        : undefined;
+    return json(compose(candidates.slice(0, 1)), 200, {
+      "X-Quick-Ask-Fallback": reason,
+      ...(providerCode ? { "X-Quick-Ask-Provider-Code": providerCode } : {}),
+    });
   } finally {
     clearTimeout(timeout);
   }
