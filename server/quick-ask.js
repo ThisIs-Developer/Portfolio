@@ -104,16 +104,36 @@ export async function handleAsk(request, env, facts) {
         ],
         max_tokens: 80,
         temperature: 0,
+        response_format: {
+          type: "json_schema",
+          json_schema: {
+            type: "object",
+            properties: {
+              ids: {
+                type: "array",
+                items: { type: "string", enum: candidates.map(({ id }) => id) },
+                maxItems: 2,
+              },
+            },
+            required: ["ids"],
+            additionalProperties: false,
+          },
+        },
       }),
       new Promise((_, reject) => {
         timeout = setTimeout(() => reject(new Error("timeout")), 4500);
       }),
     ]);
     stage = "selection";
-    const raw = typeof result?.response === "string" ? result.response : "";
-    const parsed = JSON.parse(raw.replace(/^```(?:json)?\s*|\s*```$/g, ""));
+    // Workers AI JSON mode returns an object; tolerate the documented text envelope too.
+    const parsed =
+      typeof result?.response === "string"
+        ? JSON.parse(
+            result.response.trim().replace(/^```(?:json)?\s*|\s*```$/g, ""),
+          )
+        : result?.response;
     if (
-      !Array.isArray(parsed.ids) ||
+      !Array.isArray(parsed?.ids) ||
       parsed.ids.length > 2 ||
       parsed.ids.some((id) => !candidates.some((f) => f.id === id))
     )

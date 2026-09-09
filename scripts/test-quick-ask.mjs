@@ -73,6 +73,12 @@ await test("AI selects approved facts and receives no private data", async () =>
           assert.equal(input.temperature, 0);
           assert.equal(input.max_tokens, 80);
           assert.equal(input.messages.length, 2);
+          assert.equal(input.response_format.type, "json_schema");
+          assert(
+            input.response_format.json_schema.properties.ids.items.enum.includes(
+              "project-markdown-viewer",
+            ),
+          );
           return { response: '{"ids":["project-markdown-viewer"]}' };
         },
       },
@@ -86,6 +92,26 @@ await test("AI selects approved facts and receives no private data", async () =>
     facts.find((f) => f.id === "project-markdown-viewer").text,
   );
   assert.equal(result.sources[0].url, "/work/markdown-viewer");
+});
+await test("Structured Workers AI objects are validated like text responses", async () => {
+  for (const [selection, mode] of [
+    [{ ids: ["education"] }, "ai"],
+    [{ ids: ["invented"] }, "portfolio"],
+    [null, "portfolio"],
+    [{ ids: [] }, "restricted"],
+  ]) {
+    const result = await (
+      await handleAsk(
+        request("What did you study?"),
+        {
+          AI: { run: async () => ({ response: selection }) },
+        },
+        facts,
+      )
+    ).json();
+    assert.equal(result.mode, mode);
+    if (mode !== "restricted") assert.match(result.answer, /9\.15/);
+  }
 });
 await test("Model prose, invented IDs and extra IDs cannot become visitor-facing claims", async () => {
   for (const response of [
