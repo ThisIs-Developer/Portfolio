@@ -60,7 +60,7 @@ The home page omits inner-page CSS/JS; the blog prioritizes its first cover. Fon
 
 ## Content and deployment
 
-The Work collection now contains exactly twelve owner-selected projects split into six featured entries and six archive entries, plus four consolidated private enterprise summaries. Source code and private client data remain undisclosed. Real public screenshots are used where available; three project visuals and three About photos are clearly labeled placeholders. Both historical chatbot articles carry visible technical corrections.
+The Work collection now contains exactly twelve owner-selected projects split into six featured entries and six archive entries, plus four consolidated private enterprise summaries. Source code and private client data remain undisclosed. Real public screenshots are used where available; project visuals and About photos without supplied images are clearly labeled placeholders. Both historical chatbot articles carry visible technical corrections.
 
 Both supported resume URLs preserve the supplied PDF. SHA-256: `08f8cad9ebb007de02e6874302f04db3f17be7d8e8f7626e98f0d9ee98099d09`.
 
@@ -85,3 +85,5 @@ Run Lighthouse separately from browser tests. Local detailed logs remain in igno
 The current revision makes the owner’s twelve-project selection explicit in data/project-order.json, adds Simon, removes the BlazeDemo listing, and consolidates private audit work into one of four illustrated cards. Home and Work use the same featured/archive order. Filtering keeps that order; date sorting stays within each group.
 
 Play Lab replaces the separate Playground and Interactions pages. It retains the seven canvas widgets and six demos, with a petal bloom and ripple pond replacing process tabs and disclosures. Legacy URLs redirect to their replacement; Tools is removed from the generated pages and navigation. The repository browser suite covers the new ordering, groups, navigation, redirects and replacement controls. See the PR’s validation section for the current run results; earlier measurements above are historical baselines.
+
+Nine focused verification groups passed both locally and on the Cloudflare preview on 9 September 2026, covering exact ordering, complete folder content at four viewport widths, grouped search/sort, legacy redirects, bloom/ripple controls, reduced motion, and light/dark accessibility. The deployed HTML, Play Lab assets and assistant knowledge matched the build. Live Workers AI responses correctly described Simon and the featured/archive selection. Desktop and mobile screenshots were reviewed for the archive, private cards and interactions.

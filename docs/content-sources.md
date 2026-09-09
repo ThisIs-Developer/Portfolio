@@ -49,7 +49,7 @@ For audit context only, the API reported **471 stars / 117 forks** for Markdown 
 
 The [CSV chatbot Space API](https://huggingface.co/api/spaces/ThisIs-Developer/Llama-2-GGML-CSV-Chatbot) returned a `SLEEPING` runtime during review. Its repository remains available, but its Space is not used as an **Open app** link.
 
-Archive years indicate the documented project period or repository activity, not a claim of continuous employment. AMS and SketchFlow appear among the six home folders while retaining their team-prototype/open-source-experiment qualifications. Older classroom exercise collections, duplicated portfolio versions and unrelated repository forks were not promoted into selected work.
+Archive years indicate the documented project period or repository activity, not a claim of continuous employment. AMS is featured and SketchFlow appears in the archive; both retain their team-prototype/open-source-experiment qualifications. Older classroom exercise collections, duplicated portfolio versions and unrelated repository forks were not promoted into selected work.
 
 The repository API additionally verified creation/latest-push dates for the displayed ranges: MediChain 21 October 2024–27 May 2025; SketchFlow 23 August 2024–25 February 2026; News Scraper 10 August 2023–23 August 2024. Single-year entries are supported by repository creation or their documented release: NoteMarker 15 September 2024, BlazeDemo 11 June 2026, AMS 8 March 2024, CSV Chatbot 1 January 2024, and Body Language Detection 23 September 2023.
 
