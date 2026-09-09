@@ -152,48 +152,188 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
 }
+/* Private work uses the same art-and-copy rhythm as the article index. */
 .private-card {
-  border: 8px solid var(--strong-glass);
-  border-radius: 26px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  color: #30333c;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  border-radius: 24px;
+  background: var(--strong-glass);
+  color: var(--ink);
   transition:
     transform 0.25s var(--out),
     box-shadow 0.25s;
 }
 .private-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 14px 30px #0000000b;
+  box-shadow: 0 18px 42px #0000000d;
 }
-.private-lock {
+.private-card .enterprise-art {
+  border-radius: 0;
+  aspect-ratio: 1.65;
+}
+.private-copy {
+  flex: 1;
   display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  opacity: 0.8;
+  flex-direction: column;
+  padding: 28px;
 }
-.private-symbol {
-  font-family: "Instrument Serif", serif;
-  font-size: 64px;
-  line-height: 1.2;
-  margin: 24px 0;
-  color: #3b5bdb;
-}
-.private-card .eyebrow {
-  color: #50535d;
+.private-copy .eyebrow {
+  color: var(--blue);
   font-size: 10px;
 }
 .private-card h3 {
-  font-family: "Instrument Serif", serif;
-  font-size: 31px;
-  line-height: 1.12;
+  font-family: "Instrument Sans", sans-serif;
+  font-size: clamp(23px, 2.2vw, 30px);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  margin: 12px 0 16px;
+}
+.private-copy > p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+.private-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--muted);
+  gap: 20px;
+  margin-top: auto;
+  padding-top: 28px;
+}
+.private-card-footer .icon {
+  color: var(--ink);
+}
+.enterprise-heading {
+  max-width: 670px;
+  margin-bottom: 38px;
+}
+.enterprise-heading h2 {
+  font-family: "Instrument Sans", sans-serif;
+  font-size: clamp(36px, 4vw, 52px);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.05em;
+  margin: 14px 0 24px;
+}
+.enterprise-heading > p:last-child {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.7;
+}
+.project-group {
+  scroll-margin-top: 110px;
+}
+.project-group + .project-group {
+  margin-top: 95px;
+}
+.project-group-heading {
+  margin-bottom: 40px;
+}
+.project-group-heading h2 {
+  font-size: clamp(33px, 3.5vw, 44px);
+  letter-spacing: -0.035em;
   font-weight: 400;
+  margin: 12px 0 0;
+}
+.project-archive-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+.archive-item {
+  min-width: 0;
+}
+.archive-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 22px;
+  background: var(--strong-glass);
+  transition: transform 0.25s var(--out);
+}
+.archive-card:hover {
+  transform: translateY(-4px);
+}
+.archive-card-art {
+  position: relative;
+  aspect-ratio: 1.65;
+  overflow: hidden;
+  background: var(--glass);
+}
+.archive-card-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s var(--out);
+}
+.archive-card:hover img {
+  transform: scale(1.04);
+}
+.archive-number {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 6px 10px;
+  background: var(--strong-glass);
+  border-radius: 20px;
+  color: var(--ink);
+  font-size: 11px;
+}
+.archive-card-copy {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+.archive-card-copy h3 {
+  font-family: "Instrument Sans", sans-serif;
+  font-size: 23px;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+  font-weight: 600;
   margin: 12px 0;
 }
-.private-card p {
-  font-size: 14px;
-  line-height: 1.6;
+.archive-card-copy > p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.archive-card-copy .eyebrow {
+  font-size: 9px;
+}
+.archive-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 25px;
+  font-size: 11px;
+  color: var(--muted);
+}
+@media (max-width: 1023px) {
+  .project-archive-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .project-archive-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .private-copy {
+    padding: 24px;
+  }
+  .project-group + .project-group {
+    margin-top: 65px;
+  }
 }
 .confidential-note {
   border: 0;
@@ -1419,3 +1559,6 @@ body[data-page="404"] .page-surface {
 :root[data-input-modality="pointer"] .collection-search label:has(input:focus) {
   outline: none;
 }
+
+.enterprise-art .art-check { stroke:#fff; }
+@media(prefers-reduced-motion:reduce) { .archive-card, .archive-card-art img { transition:none; } }

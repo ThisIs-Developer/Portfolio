@@ -1,6 +1,7 @@
 import { renderQuickAsk } from "./quick-ask.mjs";
 import { renderSitePages } from "./site-pages.mjs";
 import { articleArt } from "./editorial.mjs";
+import { projectCollections } from "./project-selection.mjs";
 const esc = (value = "") =>
   String(value).replace(
     /[&<>"']/g,
@@ -26,11 +27,8 @@ export function renderPages(data, metadata) {
     experience,
     certifications,
   } = data;
-  const all = [
-    ...projects,
-    ...experiments,
-    ...(data.projectAdditions || []),
-  ].map((p) =>
+  const collections = projectCollections(data);
+  const all = collections.all.map((p) =>
     p.id === "ams"
       ? {
           ...p,
@@ -49,18 +47,14 @@ export function renderPages(data, metadata) {
           }
         : p,
   );
-  const selected = [
-    ...all.slice(0, 4),
-    all.find((p) => p.id === "ams"),
-    all.find((p) => p.id === "sketchflow"),
-  ];
+  const selected = all.slice(0, collections.featured.length);
+  const archive = all.slice(collections.featured.length);
   const nav = (page = "home") =>
     `<a class="skip-link" href="#main-content" tabindex="0">Skip to content</a><header class="site-header"><div class="nav-shell"><button class="menu-toggle" type="button" aria-controls="site-nav" aria-expanded="false" hidden><span class="menu-glyph" aria-hidden="true"><i></i><i></i></span><span data-menu-label>Menu</span></button><a class="wordmark" href="/">Baivab<span> Sarkar</span></a><nav id="site-nav" aria-label="Main navigation">${[
       ["/about", "About", "about"],
-      ["/playground", "Playground", "playground"],
+      ["/play-lab", "Play Lab", "playground"],
       ["/work", "Work", "work"],
       ["/blog", "Blog", "blog"],
-      ["/tools", "Tools", "tools"],
       ["/#contact", "Contact", "contact"],
     ]
       .map(
@@ -77,7 +71,7 @@ export function renderPages(data, metadata) {
   const picture = (p, cls = "") =>
     `<img class="${cls}" src="/${p.image.replace("-1400.webp", "-800.webp")}" srcset="/${p.image.replace("-1400.webp", "-800.webp")} 800w, /${p.image} 1400w" sizes="(max-width: 767px) 90vw, 440px" width="1400" height="${p.imageHeight}" alt="${esc(p.imageAlt)}" loading="${p.id === "markdown-viewer" ? "eager" : "lazy"}" ${p.id === "markdown-viewer" ? 'fetchpriority="high"' : ""} decoding="async">`;
   const folder = (p, i) =>
-    `<a class="folder folder-${i + 1}" href="/work/${p.id}"><span class="folder-back" aria-hidden="true"></span><span class="folder-sheets" aria-hidden="true">${[1, 0, 2].map((peek, j) => `<span class="folder-sheet sheet-${j + 1}"><img src="/${peek && ["markdown-viewer", "medichain", "notemarker"].includes(p.id) ? `assets/work/${p.id}-peek-${peek}.webp` : p.image ? p.image.replace("-1400.webp", "-400.webp") : `assets/placeholders/${p.id}.svg`}" width="400" height="${peek && ["markdown-viewer", "medichain", "notemarker"].includes(p.id) ? 260 : Math.round((p.imageHeight || 900) / 3.5)}" alt="" loading="lazy" decoding="async"></span>`).join("")}</span><span class="folder-front"><span class="folder-category">${esc(p.category.split(" · ")[0])}</span><span class="folder-title">${esc(p.title)}</span><span class="folder-description">${esc(p.summary)}</span><span class="folder-bottom"><span class="folder-tags">${p.stack
+    `<a class="folder folder-${i + 1}" href="/work/${p.id}"><span class="folder-back" aria-hidden="true"></span><span class="folder-sheets" aria-hidden="true">${[1, 0, 2].map((peek, j) => `<span class="folder-sheet sheet-${j + 1}"><img src="/${peek && ["markdown-viewer", "medichain", "notemarker"].includes(p.id) ? `assets/work/${p.id}-peek-${peek}.webp` : p.image ? p.image.replace("-1400.webp", "-400.webp") : `assets/placeholders/${p.id}.svg`}" width="400" height="${peek && ["markdown-viewer", "medichain", "notemarker"].includes(p.id) ? 260 : Math.round((p.imageHeight || 900) / 3.5)}" alt="" loading="lazy" decoding="async"></span>`).join("")}</span><span class="folder-front"><span class="folder-category"><span class="project-number">${p.number}</span>${esc(p.category.split(" · ")[0])}</span><span class="folder-title">${esc(p.title)}</span><span class="folder-description">${esc(p.summary)}</span><span class="folder-bottom"><span class="folder-tags">${p.stack
       .slice(0, 2)
       .map((t) => `<span>${esc(t)}</span>`)
       .join(
@@ -94,7 +88,7 @@ export function renderPages(data, metadata) {
       "Test automation",
       "Confidence in the happy path. And all the other paths.",
       ["Java", "Selenium", "TestNG", "Jenkins"],
-      "Page objects, data-driven booking checks, reports and CI in my BlazeDemo capstone.",
+      "Page objects, data-driven checks, reports and continuous integration in my test automation practice.",
     ],
     [
       "Browser extensions",
@@ -116,7 +110,7 @@ export function renderPages(data, metadata) {
     ],
   ];
   const home = `<section class="hero" id="profile" aria-labelledby="hero-title"><div class="foliage" aria-hidden="true"></div><div class="hero-copy"><p class="eyebrow">SOFTWARE DEVELOPMENT & TEST AUTOMATION</p><h1 id="hero-title">Baivab Sarkar</h1><p class="hero-tagline">I build thoughtful software<br>for <em>real-world problems.</em></p><p class="handwritten hero-note">a little curious. a lot of code. <span aria-hidden="true">⤴</span></p><div class="hero-actions"><a class="button" href="#contact">Let’s talk ${arrow}</a><a class="text-link" href="#projects">View work <span aria-hidden="true">↓</span></a></div></div><a class="scroll-note" href="#projects">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a></section>
- <section class="work-section section-space" id="projects" aria-labelledby="work-title">${heading("A FEW THINGS I’VE BUILT", "Selected <em>work.</em>", "work-title")}<p class="handwritten section-note">Open the folders. There’s good stuff inside.</p><div class="folder-grid">${selected.map(folder).join("")}</div><div class="section-bottom">${link("/work", "All projects & experiments", "button")}</div></section>
+ <section class="work-section section-space" id="projects" aria-labelledby="work-title">${heading("A FEW THINGS I’VE BUILT", "Featured <em>projects.</em>", "work-title")}<p class="handwritten section-note">Open the folders. There’s good stuff inside.</p><div class="folder-grid">${selected.map(folder).join("")}</div><div class="home-archive" aria-labelledby="home-archive-title"><div class="archive-heading"><div><p class="eyebrow">MORE WORK</p><h3 id="home-archive-title">Project archive.</h3></div>${link("/work#archive", "Explore the archive")}</div><div class="archive-link-grid">${archive.map((p) => `<a class="archive-link" href="/work/${p.id}"><span class="project-number">${p.number}</span><span><strong>${esc(p.title)}</strong><small>${esc(p.category.split(" · ")[0])}</small></span>${arrow}</a>`).join("")}</div></div></section>
  <section class="capabilities-section section-space" id="capabilities" aria-labelledby="capabilities-title">${heading("FROM IDEA TO SOMETHING USEFUL", "Good ideas deserve<br><em>thoughtful execution.</em>", "capabilities-title")}<div class="capability-intro"><span aria-hidden="true">✳</span><p>I connect development with testing, so the things I build feel good to use and hold up behind the scenes.</p></div><div class="capabilities"><p class="capability-label">5 ways I put code to work</p>${caps.map(([title, desc, stack, detail], i) => `<details class="capability"><summary><span class="capability-number" aria-hidden="true">${i + 1}</span><span><strong>${title}</strong><span class="capability-description">${desc}</span></span><span class="capability-plus" aria-hidden="true">+</span></summary><div class="capability-detail"><p>${detail}</p>${tags(stack)}</div></details>`).join("")}</div></section>
  <section class="writing-section section-space" id="writing" aria-labelledby="writing-title">${heading("NOTES FROM THE PROCESS", "Build. Learn. <em>Write.</em>", "writing-title")}<div class="writing-grid">${articles
    .filter((a) => a.featured ?? true)
@@ -131,9 +125,16 @@ export function renderPages(data, metadata) {
  <section class="about-section section-space" id="about" aria-labelledby="about-title">${heading("THE HUMAN BEHIND THE CODE", "A little bit about <em>me.</em>", "about-title")}<div class="wallet"><a class="wallet-card wallet-purple" href="https://github.com/ThisIs-Developer/Markdown-Viewer"><small>ON MY WORKBENCH</small><span class="wallet-icon" aria-hidden="true">M↓</span><strong>Markdown Viewer</strong><span>Always another idea.</span></a><div class="wallet-card wallet-yellow"><small>HELLO, I’M</small><img src="/assets/profile/baivab-480.webp" width="480" height="517" alt="Baivab Sarkar" loading="lazy" decoding="async"><strong>Baivab Sarkar</strong><span>Curious by default.</span></div><a class="wallet-card wallet-green" href="#experience"><small>MY FOUNDATION</small><span class="wallet-icon" aria-hidden="true">↗</span><strong>Computer science</strong><span>JIS · Class of 2025</span></a><a class="wallet-card wallet-pink" href="/blog"><small>LEARNING IN PUBLIC</small><span class="wallet-icon" aria-hidden="true">Aa</span><strong>Build & write</strong><span>Notes from the process.</span></a><a class="wallet-card wallet-blue" href="https://github.com/ThisIs-Developer"><small>FIND ME IN THE OPEN</small><span class="wallet-icon" aria-hidden="true">{ }</span><strong>ThisIs-Developer</strong><span>West Bengal, India</span></a></div>${renderQuickAsk()}<div class="about-copy"><p>${profile.about}</p><p>${profile.approach}</p></div><details class="experience-details" id="experience"><summary><span>Experience & learning</span><span aria-hidden="true">+</span></summary><div class="timeline">${experience.map((x) => `<article><p class="eyebrow">${esc(x.period)}</p><h3>${esc(x.title)}</h3><p class="timeline-org">${esc(x.organization)}</p><p>${esc(x.description)}</p>${x.link ? link(x.link, x.linkLabel) : ""}</article>`).join("")}<p class="certifications">${certifications.map((x) => `${esc(x.title)} <span>· ${esc(x.date)}</span>`).join("<br>")}</p></div></details><div class="section-bottom">${link("/about", "A little more about me", "button")}</div></section>`;
   const shell = (content, options = {}) => `<!doctype html>
 <!-- Generated by scripts/build.mjs. Edit data/ or scripts/, then npm run build. -->
-<html lang="en" id="top"><head>${metadata(options)}<script src="/game.js?v=20260908" defer></script>${options.playground ? '<link rel="stylesheet" href="/playground.css?v=20260908"><script src="/playground.js?v=20260908" defer></script>' : ""}</head><body data-page="${options.page || "home"}">${nav(options.page)}<main id="main-content" tabindex="-1"><div class="page-surface">${content}</div>${options.footer === false ? "" : footer(true)}</main></body></html>`;
+<html lang="en" id="top"><head>${metadata(options)}<script src="/game.js?v=20260908" defer></script>${options.playground ? '<link rel="stylesheet" href="/playground.css?v=20260909b"><script src="/playground.js?v=20260909b" defer></script>' : ""}</head><body data-page="${options.page || "home"}">${nav(options.page)}<main id="main-content" tabindex="-1"><div class="page-surface">${content}</div>${options.footer === false ? "" : footer(true)}</main></body></html>`;
   return {
     "index.html": shell(home),
-    ...renderSitePages(data, { all, folder, shell, gamePanel }),
+    ...renderSitePages(data, {
+      all,
+      selected,
+      archive,
+      folder,
+      shell,
+      gamePanel,
+    }),
   };
 }

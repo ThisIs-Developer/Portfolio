@@ -520,59 +520,115 @@
       );
     });
   });
-  const tabs = [...document.querySelectorAll("[data-flow-tab]")];
-  const flowContent = {
-    idea: [
-      "Start with a what if.",
-      "A question. A scribble. A possibility worth exploring.",
-      "01 / THE SPARK",
-    ],
-    build: [
-      "Make the idea tangible.",
-      "A small prototype turns a possibility into something you can try.",
-      "02 / THE MAKING",
-    ],
-    ship: [
-      "Share it with the world.",
-      "Put it in someone’s hands. Listen, learn, and make it better.",
-      "03 / THE HELLO",
-    ],
+  const bloom = document.querySelector("[data-bloom]");
+  const spread = document.querySelector("[data-bloom-spread]");
+  let spinAnimation;
+  let turns = 0;
+  spread?.addEventListener("input", () => {
+    const value = Number(spread.value);
+    bloom.style.setProperty("--bloom-spread", `${12 + value * 0.58}px`);
+    bloom.style.setProperty("--bloom-twist", `${value * 0.45}deg`);
+    document.querySelector("[data-bloom-value]").value = `${value}%`;
+  });
+  document.querySelector("[data-bloom-spin]")?.addEventListener("click", () => {
+    turns++;
+    spinAnimation?.cancel();
+    document.querySelector("[data-bloom-status]").textContent =
+      `${turns} ${turns === 1 ? "spin" : "spins"}. Petals open ${spread.value} percent.`;
+    if (motion.matches) return;
+    spinAnimation = bloom.animate(
+      [
+        { transform: "rotate(0) scale(1)" },
+        { transform: "rotate(190deg) scale(.87)", offset: 0.48 },
+        { transform: "rotate(365deg) scale(1.03)", offset: 0.86 },
+        { transform: "rotate(360deg) scale(1)" },
+      ],
+      { duration: 1400, easing: "cubic-bezier(.2,.75,.25,1)" },
+    );
+  });
+  const bloomStage = bloom?.closest(".interaction-bloom-stage");
+  const resetBloom = () => {
+    bloom?.style.setProperty("--bloom-x", "0px");
+    bloom?.style.setProperty("--bloom-y", "0px");
   };
-  function select(tab) {
-    tabs.forEach((t) => {
-      t.setAttribute("aria-selected", String(t === tab));
-      t.tabIndex = t === tab ? 0 : -1;
-    });
-    const key = tab.dataset.flowTab;
-    document.querySelector("[data-flow]").dataset.flow = key;
-    document
-      .querySelector("#flow-panel")
-      .setAttribute("aria-labelledby", tab.id);
-    const [title, description, step] = flowContent[key];
-    document.querySelector("[data-flow-title]").textContent = title;
-    document.querySelector("[data-flow-description]").textContent = description;
-    document.querySelector("[data-flow-step]").textContent = step;
-  }
-  tabs.forEach((tab, i) => {
-    tab.addEventListener("click", () => select(tab));
-    tab.addEventListener("keydown", (event) => {
-      let index;
-      if (event.key === "ArrowRight") index = (i + 1) % tabs.length;
-      else if (event.key === "ArrowLeft")
-        index = (i - 1 + tabs.length) % tabs.length;
-      else if (event.key === "Home") index = 0;
-      else if (event.key === "End") index = tabs.length - 1;
-      else return;
-      event.preventDefault();
-      select(tabs[index]);
-      tabs[index].focus();
+  bloomStage?.addEventListener("pointermove", (event) => {
+    if (motion.matches || event.pointerType === "touch") return;
+    const r = bloomStage.getBoundingClientRect();
+    bloom.style.setProperty(
+      "--bloom-x",
+      `${(event.clientX - r.left - r.width / 2) * 0.035}px`,
+    );
+    bloom.style.setProperty(
+      "--bloom-y",
+      `${(event.clientY - r.top - r.height / 2) * 0.035}px`,
+    );
+  });
+  bloomStage?.addEventListener("pointerleave", resetBloom);
+  const pond = document.querySelector("[data-ripple-pond]");
+  const rings = document.querySelector("[data-ripple-rings]");
+  const rippleStatus = document.querySelector("[data-ripple-status]");
+  let ripples = 0;
+  pond?.addEventListener("click", (event) => {
+    const r = pond.getBoundingClientRect();
+    const x = event.detail
+      ? Math.max(0, Math.min(r.width, event.clientX - r.left))
+      : r.width / 2;
+    const y = event.detail
+      ? Math.max(0, Math.min(r.height, event.clientY - r.top))
+      : r.height / 2;
+    // Keep rapid taps bounded, and retain a still ripple when motion is reduced.
+    if (motion.matches) rings.replaceChildren();
+    while (rings.childElementCount >= 9) rings.firstElementChild.remove();
+    for (let i = 0; i < 3; i++) {
+      const ring = document.createElement("i");
+      ring.style.left = `${x}px`;
+      ring.style.top = `${y}px`;
+      rings.append(ring);
+      if (motion.matches) {
+        ring.style.transform = `translate(-50%, -50%) scale(${0.28 + i * 0.22})`;
+        ring.style.opacity = String(0.55 - i * 0.13);
+      } else {
+        ring
+          .animate(
+            [
+              { transform: "translate(-50%, -50%) scale(.04)", opacity: 0.75 },
+              { opacity: 0.45, offset: 0.45 },
+              { transform: "translate(-50%, -50%) scale(1.35)", opacity: 0 },
+            ],
+            {
+              duration: 1700,
+              delay: i * 130,
+              fill: "both",
+              easing: "cubic-bezier(.15,.55,.3,1)",
+            },
+          )
+          .finished.then(() => ring.remove())
+          .catch(() => ring.remove());
+      }
+    }
+    ripples++;
+    rippleStatus.textContent = `${ripples} ${ripples === 1 ? "ripple" : "ripples"} made. A little calm, on demand.`;
+  });
+  document.querySelectorAll("[data-ripple-colour]").forEach((button) => {
+    button.addEventListener("click", () => {
+      pond.closest(".interaction-ripple-stage").dataset.rippleTheme =
+        button.dataset.rippleColour;
+      document
+        .querySelectorAll("[data-ripple-colour]")
+        .forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
+      rippleStatus.textContent = `${button.textContent} water selected. Make a ripple.`;
     });
   });
   motion.addEventListener("change", () => {
     if (motion.matches) {
       animation?.cancel();
+      spinAnimation?.cancel();
       resetTilt();
+      resetBloom();
       particles.forEach((p) => p.getAnimations().forEach((a) => a.cancel()));
+      rings
+        ?.querySelectorAll("i")
+        .forEach((ring) => ring.getAnimations().forEach((a) => a.cancel()));
     }
   });
 })();

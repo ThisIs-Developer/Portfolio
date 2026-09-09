@@ -4,7 +4,8 @@ import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { startServer } from "./serve.mjs";
-import {loadLocalArticles,mergeArticles} from './local-articles.mjs';
+import { loadLocalArticles, mergeArticles } from "./local-articles.mjs";
+import { projectCollections } from "./project-selection.mjs";
 
 const args = process.argv.slice(2);
 const option = (name, fallback) =>
@@ -51,26 +52,56 @@ const report = {
 const externalLinks = new Set();
 const localLinks = new Set();
 const sourceRoot = fileURLToPath(new URL("../", import.meta.url));
-const articleData = mergeArticles(JSON.parse(
-  await readFile(path.join(sourceRoot, "data/articles.json"), "utf8"),
-), await loadLocalArticles(sourceRoot));
-const projectData = (
-  await Promise.all(
-    ["projects", "experiments", "project-additions"].map(async (name) =>
-      JSON.parse(
-        await readFile(path.join(sourceRoot, "data", `${name}.json`), "utf8"),
-      ),
+const articleData = mergeArticles(
+  JSON.parse(
+    await readFile(path.join(sourceRoot, "data/articles.json"), "utf8"),
+  ),
+  await loadLocalArticles(sourceRoot),
+);
+const projectSources = await Promise.all(
+  ["projects", "experiments", "project-additions"].map(async (name) =>
+    JSON.parse(
+      await readFile(path.join(sourceRoot, "data", `${name}.json`), "utf8"),
     ),
-  )
-).flat();
+  ),
+);
+const projectData = projectCollections({
+  projects: projectSources[0],
+  experiments: projectSources[1],
+  projectAdditions: projectSources[2],
+}).all;
+const featuredIds = [
+  "markdown-viewer",
+  "sei-sangeet-bangla",
+  "medical-chatbot",
+  "body-language",
+  "medichain",
+  "ams",
+];
+const archiveIds = [
+  "notemarker",
+  "sketchflow",
+  "csv-chatbot",
+  "news-scraper",
+  "taskflow",
+  "simon",
+];
+const legacyRoutes = [
+  ["/playground", "/play-lab"],
+  ["/playground.html", "/play-lab"],
+  ["/interactions", "/play-lab#interactions"],
+  ["/interactions.html", "/play-lab#interactions"],
+  ["/tools", "/work"],
+  ["/tools.html", "/work"],
+  ["/work/blazedemo", "/work"],
+  ["/work/blazedemo.html", "/work"],
+];
 const pageRoutes = [
   "/",
   "/about",
   "/work",
   "/blog",
-  "/tools",
-  "/playground",
-  "/interactions",
+  "/play-lab",
   "/work/markdown-viewer",
   articleData[0].localPath,
   "/404",
@@ -303,6 +334,26 @@ async function navigation(page) {
     !(await page.locator("#site-nav").evaluate((element) => element.inert)),
     "Desktop navigation available after breakpoint resize",
   );
+  const labLink = page.locator('#site-nav a[href="/play-lab"]');
+  assert.equal(
+    await labLink.count(),
+    1,
+    "Navigation has one combined Play Lab destination",
+  );
+  assert.match(
+    await labLink.innerText(),
+    /Play Lab/i,
+    "Navigation uses the renamed page title",
+  );
+  assert.equal(
+    await page
+      .locator(
+        '#site-nav a[href="/tools"], #site-nav a[href="/playground"], #site-nav a[href="/interactions"]',
+      )
+      .count(),
+    0,
+    "Navigation no longer advertises the removed or superseded pages",
+  );
   await page.setViewportSize({ width: 390, height: 844 });
   await page.waitForFunction(
     () =>
@@ -405,14 +456,26 @@ async function foldersAndCapabilities(page) {
   await page.setViewportSize({ width: 390, height: 844 });
   await load(page, "/");
   const folders = page.locator("a.folder");
-  const expected = [
-    "markdown-viewer",
-    "medichain",
-    "notemarker",
-    "blazedemo",
-    "ams",
-    "sketchflow",
-  ];
+  for (const width of [320, 390]) {
+    await page.setViewportSize({ width, height: 844 });
+    const clipped = await folders.evaluateAll((cards) =>
+      cards
+        .filter(
+          (card) =>
+            card.querySelector(".folder-bottom").getBoundingClientRect()
+              .bottom >
+            card.querySelector(".folder-front").getBoundingClientRect().bottom +
+              1,
+        )
+        .map((card) => card.querySelector(".folder-title").textContent),
+    );
+    assert.deepEqual(
+      clipped,
+      [],
+      `Full project names and actions fit their folders at ${width}px`,
+    );
+  }
+  const expected = featuredIds;
   assert.equal(
     await folders.count(),
     expected.length,
@@ -435,6 +498,21 @@ async function foldersAndCapabilities(page) {
       (item) => item.pathname.startsWith("/work/") && item.title,
     ),
     "Folders have visible titles and dedicated local project destinations",
+  );
+  const archiveLinks = page.locator(".home-archive .archive-link");
+  assert.deepEqual(
+    await archiveLinks.evaluateAll((elements) =>
+      elements.map((element) => new URL(element.href).pathname),
+    ),
+    archiveIds.map((id) => `/work/${id}`),
+    "Home archive includes exactly the six requested projects in their curated order",
+  );
+  assert.deepEqual(
+    await page.locator("#projects .project-number").allTextContents(),
+    Array.from({ length: 12 }, (_, index) =>
+      String(index + 1).padStart(2, "0"),
+    ),
+    "Home project numbering runs from 01 to 12 across both collections",
   );
 
   const capabilities = page.locator("details.capability");
@@ -467,12 +545,26 @@ async function foldersAndCapabilities(page) {
     "Project engineering notes are readable",
   );
   await load(page, "/work");
-  for (const id of expected)
+  for (const id of [...featuredIds, ...archiveIds])
     assert.equal(
       await page.locator(`#project-${id}`).count(),
       1,
-      `${id} has one archive entry`,
+      `${id} has one work entry`,
     );
+  assert.equal(
+    await page.locator(".private-card").count(),
+    4,
+    "Behind the scenes contains exactly four private engagements",
+  );
+  assert.equal(
+    new Set(
+      await page
+        .locator(".private-card")
+        .evaluateAll((cards) => cards.map((card) => card.getAttribute("href"))),
+    ).size,
+    4,
+    "Private engagement cards have four distinct destinations",
+  );
 }
 
 async function quickAsk(page) {
@@ -488,7 +580,10 @@ async function quickAsk(page) {
   );
   for (const [question, expected] of [
     ["What did you study?", /JIS College of Engineering.*May 2025.*9\.15/],
-    ["Tell me about your projects", /Markdown Viewer.*NoteMarker.*MediChain/],
+    [
+      "Tell me about your projects",
+      /Featured projects: Markdown Viewer.*MediChain.*More work.*NoteMarker/s,
+    ],
     ["What is your experience?", /Java\/Selenium SDET training/],
     ["How can I contact you?", /baivabsarkar@gmail\.com/],
     ["an unrelated question", /verified information/],
@@ -496,7 +591,9 @@ async function quickAsk(page) {
     await input.fill(question);
     await input.press("Enter");
     await answer.waitFor({ state: "visible" });
-    await page.waitForFunction(()=>!document.querySelector('.quick-ask').hasAttribute('aria-busy'));
+    await page.waitForFunction(
+      () => !document.querySelector(".quick-ask").hasAttribute("aria-busy"),
+    );
     assert.match(
       await answer.innerText(),
       expected,
@@ -633,6 +730,27 @@ async function archive(page) {
   await collections(page);
 }
 
+async function curatedWorkGroups(page) {
+  const groups = page.locator("[data-project-group]");
+  assert.equal(
+    await groups.count(),
+    2,
+    "Work separates featured projects from the archive",
+  );
+  const actual = await groups.evaluateAll((elements) =>
+    elements.map((group) =>
+      [...group.querySelectorAll("[data-collection-item]")].map((item) =>
+        item.id.replace(/^project-/, ""),
+      ),
+    ),
+  );
+  assert.deepEqual(
+    actual,
+    [featuredIds, archiveIds],
+    "Both work collections preserve the requested project order",
+  );
+}
+
 async function collections(page) {
   for (const route of ["/work", "/blog"]) {
     await page.setViewportSize({ width: 1440, height: 1000 });
@@ -640,6 +758,14 @@ async function collections(page) {
     const items = page.locator("[data-collection-item]");
     const total = await items.count();
     assert(total >= 9, `${route} includes the full collection`);
+    if (route === "/work") {
+      assert.equal(
+        total,
+        12,
+        "Work contains exactly the twelve requested public projects",
+      );
+      await curatedWorkGroups(page);
+    }
     if (route === "/blog")
       assert.equal(
         total,
@@ -663,6 +789,7 @@ async function collections(page) {
         ),
         `${route} category ${category} selects the right items`,
       );
+      if (route === "/work") await curatedWorkGroups(page);
     }
     await page.locator('button[data-category="All"]').click();
     const search = page.locator("[data-search]");
@@ -688,23 +815,71 @@ async function collections(page) {
       !(await page.locator(".collection-empty").isVisible()),
       "Results replace empty state",
     );
+    if (route === "/work") {
+      await search.fill("Simon");
+      assert.equal(
+        await page.locator("[data-collection-item]:visible").count(),
+        1,
+        "Search reaches projects in the archive",
+      );
+      assert(
+        await page.locator("#project-simon").isVisible(),
+        "Archive search returns Simon",
+      );
+      await search.fill("Medical Chatbot");
+      assert.equal(
+        await page.locator("[data-collection-item]:visible").count(),
+        1,
+        "Search also reaches featured projects",
+      );
+      assert(
+        await page.locator("#project-medical-chatbot").isVisible(),
+        "Featured search returns the medical chatbot",
+      );
+      await curatedWorkGroups(page);
+    }
     await search.fill("");
     assert.equal(
       await page.locator("[data-collection-item]:visible").count(),
       total,
     );
-    for (const ascending of [true, false]) {
+    if (route === "/work") await curatedWorkGroups(page);
+    for (const ascending of route === "/work" ? [false, true] : [true, false]) {
       await page.locator("[data-sort]").click();
-      const dates = await items.evaluateAll((elements) =>
-        elements.map((element) => Date.parse(element.dataset.date)),
-      );
+      const datesByGroup = await page
+        .locator("[data-collection-grid]")
+        .evaluateAll((grids) =>
+          grids.map((grid) =>
+            [...grid.querySelectorAll("[data-collection-item]")].map(
+              (element) => Date.parse(element.dataset.date),
+            ),
+          ),
+        );
       assert(
-        dates.every(
-          (date, i) =>
-            !i || (ascending ? dates[i - 1] <= date : dates[i - 1] >= date),
+        datesByGroup.every((dates) =>
+          dates.every(
+            (date, i) =>
+              !i || (ascending ? dates[i - 1] <= date : dates[i - 1] >= date),
+          ),
         ),
         `${route} date sort is ${ascending ? "ascending" : "descending"}`,
       );
+      if (route === "/work") {
+        const members = await page
+          .locator("[data-project-group]")
+          .evaluateAll((groups) =>
+            groups.map((group) =>
+              [...group.querySelectorAll("[data-collection-item]")]
+                .map((item) => item.id.replace(/^project-/, ""))
+                .sort(),
+            ),
+          );
+        assert.deepEqual(
+          members,
+          [[...featuredIds].sort(), [...archiveIds].sort()],
+          "Sorting never moves projects between featured work and the archive",
+        );
+      }
     }
     await page.setViewportSize({ width: 390, height: 844 });
     const mobileFilter = page.locator(".collection-mobile-filter select");
@@ -873,7 +1048,22 @@ async function readers(page) {
 
 async function playground(page) {
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await load(page, "/playground");
+  await load(page, "/play-lab");
+  assert.match(
+    await page.locator("h1").innerText(),
+    /Play Lab/i,
+    "The combined page has its new title",
+  );
+  assert.equal(
+    await page.locator("#canvas").count(),
+    1,
+    "Canvas has a direct section link",
+  );
+  assert.equal(
+    await page.locator("#interactions").count(),
+    1,
+    "Interactions live on the same page",
+  );
   const board = page.locator("[data-playground-board]");
   const card = page.locator("[data-playground-card]").first();
   assert.equal(await page.locator("[data-playground-card]").count(), 7);
@@ -915,39 +1105,97 @@ async function playground(page) {
     7,
     "All cards remain readable on mobile",
   );
-  await load(page, "/interactions");
+  await page.locator('a[href="#interactions"]').click();
+  assert.equal(
+    new URL(page.url()).pathname,
+    "/play-lab",
+    "Opening interactions stays in Play Lab",
+  );
+  assert.equal(new URL(page.url()).hash, "#interactions");
 
-  assert.equal(await page.locator('.playground-experiment').count(),6);
+  assert.equal(await page.locator(".playground-experiment").count(), 6);
   await page.locator('[data-shape-choice="star"]').click();
-  assert.equal(await page.locator('[data-interaction-shape]').getAttribute('data-interaction-shape'),'star');
+  assert.equal(
+    await page
+      .locator("[data-interaction-shape]")
+      .getAttribute("data-interaction-shape"),
+    "star",
+  );
   await page.locator('[data-spring-character="bouncy"]').click();
-  await page.locator('[data-spring-launch]').click();
-  assert.match(await page.locator('[data-spring-status]').innerText(),/right.*bouncy/);
-  const pass=page.locator('[data-depth-card]');await pass.click();
-  assert.equal(await pass.getAttribute('aria-pressed'),'true');
-  assert(await page.locator('.depth-card-back').isVisible());
-  await page.locator('[data-joy-button]').click();
-  assert.match(await page.locator('[data-joy-status]').innerText(),/1 little moment/);
-  await page.locator('#flow-idea').focus();await page.locator('#flow-idea').press('End');
-  assert.equal(await page.locator('#flow-ship').getAttribute('aria-selected'),'true');
-  assert.match(await page.locator('#flow-panel').innerText(),/Share it with the world/);
-  await page.locator('.interaction-disclosures summary').nth(1).click();
-  assert(await page.locator('.interaction-disclosures details').nth(1).evaluate(e=>e.open));
-  await load(page,'/playground');
-  const note=page.locator('[data-widget-note]');await note.fill('A useful new idea.');
+  await page.locator("[data-spring-launch]").click();
+  assert.match(
+    await page.locator("[data-spring-status]").innerText(),
+    /right.*bouncy/,
+  );
+  const pass = page.locator("[data-depth-card]");
+  await pass.click();
+  assert.equal(await pass.getAttribute("aria-pressed"), "true");
+  assert(await page.locator(".depth-card-back").isVisible());
+  await page.locator("[data-joy-button]").click();
+  assert.match(
+    await page.locator("[data-joy-status]").innerText(),
+    /1 little moment/,
+  );
+  const bloomSpread = page.locator("[data-bloom-spread]");
+  await bloomSpread.focus();
+  await bloomSpread.press("End");
+  assert.equal(
+    await bloomSpread.inputValue(),
+    "100",
+    "Keyboard opens the bloom petals fully",
+  );
+  assert.equal(await page.locator("[data-bloom-value]").innerText(), "100%");
+  await page.locator("[data-bloom-spin]").click();
+  assert.match(
+    await page.locator("[data-bloom-status]").innerText(),
+    /1 spin.*100 percent/,
+  );
+  const rippleColour = page.locator('[data-ripple-colour="rose"]');
+  await rippleColour.click();
+  assert.equal(await rippleColour.getAttribute("aria-pressed"), "true");
+  assert.equal(
+    await page
+      .locator(".interaction-ripple-stage")
+      .getAttribute("data-ripple-theme"),
+    "rose",
+  );
+  const pond = page.locator("[data-ripple-pond]");
+  await pond.focus();
+  await pond.press("Enter");
+  assert.match(
+    await page.locator("[data-ripple-status]").innerText(),
+    /1 ripple made/,
+  );
+  assert.equal(
+    await page.locator("[data-ripple-rings] > *").count(),
+    3,
+    "Keyboard activation creates a visible ripple",
+  );
+  await load(page, "/play-lab");
+  const note = page.locator("[data-widget-note]");
+  await note.fill("A useful new idea.");
   await page.locator('[data-widget-vote="tool"]').click();
   await page.locator('[data-widget-duration="15"]').click();
-  assert.equal(await page.locator('[data-widget-timer]').innerText(),'15:00');
-  await page.locator('[data-widget-timer-toggle]').click();
-  assert.match(await page.locator('[data-widget-timer-toggle]').innerText(),/Pause/);
-  await page.locator('[data-widget-timer-reset]').click();
-  const hue=page.locator('[data-widget-hue-input]');await hue.focus();await hue.press('End');
-  assert.equal(await page.locator('[data-widget-hue]').innerText(),'359°');
-  await page.reload({waitUntil:'networkidle'});
-  assert.equal(await note.inputValue(),'A useful new idea.');
-  assert.equal(await page.locator('[data-widget-vote="tool"]').getAttribute('aria-pressed'),'true');
-  assert.equal(await hue.inputValue(),'359');
-
+  assert.equal(await page.locator("[data-widget-timer]").innerText(), "15:00");
+  await page.locator("[data-widget-timer-toggle]").click();
+  assert.match(
+    await page.locator("[data-widget-timer-toggle]").innerText(),
+    /Pause/,
+  );
+  await page.locator("[data-widget-timer-reset]").click();
+  const hue = page.locator("[data-widget-hue-input]");
+  await hue.focus();
+  await hue.press("End");
+  assert.equal(await page.locator("[data-widget-hue]").innerText(), "359°");
+  await page.reload({ waitUntil: "networkidle" });
+  assert.equal(await note.inputValue(), "A useful new idea.");
+  assert.equal(
+    await page
+      .locator('[data-widget-vote="tool"]')
+      .getAttribute("aria-pressed"),
+    "true",
+  );
+  assert.equal(await hue.inputValue(), "359");
 }
 
 async function cursorDots(page) {
@@ -1015,6 +1263,35 @@ try {
         `${route} CSP applied`,
       );
     }
+    for (const [route, destination] of legacyRoutes) {
+      const response = await fetch(`${preview.url}${route}`, {
+        redirect: "manual",
+      });
+      assert.equal(response.status, 301, `${route} permanently redirects`);
+      assert.equal(
+        response.headers.get("location"),
+        destination,
+        `${route} redirects to its intended replacement`,
+      );
+      await response.body?.cancel();
+    }
+    const sitemap = await fetch(`${preview.url}/sitemap.xml`).then((response) =>
+      response.text(),
+    );
+    assert(
+      sitemap.includes("https://baivabsarkar.pages.dev/play-lab"),
+      "Sitemap contains Play Lab",
+    );
+    for (const [route] of legacyRoutes)
+      assert(
+        !sitemap.includes(`https://baivabsarkar.pages.dev${route}</loc>`),
+        `${route} is no longer indexed`,
+      );
+    assert.deepEqual(
+      projectData.map((project) => project.id),
+      [...featuredIds, ...archiveIds],
+      "Project data publishes exactly the requested twelve projects",
+    );
     const missing = await fetch(`${preview.url}/does-not-exist`);
     assert.equal(missing.status, 404);
     assert((await missing.text()).includes("Baivab"), "Custom 404 page served");
@@ -1129,7 +1406,10 @@ try {
           "all project and article readers and playable 404",
           () => readers(page),
         ],
-        ["playground and interaction controls", () => playground(page)],
+        [
+          "combined Play Lab widgets and creative interaction controls",
+          () => playground(page),
+        ],
         ["cursor highlights and reduced motion", () => cursorDots(page)],
       ]) {
         await check(`${name}: ${label}`, async () => {
@@ -1229,7 +1509,7 @@ try {
           "/about",
           "/blog",
           articleData[0].localPath,
-          "/playground",
+          "/play-lab",
         ]) {
           await load(fallback, route, true);
           assert(
@@ -1267,6 +1547,24 @@ try {
               !(await fallback.locator("#game-jump").isVisible()),
               "Unavailable game controls are hidden without JavaScript",
             );
+            assert.equal(
+              await fallback.locator(".home-archive .archive-link").count(),
+              6,
+              "All archive projects remain available without JavaScript",
+            );
+          }
+          if (route === "/work") await curatedWorkGroups(fallback);
+          if (route === "/play-lab") {
+            assert.equal(
+              await fallback.locator("[data-playground-card]").count(),
+              7,
+              "Play Lab keeps the seven canvas widgets readable without JavaScript",
+            );
+            assert.equal(
+              await fallback.locator(".playground-experiment").count(),
+              6,
+              "The six interaction descriptions remain available without JavaScript",
+            );
           }
         }
         await noJs.close();
@@ -1281,6 +1579,10 @@ try {
     const documents = new Map();
     for (const href of localLinks) {
       const url = new URL(href);
+      assert(
+        !legacyRoutes.some(([route]) => route === url.pathname),
+        `${url.pathname} links directly to its current destination`,
+      );
       const fragment = decodeURIComponent(url.hash.slice(1));
       url.hash = "";
       if (!documents.has(url.href)) {

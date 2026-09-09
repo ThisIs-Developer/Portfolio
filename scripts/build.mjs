@@ -222,6 +222,7 @@ if (!check) {
     "quick-ask.js",
     "quick-ask-core.js",
     "_routes.json",
+    "_redirects",
     "playground.css",
     "playground.js",
     "favicon.svg",

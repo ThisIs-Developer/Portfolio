@@ -4,10 +4,33 @@
   "intro": "I have developed internal enterprise applications and business automation tools for private clients, supporting everyday operations, collaboration and documentation.",
   "notice": "These applications were developed as part of private freelance and enterprise engagements. Source code, system architecture, client data and certain project details cannot be disclosed due to confidentiality requirements.",
   "projects": [
-    { "id": "invoice-management", "title": "Enterprise Invoice Management System", "summary": "An internal application for managing company invoices, records and related business workflows.", "label": "Finance workflows", "symbol": "↗" },
-    { "id": "team-collaboration", "title": "Team Collaboration & Workflow Platform", "summary": "An internal collaboration application designed to improve communication, task coordination and team productivity.", "label": "Team workflows", "symbol": "↔" },
-    { "id": "proposal-generator", "title": "Proposal Document Generator", "summary": "An automated system for generating standardized business proposals and formatted project documentation.", "label": "Document automation", "symbol": "Aa" },
-    { "id": "audit-management", "title": "Audit Management & Compliance System", "summary": "Internal software supporting audit workflows, documentation, tracking and reporting.", "label": "Audit workflows", "symbol": "✓" },
-    { "id": "enterprise-support", "title": "Enterprise Audit & Project Support Solutions", "summary": "Contributed to internal software solutions used in audit and project environments associated with organizations and projects such as NTPC, Bluestar and other enterprise clients.", "label": "Enterprise support", "symbol": "{ }" }
+    {
+      "id": "invoice-management",
+      "title": "Enterprise Invoice Management System",
+      "summary": "An internal application for managing company invoices, records and related business workflows.",
+      "label": "Finance workflows",
+      "symbol": "↗"
+    },
+    {
+      "id": "team-collaboration",
+      "title": "Team Collaboration & Workflow Platform",
+      "summary": "An internal collaboration application designed to improve communication, task coordination and team productivity.",
+      "label": "Team workflows",
+      "symbol": "↔"
+    },
+    {
+      "id": "proposal-generator",
+      "title": "Proposal Document Generator",
+      "summary": "An automated system for generating standardized business proposals and formatted project documentation.",
+      "label": "Document automation",
+      "symbol": "Aa"
+    },
+    {
+      "id": "audit-management",
+      "title": "Audit Management & Compliance System",
+      "summary": "Internal software supporting audit and compliance workflows, documentation, tracking and reporting, including contributions to audit and project environments associated with NTPC, Bluestar and other enterprise clients.",
+      "label": "Audit workflows",
+      "symbol": "✓"
+    }
   ]
 }

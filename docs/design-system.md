@@ -1,6 +1,6 @@
 # Portfolio design system
 
-The portfolio uses a warm dotted canvas, expressive serif type, translucent pastel objects and a compact floating navigation dock. The same language extends across the home, About, Work, Tools, Blog, individual reading pages, playground and 404.
+The portfolio uses a warm dotted canvas, expressive serif type, translucent pastel objects and a compact floating navigation dock. The same language extends across the home, About, Work, Blog, individual reading pages, Play Lab and 404.
 
 ## Foundations
 
@@ -13,7 +13,7 @@ The portfolio uses a warm dotted canvas, expressive serif type, translucent past
 | Display | Instrument Serif, regular and italic |
 | Body and controls | Instrument Sans, 400–700 |
 | Handwritten asides | Nanum Pen Script |
-| Glass | White at 65–88% opacity |
+| Foreground surfaces | Opaque light/dark surfaces over the dotted canvas |
 | Navigation blur | 22px |
 | Contact canvas | #0a0a0a |
 
@@ -21,12 +21,12 @@ The six folder tints are #b8f0d8, #d4c9f5, #b8cef5, #f5d4b8, #f2a65a and #c8e6c0
 
 ## Page composition
 
-- Home: centered 88svh introduction, six project folders, compact capabilities, selected writing, personal cards and dark contact/game ending.
+- Home: centered 88svh introduction, six featured project folders, six compact archive links, capabilities, selected writing, personal cards and dark contact/game ending.
 - About: centered introduction, seven fanned images, a narrow 740px reading column, a profile panel, interests, tools and experience.
-- Work: segmented Work/Interactions switch, centered 64px heading, category/search/sort controls and two folder columns, followed by private freelance work.
+- Work: a centered heading, shared category/search controls, six featured folders and six archive cards. Curated order is preserved until an explicit date sort. Four private-work cards use original illustrations, sans-serif headlines and the article index’s clean art-and-copy layout.
 - Blog: a left-aligned engineering publication header, featured article, search/filter/sort controls and a card grid with original vector artwork. Local readers use clear sans-serif titles, an author byline, a sidebar section index, a generous text column and code panels.
-- Project and tool details: large left-aligned title, rounded metadata tray, genuine project imagery or a labeled placeholder, sticky section navigation and next-project link.
-- Playground: a rounded canvas with an editable sticky note, focus timer, checklist, personal vote, colour mixer, clock and project widget. Drag their headings or use arrow keys. Mobile starts in List view for readable controls.
+- Project details: large left-aligned title, rounded metadata tray, genuine project imagery or a labeled placeholder, sticky section navigation and next-project link.
+- Play Lab: a rounded canvas with an editable sticky note, focus timer, checklist, personal vote, colour mixer, clock and project widget. Drag their headings or use arrow keys. Mobile starts in List view for readable controls.
 - 404: a centered message, playable Bug Run panel and return-home link.
 
 Mobile uses top identity/menu controls, one-column collections, smaller type, two-column metadata with the third item spanning both, and a compact bottom reading index. Native links and article content remain usable without JavaScript.
@@ -35,7 +35,7 @@ Mobile uses top identity/menu controls, one-column collections, smaller type, tw
 
 Folder transforms and hover lifts use ease-out and spring-like curves. Pointer movement locally enlarges dots within a soft radius; the effect fades over controls and widgets, creates no canvas on touch or reduced-motion devices and stops drawing when idle. Opaque foreground surfaces keep dots behind controls and cards. Soft shadows replace decorative borders. Mouse focus avoids oversized rings while keyboard focus remains visible. The game starts only on input. Reduced-motion styles suppress decorative movement.
 
-The Interactions page contains six working demos: shape switching, selectable spring motion, a tilting/turning studio pass, click celebration, keyboard-accessible process tabs and disclosure cards.
+The Interactions section of Play Lab contains six working demos: shape switching, selectable spring motion, a tilting/turning studio pass, click celebration, an adjustable spinning petal bloom and a tactile ripple pond with three palettes. The canvas and experiments have direct section links on one page. Keyboard, touch and reduced-motion feedback remain available.
 
 ## Self-hosted font assets and licenses
 

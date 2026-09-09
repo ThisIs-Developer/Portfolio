@@ -155,7 +155,7 @@ await test("Missing AI binding and provider errors use an honest portfolio fallb
       await handleAsk(request("Tell me about your projects"), env, facts)
     ).json();
     assert.equal(result.mode, "portfolio");
-    assert.match(result.answer, /Markdown Viewer.*NoteMarker.*MediChain/);
+    assert.match(result.answer, /Featured projects: Markdown Viewer.*MediChain.*More work.*NoteMarker/s);
   }
 });
 await test("Fallback diagnostics never expose questions, model prose or provider error text", async () => {

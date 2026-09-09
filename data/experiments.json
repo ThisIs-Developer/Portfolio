@@ -1,7 +1,7 @@
 [
   {
     "id": "ams",
-    "title": "Academic Management System",
+    "title": "AMS",
     "category": "Full-stack · Team project",
     "year": "2024",
     "summary": "Role-based attendance workflows for administrators, teachers and students.",
@@ -11,13 +11,7 @@
       "Role-specific attendance interfaces.",
       "Attendance recording and report workflows."
     ],
-    "stack": [
-      "JavaScript",
-      "Spring",
-      "Redis",
-      "PostgreSQL",
-      "JPA"
-    ],
+    "stack": ["JavaScript", "Spring", "Redis", "PostgreSQL", "JPA"],
     "source": "https://github.com/ThisIs-Developer/AMS",
     "live": "https://ams-system.pages.dev/",
     "liveLabel": "View frontend",
@@ -25,7 +19,7 @@
   },
   {
     "id": "csv-chatbot",
-    "title": "Llama 2 CSV Chatbot",
+    "title": "Llama 2 GGML CSV Chatbot",
     "category": "AI · Retrieval experiment",
     "year": "2024",
     "summary": "Ask questions of uploaded CSV data using local model inference and vector retrieval.",
@@ -35,13 +29,7 @@
       "Chunk CSV data and index it with sentence-transformer embeddings and FAISS.",
       "Retrieve relevant rows for a Llama 2 question-answering workflow."
     ],
-    "stack": [
-      "Python",
-      "LangChain",
-      "Streamlit",
-      "Llama 2",
-      "FAISS"
-    ],
+    "stack": ["Python", "LangChain", "Streamlit", "Llama 2", "FAISS"],
     "source": "https://github.com/ThisIs-Developer/Llama-2-GGML-CSV-Chatbot",
     "live": null,
     "liveLabel": null,
@@ -59,11 +47,7 @@
       "Draw shapes, arrows, text and freehand strokes.",
       "Adjust styling and zoom; export PNG or save JSON."
     ],
-    "stack": [
-      "JavaScript",
-      "Canvas API",
-      "HTML & CSS"
-    ],
+    "stack": ["JavaScript", "Canvas API", "HTML & CSS"],
     "source": "https://github.com/ThisIs-Developer/SketchFlow",
     "live": "https://sketchflow.pages.dev/",
     "liveLabel": "Open canvas",
@@ -81,13 +65,7 @@
       "Collect labeled landmark data from webcam or recorded video.",
       "Compare scikit-learn pipelines and a TensorFlow Lite export."
     ],
-    "stack": [
-      "Python",
-      "MediaPipe",
-      "OpenCV",
-      "scikit-learn",
-      "TensorFlow"
-    ],
+    "stack": ["Python", "MediaPipe", "OpenCV", "scikit-learn", "TensorFlow"],
     "source": "https://github.com/ThisIs-Developer/Body-Language-Detection-with-MediaPipe-and-OpenCV",
     "live": null,
     "liveLabel": null,
@@ -95,7 +73,7 @@
   },
   {
     "id": "news-scraper",
-    "title": "News Scraper",
+    "title": "News Scraping Platform",
     "category": "Automation · Python",
     "year": "2023–2024",
     "summary": "A Django experiment for collecting news articles from multiple sources.",
@@ -105,13 +83,7 @@
       "Concurrent collection from multiple publications.",
       "Export collected records to Excel or MySQL."
     ],
-    "stack": [
-      "Python",
-      "Django",
-      "Selenium",
-      "BeautifulSoup",
-      "MySQL"
-    ],
+    "stack": ["Python", "Django", "Selenium", "BeautifulSoup", "MySQL"],
     "source": "https://github.com/ThisIs-Developer/News-Scraping-using-BeautyfulSoup-Selenium-with-Django",
     "live": null,
     "liveLabel": null,

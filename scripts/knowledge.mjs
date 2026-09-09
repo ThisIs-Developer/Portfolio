@@ -1,3 +1,4 @@
+import { projectCollections } from "./project-selection.mjs";
 // Only already-public portfolio fields become assistant context.
 export function buildKnowledge({
   profile,
@@ -16,7 +17,11 @@ export function buildKnowledge({
     url,
     keywords,
   });
-  const all = [...projects, ...experiments, ...projectAdditions];
+  const { all, featured, archive } = projectCollections({
+    projects,
+    experiments,
+    projectAdditions,
+  });
   return [
     fact(
       "about",
@@ -56,25 +61,14 @@ export function buildKnowledge({
     fact(
       "experience",
       "Experience",
-      `Baivab’s experience includes private freelance enterprise applications, independent open-source work, team projects, and Java/Selenium SDET training. BlazeDemo is an educational capstone. ${experience.find((x) => /Selenium/.test(x.title)).description}`,
+      `Baivab’s experience includes private freelance enterprise applications, independent open-source work, team projects, and Java/Selenium SDET training. ${experience.find((x) => /Selenium/.test(x.title)).description}`,
       "/about#experience",
       "experience training job career employment wipro qa sdet test testing automation selenium",
     ),
     fact(
       "projects",
       "Selected projects",
-      `Baivab created and maintains Markdown Viewer and NoteMarker, led full-stack development for the MediChain team prototype, and built a Java/Selenium automation capstone. His portfolio also includes ${all
-        .filter(
-          (p) =>
-            ![
-              "markdown-viewer",
-              "notemarker",
-              "medichain",
-              "blazedemo",
-            ].includes(p.id),
-        )
-        .map((p) => p.title)
-        .join(", ")}.`,
+      `Featured projects: ${featured.map((p) => p.title).join(", ")}. More work in the project archive: ${archive.map((p) => p.title).join(", ")}.`,
       "/work",
       "projects project portfolio work build built building creations apps applications",
     ),

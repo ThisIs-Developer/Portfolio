@@ -17,7 +17,7 @@ The [GitHub profile API](https://api.github.com/users/ThisIs-Developer), recheck
 
 ## Core project evidence
 
-The four core entries below remain in `data/projects.json`. The revised home page displays six folders by also selecting AMS and SketchFlow from `data/experiments.json`; their evidence is documented in the archive table. The complete Work collection also includes the additional projects supplied on 8 September.
+The project selection in `data/project-order.json` defines six featured entries and six archive entries in the owner’s requested order. Project details live in the three project data files. The earlier BlazeDemo listing has been removed from the published catalog. Historical verification notes below preserve the original source audit.
 
 | Portfolio entry | Evidence and editorial decisions |
 | --- | --- |
@@ -98,12 +98,12 @@ Email is a `mailto:` action sourced from the resume and author profiles. No test
 
 ## Content model
 
-- `data/projects.json`: four core projects with problem, contribution, two concise feature notes, source/live links, status and authentic image references.
+- `data/projects.json`: Markdown Viewer, MediChain and NoteMarker Extension, with evidence-backed detail and images.
 - `data/articles.json`: 11 full published articles with local routes, sanitized body HTML, local images, ISO dates and reading minutes; three are marked featured. No runtime API dependency.
-- `data/experiments.json`: five further projects with qualified statuses and repository links; AMS and SketchFlow are also selected for the home folder grid in `scripts/templates.mjs`.
+- `data/experiments.json`: AMS, the CSV chatbot, SketchFlow, Body Language Detection and News Scraping Platform. `data/project-additions.json` holds the Bengali music app, medical chatbot, TaskFlow and Simon.
 - `data/profile.json`, `data/experience.json`, `data/skills.json`, `data/certifications.json`: resume-backed positioning and the training/education/independent-project timeline.
 
-The five capability disclosures in `scripts/templates.mjs` summarize demonstrated project work rather than commercial service history. “Quick ask” in `script.js` returns curated, local answers drawn from the same facts. It does not infer additional experience, consult a model, or make external requests. Keep those summaries synchronized when the underlying evidence changes.
+The five capability disclosures summarize demonstrated skills. Quick Ask uses the same curated project selection and public portfolio data; see `docs/quick-ask.md` for Workers AI validation and fallback behavior.
 
 After content edits, run the repository build so all generated pages and the sitemap remain consistent with the data. Review sources again before adding new claims, changing role dates or updating published article metadata.
 
@@ -114,3 +114,9 @@ Baivab explicitly supplied the private freelance application descriptions in dat
 Additional projects in data/project-additions.json include TaskFlow, Llama 2 GGML Medical Chatbot and Sei-Sangeet-Bangla. TaskFlow’s public repository supports customizable columns, drag/drop tasks, search, task details and localStorage persistence; assignee fields are not a hosted collaboration backend. The medical chatbot implementation uses LangChain RetrievalQA, FAISS, sentence-transformer embeddings and a pretrained model. It is a research prototype with no clinical validation or training claim. Sei-Sangeet-Bangla is included from the owner’s project list with a public site link and private-source status; no private repository contents are published.
 
 Both historical chatbot articles retain their original prose alongside visible technical corrections about pretrained inference and retrieval. The medical article also carries its non-clinical qualification, and a malformed code fence was repaired to restore its setup steps, screenshots and notes. Publication dates distinguish historical article details from current project capabilities.
+
+## Curated project update
+
+Featured: Markdown Viewer, Sei-Sangeet-Bangla, Llama 2 GGML Medical Chatbot, Body Language Detection, MediChain and AMS. Archive: NoteMarker Extension, SketchFlow, Llama 2 GGML CSV Chatbot, News Scraping Platform, TaskFlow and Simon.
+
+[Simon source](https://github.com/ThisIs-Developer/Simon) and [live game](https://simonsays.pages.dev/) were verified on 9 September 2026. Its HTML/CSS/JavaScript implements a growing colour sequence, sound/flash feedback, restart/help controls and a highest score stored in localStorage. Bootstrap is not claimed because the inspected HTML does not import it. Its project image is a replaceable placeholder. The two audit-related private engagements are consolidated into one card, for four private-work entries overall.

@@ -20,21 +20,19 @@ Open http://127.0.0.1:4173. To serve deployment output, run `node scripts/serve.
 
 | Route | Content |
 | --- | --- |
-| / | Introduction, selected projects, capabilities and writing |
+| / | Introduction, six featured projects, six archive links, capabilities and writing |
 | /about | Personal story, photo fan, experience and education |
-| /work | Searchable project folders and private freelance overview |
+| /work | Six featured projects, six archive projects and four private engagements |
 | /work/:id | Individual project details |
 | /work/enterprise | Confidentiality-safe enterprise summaries |
-| /tools | Selected developer and creative tools |
 | /blog | All published articles with search and categories |
 | /blog/:slug | Complete local article content |
-| /playground | Movable widgets: editable note, focus timer, vote, colour mixer, checklist, clock and project |
-| /interactions | Six studies in shape, spring motion, depth, feedback, tabs and disclosure |
+| /play-lab | Seven movable widgets and six visual interaction experiments |
 | missing URLs | 404 message and Bug Run game |
 
-The legacy /project and /project.html links still serve the project collection.
+The legacy /project and /project.html links still serve the project collection. /playground redirects to /play-lab; /interactions opens its Interactions section. The removed /tools page and old BlazeDemo project route redirect to Work.
 
-Edit data/*.json, then build and commit the generated HTML and sitemap. Shared templates live in scripts/templates.mjs and scripts/site-pages.mjs; the playground has its own renderer. style.css contains the home/shared foundation, pages.css handles collections and reading pages, and cursor.css/js supplies the pointer effect.
+`data/project-order.json` controls the exact featured/archive order shared by Home, Work, project readers and Quick Ask. Edit data/*.json, then build and commit the generated HTML and sitemap. Shared templates live in scripts/templates.mjs and scripts/site-pages.mjs; the playground has its own renderer. style.css contains the home/shared foundation, pages.css handles collections and reading pages, and cursor.css/js supplies the pointer effect.
 
 Create a native article with `npm run post:new -- "Your article title"`. Fill in the structured draft in content/posts, set `draft` to `false` when ready, and build. Titles, sections, code, screenshots, links, artwork, reading time and local URLs are handled by the publishing pipeline. See the [article publishing guide](docs/publishing-articles.md). The editorial presentation uses original article-art compositions in place of imported covers.
 

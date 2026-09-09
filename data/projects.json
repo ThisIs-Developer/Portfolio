@@ -40,13 +40,7 @@
       "Track medicine batches, lifecycle states and purchase history.",
       "Connect role-based web interfaces to Ethereum contracts."
     ],
-    "stack": [
-      "JavaScript",
-      "Solidity",
-      "Ethereum",
-      "Web3.js",
-      "MetaMask"
-    ],
+    "stack": ["JavaScript", "Solidity", "Ethereum", "Web3.js", "MetaMask"],
     "source": "https://github.com/ThisIs-Developer/MediChain",
     "live": "https://medichain.pages.dev/",
     "liveLabel": "Visit project",
@@ -59,7 +53,7 @@
   },
   {
     "id": "notemarker",
-    "title": "NoteMarker",
+    "title": "NoteMarker Extension",
     "category": "Browser extension · Productivity",
     "year": "2024",
     "summary": "Keep the useful parts of the web, right where you found them.",
@@ -69,12 +63,7 @@
       "Persistent five-color highlights and rich-text sticky notes.",
       "Move, resize and manage annotations on the original webpage."
     ],
-    "stack": [
-      "JavaScript",
-      "WebExtensions",
-      "Browser Storage",
-      "HTML & CSS"
-    ],
+    "stack": ["JavaScript", "WebExtensions", "Browser Storage", "HTML & CSS"],
     "source": "https://github.com/ThisIs-Developer/NoteMarker-Extension",
     "live": "https://notemarker.pages.dev/",
     "liveLabel": "Get extension",
@@ -84,35 +73,5 @@
     "imageSrcset": "assets/work/notemarker-800.webp 800w, assets/work/notemarker-1400.webp 1400w",
     "imageWidth": 1400,
     "imageHeight": 787
-  },
-  {
-    "id": "blazedemo",
-    "title": "BlazeDemo Automation",
-    "category": "Test engineering · Capstone",
-    "year": "2026",
-    "summary": "An end-to-end flight-booking test framework built for repeatable feedback.",
-    "problem": "Booking flows need reliable checks across test data, browser configurations and negative scenarios.",
-    "contribution": "Authored this Wipro capstone framework using page objects, data-driven test cases, reports and a CI pipeline.",
-    "features": [
-      "Excel-driven booking checks with page objects and TestNG.",
-      "Jenkins/Docker execution, reports and screenshot evidence."
-    ],
-    "stack": [
-      "Java 17",
-      "Selenium",
-      "TestNG",
-      "Maven",
-      "Jenkins",
-      "Docker"
-    ],
-    "source": "https://github.com/ThisIs-Developer/Wipro-Capstone-Project",
-    "live": null,
-    "liveLabel": null,
-    "status": "2026 capstone project",
-    "image": "assets/work/blazedemo-1400.webp",
-    "imageAlt": "Booking confirmation captured during a BlazeDemo automated test run.",
-    "imageSrcset": "assets/work/blazedemo-800.webp 800w, assets/work/blazedemo-1400.webp 1400w",
-    "imageWidth": 1400,
-    "imageHeight": 788
   }
 ]

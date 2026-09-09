@@ -19,10 +19,12 @@ const mimeTypes = {
 export async function startServer({ root = repositoryRoot, port = 4173, host = '127.0.0.1' } = {}) {
   const directory = path.resolve(root);
   if (!(await stat(directory)).isDirectory()) throw new Error(`Not a directory: ${directory}`);
-  const [headerText, notFoundPage] = await Promise.all([
+  const [headerText, notFoundPage, redirectText] = await Promise.all([
     readFile(path.join(directory, '_headers'), 'utf8').catch(() => ''),
     readFile(path.join(directory, '404.html')).catch(() => null),
+    readFile(path.join(directory, '_redirects'), 'utf8').catch(() => ''),
   ]);
+  const redirects = new Map(redirectText.split(/\r?\n/).map(line => line.trim().split(/\s+/)).filter(parts => parts.length === 3 && parts[0].startsWith('/') && parts[1].startsWith('/') && ['301','302'].includes(parts[2])).map(([from,to,status])=>[from,{to,status:Number(status)}]));
   const headerRules = [];
   let currentRule;
   for (const line of headerText.split(/\r?\n/)) {
@@ -61,6 +63,11 @@ export async function startServer({ root = repositoryRoot, port = 4173, host = '
 
     try {
       const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
+      const redirect = redirects.get(pathname);
+      if (redirect) {
+        response.writeHead(redirect.status, { Location: redirect.to });
+        return response.end();
+      }
       const configuredHeaders = Object.assign({}, ...headerRules.filter(rule => rule.pattern.test(pathname)).map(rule => rule.headers));
       for (const [name, value] of Object.entries(configuredHeaders)) response.setHeader(name, value);
       const segments = pathname.replaceAll('\\', '/').split('/');

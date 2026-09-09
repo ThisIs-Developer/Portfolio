@@ -2,7 +2,7 @@
 
 ## 9 September refinement
 
-The latest revision removes decorative borders and dot bleed over controls, adds a Cloudflare Workers AI fact-selection endpoint, polishes all eleven local articles, introduces native article authoring, and replaces the playground and Interactions demos.
+The preceding revision removes decorative borders and dot bleed over controls, adds a Cloudflare Workers AI fact-selection endpoint, polishes all eleven local articles, introduces native article authoring, and replaces the playground and Interactions demos.
 
 - The local Chromium suite completed 60 passing checks and identified five failures: four contrast scans for the same three demo labels, and one overly broad Quick Ask match. Both causes were corrected. A subsequent targeted run passed all nine groups, including the four corrected light/dark scans, Quick Ask topic restrictions and network fallback, all eleven updated article readers, ten additional responsive views at 320/768px and focus-timer completion. There were no browser exceptions.
 - Five separate surface checks passed: dots fade over controls, opaque button surfaces, no mouse-focus rectangles, retained keyboard focus, homepage light/dark accessibility and twelve responsive views. The current widget controls, all six interaction demos, mobile List view, local persistence, reduced motion and no-JavaScript reading passed in the main browser suite.
@@ -60,7 +60,7 @@ The home page omits inner-page CSS/JS; the blog prioritizes its first cover. Fon
 
 ## Content and deployment
 
-The Work collection contains the 11 requested projects plus the retained BlazeDemo educational capstone, and five private enterprise summaries. Source code and private client data remain undisclosed. Real public screenshots are used where available; three project visuals and three About photos are clearly labeled placeholders. Both historical chatbot articles carry visible technical corrections.
+The Work collection now contains exactly twelve owner-selected projects split into six featured entries and six archive entries, plus four consolidated private enterprise summaries. Source code and private client data remain undisclosed. Real public screenshots are used where available; three project visuals and three About photos are clearly labeled placeholders. Both historical chatbot articles carry visible technical corrections.
 
 Both supported resume URLs preserve the supplied PDF. SHA-256: `08f8cad9ebb007de02e6874302f04db3f17be7d8e8f7626e98f0d9ee98099d09`.
 
@@ -79,3 +79,9 @@ npm run test:performance
 ```
 
 Run Lighthouse separately from browser tests. Local detailed logs remain in ignored .qa-results; CI publishes equivalent reports as workflow artifacts.
+
+## Project curation and Play Lab update
+
+The current revision makes the owner’s twelve-project selection explicit in data/project-order.json, adds Simon, removes the BlazeDemo listing, and consolidates private audit work into one of four illustrated cards. Home and Work use the same featured/archive order. Filtering keeps that order; date sorting stays within each group.
+
+Play Lab replaces the separate Playground and Interactions pages. It retains the seven canvas widgets and six demos, with a petal bloom and ripple pond replacing process tabs and disclosures. Legacy URLs redirect to their replacement; Tools is removed from the generated pages and navigation. The repository browser suite covers the new ordering, groups, navigation, redirects and replacement controls. See the PR’s validation section for the current run results; earlier measurements above are historical baselines.

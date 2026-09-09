@@ -1,5 +1,6 @@
-import { renderPlayground, renderInteractions } from "./playground.mjs";
+import { renderPlayground } from "./playground.mjs";
 import { articleArt, articleCategory } from "./editorial.mjs";
+import { enterpriseArt } from "./enterprise-art.mjs";
 
 const esc = (value = "") =>
   String(value).replace(
@@ -56,11 +57,13 @@ function articleCard(a, i) {
 }
 export function renderSitePages(data, ui) {
   const { profile, articles, experience, certifications, enterprise } = data;
-  const { all, folder, shell, gamePanel } = ui;
+  const { all, selected, archive, folder, shell, gamePanel } = ui;
   const pages = {};
-  const enterpriseCards = `<div class="private-grid">${enterprise.projects.map((p, i) => `<a class="private-card gradient-${i % 6}" href="/work/enterprise#${p.id}"><span class="private-lock">Private engagement <span aria-hidden="true">↗</span></span><span class="private-symbol" aria-hidden="true">${p.symbol}</span><span class="eyebrow">${p.label}</span><h3>${p.title}</h3><p>${p.summary}</p></a>`).join("")}</div>`;
-  const enterpriseSection = `<section class="enterprise-section" aria-labelledby="private-title"><div class="section-heading"><p class="eyebrow">PRIVATE FREELANCE WORK</p><h2 id="private-title">Behind the <em>scenes.</em></h2></div><p class="section-description">${enterprise.intro}</p>${enterpriseCards}<p class="confidential-note"><strong>Confidentiality notice.</strong> ${enterprise.notice}</p></section>`;
-  const work = `<div class="collection-page work-page"><header class="page-intro"><div class="view-switch" role="group" aria-label="Work views"><a href="/work" aria-current="page">Work</a><a href="/interactions">Interactions</a></div><h1>A closer look at what<br>I've built.</h1></header><section class="collection work-collection" data-collection aria-label="Public projects">${controls("projects", ["Web apps", "Tools", "AI & data", "Automation"])}<p class="collection-status sr-only" role="status" data-collection-status>${all.length} projects</p><div class="folder-grid" data-collection-grid>${all.map((p, i) => `<div class="folder-item" id="project-${p.id}" data-collection-item data-category="${category(p)}" data-date="${p.year.match(/\d{4}/g)?.at(-1) || "2024"}" data-search-text="${esc(`${p.title} ${p.summary} ${p.stack.join(" ")}`)}">${folder(p, i % 6)}</div>`).join("")}</div><p class="collection-empty" hidden>No projects match that search. Try another word or choose All.</p></section>${enterpriseSection}</div>`;
+  const enterpriseCards = `<div class="private-grid">${enterprise.projects.map((p, i) => `<a class="private-card" href="/work/enterprise#${p.id}">${enterpriseArt(i)}<div class="private-copy"><p class="eyebrow">${esc(p.label)}</p><h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p><span class="private-card-footer"><span>Private engagement</span>${arrow}</span></div></a>`).join("")}</div>`;
+  const enterpriseSection = `<section class="enterprise-section" aria-labelledby="private-title"><div class="enterprise-heading"><p class="eyebrow">PRIVATE FREELANCE WORK</p><h2 id="private-title">Behind the scenes.</h2><p>${esc(enterprise.intro)}</p></div>${enterpriseCards}<p class="confidential-note"><strong>Confidentiality notice.</strong> ${esc(enterprise.notice)}</p></section>`;
+  const projectItem = (p, i, archived = false) =>
+    `<div class="${archived ? "archive-item" : "folder-item"}" id="project-${p.id}" data-collection-item data-category="${category(p)}" data-date="${p.year.match(/\d{4}/g)?.at(-1) || "2024"}" data-search-text="${esc(`${p.title} ${p.summary} ${p.stack.join(" ")}`)}">${archived ? `<a class="archive-card" href="/work/${p.id}"><div class="archive-card-art">${projectImage(p)}<span class="archive-number">${p.number}</span></div><div class="archive-card-copy"><p class="eyebrow">${esc(p.category.split(" · ")[0])}</p><h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p><span class="archive-card-footer">Explore project ${arrow}</span></div></a>` : folder(p, i)}</div>`;
+  const work = `<div class="collection-page work-page"><header class="page-intro"><p class="eyebrow">SELECTED WORK</p><h1>A closer look at what<br>I've built.</h1></header><section class="collection work-collection" data-collection data-curated aria-label="Public projects">${controls("projects", ["Web apps", "Tools", "AI & data", "Automation"]).replace("↑ Newest", "↕ Curated").replace("newest first", "curated order")}<p class="collection-status sr-only" role="status" data-collection-status>${all.length} projects</p><section class="project-group" data-project-group aria-labelledby="featured-title"><div class="project-group-heading"><p class="eyebrow">01—06 / FEATURED PROJECTS</p><h2 id="featured-title">Featured projects.</h2></div><div class="folder-grid" data-collection-grid>${selected.map((p, i) => projectItem(p, i)).join("")}</div></section><section class="project-group" data-project-group id="archive" aria-labelledby="archive-title"><div class="project-group-heading"><p class="eyebrow">07—12 / MORE WORK</p><h2 id="archive-title">Project archive.</h2></div><div class="project-archive-grid" data-collection-grid>${archive.map((p, i) => projectItem(p, i, true)).join("")}</div></section><p class="collection-empty" hidden>No projects match that search. Try another word or choose All.</p></section>${enterpriseSection}</div>`;
   pages["work.html"] = shell(work, {
     path: "/work",
     title: "Work — Baivab Sarkar",
@@ -128,31 +131,12 @@ export function renderSitePages(data, ui) {
         ["Focus", "Business automation"],
         ["Availability", "Confidential"],
       ],
-    )}</header><div class="prose">${enterprise.projects.map((p) => `<section id="${p.id}"><p class="eyebrow">${p.label}</p><h2>${p.title}</h2><p>${p.summary}</p></section>`).join("")}<aside class="confidential-note"><h2>Confidentiality notice</h2><p>${enterprise.notice}</p></aside></div>${link("/work", "Explore public work", "button")}</article></div>`,
+    )}</header><div class="prose">${enterprise.projects.map((p) => `<section id="${p.id}">${p.id === "audit-management" ? '<span id="enterprise-support" aria-hidden="true"></span>' : ""}<p class="eyebrow">${p.label}</p><h2>${p.title}</h2><p>${p.summary}</p></section>`).join("")}<aside class="confidential-note"><h2>Confidentiality notice</h2><p>${enterprise.notice}</p></aside></div>${link("/work", "Explore public work", "button")}</article></div>`,
     {
       path: "/work/enterprise",
       title: "Enterprise applications — Baivab Sarkar",
       description: enterprise.intro,
       page: "case-study",
-    },
-  );
-  const tools = all.filter((p) =>
-    [
-      "markdown-viewer",
-      "notemarker",
-      "sketchflow",
-      "taskflow",
-      "sei-sangeet-bangla",
-    ].includes(p.id),
-  );
-  pages["tools.html"] = shell(
-    `<div class="collection-page tools-page">${title("TOOLS", "Things I've built on the side.", "Small tools for writing, thinking and making everyday work a little easier.")}<div class="tool-grid">${tools.map((p, i) => `<a class="journal-card tool-card" href="/work/${p.id}"><div class="tool-art gradient-${i % 6}">${projectImage(p, i < 2)}<span class="card-category">${esc(category(p))}</span></div><div class="journal-copy"><h2>${esc(p.title)}</h2><p>${esc(p.summary)}</p><div class="tool-stack">${esc(p.stack.slice(0, 3).join(" · "))}<span class="card-arrow">${arrow}</span></div></div></a>`).join("")}</div></div>`,
-    {
-      path: "/tools",
-      title: "Tools — Baivab Sarkar",
-      description:
-        "Small tools for writing, drawing and productivity, built by Baivab Sarkar.",
-      page: "tools",
     },
   );
   const interests = [
@@ -193,27 +177,14 @@ export function renderSitePages(data, ui) {
     description: profile.description,
     page: "about",
   });
-  pages["playground.html"] = shell(
-    renderPlayground({ profile, projects: all }),
-    {
-      path: "/playground",
-      title: "Playground — Baivab Sarkar",
-      description:
-        "A little space for curiosity, experiments and things in progress.",
-      page: "playground",
-      playground: true,
-    },
-  );
-  pages["interactions.html"] = shell(
-    renderInteractions({ profile, projects: all }),
-    {
-      path: "/interactions",
-      title: "Interactions — Baivab Sarkar",
-      description: "Small interactive experiments by Baivab Sarkar.",
-      page: "interactions",
-      playground: true,
-    },
-  );
+  pages["play-lab.html"] = shell(renderPlayground({ profile, projects: all }), {
+    path: "/play-lab",
+    title: "Play Lab — Baivab Sarkar",
+    description:
+      "A little space for curiosity, experiments and things in progress.",
+    page: "playground",
+    playground: true,
+  });
   pages["404.html"] = shell(
     `<div class="error-page">${title("404", "A small detour.", "This page took a wrong turn. <br>Jump a few bugs, then find your way back.")}<div class="error-game">${gamePanel()}</div><div class="section-bottom">${link("/", "Take me home", "button")}</div></div>`,
     {
