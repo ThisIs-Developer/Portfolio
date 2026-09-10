@@ -91,7 +91,8 @@
   align-items: center;
   gap: 8px;
   width: 180px;
-  padding: 10px 13px;
+  padding: 0 13px;
+  min-height: 44px;
   border-radius: 30px;
   background: var(--glass);
   color: var(--muted);
@@ -106,7 +107,8 @@
   border: 0;
   background: transparent;
   color: var(--ink);
-  font-size: 12px;
+  font-size: 16px;
+  min-height: 44px;
   outline-offset: 9px;
 }
 .collection-search input::placeholder {
@@ -1571,4 +1573,14 @@ body[data-page="404"] .page-surface {
   .journal-copy h2 {
     font-size: 20px;
   }
+}
+
+/* Metadata and timeline labels remain legible on compact screens. */
+.private-copy .eyebrow,
+.about-timeline article > .eyebrow,
+.detail-category,
+.article-meta,
+.journal-copy .article-meta,
+.project-note-panel .eyebrow {
+  font-size: 12px;
 }

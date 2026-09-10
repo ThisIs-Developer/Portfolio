@@ -68,7 +68,7 @@ export async function handleAsk(request, env, facts) {
       {
         ...compose(candidates.slice(0, 1)),
         notice:
-          "Showing a saved portfolio answer. Please wait a minute before another AI request.",
+          "Here are the details I’ve shared here. Please wait a minute before sending another question.",
       },
       200,
       { "Retry-After": "60" },

@@ -128,7 +128,7 @@
   min-height: 88px;
 }
 .writing-copy .article-meta {
-  font-size: 11px;
+  font-size: 12px;
 }
 .editorial-index {
   max-width: 1328px;
@@ -186,7 +186,7 @@
   line-height: 1.65;
 }
 .editorial-index .article-meta {
-  font-size: 11px;
+  font-size: 12px;
   margin: 0;
 }
 .editorial-index .journal-author {
@@ -239,7 +239,7 @@
   font-weight: 600;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  font-size: 11px;
+  font-size: 12px;
 }
 .editorial-reader .reading-deck {
   font-size: 20px;

@@ -27,13 +27,13 @@ async function test(name, callback) {
   passed++;
   console.log(`PASS ${name}`);
 }
-await test("Small talk receives a natural instant reply without calling AI", async () => {
+await test("Small talk uses approved first-person replies without calling AI", async () => {
   for (const [question, expected] of [
-    ["hello", /Hey!.*portfolio assistant/],
+    ["hello", /Hey!.*Ask me about my work/],
     ["HELLO!!!", /Hey!/],
     ["Hi, Baivab!", /Glad you stopped by/],
     ["Good morning", /Hey!/],
-    ["How’s it going?", /ready to show you around/],
+    ["How’s it going?", /good to hear from you/],
     ["Thanks a lot!", /You’re welcome/],
     ["Nice to meet you", /Nice to meet you, too/],
     ["What can you do?", /projects, skills, experience/],
@@ -223,7 +223,7 @@ await test("Missing AI binding and provider errors use an honest portfolio fallb
     assert.equal(result.mode, "portfolio");
     assert.match(
       result.answer,
-      /Featured projects: Markdown Viewer.*MediChain.*More work.*NoteMarker/s,
+      /featured projects are Markdown Viewer.*MediChain.*archive: NoteMarker/s,
     );
   }
 });

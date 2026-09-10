@@ -30,6 +30,10 @@
   background: #1c1c1b;
   color: #fff;
 }
+.playground-section[hidden],
+.playground-interactions[hidden] {
+  display: none;
+}
 #canvas,
 #interactions {
   scroll-margin-top: 105px;
@@ -52,7 +56,7 @@
 }
 .playground-topline p {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 12px;
   margin: 5px 0 0 16px;
 }
 .playground-live {
@@ -84,6 +88,17 @@
   background-image: radial-gradient(#48637336 1px, transparent 1.4px);
   background-size: 24px 24px;
   color: #282936;
+}
+.playground-ready:not(.is-list) {
+  cursor: grab;
+  touch-action: none;
+}
+.playground-ready.is-panning {
+  cursor: grabbing;
+}
+.playground-board:focus-visible {
+  outline: 2px solid #5652b4;
+  outline-offset: 5px;
 }
 .playground-board[data-canvas-color="cream"] {
   --canvas-color: #f0eada;
@@ -592,8 +607,9 @@
   background: #f1d9dc;
 }
 .playground-controls button {
-  width: 38px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
+  touch-action: manipulation;
   border: 0;
   border-radius: 50%;
   background: transparent;
@@ -613,7 +629,7 @@
 .playground-help {
   margin: 17px auto 0;
   max-width: 680px;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.7;
   color: var(--muted);
   text-align: center;
@@ -711,7 +727,7 @@
   border-radius: 25px;
   color: #595163;
   background: transparent;
-  font-size: 11px;
+  font-size: 12px;
 }
 .interaction-choice button[aria-pressed="true"] {
   background: #fff;
@@ -724,7 +740,7 @@
   color: #343e32;
   border-radius: 30px;
   padding: 13px 22px;
-  font-size: 11px;
+  font-size: 12px;
   box-shadow: 0 4px 12px #222d2510;
 }
 .interaction-primary span {
@@ -819,6 +835,43 @@
     inset 0 1px 3px #ffffff80;
   z-index: 1;
   transform: translateX(-34px);
+  border: 0;
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.interaction-spring-ball.is-held {
+  cursor: grabbing;
+  box-shadow:
+    0 21px 28px #49643842,
+    inset 0 1px 3px #ffffff80;
+}
+.interaction-spring-ball:focus-visible {
+  outline: 2px solid #395732;
+  outline-offset: 5px;
+}
+.spring-tether {
+  position: absolute;
+  left: var(--spring-left, 0px);
+  width: var(--spring-length, 0px);
+  height: 12px;
+  background: repeating-linear-gradient(
+    70deg,
+    transparent 0 5px,
+    #759268 5px 7px,
+    transparent 7px 12px
+  );
+  opacity: 0.75;
+}
+.interaction-spring-track::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--spring-anchor, 0px) - 9px);
+  width: 18px;
+  height: 18px;
+  border: 2px solid #759268;
+  border-radius: 50%;
 }
 .interaction-depth-stage {
   background: #dde7f1;
@@ -900,7 +953,7 @@
   margin-top: auto;
 }
 .interaction-depth-stage > p {
-  font-size: 10px;
+  font-size: 12px;
   color: #4f6072;
 }
 .interaction-joy-stage {
@@ -1043,7 +1096,7 @@
   display: flex;
   justify-content: space-between;
   color: #69502f;
-  font-size: 10px;
+  font-size: 12px;
   margin-bottom: 5px;
 }
 .interaction-bloom-control input {
@@ -1083,8 +1136,8 @@
   position: relative;
   display: grid;
   place-items: center;
-  width: min(70%, 275px);
-  aspect-ratio: 1.15;
+  width: min(84%, 340px);
+  aspect-ratio: 1.35;
   overflow: hidden;
   border: 0;
   border-radius: 43% 57% 52% 48% / 49% 44% 56% 51%;
@@ -1104,6 +1157,23 @@
     background 0.4s,
     color 0.4s;
 }
+.ripple-water {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.interaction-ripple-pond::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 3px 9px #ffffff7a,
+    inset 0 -9px 17px #244a5733;
+  pointer-events: none;
+}
 .ripple-center {
   position: relative;
   display: flex;
@@ -1112,6 +1182,10 @@
   gap: 7px;
   pointer-events: none;
   z-index: 2;
+  color: #f6ffff;
+  text-shadow:
+    0 1px 3px #143e53,
+    0 2px 10px #204c5d;
 }
 .ripple-center > span {
   font:
@@ -1125,52 +1199,6 @@
     Georgia,
     serif;
   letter-spacing: -0.02em;
-}
-.ripple-decoration,
-.ripple-rings {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-.ripple-decoration i {
-  position: absolute;
-  width: 16px;
-  height: 9px;
-  background: #ffffff70;
-  border-radius: 50%;
-  transform: rotate(-30deg);
-}
-.ripple-decoration i:nth-child(1) {
-  left: 20%;
-  top: 22%;
-}
-.ripple-decoration i:nth-child(2) {
-  right: 22%;
-  bottom: 23%;
-  width: 9px;
-  height: 5px;
-}
-.ripple-decoration i:nth-child(3) {
-  right: 15%;
-  top: 35%;
-  width: 5px;
-  height: 3px;
-}
-.ripple-rings i {
-  position: absolute;
-  width: 280px;
-  height: 280px;
-  border-radius: 50%;
-  box-shadow:
-    inset 0 0 0 4px #fffffff2,
-    inset 0 0 0 7px color-mix(in srgb, var(--pond-ink) 28%, transparent),
-    0 2px 8px color-mix(in srgb, var(--pond-ink) 32%, transparent);
-  background: radial-gradient(
-    circle,
-    transparent 59%,
-    #ffffff36 67%,
-    transparent 70%
-  );
 }
 .interaction-ripple-stage > p {
   max-width: 90%;
@@ -1215,11 +1243,11 @@
   .playground-topline p {
     max-width: 190px;
     line-height: 1.5;
-    font-size: 10px;
+    font-size: 12px;
   }
   .playground-view {
     padding: 10px 14px;
-    font-size: 10px;
+    font-size: 12px;
   }
   .playground-board {
     height: 640px;
@@ -1236,16 +1264,16 @@
     gap: 5px;
   }
   .playground-swatch {
-    width: 23px;
-    height: 23px;
+    width: 27px;
+    height: 27px;
   }
   .playground-controls {
     bottom: 66px;
     right: 12px;
   }
   .playground-controls button {
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
   }
   .playground-board.is-list,
   .playground-board:not(.playground-ready) {
@@ -1265,7 +1293,7 @@
   }
   .playground-help {
     max-width: 320px;
-    font-size: 10px;
+    font-size: 12px;
   }
   .playground-interactions {
     grid-template-columns: 1fr;
@@ -1279,7 +1307,7 @@
   }
   .interaction-choice button {
     padding: 10px 12px;
-    font-size: 10px;
+    font-size: 12px;
   }
   .interaction-shape {
     width: 165px;
@@ -1392,4 +1420,3 @@
 .interaction-bloom .bloom-petal-7 {
   --petal: 7;
 }
-

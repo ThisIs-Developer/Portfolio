@@ -1,8 +1,8 @@
-# Baivab Sarkar — Portfolio
+# Baivab Sarkar â€” Portfolio
 
 A complete portfolio for Baivab Sarkar: software projects, private freelance work, full-length writing and a small interactive playground. Warm serif typography, pastel glass folders and a floating dock connect every page.
 
-[Website](https://baivabsarkar.pages.dev/) · [GitHub](https://github.com/ThisIs-Developer) · [Blog](https://baivabsarkar.pages.dev/blog)
+[Website](https://baivabsarkar.pages.dev/) Â· [GitHub](https://github.com/ThisIs-Developer) Â· [Blog](https://baivabsarkar.pages.dev/blog)
 
 ## Develop
 
@@ -30,13 +30,13 @@ Open http://127.0.0.1:4173. To serve deployment output, run `node scripts/serve.
 | /play-lab | Seven movable widgets and six visual interaction experiments |
 | missing URLs | 404 message and Bug Run game |
 
-The legacy /project and /project.html links still serve the project collection. /playground redirects to /play-lab; /interactions opens its Interactions section. The removed /tools page and old BlazeDemo project route redirect to Work.
+The legacy /project and /project.html links still serve the project collection. /playground redirects to /play-lab; /interactions opens its Interactions tab. The removed /tools page and old BlazeDemo project route redirect to Work.
 
 `data/project-order.json` controls the exact featured/archive order shared by Home, Work, project readers and Quick Ask. Edit data/*.json, then build and commit the generated HTML and sitemap. Shared templates live in scripts/templates.mjs and scripts/site-pages.mjs; the playground has its own renderer. style.css contains the home/shared foundation, pages.css handles collections and reading pages, and cursor.css/js draws dots only in empty areas, masking text and UI.
 
 Create a native article with `npm run post:new -- "Your article title"`. Fill in the structured draft in content/posts, set `draft` to `false` when ready, and build. Titles, sections, code, screenshots, links, artwork, reading time and local URLs are handled by the publishing pipeline. See the [article publishing guide](docs/publishing-articles.md). The editorial presentation uses original article-art compositions in place of imported covers.
 
-Quick Ask answers questions about public portfolio content and handles greetings and thanks instantly. Cloudflare Workers AI selects approved facts; all displayed wording and source links come from the checked-in content. Other hosts and local development use an explicitly labeled portfolio fallback. No API keys are sent to browsers. See [Quick Ask configuration](docs/quick-ask.md).
+Quick Ask uses Baivab’s first-person wording for public portfolio questions and casual greetings. Messages show a two-second loading state; replies dismiss after ten seconds or an outside click. Cloudflare Workers AI selects approved facts; all displayed wording and source links come from the checked-in content. Other hosts and local development use the same approved facts without inference. No API keys are sent to browsers. See [Quick Ask configuration](docs/quick-ask.md).
 
 Refresh full articles with `node scripts/import-articles.mjs`. Its sanitizer preserves readable text, code, safe links and local images while removing executable embeds. `node scripts/import-articles.mjs --self-test` verifies the sanitizer. Article imports happen during maintenance, never in the visitor's browser. The build itself is network-independent.
 
@@ -50,6 +50,7 @@ npm run test:content
 npm run test:ask
 npx playwright install --with-deps chromium firefox webkit
 npm test -- --dir dist --browsers chromium,firefox,webkit --output .qa-results/release
+npm run test:responsive
 npm run test:performance
 ```
 

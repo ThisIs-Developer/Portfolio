@@ -1,5 +1,5 @@
 import { projectCollections } from "./project-selection.mjs";
-// Only already-public portfolio fields become assistant context.
+// Only already-public portfolio fields become Quick Ask context.
 export function buildKnowledge({
   profile,
   projects,
@@ -26,49 +26,59 @@ export function buildKnowledge({
     fact(
       "about",
       "About Baivab",
-      `${profile.description} ${profile.about} ${profile.approach}`,
+      `${profile.intro} ${profile.about}`,
       "/about",
       "about introduce who baivab sarkar yourself background",
     ),
     fact(
       "education",
       "Education",
-      `${profile.education} ${experience.find((x) => /B.Tech/.test(x.title)).description}`,
+      `I completed my ${profile.education.replace("Graduated", "I graduated")} ${
+        experience
+          .find((x) => /B.Tech/.test(x.title))
+          .description.replace("Graduated with", "My final result was")
+          .split(". ")[0]
+      }.`,
       "/about#experience",
       "education college degree study studied graduate graduated cgpa university school jis qualification",
     ),
     fact(
       "contact",
       "Get in touch",
-      `Contact Baivab at ${profile.email}. His resume and public social profiles are available in the contact section.`,
+      `You can reach me at ${profile.email}. You’ll find my resume and public social profiles in the contact section, too.`,
       "/#contact",
       "contact email reach hire hiring opportunity available availability work together resume cv linkedin",
     ),
     fact(
       "location",
       "Location",
-      `Baivab is based in ${profile.location}. His GitHub username is ThisIs-Developer.`,
+      `I’m based in ${profile.location}. On GitHub, you’ll find me as ThisIs-Developer.`,
       "/about",
       "where location located live lives from based bengal india github username",
     ),
     fact(
       "skills",
       "Skills & tools",
-      `${profile.approach} His tools include ${[...new Set(skills.flatMap((x) => x.tools))].join(", ")}.`,
+      `${profile.approach} My tools include ${[...new Set(skills.flatMap((x) => x.tools))].join(", ")}.`,
       "/about",
       "skill skills stack language languages technology technologies tech tools java javascript python development programming",
     ),
     fact(
       "experience",
       "Experience",
-      `Baivab’s experience includes private freelance enterprise applications, independent open-source work, team projects, and Java/Selenium SDET training. ${experience.find((x) => /Selenium/.test(x.title)).description}`,
+      `I’ve worked on private freelance enterprise applications, open-source tools and team projects. My Java/Selenium SDET training covered ${
+        experience
+          .find((x) => /Selenium/.test(x.title))
+          .description.replace(/^UI/, "UI")
+          .split(". ")[0]
+      }.`,
       "/about#experience",
       "experience training job career employment wipro qa sdet test testing automation selenium",
     ),
     fact(
       "projects",
       "Selected projects",
-      `Featured projects: ${featured.map((p) => p.title).join(", ")}. More work in the project archive: ${archive.map((p) => p.title).join(", ")}.`,
+      `My featured projects are ${featured.map((p) => p.title).join(", ")}. You’ll find more of my work in the archive: ${archive.map((p) => p.title).join(", ")}.`,
       "/work",
       "projects project portfolio work build built building creations apps applications",
     ),
@@ -76,7 +86,7 @@ export function buildKnowledge({
       fact(
         `project-${p.id}`,
         p.title,
-        `${p.title}: ${p.summary} ${p.contribution || ""} ${p.features?.join(" ") || ""} Stack: ${p.stack.join(", ")}. Status: ${p.status}.`,
+        `Here’s ${p.title}: ${p.summary} ${p.contribution ? `I ${p.contribution.charAt(0).toLowerCase()}${p.contribution.slice(1)} ` : ""}The stack includes ${p.stack.join(", ")}.`,
         `/work/${p.id}`,
         `${p.id.replaceAll("-", " ")} ${p.title} ${p.stack.join(" ")}`,
       ),
@@ -84,14 +94,14 @@ export function buildKnowledge({
     fact(
       "enterprise",
       "Private freelance work",
-      `${enterprise.intro} ${enterprise.projects.map((p) => `${p.title}: ${p.summary}`).join(" ")} ${enterprise.notice}`,
+      `${enterprise.intro} That includes invoice, collaboration, proposal and audit tools. I can share the public overview, but source code, architecture and client data stay private.`,
       "/work/enterprise",
       "enterprise freelance private client clients invoice proposal audit ntpc bluestar collaboration compliance confidential",
     ),
     fact(
       "writing",
       "Writing",
-      `Read Baivab’s full articles directly on this website. Topics include developer tools, Markdown Viewer, GitHub workflows, testing and AI experiments.`,
+      `I write about developer tools, Markdown Viewer, GitHub workflows, testing and AI experiments. You can read the full articles right here — no need to leave the site.`,
       "/blog",
       "writing write blog blogs article articles post posts dev dev.to tutorial tutorials",
     ),
@@ -99,7 +109,7 @@ export function buildKnowledge({
       fact(
         `article-${a.id}`,
         a.title,
-        `${a.title}: ${a.summary}`,
+        `In “${a.title}”, I share this story: ${a.summary}`,
         a.localPath,
         `${a.title} ${a.tags.join(" ")}`,
       ),

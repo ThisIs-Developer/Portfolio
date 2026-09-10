@@ -452,6 +452,8 @@ input {
   gap: 24px;
 }
 .folder {
+  min-width: 0;
+  width: 100%;
   position: relative;
   display: block;
   aspect-ratio: 400/340;
@@ -740,7 +742,6 @@ input {
   font-size: 18px;
   color: var(--muted);
 }
-.capability:hover,
 .capability[open] {
   background: var(--strong-glass);
   border-radius: 18px;
@@ -1531,9 +1532,6 @@ input {
   .nav-ready #site-nav[data-open="false"] + .theme-toggle {
     margin-left: 2px;
   }
-  .nav-ready #site-nav[data-open="true"] {
-    animation: dock-in 0.25s var(--out);
-  }
   @keyframes dock-in {
     from {
       opacity: 0;
@@ -2055,6 +2053,9 @@ input {
     backdrop-filter: blur(25px);
     box-shadow: 0 10px 25px #00000014;
     pointer-events: auto;
+    max-height: calc(100dvh - 94px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
   #site-nav a {
     font-size: 15px;
@@ -2431,7 +2432,7 @@ input {
   width: 100%;
   height: 100%;
   fill: none;
-  stroke-width: 2.5;
+  stroke-width: 3.5;
   transform: rotate(-90deg);
   opacity: 0;
 }
@@ -2439,7 +2440,7 @@ input {
   stroke: color-mix(in srgb, var(--ink) 9%, var(--paper));
 }
 .capability-progress {
-  stroke: #43966d;
+  stroke: #28db5c;
   stroke-linecap: round;
   stroke-dasharray: 100;
   stroke-dashoffset: 100;
@@ -2493,9 +2494,9 @@ input {
   --wallet-angle: -8deg;
   --wallet-rise: 0px;
   width: 178px;
-  height: 226px;
+  height: 194px;
   margin: 0 -7px;
-  padding: 19px 17px 26px;
+  padding: 16px 17px 19px;
   border: 0;
   border-radius: 22px;
   transform: translateY(var(--wallet-rise)) rotate(var(--wallet-angle));
@@ -2515,10 +2516,10 @@ input {
   letter-spacing: -0.01em;
   line-height: 1.3;
   white-space: normal;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
 }
 .wallet-card strong {
-  margin-top: 14px;
+  margin-top: 10px;
   font-size: 17px;
   line-height: 1.2;
   letter-spacing: -0.025em;
@@ -2542,8 +2543,8 @@ input {
   height: 31px;
 }
 .wallet-card img {
-  width: 61px;
-  height: 66px;
+  width: 55px;
+  height: 55px;
   border-radius: 12px;
   border: 0;
   pointer-events: none;
@@ -2581,8 +2582,8 @@ input {
 @media (min-width: 768px) and (max-width: 1000px) {
   .wallet-card {
     width: 155px;
-    height: 216px;
-    padding: 17px 13px 24px;
+    height: 194px;
+    padding: 16px 13px 19px;
   }
   .wallet-card strong {
     font-size: 16px;
@@ -2620,8 +2621,8 @@ input {
   }
   .wallet-card {
     width: 156px;
-    height: 215px;
-    padding: 18px 15px 25px;
+    height: 194px;
+    padding: 16px 15px 19px;
     margin: 0 -4px;
     scroll-snap-align: center;
     flex-shrink: 0;
@@ -2657,8 +2658,15 @@ input {
 }
 /* Small labels stay readable at every breakpoint. */
 .eyebrow,
+.hero .eyebrow,
+.section-heading .eyebrow,
+.hero .scroll-note,
 .capability-label,
 .article-meta {
+  font-size: 12px;
+}
+.site-footer,
+.site-footer > div {
   font-size: 12px;
 }
 .folder-category {
@@ -2684,4 +2692,38 @@ input {
 .wallet-card::before {
   height: 32px;
   clip-path: inset(0 0 23px 0);
+}
+
+/* Keep the closing menu present just long enough to finish its exit. */
+.nav-ready #site-nav[data-closing] {
+  display: flex;
+  pointer-events: none;
+}
+@media (min-width: 768px) {
+  .nav-shell {
+    overflow: clip;
+  }
+  .nav-ready #site-nav[data-closing] {
+    display: contents;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .button:active,
+  .filter-chip:active,
+  .copy-email:active {
+    transform: scale(0.97);
+  }
+  .menu-toggle:active {
+    scale: 0.94;
+  }
+  .menu-toggle {
+    transition: scale 0.3s var(--spring);
+  }
+  .button,
+  .filter-chip,
+  .copy-email {
+    transition:
+      transform 0.35s var(--spring),
+      background 0.2s var(--out);
+  }
 }

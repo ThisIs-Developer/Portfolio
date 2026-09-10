@@ -3,12 +3,63 @@ const menu = document.querySelector(".menu-toggle");
 const backdrop = document.querySelector(".nav-backdrop");
 const smallScreen = matchMedia("(max-width: 767px)");
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+let navMotion, shellMotion;
 function setMenu(open, restoreFocus = false) {
+  if (nav.dataset.open === String(open)) {
+    nav.inert = !open && smallScreen.matches;
+    backdrop.hidden = !open || !smallScreen.matches;
+    if (restoreFocus) menu.focus();
+    return;
+  }
+  const changed = nav.dataset.open !== undefined;
+  navMotion?.cancel();
+  shellMotion?.cancel();
+  delete nav.dataset.closing;
+  const shell = document.querySelector(".nav-shell");
+  const previousWidth = shell.getBoundingClientRect().width;
   nav.dataset.open = String(open);
   nav.inert = !open && smallScreen.matches;
   menu.setAttribute("aria-expanded", String(open));
   menu.querySelector("[data-menu-label]").textContent = open ? "Close" : "Menu";
   backdrop.hidden = !open || !smallScreen.matches;
+  if (
+    changed &&
+    !reducedMotion.matches &&
+    document.documentElement.classList.contains("nav-ready")
+  ) {
+    const nextWidth = shell.getBoundingClientRect().width;
+    if (!open) nav.dataset.closing = "true";
+    navMotion = nav.animate(
+      open
+        ? [
+            { opacity: 0, transform: "translateY(-7px) scale(.97)" },
+            {
+              opacity: 1,
+              transform: "translateY(2px) scale(1.008)",
+              offset: 0.72,
+            },
+            { opacity: 1, transform: "none" },
+          ]
+        : [
+            { opacity: 1, transform: "none" },
+            { opacity: 0, transform: "translateY(-5px) scale(.97)" },
+          ],
+      { duration: open ? 420 : 200, easing: "cubic-bezier(.22,1,.36,1)" },
+    );
+    navMotion.onfinish = () => {
+      delete nav.dataset.closing;
+    };
+    if (!smallScreen.matches && Math.abs(previousWidth - nextWidth) > 1) {
+      shellMotion = shell.animate(
+        [
+          { width: previousWidth + "px" },
+          { width: nextWidth + (open ? 5 : -3) + "px", offset: 0.76 },
+          { width: nextWidth + "px" },
+        ],
+        { duration: open ? 460 : 240, easing: "cubic-bezier(.22,1,.36,1)" },
+      );
+    }
+  }
   if (restoreFocus) menu.focus();
 }
 if (nav && menu) {
@@ -151,7 +202,7 @@ if (location.hash === "#experience")
 const capabilityGroup = document.querySelector("[data-capabilities]");
 if (capabilityGroup) {
   const items = [...capabilityGroup.querySelectorAll(".capability")];
-  const duration = 9000;
+  const duration = 4000;
   let active = 0,
     started = 0,
     frame = 0,

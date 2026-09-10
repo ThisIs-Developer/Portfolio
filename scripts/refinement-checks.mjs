@@ -82,7 +82,11 @@ export async function refinementChecks(page, load) {
     "Dots remain in empty areas and are erased beneath the heading",
   );
 
-  const timed = await page.context().newPage();
+  const clockContext = await page
+    .context()
+    .browser()
+    .newContext({ viewport: page.viewportSize() });
+  const timed = await clockContext.newPage();
   try {
     await timed.clock.install();
     await load(timed, "/");
@@ -92,7 +96,7 @@ export async function refinementChecks(page, load) {
         document.querySelector("[data-capabilities]").dataset
           .activeCapability === "1",
     );
-    await timed.clock.fastForward(9200);
+    await timed.clock.fastForward(4200);
     assert.equal(
       await timed
         .locator("[data-capabilities]")
@@ -102,7 +106,7 @@ export async function refinementChecks(page, load) {
     );
     await timed.locator(".capability summary").nth(3).click();
     assert.equal(await timed.locator(".capability[open]").count(), 1);
-    await timed.clock.fastForward(4500);
+    await timed.clock.fastForward(1900);
     assert.equal(
       await timed
         .locator("[data-capabilities]")
@@ -110,14 +114,14 @@ export async function refinementChecks(page, load) {
       "4",
       "Manual selection restarts its full timer",
     );
-    await timed.clock.fastForward(4700);
+    await timed.clock.fastForward(2300);
     assert.equal(
       await timed
         .locator("[data-capabilities]")
         .getAttribute("data-active-capability"),
       "5",
     );
-    await timed.clock.fastForward(9200);
+    await timed.clock.fastForward(4200);
     assert.equal(
       await timed
         .locator("[data-capabilities]")
@@ -126,7 +130,7 @@ export async function refinementChecks(page, load) {
       "Capability cycle wraps",
     );
   } finally {
-    await timed.close();
+    await clockContext.close();
   }
 
   await load(page, "/about");

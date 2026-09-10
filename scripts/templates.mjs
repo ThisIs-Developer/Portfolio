@@ -112,7 +112,7 @@ export function renderPages(data, metadata) {
   ];
   const home = `<section class="hero" id="profile" aria-labelledby="hero-title"><div class="foliage" aria-hidden="true"></div><div class="hero-copy"><p class="eyebrow">SOFTWARE DEVELOPMENT & TEST AUTOMATION</p><h1 id="hero-title">Baivab Sarkar</h1><p class="hero-tagline">I build thoughtful software<br>for <em>real-world problems.</em></p><p class="handwritten hero-note">a little curious. a lot of code. <span aria-hidden="true">⤴</span></p><div class="hero-actions"><a class="button" href="#contact">Let’s talk ${arrow}</a><a class="text-link" href="#projects">View work <span aria-hidden="true">↓</span></a></div></div><a class="scroll-note" href="#projects">SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a></section>
  <section class="work-section section-space" id="projects" aria-labelledby="work-title">${heading("A FEW THINGS I’VE BUILT", "Featured <em>projects.</em>", "work-title")}<p class="handwritten section-note">Open the folders. There’s good stuff inside.</p><div class="folder-grid">${selected.map(folder).join("")}</div></section>
- ${renderCapabilities(caps, heading, tags)}
+ ${renderCapabilities(caps, heading)}
  <section class="writing-section section-space" id="writing" aria-labelledby="writing-title">${heading("NOTES FROM THE PROCESS", "Build. Learn. <em>Write.</em>", "writing-title")}<div class="writing-grid">${articles
    .filter((a) => a.featured ?? true)
    .slice(0, 3)

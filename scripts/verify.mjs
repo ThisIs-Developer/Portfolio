@@ -7,6 +7,7 @@ import { startServer } from "./serve.mjs";
 import { loadLocalArticles, mergeArticles } from "./local-articles.mjs";
 import { projectCollections } from "./project-selection.mjs";
 import { refinementChecks } from "./refinement-checks.mjs";
+import { conversationTiming, canvasMotion } from "./motion-checks.mjs";
 
 const args = process.argv.slice(2);
 const option = (name, fallback) =>
@@ -583,7 +584,7 @@ async function quickAsk(page) {
     ["What did you study?", /JIS College of Engineering.*May 2025.*9\.15/],
     [
       "Tell me about your projects",
-      /Featured projects: Markdown Viewer.*MediChain.*More work.*NoteMarker/s,
+      /featured projects are Markdown Viewer.*MediChain.*archive: NoteMarker/s,
     ],
     ["What is your experience?", /Java\/Selenium SDET training/],
     ["How can I contact you?", /baivabsarkar@gmail\.com/],
@@ -1066,6 +1067,8 @@ async function playground(page) {
     "Interactions live on the same page",
   );
   const board = page.locator("[data-playground-board]");
+  assert(await page.locator("#canvas").isVisible());
+  assert(!(await page.locator("#interactions").isVisible()));
   const card = page.locator("[data-playground-card]").first();
   assert.equal(await page.locator("[data-playground-card]").count(), 7);
   await card.focus();
@@ -1113,6 +1116,8 @@ async function playground(page) {
     "Opening interactions stays in Play Lab",
   );
   assert.equal(new URL(page.url()).hash, "#interactions");
+  assert(!(await page.locator("#canvas").isVisible()));
+  assert(await page.locator("#interactions").isVisible());
 
   assert.equal(await page.locator(".playground-experiment").count(), 6);
   await page.locator('[data-shape-choice="star"]').click();
@@ -1167,10 +1172,16 @@ async function playground(page) {
     await page.locator("[data-ripple-status]").innerText(),
     /1 ripple made/,
   );
-  assert.equal(
-    await page.locator("[data-ripple-rings] > *").count(),
-    3,
-    "Keyboard activation creates a visible ripple",
+  assert.equal(await pond.getAttribute("data-ripple-count"), "1");
+  assert(
+    await page.locator("[data-ripple-water]").isVisible(),
+    "Water simulation is visible",
+  );
+  assert(
+    await page
+      .locator("[data-ripple-water]")
+      .getAttribute("data-ripple-origin"),
+    "Keyboard activation disturbs the water",
   );
   await load(page, "/play-lab");
   const note = page.locator("[data-widget-note]");
@@ -1410,6 +1421,14 @@ try {
           () => foldersAndCapabilities(page),
         ],
         ["grounded Quick Ask", () => quickAsk(page)],
+        [
+          "conversation timing, dismissal and replacement",
+          () => conversationTiming(page, load),
+        ],
+        [
+          "zoomed canvas, tab isolation and water feedback",
+          () => canvasMotion(page, load),
+        ],
         ["game start, pause, reset and keyboard", () => game(page)],
         ["clipboard success and denial", () => clipboard(browser)],
         ["work and blog search, filters and sort", () => archive(page)],

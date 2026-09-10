@@ -1,5 +1,5 @@
 export const restrictedAnswer =
-  "I don’t have verified information for that question. I can help you explore Baivab’s projects, background, skills or writing, though. What would you like to know?";
+  "I haven’t shared verified information about that here. Ask me about my projects, background, skills or writing — happy to point you in the right direction.";
 
 // Whole-message matches keep small talk fast without treating a greeting as a
 // pass-through for an unrelated question or a request for private information.
@@ -17,21 +17,21 @@ export function conversationReply(question) {
     /^good (morning|afternoon|evening)$/.test(message)
   )
     answer =
-      "Hey! I’m Baivab’s portfolio assistant. Glad you stopped by. What would you like to know?";
+      "Hey! Glad you stopped by. Ask me about my work, what I’m building, or how to get in touch.";
   else if (/^(how are you|hows it going|whats up)$/.test(message))
     answer =
-      "Hey! I’m here and ready to show you around Baivab’s work. What are you curious about?";
+      "Hey, good to hear from you! What are you curious about — my projects, my background, or something I’ve written?";
   else if (/^(thanks|thank you)( so much| a lot)?$|^cheers$/.test(message))
     answer =
       "You’re welcome! If anything else catches your eye, ask me about it.";
   else if (/^nice to meet you$/.test(message))
     answer =
-      "Nice to meet you, too! I’m Baivab’s portfolio assistant. I can point you to a project or help you get to know his work.";
+      "Nice to meet you, too! Take a look around, and ask me about anything that catches your eye.";
   else if (/^(bye|goodbye|see you|see you later)$/.test(message))
     answer = "Thanks for stopping by. See you around!";
   else if (/^(what can you do|how can you help|help)$/.test(message))
     answer =
-      "I can walk you through Baivab’s projects, skills, experience and writing, or help you get in touch. Try a project name or ask what he’s been working on.";
+      "Ask me about my projects, skills, experience or writing. You can start with a project name, or ask how to get in touch.";
   if (!answer) return null;
   return { answer, sources: [], mode: "conversation" };
 }
