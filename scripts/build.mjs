@@ -119,15 +119,15 @@ function metadata(options = {}) {
   <link rel="preload" href="/assets/fonts/instrument-serif-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/instrument-sans-latin-variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/instrument-serif-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=20260909">
-  ${options.page ? '<link rel="stylesheet" href="/pages.css?v=20260909">' : ""}
-  <link rel="stylesheet" href="/cursor.css?v=20260909">
-  <link rel="stylesheet" href="/editorial.css?v=20260909">
-  ${!options.page ? '<link rel="stylesheet" href="/quick-ask.css?v=20260909"><script type="module" src="/quick-ask.js?v=20260909"></script>' : ""}
+  <link rel="stylesheet" href="/style.css?v=20260910">
+  ${options.page ? '<link rel="stylesheet" href="/pages.css?v=20260910">' : ""}
+  <link rel="stylesheet" href="/cursor.css?v=20260910">
+  <link rel="stylesheet" href="/editorial.css?v=20260910">
+  ${!options.page ? '<link rel="stylesheet" href="/quick-ask.css?v=20260910"><script type="module" src="/quick-ask.js?v=20260910"></script>' : ""}
   <script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script>
-  <script src="/script.js?v=20260909" defer></script>
-  ${options.page ? '<script src="/pages.js?v=20260909" defer></script>' : ""}
-  <script src="/cursor.js?v=20260909" defer></script>`.replace(
+  <script src="/script.js?v=20260910" defer></script>
+  ${options.page ? '<script src="/pages.js?v=20260910" defer></script>' : ""}
+  <script src="/cursor.js?v=20260910" defer></script>`.replace(
     /\n[ \t]+\n/g,
     "\n\n",
   );
@@ -235,7 +235,7 @@ if (!check) {
     await mkdir(path.dirname(path.join(dist, filename)), { recursive: true });
     await cp(path.join(root, filename), path.join(dist, filename));
   }
-  for (const directory of ["fonts", "work", "articles"])
+  for (const directory of ["fonts", "work", "articles", "tools"])
     await cp(
       path.join(root, "assets", directory),
       path.join(dist, "assets", directory),

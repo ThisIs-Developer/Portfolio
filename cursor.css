@@ -13,8 +13,5 @@
   user-select: none;
 }
 
-@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
-  .cursor-dot-layer {
-    display: none;
-  }
-}
+/* Static dots remain visible on touch devices and with reduced motion.
+   The script disables the animated pointer response in those modes. */

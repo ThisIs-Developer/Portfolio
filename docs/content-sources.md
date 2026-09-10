@@ -120,3 +120,7 @@ Both historical chatbot articles retain their original prose alongside visible t
 Featured: Markdown Viewer, Sei-Sangeet-Bangla, Llama 2 GGML Medical Chatbot, Body Language Detection, MediChain and AMS. Archive: NoteMarker Extension, SketchFlow, Llama 2 GGML CSV Chatbot, News Scraping Platform, TaskFlow and Simon.
 
 [Simon source](https://github.com/ThisIs-Developer/Simon) and [live game](https://simonsays.pages.dev/) were verified on 9 September 2026. Its HTML/CSS/JavaScript implements a growing colour sequence, sound/flash feedback, restart/help controls and a highest score stored in localStorage. Bootstrap is not claimed because the inspected HTML does not import it. Its project image is a replaceable placeholder. The two audit-related private engagements are consolidated into one card, for four private-work entries overall.
+
+## September interaction and asset update
+
+Body Language Detection now uses its own [repository bar chart](https://github.com/ThisIs-Developer/Body-Language-Detection-with-MediaPipe-and-OpenCV/blob/main/Emotion%20Graph/Bar%20plot.png), exported locally as 400/800/1400px WebP variants. It shows the experiment’s labeled sample distribution, not a product screenshot or a claim of real-world accuracy. Selected Tools uses twelve original brand SVGs from the pinned Devicon collection; [asset provenance and license](../assets/tools/SOURCES.md) are included.

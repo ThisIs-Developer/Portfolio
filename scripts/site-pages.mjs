@@ -61,9 +61,9 @@ export function renderSitePages(data, ui) {
   const pages = {};
   const enterpriseCards = `<div class="private-grid">${enterprise.projects.map((p, i) => `<a class="private-card" href="/work/enterprise#${p.id}">${enterpriseArt(i)}<div class="private-copy"><p class="eyebrow">${esc(p.label)}</p><h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p><span class="private-card-footer"><span>Private engagement</span>${arrow}</span></div></a>`).join("")}</div>`;
   const enterpriseSection = `<section class="enterprise-section" aria-labelledby="private-title"><div class="enterprise-heading"><p class="eyebrow">PRIVATE FREELANCE WORK</p><h2 id="private-title">Behind the scenes.</h2><p>${esc(enterprise.intro)}</p></div>${enterpriseCards}<p class="confidential-note"><strong>Confidentiality notice.</strong> ${esc(enterprise.notice)}</p></section>`;
-  const projectItem = (p, i, archived = false) =>
-    `<div class="${archived ? "archive-item" : "folder-item"}" id="project-${p.id}" data-collection-item data-category="${category(p)}" data-date="${p.year.match(/\d{4}/g)?.at(-1) || "2024"}" data-search-text="${esc(`${p.title} ${p.summary} ${p.stack.join(" ")}`)}">${archived ? `<a class="archive-card" href="/work/${p.id}"><div class="archive-card-art">${projectImage(p)}<span class="archive-number">${p.number}</span></div><div class="archive-card-copy"><p class="eyebrow">${esc(p.category.split(" · ")[0])}</p><h3>${esc(p.title)}</h3><p>${esc(p.summary)}</p><span class="archive-card-footer">Explore project ${arrow}</span></div></a>` : folder(p, i)}</div>`;
-  const work = `<div class="collection-page work-page"><header class="page-intro"><p class="eyebrow">SELECTED WORK</p><h1>A closer look at what<br>I've built.</h1></header><section class="collection work-collection" data-collection data-curated aria-label="Public projects">${controls("projects", ["Web apps", "Tools", "AI & data", "Automation"]).replace("↑ Newest", "↕ Curated").replace("newest first", "curated order")}<p class="collection-status sr-only" role="status" data-collection-status>${all.length} projects</p><section class="project-group" data-project-group aria-labelledby="featured-title"><div class="project-group-heading"><p class="eyebrow">01—06 / FEATURED PROJECTS</p><h2 id="featured-title">Featured projects.</h2></div><div class="folder-grid" data-collection-grid>${selected.map((p, i) => projectItem(p, i)).join("")}</div></section><section class="project-group" data-project-group id="archive" aria-labelledby="archive-title"><div class="project-group-heading"><p class="eyebrow">07—12 / MORE WORK</p><h2 id="archive-title">Project archive.</h2></div><div class="project-archive-grid" data-collection-grid>${archive.map((p, i) => projectItem(p, i, true)).join("")}</div></section><p class="collection-empty" hidden>No projects match that search. Try another word or choose All.</p></section>${enterpriseSection}</div>`;
+  const projectItem = (p, i) =>
+    `<div class="folder-item" id="project-${p.id}" data-collection-item data-category="${category(p)}" data-date="${p.year.match(/\d{4}/g)?.at(-1) || "2024"}" data-search-text="${esc(`${p.title} ${p.summary} ${p.stack.join(" ")}`)}">${folder(p, i)}</div>`;
+  const work = `<div class="collection-page work-page"><header class="page-intro"><p class="eyebrow">SELECTED WORK</p><h1>A closer look at what<br>I've built.</h1></header><section class="collection work-collection" data-collection data-curated aria-label="Public projects">${controls("projects", ["Web apps", "Tools", "AI & data", "Automation"]).replace("↑ Newest", "↕ Curated").replace("newest first", "curated order")}<p class="collection-status sr-only" role="status" data-collection-status>${all.length} projects</p><section class="project-group" data-project-group aria-labelledby="featured-title"><div class="project-group-heading"><p class="eyebrow">01—06 / FEATURED PROJECTS</p><h2 id="featured-title">Featured projects.</h2></div><div class="folder-grid" data-collection-grid>${selected.map((p, i) => projectItem(p, i)).join("")}</div></section><section class="project-group" data-project-group id="archive" aria-labelledby="archive-title"><div class="project-group-heading"><p class="eyebrow">07—12 / MORE WORK</p><h2 id="archive-title">Project archive.</h2></div><div class="folder-grid" data-collection-grid>${archive.map((p, i) => projectItem(p, i)).join("")}</div></section><p class="collection-empty" hidden>No projects match that search. Try another word or choose All.</p></section>${enterpriseSection}</div>`;
   pages["work.html"] = shell(work, {
     path: "/work",
     title: "Work — Baivab Sarkar",
@@ -150,23 +150,39 @@ export function renderSitePages(data, ui) {
     "Creative coding",
   ];
   const strip = [
-    "/assets/about/desk.svg",
-    "/assets/work/notemarker-800.webp",
-    "/assets/about/campus.svg",
-    "/assets/profile/baivab-480.webp",
-    "/assets/work/markdown-viewer-800.webp",
-    "/assets/work/sketchflow-800.webp",
-    "/assets/about/moments.svg",
+    ["/assets/about/desk.svg", "A space for ideas", "Desk illustration"],
+    ["/assets/work/notemarker-800.webp", "NoteMarker", "NoteMarker project"],
+    ["/assets/about/campus.svg", "Always learning", "Campus illustration"],
+    ["/assets/profile/baivab-480.webp", "Hello, I’m Baivab", "Baivab Sarkar"],
+    [
+      "/assets/work/markdown-viewer-800.webp",
+      "Markdown Viewer",
+      "Markdown Viewer project",
+    ],
+    ["/assets/work/sketchflow-800.webp", "SketchFlow", "SketchFlow project"],
+    [
+      "/assets/about/moments.svg",
+      "Room for curiosity",
+      "Personal moments illustration",
+    ],
   ];
-  const about = `<div class="about-page"><header class="about-intro"><h1>Hey, I’m Baivab.</h1><p>I build useful software, follow my curiosity,<br>and keep learning along the way.</p></header><div class="photo-fan" aria-label="A few snapshots from my world">${strip.map((src, i) => `<figure class="photo-fan-card photo-${i}">${photo(src, i === 3 ? "Baivab Sarkar" : i === 1 ? "NoteMarker project" : i === 4 ? "Markdown Viewer project" : i === 5 ? "SketchFlow project" : "Replaceable personal photo placeholder", 480, 517, "", true)}</figure>`).join("")}<span class="photo-bubble bubble-left">a work in progress</span><span class="photo-bubble bubble-right">always curious</span></div><div class="about-reading"><div class="about-story"><p>${profile.about}</p><p>${profile.intro}</p><p>${profile.approach}</p></div><section class="profile-board" aria-label="Currently and interests"><p class="eyebrow">CURRENTLY</p><div class="profile-board-inner"><div class="current-location"><span class="tool-icon" aria-hidden="true">⌖</span><div><strong>${profile.location}</strong><p>Building tools. Learning in public.</p></div></div><div class="interest-section"><p class="eyebrow">THINGS I ENJOY WORKING WITH</p><div class="interest-marquee">${[interests, interests.slice().reverse()].map((row, i) => `<div class="interest-track track-${i}">${[...row, ...row].map((s, j) => `<span${j >= row.length ? ' aria-hidden="true"' : ""}>${s}</span>`).join("")}</div>`).join("")}</div></div><div class="selected-tools"><p class="eyebrow">SELECTED TOOLS</p><div>${[
-    ["JS", "JavaScript"],
-    ["Jv", "Java"],
-    ["Py", "Python"],
-    ["Git", "Git"],
+  const about = `<div class="about-page"><header class="about-intro"><h1>Hey, I’m Baivab.</h1><p>I build useful software, follow my curiosity,<br>and keep learning along the way.</p></header><div class="photo-fan" data-photo-fan role="group" aria-label="A few snapshots from my world"><p class="sr-only" id="photo-fan-help">Hover or select a photo to bring it forward. Use the arrow keys to explore, and Escape to put it back.</p>${strip.map(([src, caption, alt], i) => `<button type="button" class="photo-fan-card photo-${i}" data-photo-card data-photo-caption="${esc(caption)}" aria-label="${esc(alt)}" aria-describedby="photo-fan-help" aria-pressed="false">${photo(src, "", 480, 517, "", true).replace("<img ", '<img draggable="false" ')}<span class="sr-only">${esc(caption)}</span></button>`).join("")}<span class="photo-bubble bubble-left" data-photo-caption aria-hidden="true"></span><span class="photo-bubble bubble-right" aria-hidden="true">a little of my world</span><p class="sr-only" role="status" data-photo-status></p></div><div class="about-reading"><div class="about-story"><p>${profile.about}</p><p>${profile.intro}</p><p>${profile.approach}</p></div><section class="profile-board" aria-label="Currently and interests"><p class="eyebrow">CURRENTLY</p><div class="profile-board-inner"><div class="current-location"><span class="location-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 11-8 11S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.8"/></svg></span><div><strong>${profile.location}</strong><p>Building tools. Learning in public.</p></div></div><div class="interest-section"><p class="eyebrow">THINGS I ENJOY WORKING WITH</p><div class="interest-marquee">${[interests, interests.slice().reverse()].map((row, i) => `<div class="interest-track track-${i}">${[...row, ...row].map((s, j) => `<span${j >= row.length ? ' aria-hidden="true"' : ""}>${s}</span>`).join("")}</div>`).join("")}</div></div><div class="selected-tools"><p class="eyebrow">SELECTED TOOLS</p><div>${[
+    ["javascript", "JavaScript"],
+    ["python", "Python"],
+    ["java", "Java"],
+    ["selenium", "Selenium"],
+    ["tensorflow", "TensorFlow"],
+    ["opencv", "OpenCV"],
+    ["docker", "Docker"],
+    ["jenkins", "Jenkins"],
+    ["git", "Git"],
+    ["cloudflare", "Cloudflare"],
+    ["vercel", "Vercel"],
+    ["figma", "Figma"],
   ]
     .map(
-      ([s, l], i) =>
-        `<span class="tool-icon tool-${i}" aria-label="${l}" title="${l}">${s}</span>`,
+      ([slug, label]) =>
+        `<span class="selected-tool"><span class="tool-icon"><img src="/assets/tools/${slug}.svg" alt="" width="32" height="32" loading="lazy" decoding="async" draggable="false"></span><span>${label}</span></span>`,
     )
     .join(
       "",

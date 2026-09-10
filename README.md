@@ -20,9 +20,9 @@ Open http://127.0.0.1:4173. To serve deployment output, run `node scripts/serve.
 
 | Route | Content |
 | --- | --- |
-| / | Introduction, six featured projects, six archive links, capabilities and writing |
+| / | Introduction, six featured projects, timed capabilities, writing and Quick Ask |
 | /about | Personal story, photo fan, experience and education |
-| /work | Six featured projects, six archive projects and four private engagements |
+| /work | Six featured and six archive folders, plus four private engagements |
 | /work/:id | Individual project details |
 | /work/enterprise | Confidentiality-safe enterprise summaries |
 | /blog | All published articles with search and categories |
@@ -32,11 +32,11 @@ Open http://127.0.0.1:4173. To serve deployment output, run `node scripts/serve.
 
 The legacy /project and /project.html links still serve the project collection. /playground redirects to /play-lab; /interactions opens its Interactions section. The removed /tools page and old BlazeDemo project route redirect to Work.
 
-`data/project-order.json` controls the exact featured/archive order shared by Home, Work, project readers and Quick Ask. Edit data/*.json, then build and commit the generated HTML and sitemap. Shared templates live in scripts/templates.mjs and scripts/site-pages.mjs; the playground has its own renderer. style.css contains the home/shared foundation, pages.css handles collections and reading pages, and cursor.css/js supplies the pointer effect.
+`data/project-order.json` controls the exact featured/archive order shared by Home, Work, project readers and Quick Ask. Edit data/*.json, then build and commit the generated HTML and sitemap. Shared templates live in scripts/templates.mjs and scripts/site-pages.mjs; the playground has its own renderer. style.css contains the home/shared foundation, pages.css handles collections and reading pages, and cursor.css/js draws dots only in empty areas, masking text and UI.
 
 Create a native article with `npm run post:new -- "Your article title"`. Fill in the structured draft in content/posts, set `draft` to `false` when ready, and build. Titles, sections, code, screenshots, links, artwork, reading time and local URLs are handled by the publishing pipeline. See the [article publishing guide](docs/publishing-articles.md). The editorial presentation uses original article-art compositions in place of imported covers.
 
-Quick Ask answers questions about public portfolio content. Cloudflare Workers AI selects approved facts; all displayed wording and source links come from the checked-in content. Other hosts and local development use an explicitly labeled portfolio fallback. No API keys are sent to browsers. See [Quick Ask configuration](docs/quick-ask.md).
+Quick Ask answers questions about public portfolio content and handles greetings and thanks instantly. Cloudflare Workers AI selects approved facts; all displayed wording and source links come from the checked-in content. Other hosts and local development use an explicitly labeled portfolio fallback. No API keys are sent to browsers. See [Quick Ask configuration](docs/quick-ask.md).
 
 Refresh full articles with `node scripts/import-articles.mjs`. Its sanitizer preserves readable text, code, safe links and local images while removing executable embeds. `node scripts/import-articles.mjs --self-test` verifies the sanitizer. Article imports happen during maintenance, never in the visitor's browser. The build itself is network-independent.
 

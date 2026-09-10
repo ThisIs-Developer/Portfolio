@@ -69,7 +69,12 @@
     "source": "https://github.com/ThisIs-Developer/Body-Language-Detection-with-MediaPipe-and-OpenCV",
     "live": null,
     "liveLabel": null,
-    "status": "Archived research experiment"
+    "status": "Archived research experiment",
+    "image": "assets/work/body-language-1400.webp",
+    "imageAlt": "Bar chart of labeled samples from the Body Language Detection experiment.",
+    "imageSrcset": "assets/work/body-language-800.webp 800w, assets/work/body-language-1400.webp 1400w",
+    "imageWidth": 1400,
+    "imageHeight": 1408
   },
   {
     "id": "news-scraper",

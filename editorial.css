@@ -478,3 +478,46 @@
     transform: none;
   }
 }
+
+/* Keep artwork in its own row on small screens so no headline can be covered. */
+.writing-card,
+.writing-card > a,
+.writing-copy {
+  min-width: 0;
+}
+.writing-card .editorial-art {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+.writing-copy h3 {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 767px) {
+  .writing-card > a {
+    display: flex;
+    flex-direction: column;
+  }
+  .writing-card .editorial-art {
+    flex: none;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 1.8;
+  }
+  .writing-copy {
+    width: 100%;
+    padding: 22px;
+  }
+  .writing-copy h3 {
+    font-size: clamp(21px, 5.4vw, 26px);
+    line-height: 1.3;
+    min-height: 0;
+  }
+  .writing-copy .article-meta {
+    font-size: 12px;
+  }
+  .article-read {
+    font-size: 12px;
+  }
+}

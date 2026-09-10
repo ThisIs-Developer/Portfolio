@@ -1,4 +1,4 @@
-import { retrieve, compose } from "../quick-ask-core.js";
+import { retrieve, compose, conversationReply } from "../quick-ask-core.js";
 
 const MODEL = "@cf/meta/llama-3.1-8b-instruct-fast";
 const bursts = new Map();
@@ -54,6 +54,8 @@ export async function handleAsk(request, env, facts) {
     body.question.length > 240
   )
     return failure("Ask a question of 1–240 characters.", 400);
+  const greeting = conversationReply(body.question);
+  if (greeting) return json(greeting);
   const candidates = retrieve(body.question.trim(), facts);
   if (!candidates.length) return json(compose([]));
   const now = Date.now(),

@@ -1,52 +1,34 @@
-.playground-intro {
-  padding: 56px 24px 40px;
-  text-align: center;
-}
-.playground-intro.sr-only {
-  padding: 0;
-}
-.play-lab-intro {
-  padding: 58px 24px 34px;
-}
-.play-lab-intro .eyebrow {
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  color: var(--muted);
-}
-.play-lab-intro h1 {
-  font:
-    400 clamp(60px, 8vw, 94px) / 1 "Instrument Serif",
-    Georgia,
-    serif;
-  letter-spacing: -0.05em;
-  margin: 18px 0;
-}
-.play-lab-intro > p:not(.eyebrow) {
-  font-size: 13px;
-  line-height: 1.6;
-  color: var(--muted);
-}
 .play-lab-switch {
-  display: inline-flex;
-  gap: 8px;
-  margin-top: 25px;
-  padding: 5px;
-  border-radius: 30px;
-  background: var(--card);
-  box-shadow: 0 4px 16px #00000008;
+  display: flex;
+  width: fit-content;
+  gap: 4px;
+  margin: 48px auto 18px;
+  padding: 6px;
+  border-radius: 18px;
+  background: var(--strong-glass);
+  box-shadow: 0 2px 9px #00000004;
 }
 .play-lab-switch a {
   display: flex;
   align-items: center;
-  gap: 15px;
-  border-radius: 24px;
-  padding: 12px 18px;
+  justify-content: center;
+  min-height: 40px;
+  border-radius: 12px;
+  padding: 10px 19px;
   color: var(--ink);
-  font-size: 11px;
+  font-size: 13px;
+  font-weight: 500;
   text-decoration: none;
+  transition:
+    background 0.22s,
+    color 0.22s;
 }
-.play-lab-switch a:hover {
-  background: color-mix(in srgb, var(--ink) 6%, var(--card));
+.play-lab-switch a:hover:not([aria-current]) {
+  background: color-mix(in srgb, var(--ink) 6%, var(--strong-glass));
+}
+.play-lab-switch a[aria-current="location"] {
+  background: #1c1c1b;
+  color: #fff;
 }
 #canvas,
 #interactions {
@@ -86,7 +68,7 @@
   border: 0;
   border-radius: 20px;
   padding: 10px 17px;
-  background: var(--card);
+  background: var(--strong-glass);
   box-shadow: 0 2px 8px #0000000b;
   color: var(--ink);
   font-size: 12px;
@@ -135,13 +117,19 @@
     0 3px 6px #3442550b;
   transform: rotate(var(--card-angle));
   color: #282936;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 .playground-ready .playground-card {
   cursor: grab;
-}
-.playground-card .widget-heading {
   touch-action: none;
-  user-select: none;
+}
+.playground-card img {
+  -webkit-user-drag: none;
+}
+.playground-card.is-moving {
+  will-change: transform;
 }
 .playground-card:focus-visible {
   outline: 2px solid #5652b4;
@@ -150,6 +138,11 @@
 .playground-card.is-dragging {
   cursor: grabbing;
   box-shadow: 0 23px 38px #34425530;
+}
+.playground-card textarea {
+  user-select: text;
+  -webkit-user-select: text;
+  cursor: text;
 }
 .playground-card h2 {
   font:
@@ -651,27 +644,11 @@
   width: 100%;
   max-width: 320px;
   cursor: default;
+  touch-action: auto;
 }
 .playground-board.is-list .playground-palette,
 .playground-board.is-list .playground-controls {
   display: none;
-}
-.playground-interactions-intro .eyebrow {
-  margin: 37px 0 16px;
-  font-size: 9px;
-  letter-spacing: 0.16em;
-}
-.playground-interactions-intro h2 {
-  font:
-    400 clamp(38px, 5vw, 67px) / 1.03 "Instrument Serif",
-    Georgia,
-    serif;
-  letter-spacing: -0.04em;
-  margin: 0 0 21px;
-}
-.playground-interactions-intro > p:last-child {
-  font-size: 13px;
-  color: var(--muted);
 }
 .playground-interactions {
   max-width: 1176px;
@@ -961,11 +938,24 @@
   letter-spacing: -0.03em;
 }
 .interaction-joy-stage > p {
-  font-size: 10px;
+  font-size: 12px;
   color: #76594b;
   position: relative;
   padding-inline: 15px;
   text-align: center;
+  z-index: 3;
+}
+.interaction-joy-halo {
+  position: absolute;
+  width: 170px;
+  height: 170px;
+  left: 50%;
+  top: calc(50% - 28px);
+  border: 3px solid #dc8b65;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f7cfa300 40%, #f7cfa390);
+  opacity: 0;
+  pointer-events: none;
 }
 .interaction-joy-orbit {
   position: absolute;
@@ -973,14 +963,29 @@
   height: 170px;
   top: calc(50% - 104px);
   pointer-events: none;
+  z-index: 2;
 }
 .interaction-joy-orbit > span {
   position: absolute;
   left: 50%;
   top: 50%;
-  font-size: 30px;
-  color: #bb7545;
+  font-size: 33px;
+  color: #bf643e;
   opacity: 0;
+  text-shadow: 0 3px 8px #97411d15;
+}
+.interaction-joy-orbit > span:nth-child(3n + 1) {
+  color: #9e71b5;
+}
+.interaction-joy-orbit > span:nth-child(3n + 2) {
+  color: #d8912c;
+}
+.interaction-joy-orbit > span:nth-child(4n) {
+  font-size: 20px;
+  color: #527b60;
+}
+.interaction-joy-stage.has-celebrated {
+  background: #f6e0cc;
 }
 
 .interaction-bloom-stage {
@@ -1106,6 +1111,7 @@
   align-items: center;
   gap: 7px;
   pointer-events: none;
+  z-index: 2;
 }
 .ripple-center > span {
   font:
@@ -1156,13 +1162,20 @@
   height: 280px;
   border-radius: 50%;
   box-shadow:
-    inset 0 0 0 2px #fff9,
-    0 1px 6px #3f687a12;
+    inset 0 0 0 4px #fffffff2,
+    inset 0 0 0 7px color-mix(in srgb, var(--pond-ink) 28%, transparent),
+    0 2px 8px color-mix(in srgb, var(--pond-ink) 32%, transparent);
+  background: radial-gradient(
+    circle,
+    transparent 59%,
+    #ffffff36 67%,
+    transparent 70%
+  );
 }
 .interaction-ripple-stage > p {
   max-width: 90%;
   color: var(--pond-ink);
-  font-size: 10px;
+  font-size: 12px;
   text-align: center;
   line-height: 1.6;
 }
@@ -1176,12 +1189,11 @@
   }
 }
 @media (max-width: 767px) {
-  .play-lab-intro {
-    padding: 72px 20px 28px;
+  .play-lab-switch {
+    margin: 48px auto 12px;
   }
   .play-lab-switch a {
-    padding: 12px 15px;
-    gap: 10px;
+    padding: 10px 18px;
   }
   .interaction-bloom {
     width: 205px;
@@ -1255,19 +1267,6 @@
     max-width: 320px;
     font-size: 10px;
   }
-  .playground-interactions-intro {
-    padding: 76px 20px 34px;
-  }
-  .playground-interactions-intro h2 {
-    max-width: 300px;
-    margin: 0 auto 17px;
-  }
-  .playground-interactions-intro > p:last-child {
-    max-width: 250px;
-    margin-inline: auto;
-    line-height: 1.6;
-    font-size: 12px;
-  }
   .playground-interactions {
     grid-template-columns: 1fr;
     max-width: 500px;
@@ -1295,6 +1294,51 @@
   .playground-experiment-stage * {
     transition: none !important;
     animation: none !important;
+  }
+  .play-lab-switch a {
+    transition: none;
+  }
+  .interaction-joy-stage.has-celebrated
+    .interaction-joy-orbit
+    > span:nth-child(-n + 6) {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  .interaction-joy-stage.has-celebrated
+    .interaction-joy-orbit
+    > span:nth-child(1) {
+    left: 7%;
+    top: 8%;
+  }
+  .interaction-joy-stage.has-celebrated
+    .interaction-joy-orbit
+    > span:nth-child(2) {
+    left: 50%;
+    top: 0%;
+  }
+  .interaction-joy-stage.has-celebrated
+    .interaction-joy-orbit
+    > span:nth-child(3) {
+    left: 93%;
+    top: 9%;
+  }
+  .interaction-joy-stage.has-celebrated
+    .interaction-joy-orbit
+    > span:nth-child(4) {
+    left: 5%;
+    top: 87%;
+  }
+  .interaction-joy-stage.has-celebrated
+    .interaction-joy-orbit
+    > span:nth-child(5) {
+    left: 50%;
+    top: 96%;
+  }
+  .interaction-joy-stage.has-celebrated
+    .interaction-joy-orbit
+    > span:nth-child(6) {
+    left: 95%;
+    top: 89%;
   }
 }
 @media print {
@@ -1348,3 +1392,4 @@
 .interaction-bloom .bloom-petal-7 {
   --petal: 7;
 }
+

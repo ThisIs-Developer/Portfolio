@@ -1,4 +1,17 @@
 (() => {
+  const sectionLinks = [...document.querySelectorAll(".play-lab-switch a")];
+  const setSection = (hash) =>
+    sectionLinks.forEach((link) => {
+      if (link.hash === hash) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
+  setSection(location.hash === "#interactions" ? "#interactions" : "#canvas");
+  sectionLinks.forEach((link) =>
+    link.addEventListener("click", () => setSection(link.hash)),
+  );
+  window.addEventListener("hashchange", () =>
+    setSection(location.hash === "#interactions" ? "#interactions" : "#canvas"),
+  );
   const board = document.querySelector("[data-playground-board]");
   if (board) {
     const world = board.querySelector(".playground-world");
@@ -6,7 +19,15 @@
     const view = document.querySelector("[data-playground-view]");
     const label = board.querySelector("[data-playground-zoom-label]");
     const status = document.querySelector("[data-playground-status]");
-    const positions = new Map(cards.map((card) => [card, { x: 0, y: 0 }]));
+    const motion = matchMedia("(prefers-reduced-motion: reduce)");
+    const positions = new Map(
+      cards.map((card) => [
+        card,
+        { x: 0, y: 0, vx: 0, vy: 0, lift: 0, tilt: 0 },
+      ]),
+    );
+    let frame = 0;
+    let lastFrame = 0;
     let zoom = 1;
     let fit = 1;
     let list = matchMedia("(max-width: 767px)").matches;
@@ -38,7 +59,92 @@
     }
     function paint(card) {
       const position = positions.get(card);
-      card.style.transform = `translate(${position.x}px, ${position.y}px) rotate(var(--card-angle))`;
+      card.style.transform = `translate3d(${position.x}px, ${position.y}px, 0) rotate(calc(var(--card-angle) + ${position.tilt}deg)) scale(${1 + position.lift * 0.035})`;
+    }
+    function bounds(card) {
+      // Leave room around the rotated corners so a thrown card stays recoverable.
+      return {
+        left: 18 - card.offsetLeft,
+        right: world.offsetWidth - card.offsetLeft - card.offsetWidth - 18,
+        top: 18 - card.offsetTop,
+        bottom: world.offsetHeight - card.offsetTop - card.offsetHeight - 18,
+      };
+    }
+    function clampPosition(card) {
+      const p = positions.get(card),
+        b = bounds(card);
+      p.x = Math.max(b.left, Math.min(b.right, p.x));
+      p.y = Math.max(b.top, Math.min(b.bottom, p.y));
+    }
+    function wake() {
+      if (!frame && !list) {
+        lastFrame = performance.now();
+        frame = requestAnimationFrame(animateCards);
+      }
+    }
+    function animateCards(now) {
+      frame = 0;
+      const dt = Math.min(32, Math.max(1, now - lastFrame));
+      lastFrame = now;
+      let moving = false;
+      for (const [card, p] of positions) {
+        const held = drag?.card === card;
+        const ease = 1 - Math.pow(0.45, dt / 16.67);
+        if (held) {
+          p.x += (drag.targetX - p.x) * ease;
+          p.y += (drag.targetY - p.y) * ease;
+          moving = true;
+        } else if (Math.abs(p.vx) + Math.abs(p.vy) > 0.018) {
+          p.x += p.vx * dt;
+          p.y += p.vy * dt;
+          const b = bounds(card);
+          if (p.x < b.left || p.x > b.right) p.vx *= -0.32;
+          if (p.y < b.top || p.y > b.bottom) p.vy *= -0.32;
+          clampPosition(card);
+          const friction = Math.pow(0.91, dt / 16.67);
+          p.vx *= friction;
+          p.vy *= friction;
+          moving = true;
+        } else {
+          p.vx = p.vy = 0;
+        }
+        const targetLift = held ? 1 : 0;
+        const targetTilt = Math.max(
+          -7,
+          Math.min(7, (held ? drag.vx : p.vx) * 4),
+        );
+        p.lift += (targetLift - p.lift) * ease;
+        p.tilt += (targetTilt - p.tilt) * ease;
+        if (
+          Math.abs(targetLift - p.lift) > 0.002 ||
+          Math.abs(targetTilt - p.tilt) > 0.02
+        )
+          moving = true;
+        else {
+          p.lift = targetLift;
+          p.tilt = targetTilt;
+        }
+        card.classList.toggle(
+          "is-moving",
+          held || Math.abs(p.vx) + Math.abs(p.vy) > 0.018,
+        );
+        paint(card);
+      }
+      if (moving && !list && !motion.matches)
+        frame = requestAnimationFrame(animateCards);
+    }
+    function stopMovement() {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      const held = drag;
+      drag = null;
+      if (held?.card.hasPointerCapture(held.id))
+        held.card.releasePointerCapture(held.id);
+      for (const [card, p] of positions) {
+        p.vx = p.vy = p.lift = p.tilt = 0;
+        card.classList.remove("is-dragging", "is-moving");
+        paint(card);
+      }
     }
     function save() {
       try {
@@ -248,6 +354,7 @@
     board
       .querySelector("[data-playground-reset]")
       .addEventListener("click", () => {
+        stopMovement();
         zoom = 1;
         for (const [card, position] of positions) {
           position.x = 0;
@@ -259,6 +366,7 @@
         announce("Cards and zoom reset.");
       });
     view.addEventListener("click", () => {
+      stopMovement();
       list = !list;
       board.classList.toggle("is-list", list);
       view.setAttribute("aria-pressed", String(list));
@@ -272,14 +380,24 @@
       );
     });
     for (const card of cards) {
+      card.querySelectorAll("img").forEach((img) => {
+        img.draggable = false;
+      });
+      card.addEventListener("dragstart", (event) => event.preventDefault());
       card.addEventListener("pointerdown", (event) => {
         if (
           list ||
           event.button !== 0 ||
-          !event.target.closest(".widget-heading")
+          drag ||
+          event.target.closest(
+            "button, a, input, textarea, select, label, [contenteditable]",
+          )
         )
           return;
+        event.preventDefault();
+        card.focus({ preventScroll: true });
         const position = positions.get(card);
+        position.vx = position.vy = 0;
         drag = {
           card,
           id: event.pointerId,
@@ -287,36 +405,81 @@
           y: event.clientY,
           startX: position.x,
           startY: position.y,
+          targetX: position.x,
+          targetY: position.y,
+          lastX: event.clientX,
+          lastY: event.clientY,
+          time: performance.now(),
+          vx: 0,
+          vy: 0,
+          moved: false,
         };
         card.setPointerCapture(event.pointerId);
         card.style.zIndex = String(++layer);
         card.classList.add("is-dragging");
+        if (!motion.matches) wake();
       });
       card.addEventListener("pointermove", (event) => {
         if (!drag || drag.card !== card || drag.id !== event.pointerId) return;
-        const position = positions.get(card);
         const scale = fit * zoom;
-        position.x = Math.max(
-          -card.offsetLeft,
+        const now = performance.now(),
+          dt = Math.max(8, now - drag.time),
+          b = bounds(card);
+        drag.targetX = Math.max(
+          b.left,
+          Math.min(b.right, drag.startX + (event.clientX - drag.x) / scale),
+        );
+        drag.targetY = Math.max(
+          b.top,
+          Math.min(b.bottom, drag.startY + (event.clientY - drag.y) / scale),
+        );
+        drag.vx = Math.max(
+          -1.8,
           Math.min(
-            world.offsetWidth - card.offsetLeft - card.offsetWidth,
-            drag.startX + (event.clientX - drag.x) / scale,
+            1.8,
+            ((event.clientX - drag.lastX) / scale / dt) * 0.7 + drag.vx * 0.3,
           ),
         );
-        position.y = Math.max(
-          -card.offsetTop,
+        drag.vy = Math.max(
+          -1.8,
           Math.min(
-            world.offsetHeight - card.offsetTop - card.offsetHeight,
-            drag.startY + (event.clientY - drag.y) / scale,
+            1.8,
+            ((event.clientY - drag.lastY) / scale / dt) * 0.7 + drag.vy * 0.3,
           ),
         );
-        paint(card);
+        drag.lastX = event.clientX;
+        drag.lastY = event.clientY;
+        drag.time = now;
+        drag.moved ||=
+          Math.hypot(event.clientX - drag.x, event.clientY - drag.y) > 4;
+        if (motion.matches) {
+          const p = positions.get(card);
+          p.x = drag.targetX;
+          p.y = drag.targetY;
+          paint(card);
+        } else wake();
       });
-      const release = () => {
-        if (drag?.card === card) {
-          card.classList.remove("is-dragging");
-          drag = null;
+      const release = (event) => {
+        if (drag?.card !== card || drag.id !== event.pointerId) return;
+        const held = drag,
+          p = positions.get(card);
+        const throwCard =
+          event.type === "pointerup" &&
+          held.moved &&
+          !motion.matches &&
+          performance.now() - held.time < 100;
+        p.vx = throwCard ? held.vx : 0;
+        p.vy = throwCard ? held.vy : 0;
+        if (motion.matches || !held.moved) {
+          p.x = held.targetX;
+          p.y = held.targetY;
         }
+        drag = null;
+        card.classList.remove("is-dragging");
+        if (card.hasPointerCapture(event.pointerId))
+          card.releasePointerCapture(event.pointerId);
+        if (!motion.matches) wake();
+        else paint(card);
       };
       card.addEventListener("pointerup", release);
       card.addEventListener("pointercancel", release);
@@ -331,6 +494,7 @@
         )
           return;
         event.preventDefault();
+        stopMovement();
         const position = positions.get(card);
         const step = event.shiftKey ? 40 : 12;
         position.x +=
@@ -345,24 +509,18 @@
             : event.key === "ArrowDown"
               ? step
               : 0;
-        position.x = Math.max(
-          -card.offsetLeft,
-          Math.min(
-            world.offsetWidth - card.offsetLeft - card.offsetWidth,
-            position.x,
-          ),
-        );
-        position.y = Math.max(
-          -card.offsetTop,
-          Math.min(
-            world.offsetHeight - card.offsetTop - card.offsetHeight,
-            position.y,
-          ),
-        );
+        clampPosition(card);
         card.style.zIndex = String(++layer);
         paint(card);
       });
     }
+    motion.addEventListener("change", () => {
+      if (motion.matches) stopMovement();
+    });
+    window.addEventListener("blur", stopMovement);
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) stopMovement();
+    });
     function updateClock() {
       const now = new Date();
       const parts = new Intl.DateTimeFormat("en-GB", {
@@ -399,9 +557,17 @@
     const clockTimer = setInterval(() => {
       if (!document.hidden) updateClock();
     }, 60_000);
-    window.addEventListener("pagehide", () => clearInterval(clockTimer), {
-      once: true,
-    });
+    window.addEventListener(
+      "pagehide",
+      () => {
+        clearInterval(clockTimer);
+        pause();
+        stopMovement();
+      },
+      {
+        once: true,
+      },
+    );
   }
 })();
 
@@ -471,11 +637,25 @@
         `Moved to the ${right ? "right" : "left"} with ${spring} motion.`;
     });
   const depth = document.querySelector("[data-depth-card]");
+  let flipAnimation;
   depth?.addEventListener("click", () => {
     const back = depth.getAttribute("aria-pressed") !== "true";
     depth.setAttribute("aria-pressed", String(back));
     depth.querySelector(".depth-card-front").hidden = back;
     depth.querySelector(".depth-card-back").hidden = !back;
+    flipAnimation?.cancel();
+    if (!motion.matches)
+      flipAnimation = depth.animate(
+        [
+          { transform: "rotateY(-70deg) rotate(-7deg) scale(.94)" },
+          {
+            transform: "rotateY(7deg) rotate(-7deg) scale(1.02)",
+            offset: 0.72,
+          },
+          { transform: "rotateY(0deg) rotate(-7deg) scale(1)" },
+        ],
+        { duration: 560, easing: "cubic-bezier(.18,.7,.2,1)" },
+      );
   });
   const resetTilt = () => {
     depth?.style.setProperty("--tilt-x", "0deg");
@@ -486,11 +666,11 @@
     const r = depth.getBoundingClientRect();
     depth.style.setProperty(
       "--tilt-x",
-      `${((event.clientY - r.top - r.height / 2) / r.height) * -18}deg`,
+      `${((event.clientY - r.top - r.height / 2) / r.height) * -28}deg`,
     );
     depth.style.setProperty(
       "--tilt-y",
-      `${((event.clientX - r.left - r.width / 2) / r.width) * 18}deg`,
+      `${((event.clientX - r.left - r.width / 2) / r.width) * 28}deg`,
     );
   });
   depth?.addEventListener("pointerleave", resetTilt);
@@ -499,24 +679,62 @@
   const particles = [
     ...document.querySelectorAll(".interaction-joy-orbit>span"),
   ];
-  document.querySelector("[data-joy-button]")?.addEventListener("click", () => {
+  const joyButton = document.querySelector("[data-joy-button]");
+  const joyStage = joyButton?.closest(".interaction-joy-stage");
+  const joyHalo = joyStage?.querySelector(".interaction-joy-halo");
+  joyButton?.addEventListener("click", () => {
     joys++;
+    joyStage.classList.add("has-celebrated");
     document.querySelector("[data-joy-status]").textContent =
       `${joys} little ${joys === 1 ? "moment" : "moments"} of joy. Keep going.`;
     if (motion.matches) return;
+    [joyButton, joyHalo].forEach((element) =>
+      element.getAnimations().forEach((a) => a.cancel()),
+    );
+    joyButton.animate(
+      [
+        { transform: "scale(.88) rotate(-4deg)" },
+        { transform: "scale(1.13) rotate(3deg)", offset: 0.42 },
+        { transform: "scale(.98) rotate(-1deg)", offset: 0.72 },
+        { transform: "scale(1) rotate(0)" },
+      ],
+      { duration: 720, easing: "cubic-bezier(.2,.7,.25,1)" },
+    );
+    joyHalo.animate(
+      [
+        { transform: "translate(-50%,-50%) scale(.45)", opacity: 0 },
+        { opacity: 0.8, offset: 0.16 },
+        { transform: "translate(-50%,-50%) scale(2.5)", opacity: 0 },
+      ],
+      { duration: 1400, easing: "cubic-bezier(.12,.6,.3,1)" },
+    );
     particles.forEach((p, i) => {
       p.getAnimations().forEach((a) => a.cancel());
       const angle = (i / particles.length) * Math.PI * 2;
+      const distance =
+        Math.min(joyStage.clientWidth * 0.46, 220) * (i % 2 ? 0.85 : 1);
+      const x = Math.cos(angle) * distance,
+        y = Math.sin(angle) * 150;
       p.animate(
         [
-          { opacity: 0, transform: "translate(-50%,-50%) scale(.3)" },
-          { opacity: 1, offset: 0.18 },
+          { opacity: 0, transform: "translate(-50%,-50%) scale(.15)" },
+          {
+            opacity: 1,
+            transform: `translate(calc(-50% + ${x * 0.78}px),calc(-50% + ${y * 0.78}px)) rotate(${i * 30}deg) scale(1.2)`,
+            offset: 0.32,
+          },
+          { opacity: 1, offset: 0.66 },
           {
             opacity: 0,
-            transform: `translate(${Math.cos(angle) * 150}px,${Math.sin(angle) * 105}px) rotate(${i * 60}deg) scale(1)`,
+            transform: `translate(calc(-50% + ${x}px),calc(-50% + ${y + 38}px)) rotate(${i * 60}deg) scale(.65)`,
           },
         ],
-        { duration: 800, easing: "cubic-bezier(.12,.66,.35,1)" },
+        {
+          duration: 1700,
+          delay: (i % 3) * 30,
+          easing: "cubic-bezier(.12,.66,.35,1)",
+          fill: "both",
+        },
       );
     });
   });
@@ -568,6 +786,7 @@
   const rings = document.querySelector("[data-ripple-rings]");
   const rippleStatus = document.querySelector("[data-ripple-status]");
   let ripples = 0;
+  let pondAnimation;
   pond?.addEventListener("click", (event) => {
     const r = pond.getBoundingClientRect();
     const x = event.detail
@@ -576,6 +795,18 @@
     const y = event.detail
       ? Math.max(0, Math.min(r.height, event.clientY - r.top))
       : r.height / 2;
+    pond.classList.add("has-rippled");
+    pondAnimation?.cancel();
+    if (!motion.matches)
+      pondAnimation = pond.animate(
+        [
+          { transform: "scale(.94)" },
+          { transform: "scale(1.035)", offset: 0.38 },
+          { transform: "scale(.99)", offset: 0.68 },
+          { transform: "scale(1)" },
+        ],
+        { duration: 800, easing: "cubic-bezier(.2,.7,.3,1)" },
+      );
     // Keep rapid taps bounded, and retain a still ripple when motion is reduced.
     if (motion.matches) rings.replaceChildren();
     while (rings.childElementCount >= 9) rings.firstElementChild.remove();
@@ -586,18 +817,19 @@
       rings.append(ring);
       if (motion.matches) {
         ring.style.transform = `translate(-50%, -50%) scale(${0.28 + i * 0.22})`;
-        ring.style.opacity = String(0.55 - i * 0.13);
+        ring.style.opacity = String(0.95 - i * 0.15);
       } else {
         ring
           .animate(
             [
-              { transform: "translate(-50%, -50%) scale(.04)", opacity: 0.75 },
-              { opacity: 0.45, offset: 0.45 },
-              { transform: "translate(-50%, -50%) scale(1.35)", opacity: 0 },
+              { transform: "translate(-50%, -50%) scale(.04)", opacity: 1 },
+              { opacity: 0.95, offset: 0.4 },
+              { opacity: 0.65, offset: 0.75 },
+              { transform: "translate(-50%, -50%) scale(1.65)", opacity: 0 },
             ],
             {
-              duration: 1700,
-              delay: i * 130,
+              duration: 2200,
+              delay: i * 190,
               fill: "both",
               easing: "cubic-bezier(.15,.55,.3,1)",
             },
@@ -623,6 +855,11 @@
     if (motion.matches) {
       animation?.cancel();
       spinAnimation?.cancel();
+      flipAnimation?.cancel();
+      pondAnimation?.cancel();
+      [joyButton, joyHalo].forEach((element) =>
+        element?.getAnimations().forEach((a) => a.cancel()),
+      );
       resetTilt();
       resetBloom();
       particles.forEach((p) => p.getAnimations().forEach((a) => a.cancel()));

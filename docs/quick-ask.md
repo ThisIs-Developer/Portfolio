@@ -1,6 +1,6 @@
 # Quick Ask
 
-Quick Ask helps visitors find Baivab’s public background, work, skills, education, writing and contact details. The answer card includes links to the relevant pages. Suggestions and repeated questions are available without retyping; repeated answers are cached for the current page visit.
+Quick Ask helps visitors find Baivab’s public background, work, skills, education, writing and contact details. The input and expanding reply area share one opaque rounded surface, with a sent-question bubble, visible thinking state and links to relevant pages. Suggestions and repeated questions are available without retyping; repeated answers are cached for the current page visit.
 
 ## Cloudflare deployment
 
@@ -10,7 +10,7 @@ The project build command is `if [ -f scripts/build.mjs ]; then node scripts/bui
 
 The endpoint uses `@cf/meta/llama-3.1-8b-instruct-fast`, zero temperature and an 80-token output limit. The direct binding avoids an extra gateway service. Cloudflare documents [Pages configuration](https://developers.cloudflare.com/pages/functions/wrangler-configuration/), [Workers AI bindings](https://developers.cloudflare.com/pages/functions/bindings/#workers-ai) and the [fast Llama model](https://developers.cloudflare.com/workers-ai/models/llama-3.1-8b-instruct-fast/).
 
-Existing account quotas apply. This configuration does not purchase or upgrade a plan. If inference is unavailable, slow, invalid or over quota, the visitor gets an answer labeled “From my portfolio”. Other static hosts use the same fallback. The local development server exercises the endpoint without remote inference or usage charges.
+Existing account quotas apply. This configuration does not purchase or upgrade a plan. If inference is unavailable, slow, invalid or over quota, the visitor gets an answer labeled “From Baivab’s portfolio”. Other static hosts use the same fallback. The local development server exercises the endpoint without remote inference or usage charges.
 
 ## Scope and grounding
 
@@ -29,3 +29,5 @@ Fallback responses include an `X-Quick-Ask-Fallback` header identifying a missin
 Update the relevant portfolio data and run `npm run build` to refresh both knowledge snapshots. Add new aliases in `scripts/knowledge.mjs` when useful. `npm run test:ask` covers retrieval, topic restrictions, invalid model output, unavailable inference, request validation and burst fallback. The browser suite verifies source-linked answers and that typing does not start the game.
 
 For an authenticated remote development session, use `npx wrangler pages dev dist`. Unlike `npm run serve`, a remote AI binding can consume the existing account’s inference quota. Use `npx wrangler pages functions build functions --outdir .qa-results/worker-build` for compilation without inference.
+
+Whole-message greetings, thanks and basic introductions return short, conversational replies immediately, without inference. They identify the portfolio assistant and cannot bypass restrictions when combined with unrelated questions or requests for private information. Thirteen server test groups cover this behavior and the existing grounding, request and fallback controls.

@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { startServer } from "./serve.mjs";
 import { loadLocalArticles, mergeArticles } from "./local-articles.mjs";
 import { projectCollections } from "./project-selection.mjs";
+import { refinementChecks } from "./refinement-checks.mjs";
 
 const args = process.argv.slice(2);
 const option = (name, fallback) =>
@@ -499,20 +500,15 @@ async function foldersAndCapabilities(page) {
     ),
     "Folders have visible titles and dedicated local project destinations",
   );
-  const archiveLinks = page.locator(".home-archive .archive-link");
-  assert.deepEqual(
-    await archiveLinks.evaluateAll((elements) =>
-      elements.map((element) => new URL(element.href).pathname),
-    ),
-    archiveIds.map((id) => `/work/${id}`),
-    "Home archive includes exactly the six requested projects in their curated order",
+  assert.equal(
+    await page.locator(".home-archive").count(),
+    0,
+    "Home archive is removed",
   );
   assert.deepEqual(
     await page.locator("#projects .project-number").allTextContents(),
-    Array.from({ length: 12 }, (_, index) =>
-      String(index + 1).padStart(2, "0"),
-    ),
-    "Home project numbering runs from 01 to 12 across both collections",
+    Array.from({ length: 6 }, (_, index) => String(index + 1).padStart(2, "0")),
+    "Home shows only the six featured projects",
   );
 
   const capabilities = page.locator("details.capability");
@@ -527,8 +523,13 @@ async function foldersAndCapabilities(page) {
     );
     await summary.press("Enter");
     assert(
-      !(await item.evaluate((element) => element.open)),
-      "Keyboard closes capability",
+      await item.evaluate((element) => element.open),
+      "Selecting the active capability restarts its turn",
+    );
+    assert.equal(
+      await page.locator(".capability[open]").count(),
+      1,
+      "Only one capability stays open",
     );
   }
 
@@ -1218,16 +1219,26 @@ async function cursorDots(page) {
     "Decorative cursor is hidden from assistive technology",
   );
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.waitForFunction(() => {
-    const canvas = document.querySelector(".cursor-dot-layer");
-    return (
-      !canvas ||
-      !canvas
-        .getContext("2d")
-        .getImageData(0, 0, canvas.width, canvas.height)
-        .data.some((value, index) => index % 4 === 3 && value > 0)
-    );
+  await page.waitForTimeout(150);
+  await page.mouse.move(500, 230);
+  await page.waitForTimeout(150);
+  const dotSize = await page.locator(".cursor-dot-layer").evaluate((canvas) => {
+    const pixels = canvas
+      .getContext("2d")
+      .getImageData(0, 0, canvas.width, canvas.height).data;
+    let longest = 0,
+      run = 0;
+    for (let i = 3; i < pixels.length; i += 4) {
+      if (((i - 3) / 4) % canvas.width === 0) run = 0;
+      run = pixels[i] > 0 ? run + 1 : 0;
+      longest = Math.max(longest, run);
+    }
+    return { longest, max: Math.ceil((1.7 * canvas.width) / innerWidth) + 1 };
   });
+  assert(
+    dotSize.longest > 0 && dotSize.longest <= dotSize.max,
+    "Reduced motion preserves only small static dots, without a pointer highlight",
+  );
   await page.emulateMedia({ reducedMotion: "no-preference" });
 }
 
@@ -1411,6 +1422,10 @@ try {
           () => playground(page),
         ],
         ["cursor highlights and reduced motion", () => cursorDots(page)],
+        [
+          "content masks, responsive cards, timed capabilities and photo controls",
+          () => refinementChecks(page, load),
+        ],
       ]) {
         await check(`${name}: ${label}`, async () => {
           errors = [];
@@ -1549,8 +1564,8 @@ try {
             );
             assert.equal(
               await fallback.locator(".home-archive .archive-link").count(),
-              6,
-              "All archive projects remain available without JavaScript",
+              0,
+              "Home archive remains removed without JavaScript",
             );
           }
           if (route === "/work") await curatedWorkGroups(fallback);

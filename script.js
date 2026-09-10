@@ -112,7 +112,13 @@ if ("IntersectionObserver" in window) {
     (entries) => {
       for (const entry of entries)
         if (entry.isIntersecting) {
-          if (!reducedMotion.matches)
+          if (!reducedMotion.matches) {
+            entry.target.dispatchEvent(
+              new CustomEvent("portfolio:motion", {
+                bubbles: true,
+                detail: { duration: 650 },
+              }),
+            );
             entry.target.animate(
               [
                 { transform: "translateY(18px)" },
@@ -120,6 +126,7 @@ if ("IntersectionObserver" in window) {
               ],
               { duration: 650, easing: "cubic-bezier(.23,1,.32,1)" },
             );
+          }
           reveal.unobserve(entry.target);
         }
     },
@@ -138,6 +145,89 @@ document.querySelectorAll('a[href="#experience"]').forEach((anchor) =>
 );
 if (location.hash === "#experience")
   document.querySelector("#experience")?.setAttribute("open", "");
+
+// A visible capability always has a finite turn; selecting a different row
+// resets that turn. Offscreen sections do not keep running background timers.
+const capabilityGroup = document.querySelector("[data-capabilities]");
+if (capabilityGroup) {
+  const items = [...capabilityGroup.querySelectorAll(".capability")];
+  const duration = 9000;
+  let active = 0,
+    started = 0,
+    frame = 0,
+    visible = false;
+  const stop = () => {
+    cancelAnimationFrame(frame);
+    frame = 0;
+  };
+  function select(index) {
+    active = index;
+    items.forEach((item, i) => {
+      item.open = i === index;
+      item.querySelector(".capability-progress").style.strokeDashoffset = "100";
+    });
+    started = performance.now();
+    capabilityGroup.dataset.activeCapability = String(index + 1);
+    stop();
+    if (visible && !document.hidden) frame = requestAnimationFrame(tick);
+  }
+  function tick(time) {
+    frame = 0;
+    if (!visible || document.hidden) return;
+    const fraction = Math.min(1, (time - started) / duration);
+    const progress = reducedMotion.matches
+      ? Math.floor(fraction * 4) / 4
+      : fraction;
+    items[active].querySelector(".capability-progress").style.strokeDashoffset =
+      String(100 - progress * 100);
+    if (fraction >= 1) select((active + 1) % items.length);
+    else frame = requestAnimationFrame(tick);
+  }
+  items.forEach((item, index) => {
+    item.open = false;
+    item.querySelector("summary").addEventListener("click", (event) => {
+      event.preventDefault();
+      select(index);
+    });
+  });
+  new IntersectionObserver(
+    (entries) => {
+      const nextVisible = entries[0].isIntersecting;
+      if (visible === nextVisible) return;
+      visible = nextVisible;
+      if (visible) select(0);
+      else {
+        stop();
+        items.forEach((item) => (item.open = false));
+      }
+    },
+    { threshold: 0, rootMargin: "-60px 0px -40px" },
+  ).observe(capabilityGroup);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stop();
+      items.forEach((item) => (item.open = false));
+    } else if (visible) select(active);
+  });
+}
+
+const wallet = document.querySelector(".wallet");
+if (wallet) {
+  wallet.querySelectorAll(".wallet-card").forEach((card) => {
+    card.addEventListener("pointermove", (event) => {
+      if (reducedMotion.matches || event.pointerType === "touch") return;
+      const bounds = card.getBoundingClientRect();
+      card.style.setProperty(
+        "--wallet-lean",
+        ((event.clientX - bounds.left) / bounds.width - 0.5) * 7 + "deg",
+      );
+    });
+    card.addEventListener("pointerleave", () =>
+      card.style.removeProperty("--wallet-lean"),
+    );
+    card.addEventListener("dragstart", (event) => event.preventDefault());
+  });
+}
 
 const copyEmail = document.querySelector(".copy-email");
 if (copyEmail && navigator.clipboard?.writeText) {

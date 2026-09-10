@@ -82,8 +82,14 @@ Run Lighthouse separately from browser tests. Local detailed logs remain in igno
 
 ## Project curation and Play Lab update
 
-The current revision makes the owner’s twelve-project selection explicit in data/project-order.json, adds Simon, removes the BlazeDemo listing, and consolidates private audit work into one of four illustrated cards. Home and Work use the same featured/archive order. Filtering keeps that order; date sorting stays within each group.
+The preceding revision made the owner’s twelve-project selection explicit in data/project-order.json, adds Simon, removes the BlazeDemo listing, and consolidates private audit work into one of four illustrated cards. Home uses the six featured projects; Work keeps the full featured/archive order. Filtering keeps that order; date sorting stays within each group.
 
 Play Lab replaces the separate Playground and Interactions pages. It retains the seven canvas widgets and six demos, with a petal bloom and ripple pond replacing process tabs and disclosures. Legacy URLs redirect to their replacement; Tools is removed from the generated pages and navigation. The repository browser suite covers the new ordering, groups, navigation, redirects and replacement controls. See the PR’s validation section for the current run results; earlier measurements above are historical baselines.
 
 Nine focused verification groups passed both locally and on the Cloudflare preview on 9 September 2026, covering exact ordering, complete folder content at four viewport widths, grouped search/sort, legacy redirects, bloom/ripple controls, reduced motion, and light/dark accessibility. The deployed HTML, Play Lab assets and assistant knowledge matched the build. Live Workers AI responses correctly described Simon and the featured/archive selection. Desktop and mobile screenshots were reviewed for the archive, private cards and interactions.
+
+## Readability and interaction refinement
+
+The current update removes Home’s archive, About copy and experience disclosure; strengthens background dots while masking readable content; adds the repository image for Body Language Detection; cycles capabilities with manual timer reset; and fixes the mobile article layout. About uses interactive photos, a location pin and twelve real technology logos. All Work projects use folders. Play Lab supports whole-card motion and stronger visible effects; Quick Ask has an integrated conversational panel.
+
+The focused browser checks cover the nine-second capability cycle and wrap, manual reset, dot masks, mobile headlines, photo keyboard selection, icon loading and all twelve folder bounds. The initial Chromium sweep found a missing icon directory in the deployment copy list and an outdated reduced-motion expectation; both were corrected. Final CI and deployed-preview results are recorded in PR #1. Earlier counts in this document are historical baselines.

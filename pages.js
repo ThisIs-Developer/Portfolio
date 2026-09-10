@@ -151,3 +151,114 @@ if (readingToc) {
     });
   }
 }
+
+const photoFan = document.querySelector("[data-photo-fan]");
+if (photoFan) {
+  const photos = [...photoFan.querySelectorAll("[data-photo-card]")];
+  const caption = photoFan.querySelector(".photo-bubble[data-photo-caption]");
+  const status = photoFan.querySelector("[data-photo-status]");
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+  let activePhoto = null;
+  let pinnedPhoto = null;
+  let frame = 0;
+
+  const resetTilt = (photo) => {
+    photo?.style.removeProperty("--tilt-x");
+    photo?.style.removeProperty("--tilt-y");
+  };
+  const activate = (photo, announce = false) => {
+    cancelAnimationFrame(frame);
+    resetTilt(activePhoto);
+    activePhoto = photo;
+    photos.forEach((item) => {
+      item.classList.toggle("is-photo-active", item === photo);
+      item.setAttribute("aria-pressed", String(item === photo));
+    });
+    photoFan.classList.toggle("has-active-photo", Boolean(photo));
+    if (photo) caption.textContent = photo.dataset.photoCaption;
+    if (announce)
+      status.textContent = photo
+        ? photo.dataset.photoCaption
+        : "Photos put back.";
+  };
+
+  photos.forEach((photo, index) => {
+    photo.addEventListener("pointerenter", (event) => {
+      if (event.pointerType !== "touch") activate(photo);
+    });
+    photo.addEventListener("pointermove", (event) => {
+      if (
+        event.pointerType === "touch" ||
+        reducedMotion.matches ||
+        activePhoto !== photo
+      )
+        return;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        if (activePhoto !== photo) return;
+        const rect = photo.getBoundingClientRect();
+        const x = Math.max(
+          -1,
+          Math.min(1, ((event.clientX - rect.left) / rect.width) * 2 - 1),
+        );
+        const y = Math.max(
+          -1,
+          Math.min(1, ((event.clientY - rect.top) / rect.height) * 2 - 1),
+        );
+        photo.style.setProperty("--tilt-x", `${x * 6}deg`);
+        photo.style.setProperty("--tilt-y", `${-y * 5}deg`);
+      });
+    });
+    photo.addEventListener("pointerleave", () => {
+      if (activePhoto !== photo) return;
+      activate(
+        pinnedPhoto ||
+          (photos.includes(document.activeElement)
+            ? document.activeElement
+            : null),
+      );
+    });
+    photo.addEventListener("focus", () => activate(photo));
+    photo.addEventListener("click", () => {
+      pinnedPhoto = pinnedPhoto === photo ? null : photo;
+      activate(pinnedPhoto, true);
+    });
+    photo.addEventListener("keydown", (event) => {
+      const keyOffsets = {
+        ArrowRight: 1,
+        ArrowDown: 1,
+        ArrowLeft: -1,
+        ArrowUp: -1,
+      };
+      if (event.key in keyOffsets) {
+        event.preventDefault();
+        photos[
+          (index + keyOffsets[event.key] + photos.length) % photos.length
+        ].focus();
+      } else if (event.key === "Home" || event.key === "End") {
+        event.preventDefault();
+        photos[event.key === "Home" ? 0 : photos.length - 1].focus();
+      }
+    });
+    photo.addEventListener("dragstart", (event) => event.preventDefault());
+  });
+  photoFan.addEventListener("focusout", (event) => {
+    if (!photoFan.contains(event.relatedTarget)) activate(pinnedPhoto);
+  });
+  document.addEventListener("pointerdown", (event) => {
+    if (!photoFan.contains(event.target)) {
+      pinnedPhoto = null;
+      activate(null);
+    }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && activePhoto) {
+      pinnedPhoto = null;
+      activate(null, true);
+    }
+  });
+  reducedMotion.addEventListener("change", () => {
+    cancelAnimationFrame(frame);
+    photos.forEach(resetTilt);
+  });
+}

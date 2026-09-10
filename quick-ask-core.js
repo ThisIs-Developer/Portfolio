@@ -1,5 +1,40 @@
 export const restrictedAnswer =
-  "I can help with Baivab’s background, projects, skills, experience and writing. I don’t have verified information for that question. Try a portfolio topic below.";
+  "I don’t have verified information for that question. I can help you explore Baivab’s projects, background, skills or writing, though. What would you like to know?";
+
+// Whole-message matches keep small talk fast without treating a greeting as a
+// pass-through for an unrelated question or a request for private information.
+export function conversationReply(question) {
+  if (typeof question !== "string" || question.length > 240) return null;
+  const message = question
+    .toLowerCase()
+    .replace(/[’']/g, "")
+    .replace(/[.!?,]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+  let answer;
+  if (
+    /^(hi|hello|hey)( there| baivab)?$/.test(message) ||
+    /^good (morning|afternoon|evening)$/.test(message)
+  )
+    answer =
+      "Hey! I’m Baivab’s portfolio assistant. Glad you stopped by. What would you like to know?";
+  else if (/^(how are you|hows it going|whats up)$/.test(message))
+    answer =
+      "Hey! I’m here and ready to show you around Baivab’s work. What are you curious about?";
+  else if (/^(thanks|thank you)( so much| a lot)?$|^cheers$/.test(message))
+    answer =
+      "You’re welcome! If anything else catches your eye, ask me about it.";
+  else if (/^nice to meet you$/.test(message))
+    answer =
+      "Nice to meet you, too! I’m Baivab’s portfolio assistant. I can point you to a project or help you get to know his work.";
+  else if (/^(bye|goodbye|see you|see you later)$/.test(message))
+    answer = "Thanks for stopping by. See you around!";
+  else if (/^(what can you do|how can you help|help)$/.test(message))
+    answer =
+      "I can walk you through Baivab’s projects, skills, experience and writing, or help you get in touch. Try a project name or ask what he’s been working on.";
+  if (!answer) return null;
+  return { answer, sources: [], mode: "conversation" };
+}
 const words = (value) =>
   value
     .toLowerCase()
