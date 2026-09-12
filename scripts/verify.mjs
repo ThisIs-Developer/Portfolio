@@ -1245,7 +1245,7 @@ async function cursorDots(page) {
       run = pixels[i] > 0 ? run + 1 : 0;
       longest = Math.max(longest, run);
     }
-    return { longest, max: Math.ceil((1.7 * canvas.width) / innerWidth) + 1 };
+    return { longest, max: Math.ceil((2.3 * canvas.width) / innerWidth) + 1 };
   });
   assert(
     dotSize.longest > 0 && dotSize.longest <= dotSize.max,

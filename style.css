@@ -43,7 +43,7 @@
   --line: rgb(255 255 255 / 0.1);
   --glass: #292a31;
   --strong-glass: #34353d;
-  --dot: rgb(200 200 210 / 0.09);
+  --dot: rgb(200 200 210 / 0.13);
   color-scheme: dark;
 }
 * {

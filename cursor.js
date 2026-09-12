@@ -187,7 +187,7 @@
       dots.forEach((points, index) => {
         if (!points.length) return;
         const proximity = index / 24;
-        const radius = 0.85 + proximity * (dark ? 1.5 : 2.15);
+        const radius = 1.15 + proximity * (dark ? 1.2 : 1.85);
         context.fillStyle =
           "#" +
           channels

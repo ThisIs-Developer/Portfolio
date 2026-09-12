@@ -217,7 +217,7 @@ export async function dotChecks(page, load) {
     const darkNormal = await waitForPixels(
       test,
       centerRect,
-      (sample) => sample.max <= 23 && sample.max < center.max,
+      (sample) => sample.max <= 34 && sample.max < center.max,
     );
     assert(
       darkNormal.max < center.max,
