@@ -1440,7 +1440,6 @@
   .playground-board .playground-view { top: 16px; right: 16px; padding: 11px 16px; font-size: 12px; }
   .playground-pin-tray { top: 16px; left: 16px; display: flex; gap: 6px; padding: 10px 12px; border-radius: 18px; }
   .playground-pin-tool { width: 32px; height: 38px; border: 0; background: transparent; padding: 4px; cursor: grab; touch-action: none; border-radius: 8px; }
-  .playground-pin-tool[aria-pressed="true"] { outline: 2px solid #526575; outline-offset: 2px; }
   [data-pin-colour="gold"], [data-pinned="gold"] { --pin: #a7791e; --pin-light: #d6b15d; }
   [data-pin-colour="teal"], [data-pinned="teal"] { --pin: #24768d; --pin-light: #63b0c1; }
   [data-pin-colour="violet"], [data-pinned="violet"] { --pin: #7951ac; --pin-light: #b591d8; }
@@ -1448,11 +1447,10 @@
   .playground-card-pin { position: absolute; z-index: 5; top: -10px; left: calc(50% - 12px); cursor: pointer; }
   .playground-pin-ghost { position: fixed; z-index: 1000; transform: translate(-50%, -50%); pointer-events: none; }
   .playground-ready .playground-card[data-pinned] { cursor: default; }
-  .playground-board.is-pinning .playground-card { cursor: crosshair; }
   .playground-palette { left: 16px; bottom: 16px; gap: 7px; padding: 8px; border-radius: 24px; }
   .playground-swatch { width: 23px; height: 23px; }
   .playground-swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px #fff, 0 0 0 3px #70818a; }
-  .playground-background-reset { border: 0; background: transparent; color: #737c82; font-size: 19px; width: 24px; height: 24px; border-radius: 50%; }
+  .playground-background-reset { display: grid; place-items: center; flex: 0 0 auto; padding: 0; margin: 0; line-height: 1; border: 0; background: transparent; color: #737c82; font-size: 19px; width: 24px; height: 24px; border-radius: 50%; }
   .playground-controls { left: 50%; right: auto; transform: translateX(-50%); bottom: 16px; padding: 0; border-radius: 14px; overflow: hidden; gap: 0; }
   .playground-controls button { border-radius: 0; width: 38px; height: 38px; font-size: 22px; }
   .playground-controls button + button { border-left: 1px solid rgb(80 90 100 / .1); }
@@ -1477,7 +1475,7 @@
   .playground-board .playground-view { top: 14px; right: 12px; }
   .playground-palette { left: 12px; bottom: 14px; gap: 5px; padding: 7px; }
   .playground-swatch { width: 20px; height: 20px; }
-  .playground-background-reset { width: 21px; }
+  .playground-background-reset { width: 20px; height: 20px; }
   .playground-controls { right: 12px; left: auto; bottom: 14px; transform: none; }
   .playground-controls button { width: 33px; height: 36px; }
   .playground-canvas-hint { bottom: 70px; padding: 9px 12px; font-size: 11px; }

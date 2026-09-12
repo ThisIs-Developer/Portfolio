@@ -61,9 +61,18 @@ export async function canvasMotion(page, load) {
   const board = page.locator("[data-playground-board]");
   const world = page.locator(".playground-world");
   const card = page.locator(".playground-clock");
+  assert(await page.locator("#playground-instructions").isVisible());
   await page.locator('[data-pin-colour="gold"]').click();
+  assert(!(await page.locator("#playground-instructions").isVisible()));
   await card.focus();
   await card.press("Enter");
+  assert.equal(await card.getAttribute("data-pinned"), null, "Click and Enter cannot place a pin");
+  const pinTool = await page.locator('[data-pin-colour="gold"]').boundingBox();
+  const pinTarget = await card.boundingBox();
+  await page.mouse.move(pinTool.x + pinTool.width / 2, pinTool.y + pinTool.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(pinTarget.x + pinTarget.width / 2, pinTarget.y + 30, { steps: 12 });
+  await page.mouse.up();
   assert.equal(await card.getAttribute("data-pinned"), "gold");
   const pinnedX = (await card.boundingBox()).x;
   await card.press("ArrowRight");

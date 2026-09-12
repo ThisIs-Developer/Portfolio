@@ -96,7 +96,7 @@
     }
     function arrange() {
       if (list || !board.clientWidth) return;
-      fit = Math.max(
+      fit = 1.12 * Math.max(
         0.25,
         Math.min(
           (board.clientWidth - 40) / world.offsetWidth,
@@ -435,10 +435,8 @@
       });
     });
     taskProgress();
-    let selectedPin = null;
     let pinDrag = null;
     let pinGhost = null;
-    let droppedPin = false;
     const pinTools = [...board.querySelectorAll("[data-pin-colour]")];
     function cancelPinDrag() {
       const held = pinDrag;
@@ -448,20 +446,13 @@
       if (held) pinTools.forEach(tool => {
         if (tool.hasPointerCapture(held.id)) tool.releasePointerCapture(held.id);
       });
-      selectPin(null);
     }
     window.addEventListener("blur", cancelPinDrag);
     document.addEventListener("playlab:panelchange", cancelPinDrag);
-    function selectPin(colour) {
-      selectedPin = colour;
-      board.classList.toggle("is-pinning", Boolean(colour));
-      pinTools.forEach(button => button.setAttribute("aria-pressed", String(button.dataset.pinColour === colour)));
-    }
     function pinCard(card, colour) {
       stopMovement();
       card.dataset.pinned = colour;
       card.querySelector(".playground-card-pin").hidden = false;
-      selectPin(null);
       announce("Card pinned. Select its pin to unpin it.");
     }
     for (const card of cards) {
@@ -479,11 +470,6 @@
       card.append(pin);
     }
     for (const tool of pinTools) {
-      tool.addEventListener("click", () => {
-        if (droppedPin) { droppedPin = false; return; }
-        selectPin(selectedPin === tool.dataset.pinColour ? null : tool.dataset.pinColour);
-        announce(selectedPin ? "Choose a card to pin. Escape cancels." : "Pin selection cleared.");
-      });
       tool.addEventListener("pointerdown", event => {
         if (event.button !== 0) return;
         pinDrag = { id: event.pointerId, x: event.clientX, y: event.clientY, colour: tool.dataset.pinColour };
@@ -505,7 +491,6 @@
         if (pinGhost && event.type === "pointerup") {
           const card = document.elementFromPoint(event.clientX, event.clientY)?.closest("[data-playground-card]");
           if (card && board.contains(card)) pinCard(card, pinDrag.colour);
-          droppedPin = true;
         }
         pinDrag = null;
         pinGhost?.remove();
@@ -514,20 +499,11 @@
       };
       ["pointerup", "pointercancel", "lostpointercapture"].forEach(type => tool.addEventListener(type, releasePin));
     }
-    board.addEventListener("pointerdown", event => {
-      if (!selectedPin || event.target.closest("button, input, textarea, a, select")) return;
-      const card = event.target.closest("[data-playground-card]");
-      if (!card) return;
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      pinCard(card, selectedPin);
-    }, true);
+    board.addEventListener("click", () => {
+      board.querySelector("#playground-instructions").hidden = true;
+    }, { once: true });
     board.addEventListener("keydown", event => {
       if (event.key === "Escape") cancelPinDrag();
-      if (selectedPin && ["Enter", " "].includes(event.key) && event.target.matches("[data-playground-card]")) {
-        event.preventDefault();
-        pinCard(event.target, selectedPin);
-      }
     });
     board.querySelectorAll("[data-playground-color]").forEach((button) =>
       button.addEventListener("click", () => {
@@ -583,7 +559,6 @@
           paint(card);
         }
         arrange();
-        selectPin(null);
         announce("Cards and zoom reset.");
       });
     function setList(next) {
