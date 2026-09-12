@@ -96,9 +96,8 @@
 .playground-ready.is-panning {
   cursor: grabbing;
 }
-.playground-board:focus-visible {
-  outline: 2px solid #5652b4;
-  outline-offset: 5px;
+.playground-board:focus {
+  outline: none;
 }
 .playground-board[data-canvas-color="cream"] {
   --canvas-color: #f0eada;
@@ -146,9 +145,8 @@
 .playground-card.is-moving {
   will-change: transform;
 }
-.playground-card:focus-visible {
-  outline: 2px solid #5652b4;
-  outline-offset: 6px;
+.playground-card:focus {
+  outline: none;
 }
 .playground-card.is-dragging {
   cursor: grabbing;
