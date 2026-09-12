@@ -1152,7 +1152,7 @@
   bloomStage?.addEventListener("pointerleave", resetBloom);
   const pond = document.querySelector("[data-ripple-pond]");
   const water = document.querySelector("[data-ripple-water]");
-  const waterContext = water?.getContext("2d", { alpha: false });
+  const waterContext = water?.getContext("2d");
   const rippleStatus = document.querySelector("[data-ripple-status]");
   let ripples = 0,
     waterFrame = 0,
@@ -1214,9 +1214,14 @@
           100,
           Math.max(0, dx * -0.5 + dy * -0.8) ** 2 * 9,
         );
+        // Keep the pastel CSS pond visible at rest. The same refracted bed and
+        // surface normals supply only the moving light and shade above it.
+        let light = slope + reflection;
         for (let c = 0; c < 3; c++)
-          pixels[i * 4 + c] = bedPixels[sample + c] + slope + reflection;
-        pixels[i * 4 + 3] = 255;
+          light += (bedPixels[sample + c] - bedPixels[i * 3 + c]) / 3;
+        for (let c = 0; c < 3; c++)
+          pixels[i * 4 + c] = light > 0 ? 255 : bedPixels[i * 3 + c] * 0.42;
+        pixels[i * 4 + 3] = Math.min(170, Math.abs(light) * 3);
       }
     waterContext.putImageData(waterPixels, 0, 0);
   }
