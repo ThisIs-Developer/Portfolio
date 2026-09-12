@@ -3,19 +3,19 @@
   if (!surfaces.length) return;
   const finePointer = matchMedia("(hover: hover) and (pointer: fine)");
   const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
-  const ui =
-    "a,button,input,textarea,select,summary,label,figure,table,pre,blockquote,.folder,.writing-card,.journal-card,.private-card,.wallet-card,.playground-card,.photo-fan,.profile-board,.capabilities,.capability-intro,.ask-widget,.collection-controls,.project-facts,.case-meta,.page-toc";
-  const maskedBlocks = ui + ",p,li,dt,dd,figcaption";
+  const paintedElements =
+    "a,button,input,textarea,select,summary,label,figure,table,pre,blockquote,div,span,nav,aside,details,img,svg,canvas";
   const fields = surfaces
     .map((surface) => {
       const canvas = document.createElement("canvas");
       canvas.className = "cursor-dot-layer";
       canvas.setAttribute("aria-hidden", "true");
+      const context = canvas.getContext("2d");
       surface.prepend(canvas);
       return {
         surface,
         canvas,
-        context: canvas.getContext("2d"),
+        context,
         masks: [],
         dirty: true,
       };
@@ -50,7 +50,7 @@
   }
   function measure(field) {
     const masks = [];
-    const add = (rect, pad = 4) => {
+    const add = (rect, pad = 1, radius = 0) => {
       if (
         rect.width &&
         rect.height &&
@@ -62,34 +62,79 @@
           rect.top - pad,
           rect.width + pad * 2,
           rect.height + pad * 2,
+          radius,
         ]);
     };
-    // Reserve complete UI and paragraph areas. Text ranges protect unwrapped
-    // headings and inline labels without changing their own backgrounds.
-    field.surface.querySelectorAll(maskedBlocks).forEach((element) => {
-      if (!element.closest("[hidden],.sr-only,svg,[aria-hidden='true']"))
-        add(
-          element.getBoundingClientRect(),
-          element.matches("p,li,dt,dd") ? 4 : 1,
-        );
-    });
+    // A transparent layout box is never a mask. Painted surfaces protect their
+    // own silhouette; text links and paragraphs are handled word by word below.
     const walker = document.createTreeWalker(
       field.surface,
-      NodeFilter.SHOW_TEXT,
+      NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT,
+      {
+        acceptNode(node) {
+          if (node.nodeType === Node.ELEMENT_NODE) {
+            if (
+              node === field.canvas ||
+              node.matches("script,style,[hidden],.sr-only")
+            )
+              return NodeFilter.FILTER_REJECT;
+            if (node.matches(paintedElements)) {
+              const rect = node.getBoundingClientRect();
+              if (
+                rect.width &&
+                rect.height &&
+                rect.bottom > 0 &&
+                rect.top < height
+              ) {
+                const style = getComputedStyle(node);
+                if (style.visibility === "hidden" || style.display === "none")
+                  return NodeFilter.FILTER_REJECT;
+                const alpha = style.backgroundColor
+                  .match(/[\d.]+/g)
+                  ?.map(Number);
+                const painted =
+                  style.backgroundImage !== "none" ||
+                  alpha?.length === 3 ||
+                  (alpha?.[3] ?? 0) > 0;
+                const media = node.matches("img,svg,canvas");
+                if (painted || media) {
+                  // Rotated artwork already occludes the dots with its actual
+                  // painted shape. Never erase its larger axis-aligned box.
+                  if (style.transform === "none") {
+                    const radius = style.borderTopLeftRadius;
+                    add(
+                      rect,
+                      0,
+                      radius.includes("%")
+                        ? (Math.min(rect.width, rect.height) *
+                            parseFloat(radius)) /
+                            100
+                        : parseFloat(radius) || 0,
+                    );
+                  }
+                  return NodeFilter.FILTER_REJECT;
+                }
+              }
+            }
+            return NodeFilter.FILTER_SKIP;
+          }
+          return node.textContent.trim()
+            ? NodeFilter.FILTER_ACCEPT
+            : NodeFilter.FILTER_REJECT;
+        },
+      },
     );
     const range = document.createRange();
     while (walker.nextNode()) {
       const node = walker.currentNode;
-      if (
-        !node.textContent.trim() ||
-        node.parentElement.closest(
-          "script,style,svg,[hidden],[aria-hidden='true'],.sr-only",
-        )
-      )
-        continue;
-      if (node.parentElement.closest(maskedBlocks)) continue;
-      range.selectNodeContents(node);
-      for (const rect of range.getClientRects()) add(rect, 5);
+      const parent = node.parentElement;
+      const bounds = parent.getBoundingClientRect();
+      if (bounds.bottom <= 0 || bounds.top >= height) continue;
+      for (const word of node.textContent.matchAll(/\S+/gu)) {
+        range.setStart(node, word.index);
+        range.setEnd(node, word.index + word[0].length);
+        for (const rect of range.getClientRects()) add(rect);
+      }
     }
     field.masks = masks;
     field.dirty = false;
@@ -105,13 +150,15 @@
       const { context, canvas, surface } = field;
       const bounds = surface.getBoundingClientRect();
       context.clearRect(0, 0, width, height);
-      if (bounds.bottom < 0 || bounds.top > height) continue;
+      if (bounds.bottom <= 0 || bounds.top >= height || bounds.width <= 0) continue;
       if (field.dirty || time < movingUntil) measure(field);
-      const base = getComputedStyle(surface).getPropertyValue("--dot").trim();
-      const highlight =
-        document.documentElement.dataset.theme === "dark"
-          ? "rgb(207 216 255 / .56)"
-          : "rgb(45 52 73 / .52)";
+      const channels = getComputedStyle(surface)
+        .getPropertyValue("--dot")
+        .match(/[\d.]+/g)
+        .map(Number);
+      // Hex colors avoid Canvas's CSS color resolver forcing style calculation.
+      const dark = document.documentElement.dataset.theme === "dark";
+      const highlight = dark ? [170, 180, 210, 0.24] : [45, 52, 73, 0.48];
       context.save();
       context.beginPath();
       context.rect(
@@ -123,26 +170,73 @@
       context.clip();
       const left = bounds.left + 14 + Math.floor(-bounds.left / 28) * 28;
       const top = bounds.top + 14 + Math.floor(-bounds.top / 28) * 28;
+      const dots = Array.from({ length: 25 }, () => []);
       for (let y = top; y < Math.min(height, bounds.bottom); y += 28) {
         for (let x = left; x < Math.min(width, bounds.right); x += 28) {
-          const proximity =
+          const distance =
             pointer && pointer.surface === surface
               ? Math.max(
                   0,
                   1 - Math.hypot(x - pointer.x, y - pointer.y) / 185,
                 ) * strength
               : 0;
-          context.fillStyle = proximity > 0.03 ? highlight : base;
-          context.beginPath();
-          context.arc(x, y, 0.85 + proximity * 2.15, 0, Math.PI * 2);
-          context.fill();
+          const proximity = distance * distance * (3 - 2 * distance);
+          dots[Math.round(proximity * 24)].push([x, y]);
         }
       }
-      // Erase the decoration beneath readable content, preserving every
-      // card's own color and artwork instead of painting backgrounds on text.
-      for (const rect of field.masks) context.clearRect(...rect);
+      dots.forEach((points, index) => {
+        if (!points.length) return;
+        const proximity = index / 24;
+        const radius = 0.85 + proximity * (dark ? 1.5 : 2.15);
+        context.fillStyle =
+          "#" +
+          channels
+            .map((value, channel) => {
+              const mixed = value + (highlight[channel] - value) * proximity;
+              return Math.round(mixed * (channel === 3 ? 255 : 1))
+                .toString(16)
+                .padStart(2, "0");
+            })
+            .join("");
+        context.beginPath();
+        for (const [x, y] of points) {
+          context.moveTo(x + radius, y);
+          context.arc(x, y, radius, 0, Math.PI * 2);
+        }
+        context.fill();
+      });
+      // Multiply two gradients: all four sides and corners dissolve while the
+      // middle stays at full strength. This is independent of cursor falloff.
+      const edgeX = Math.min(120, bounds.width * 0.15);
+      const visibleTop = Math.max(0, bounds.top);
+      const visibleBottom = Math.min(height, bounds.bottom);
+      const edgeY = Math.min(100, (visibleBottom - visibleTop) * 0.18);
+      context.globalCompositeOperation = "destination-in";
+      for (const [start, end, fade, vertical] of [
+        [bounds.left, bounds.right, edgeX, false],
+        [visibleTop, visibleBottom, edgeY, true],
+      ]) {
+        const gradient = vertical
+          ? context.createLinearGradient(0, start, 0, end)
+          : context.createLinearGradient(start, 0, end, 0);
+        const stop = fade / (end - start);
+        gradient.addColorStop(0, "#0000");
+        gradient.addColorStop(stop * 0.35, "#0003");
+        gradient.addColorStop(stop, "#000f");
+        gradient.addColorStop(1 - stop, "#000f");
+        gradient.addColorStop(1 - stop * 0.35, "#0003");
+        gradient.addColorStop(1, "#0000");
+        context.fillStyle = gradient;
+        context.fillRect(0, 0, width, height);
+      }
+      context.globalCompositeOperation = "destination-out";
+      context.fillStyle = "#000";
+      context.beginPath();
+      for (const [x, y, w, h, radius] of field.masks)
+        context.roundRect(x, y, w, h, radius);
+      context.fill();
       context.restore();
-      canvas.dataset.dotField = "ready";
+      if (!canvas.dataset.dotField) canvas.dataset.dotField = "ready";
     }
     if (Math.abs(target - strength) > 0.005 || time < movingUntil) schedule();
     else previous = 0;
@@ -163,10 +257,7 @@
     (event) => {
       const surface = event.target.closest?.(".page-surface");
       const nextPointer =
-        interactive() &&
-        event.pointerType !== "touch" &&
-        surface &&
-        !event.target.closest(ui)
+        interactive() && event.pointerType !== "touch" && surface
           ? { x: event.clientX, y: event.clientY, surface }
           : null;
       if (!nextPointer && !pointer && strength === 0) return;

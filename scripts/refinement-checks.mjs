@@ -62,17 +62,30 @@ export async function refinementChecks(page, load) {
     const ctx = canvas.getContext("2d"),
       scale = canvas.width / innerWidth;
     const range = document.createRange();
-    range.selectNodeContents(document.querySelector("#work-title"));
-    const rect = range.getBoundingClientRect();
-    const pixels = ctx.getImageData(
-      Math.floor(rect.left * scale),
-      Math.floor(rect.top * scale),
-      Math.floor(rect.width * scale),
-      Math.floor(rect.height * scale),
-    ).data;
+    const walker = document.createTreeWalker(
+      document.querySelector("#work-title"),
+      NodeFilter.SHOW_TEXT,
+    );
+    let heading = false;
+    while (walker.nextNode()) {
+      const node = walker.currentNode;
+      for (const word of node.textContent.matchAll(/\S+/gu)) {
+        range.setStart(node, word.index);
+        range.setEnd(node, word.index + word[0].length);
+        for (const rect of range.getClientRects()) {
+          const pixels = ctx.getImageData(
+            Math.floor(rect.left * scale),
+            Math.floor(rect.top * scale),
+            Math.max(1, Math.floor(rect.width * scale)),
+            Math.max(1, Math.floor(rect.height * scale)),
+          ).data;
+          heading ||= pixels.some((n, i) => i % 4 === 3 && n > 0);
+        }
+      }
+    }
     const all = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
     return {
-      heading: pixels.some((n, i) => i % 4 === 3 && n > 0),
+      heading,
       background: all.some((n, i) => i % 4 === 3 && n > 0),
     };
   });

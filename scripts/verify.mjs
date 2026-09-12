@@ -8,6 +8,7 @@ import { loadLocalArticles, mergeArticles } from "./local-articles.mjs";
 import { projectCollections } from "./project-selection.mjs";
 import { refinementChecks } from "./refinement-checks.mjs";
 import { conversationTiming, canvasMotion } from "./motion-checks.mjs";
+import { dotChecks } from "./dot-checks.mjs";
 
 const args = process.argv.slice(2);
 const option = (name, fallback) =>
@@ -1441,6 +1442,10 @@ try {
           () => playground(page),
         ],
         ["cursor highlights and reduced motion", () => cursorDots(page)],
+        [
+          "tight dot masks, edge fading, dark hover and compact wallet",
+          () => dotChecks(page, load),
+        ],
         [
           "content masks, responsive cards, timed capabilities and photo controls",
           () => refinementChecks(page, load),

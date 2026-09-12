@@ -16,7 +16,10 @@ function setMenu(open, restoreFocus = false) {
   shellMotion?.cancel();
   delete nav.dataset.closing;
   const shell = document.querySelector(".nav-shell");
-  const previousWidth = shell.getBoundingClientRect().width;
+  const previousWidth =
+    changed && !smallScreen.matches && !reducedMotion.matches
+      ? shell.getBoundingClientRect().width
+      : 0;
   nav.dataset.open = String(open);
   nav.inert = !open && smallScreen.matches;
   menu.setAttribute("aria-expanded", String(open));
@@ -27,7 +30,9 @@ function setMenu(open, restoreFocus = false) {
     !reducedMotion.matches &&
     document.documentElement.classList.contains("nav-ready")
   ) {
-    const nextWidth = shell.getBoundingClientRect().width;
+    const nextWidth = smallScreen.matches
+      ? 0
+      : shell.getBoundingClientRect().width;
     if (!open) nav.dataset.closing = "true";
     navMotion = nav.animate(
       open

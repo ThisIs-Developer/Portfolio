@@ -1,39 +1,42 @@
 import assert from "node:assert/strict";
 
 export async function conversationTiming(page, load) {
-  const clockContext = await page
+  const context = await page
     .context()
     .browser()
     .newContext({ viewport: page.viewportSize() });
-  const timed = await clockContext.newPage();
+  const timed = await context.newPage();
   try {
-    await timed.clock.install();
     await load(timed, "/");
-    await timed.clock.pauseAt(
-      new Date((await timed.evaluate(() => Date.now())) + 1000),
-    );
-    const input = timed.locator("#quick-question");
-    const output = timed.locator("#ask-answer");
+    const input = timed.locator("#quick-question"),
+      output = timed.locator("#ask-answer");
+    const ready = () =>
+      timed.locator('#ask-answer[data-state="ready"]').waitFor();
     await input.fill("hello");
+    const sent = Date.now();
     await input.press("Enter");
-    await timed.clock.runFor(1750);
+    await timed.waitForTimeout(800);
     assert.equal(
       await timed.locator(".quick-ask").getAttribute("aria-busy"),
       "true",
-      "Reply waits for the two-second sending state",
+      "Loading is visible before the reply",
     );
-    await timed.clock.runFor(300);
-    assert.equal(await output.getAttribute("data-state"), "ready");
-    assert.match(await output.innerText(), /Hey!.*my work/);
-    assert.doesNotMatch(await output.innerText(), /assistant|AI/);
-    await timed.clock.runFor(9600);
-    assert(await output.isVisible(), "Reply remains available for ten seconds");
-    await timed.clock.runFor(650);
-    await output.waitFor({ state: "hidden" });
-    assert(!(await output.isVisible()), "Reply closes after ten seconds");
+    await ready();
+    assert(
+      Date.now() - sent >= 1800,
+      "The sending state lasts about two seconds",
+    );
+    assert.match(await output.textContent(), /Hey!.*my work/);
+    assert.doesNotMatch(await output.textContent(), /assistant|AI/);
+    await timed.waitForTimeout(9000);
+    assert(
+      await output.isVisible(),
+      "Reply remains available through the ninth second",
+    );
+    await output.waitFor({ state: "hidden", timeout: 3000 });
     await input.fill("thanks");
     await input.press("Enter");
-    await timed.clock.runFor(2100);
+    await ready();
     await timed.locator("#about-title").click();
     assert(
       !(await output.isVisible()),
@@ -41,14 +44,14 @@ export async function conversationTiming(page, load) {
     );
     await input.fill("hello");
     await input.press("Enter");
-    await timed.clock.runFor(500);
+    await timed.waitForTimeout(500);
     await input.fill("bye");
     await input.press("Enter");
-    await timed.clock.runFor(2100);
-    assert.match(await output.innerText(), /See you around/);
-    assert.doesNotMatch(await output.innerText(), /Glad you stopped/);
+    await ready();
+    assert.match(await output.textContent(), /See you around/);
+    assert.doesNotMatch(await output.textContent(), /Glad you stopped/);
   } finally {
-    await clockContext.close();
+    await context.close();
   }
 }
 

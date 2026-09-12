@@ -43,7 +43,7 @@
   --line: rgb(255 255 255 / 0.1);
   --glass: #292a31;
   --strong-glass: #34353d;
-  --dot: rgb(200 200 210 / 0.14);
+  --dot: rgb(200 200 210 / 0.09);
   color-scheme: dark;
 }
 * {
@@ -2487,16 +2487,16 @@ input {
   justify-content: center;
   max-width: 870px;
   padding: 24px 28px 0;
-  margin: 44px auto -12px;
+  margin: 44px auto -20px;
   gap: 0;
 }
 .wallet-card {
   --wallet-angle: -8deg;
   --wallet-rise: 0px;
   width: 178px;
-  height: 194px;
+  height: 175px;
   margin: 0 -7px;
-  padding: 16px 17px 19px;
+  padding: 12px 14px 14px;
   border: 0;
   border-radius: 22px;
   transform: translateY(var(--wallet-rise)) rotate(var(--wallet-angle));
@@ -2508,7 +2508,7 @@ input {
   -webkit-user-select: none;
 }
 .wallet-card::before {
-  top: -9px;
+  top: 0px;
   border-radius: 22px 22px 0 0;
 }
 .wallet-card small {
@@ -2516,16 +2516,16 @@ input {
   letter-spacing: -0.01em;
   line-height: 1.3;
   white-space: normal;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 .wallet-card strong {
-  margin-top: 10px;
+  margin-top: 8px;
   font-size: 17px;
   line-height: 1.2;
   letter-spacing: -0.025em;
 }
 .wallet-card > span:last-child {
-  margin-top: 6px;
+  margin-top: 4px;
   font-size: 12px;
   line-height: 1.5;
 }
@@ -2582,8 +2582,8 @@ input {
 @media (min-width: 768px) and (max-width: 1000px) {
   .wallet-card {
     width: 155px;
-    height: 194px;
-    padding: 16px 13px 19px;
+    height: 175px;
+    padding: 12px 13px 14px;
   }
   .wallet-card strong {
     font-size: 16px;
@@ -2611,8 +2611,8 @@ input {
     overflow-x: auto;
     overflow-y: hidden;
     padding: 43px 18px 22px;
-    margin: 20px -20px -22px;
-    width: calc(100% + 40px);
+    margin: 44px auto -20px;
+    width: 100%;
     scroll-snap-type: x proximity;
     scrollbar-width: none;
   }
@@ -2621,8 +2621,8 @@ input {
   }
   .wallet-card {
     width: 156px;
-    height: 194px;
-    padding: 16px 15px 19px;
+    height: 175px;
+    padding: 12px 15px 14px;
     margin: 0 -4px;
     scroll-snap-align: center;
     flex-shrink: 0;
