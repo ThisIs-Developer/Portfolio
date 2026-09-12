@@ -109,14 +109,14 @@ export async function canvasMotion(page, load) {
   const body = await card.locator("time").boundingBox();
   await page.mouse.move(body.x + body.width / 2, body.y + body.height / 2);
   await page.mouse.down();
-  await page.mouse.move(box.x + box.width - 110, body.y + body.height / 2, {
+  await page.mouse.move(box.x + 110, body.y + body.height / 2, {
     steps: 16,
   });
   await page.waitForTimeout(160);
   const held = await card.boundingBox();
   assert(
-    held.x > before.x + 100,
-    "A card moves into newly exposed space at 65% zoom",
+    held.x < before.x - 100,
+    "A card moves across the finite world at 65% zoom",
   );
   await page.mouse.up();
   await page.waitForTimeout(1400);
@@ -128,10 +128,10 @@ export async function canvasMotion(page, load) {
   await board.focus();
   const previous = await world.getAttribute("style");
   await board.press("ArrowRight");
-  assert.notEqual(
+  assert.equal(
     await world.getAttribute("style"),
     previous,
-    "Camera pans independently of the cards",
+    "Camera stays centered when the finite world fits the viewport",
   );
   await page.locator("[data-playground-reset]").click();
   await page.locator("#interactions-tab").click();
@@ -180,4 +180,48 @@ export async function canvasMotion(page, load) {
     "Reduced-motion water gives still feedback",
   );
   await page.emulateMedia({ reducedMotion: "no-preference" });
+}
+
+export async function canvasBounds(page, load) {
+  for (const type of ["pointerdown", "pointermove", "wheel", "keydown", "input", "click"]) {
+    await load(page, "/play-lab#canvas");
+    await page.reload({ waitUntil: "networkidle" });
+    const board = page.locator("[data-playground-board]");
+    assert(await page.locator("#playground-instructions").isVisible());
+    await board.dispatchEvent(type, type === "wheel" ? { deltaY: -100 } : {});
+    assert(!(await page.locator("#playground-instructions").isVisible()), `${type} dismisses instructions`);
+  }
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 1000 });
+    await load(page, "/play-lab#canvas");
+    await page.reload({ waitUntil: "networkidle" });
+    const board = page.locator("[data-playground-board]");
+    const world = page.locator(".playground-world");
+    for (let step = 0; step < 5; step++) await page.locator('[data-playground-zoom="in"]').click();
+    await board.focus();
+    for (const key of ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"]) {
+      for (let step = 0; step < 25; step++) await board.press(`Shift+${key}`);
+      const edge = await world.getAttribute("style");
+      await board.press(`Shift+${key}`);
+      assert.equal(await world.getAttribute("style"), edge, `${width}: finite ${key} edge`);
+    }
+    if (width === 1440) {
+      const note = page.locator(".playground-note");
+      const heading = await note.locator(".widget-heading").boundingBox();
+      const rect = await board.boundingBox();
+      const initial = await world.evaluate(el => new DOMMatrix(getComputedStyle(el).transform).m41);
+      await page.mouse.move(heading.x + heading.width / 2, heading.y + heading.height / 2);
+      await page.mouse.down();
+      await page.mouse.move(rect.x + rect.width - 3, heading.y + heading.height / 2, { steps: 12 });
+      await page.waitForTimeout(1800);
+      assert(await world.evaluate(el => new DOMMatrix(getComputedStyle(el).transform).m41) < initial - 100,
+        "Dragging at a zoomed edge pans across the full world");
+      await page.mouse.up();
+      await page.waitForTimeout(1400);
+      assert(await note.evaluate(el => {
+        const x = el.offsetLeft + new DOMMatrix(getComputedStyle(el).transform).m41;
+        return x >= 17 && x + el.offsetWidth <= el.parentElement.offsetWidth - 17;
+      }), "Thrown card remains inside the world");
+    }
+  }
 }

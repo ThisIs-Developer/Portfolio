@@ -114,6 +114,10 @@
         camera.ready = true;
       }
       paintCamera();
+      for (const card of cards) {
+        clampPosition(card);
+        paint(card);
+      }
       label.value = `${Math.round(zoom * 100)}%`;
       board.querySelector('[data-playground-zoom="out"]').disabled =
         zoom <= 0.65;
@@ -122,6 +126,16 @@
     }
     function paintCamera() {
       const scale = fit * zoom;
+      const limit = (value, viewport, size, leading, trailing) =>
+        size <= viewport - leading - trailing
+          ? leading + (viewport - leading - trailing - size) / 2
+          : Math.max(viewport - trailing - size, Math.min(leading, value));
+      const x = limit(camera.x, board.clientWidth, world.offsetWidth * scale, 18, 18);
+      const y = limit(camera.y, board.clientHeight, world.offsetHeight * scale, 64, 80);
+      if (x !== camera.x) camera.vx = 0;
+      if (y !== camera.y) camera.vy = 0;
+      camera.x = x;
+      camera.y = y;
       world.style.transform = `translate3d(${camera.x}px, ${camera.y}px, 0) scale(${scale})`;
       board.style.backgroundPosition = `${camera.x}px ${camera.y}px`;
       board.style.backgroundSize = `${24 * scale}px ${24 * scale}px`;
@@ -131,22 +145,32 @@
       card.style.transform = `translate3d(${position.x}px, ${position.y}px, 0) rotate(calc(var(--card-angle) + ${position.tilt}deg)) scale(${1 + position.lift * 0.035})`;
     }
     function bounds(card) {
-      // The usable world is the current camera viewport, not the original card
-      // arrangement. Zooming out therefore creates real space on every side.
-      const scale = fit * zoom;
+      // Card limits belong to the finite world, independently of camera and zoom.
       const pad = 18;
       return {
-        left: (pad - camera.x) / scale - card.offsetLeft,
-        right:
-          (board.clientWidth - pad - camera.x) / scale -
-          card.offsetLeft -
-          card.offsetWidth,
-        top: (pad - camera.y) / scale - card.offsetTop,
-        bottom:
-          (board.clientHeight - 92 - camera.y) / scale -
-          card.offsetTop -
-          card.offsetHeight,
+        left: pad - card.offsetLeft,
+        right: world.offsetWidth - pad - card.offsetLeft - card.offsetWidth,
+        top: pad - card.offsetTop,
+        bottom: world.offsetHeight - pad - card.offsetTop - card.offsetHeight,
       };
+    }
+    function updateDragTarget() {
+      const b = bounds(drag.card), scale = fit * zoom;
+      drag.targetX = Math.max(b.left, Math.min(b.right,
+        drag.startX + (drag.lastX - drag.x + drag.cameraX - camera.x) / scale));
+      drag.targetY = Math.max(b.top, Math.min(b.bottom,
+        drag.startY + (drag.lastY - drag.y + drag.cameraY - camera.y) / scale));
+    }
+    function panAtDragEdge(dt) {
+      if (!drag?.moved) return;
+      const rect = board.getBoundingClientRect();
+      const speed = (point, low, high) => point < low + 48
+        ? Math.min(1, (low + 48 - point) / 48)
+        : point > high - 48 ? -Math.min(1, (point - high + 48) / 48) : 0;
+      camera.x += speed(drag.lastX, rect.left, rect.right) * dt * 0.65;
+      camera.y += speed(drag.lastY, rect.top + 64, rect.bottom - 80) * dt * 0.65;
+      paintCamera();
+      updateDragTarget();
     }
     function clampPosition(card) {
       const p = positions.get(card),
@@ -165,6 +189,7 @@
       const dt = Math.min(32, Math.max(1, now - lastFrame));
       lastFrame = now;
       let moving = false;
+      panAtDragEdge(dt);
       if (panDrag) {
         const ease = 1 - Math.pow(0.42, dt / 16.67);
         camera.x += (panDrag.targetX - camera.x) * ease;
@@ -499,9 +524,12 @@
       };
       ["pointerup", "pointercancel", "lostpointercapture"].forEach(type => tool.addEventListener(type, releasePin));
     }
-    board.addEventListener("click", () => {
+    const activityEvents = ["pointerdown", "pointermove", "click", "wheel", "keydown", "input"];
+    const hideInstructions = () => {
       board.querySelector("#playground-instructions").hidden = true;
-    }, { once: true });
+      activityEvents.forEach(type => board.removeEventListener(type, hideInstructions, true));
+    };
+    activityEvents.forEach(type => board.addEventListener(type, hideInstructions, { capture: true, passive: true }));
     board.addEventListener("keydown", event => {
       if (event.key === "Escape") cancelPinDrag();
     });
@@ -701,6 +729,8 @@
           y: event.clientY,
           startX: position.x,
           startY: position.y,
+          cameraX: camera.x,
+          cameraY: camera.y,
           targetX: position.x,
           targetY: position.y,
           lastX: event.clientX,
@@ -719,16 +749,7 @@
         if (!drag || drag.card !== card || drag.id !== event.pointerId) return;
         const scale = fit * zoom;
         const now = performance.now(),
-          dt = Math.max(8, now - drag.time),
-          b = bounds(card);
-        drag.targetX = Math.max(
-          b.left,
-          Math.min(b.right, drag.startX + (event.clientX - drag.x) / scale),
-        );
-        drag.targetY = Math.max(
-          b.top,
-          Math.min(b.bottom, drag.startY + (event.clientY - drag.y) / scale),
-        );
+          dt = Math.max(8, now - drag.time);
         drag.vx = Math.max(
           -1.8,
           Math.min(
@@ -746,9 +767,11 @@
         drag.lastX = event.clientX;
         drag.lastY = event.clientY;
         drag.time = now;
+        updateDragTarget();
         drag.moved ||=
           Math.hypot(event.clientX - drag.x, event.clientY - drag.y) > 4;
         if (motion.matches) {
+          panAtDragEdge(Math.min(dt, 32));
           const p = positions.get(card);
           p.x = drag.targetX;
           p.y = drag.targetY;

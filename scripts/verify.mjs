@@ -7,7 +7,7 @@ import { startServer } from "./serve.mjs";
 import { loadLocalArticles, mergeArticles } from "./local-articles.mjs";
 import { projectCollections } from "./project-selection.mjs";
 import { refinementChecks } from "./refinement-checks.mjs";
-import { conversationTiming, canvasMotion } from "./motion-checks.mjs";
+import { conversationTiming, canvasMotion, canvasBounds } from "./motion-checks.mjs";
 import { dotChecks } from "./dot-checks.mjs";
 
 const args = process.argv.slice(2);
@@ -1456,7 +1456,7 @@ try {
         ],
         [
           "zoomed canvas, tab isolation and water feedback",
-          () => canvasMotion(page, load),
+          async () => { await canvasMotion(page, load); await canvasBounds(page, load); },
         ],
         ["game start, pause, reset and keyboard", () => game(page)],
         ["clipboard success and denial", () => clipboard(browser)],
