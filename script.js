@@ -70,7 +70,7 @@ function setMenu(open, restoreFocus = false) {
 if (nav && menu) {
   document.documentElement.classList.add("nav-ready");
   menu.hidden = false;
-  setMenu(false);
+  setMenu(!smallScreen.matches);
   menu.addEventListener("click", () =>
     setMenu(menu.getAttribute("aria-expanded") !== "true"),
   );
@@ -97,13 +97,13 @@ if (nav && menu) {
     }),
   );
   smallScreen.addEventListener("change", () => setMenu(!smallScreen.matches));
-  let previousScroll = 0;
+  let previousScroll = window.scrollY;
   window.addEventListener(
     "scroll",
     () => {
       if (
         !smallScreen.matches &&
-        Math.abs(window.scrollY - previousScroll) > 150
+        Math.abs(window.scrollY - previousScroll) > 32
       ) {
         if (!nav.contains(document.activeElement)) setMenu(false);
         previousScroll = window.scrollY;

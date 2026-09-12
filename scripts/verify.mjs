@@ -274,6 +274,26 @@ async function accessibility(page, name) {
 }
 
 async function navigation(page) {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await load(page, "/");
+  assert.equal(
+    await page.locator(".menu-toggle").getAttribute("aria-expanded"),
+    "true",
+    "Desktop navigation starts fully expanded",
+  );
+  assert(
+    await page.locator('#site-nav a[href="/play-lab"]').isVisible(),
+    "Full desktop navigation links are visible on load",
+  );
+  await page.evaluate(() => scrollTo({ top: 80, behavior: "instant" }));
+  await page.waitForFunction(
+    () => document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "false",
+  );
+  await page.locator(".menu-toggle").click();
+  assert(
+    await page.locator('#site-nav a[href="/play-lab"]').isVisible(),
+    "Desktop navigation can be reopened after scrolling",
+  );
   await page.setViewportSize({ width: 390, height: 844 });
   await load(page, "/");
   const toggle = page.locator(".menu-toggle");
@@ -1443,7 +1463,7 @@ try {
         ],
         ["cursor highlights and reduced motion", () => cursorDots(page)],
         [
-          "tight dot masks, edge fading, dark hover and compact wallet",
+          "tight dot masks, uniform edges, dark hover and compact wallet",
           () => dotChecks(page, load),
         ],
         [
