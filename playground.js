@@ -82,6 +82,7 @@
     let drag = null;
     let panDrag = null;
     const camera = { x: 0, y: 0, vx: 0, vy: 0, ready: false };
+    const canvasArea = { left: 0, top: 0, width: 0, height: 0 };
     let layer = 2;
     let saved;
     try {
@@ -105,12 +106,16 @@
         ),
       );
       const scale = fit * zoom;
+      // Keep the existing card layout/scale, but give it the full board as its
+      // movement area at 100%. Zoom changes the view, never these world limits.
+      canvasArea.width = board.clientWidth / fit;
+      canvasArea.height = board.clientHeight / fit;
+      canvasArea.left = (world.offsetWidth - canvasArea.width) / 2;
+      canvasArea.top = -Math.max(64,
+        (board.clientHeight - 100 - world.offsetHeight * fit) / 2) / fit;
       if (!camera.ready) {
-        camera.x = (board.clientWidth - world.offsetWidth * scale) / 2;
-        camera.y = Math.max(
-          64,
-          (board.clientHeight - 100 - world.offsetHeight * scale) / 2,
-        );
+        camera.x = -canvasArea.left * scale;
+        camera.y = -canvasArea.top * scale;
         camera.ready = true;
       }
       paintCamera();
@@ -130,8 +135,8 @@
         size <= viewport - leading - trailing
           ? leading + (viewport - leading - trailing - size) / 2
           : Math.max(viewport - trailing - size, Math.min(leading, value));
-      const x = limit(camera.x, board.clientWidth, world.offsetWidth * scale, 18, 18);
-      const y = limit(camera.y, board.clientHeight, world.offsetHeight * scale, 64, 80);
+      const x = limit(camera.x + canvasArea.left * scale, board.clientWidth, canvasArea.width * scale, 0, 0) - canvasArea.left * scale;
+      const y = limit(camera.y + canvasArea.top * scale, board.clientHeight, canvasArea.height * scale, 0, 0) - canvasArea.top * scale;
       if (x !== camera.x) camera.vx = 0;
       if (y !== camera.y) camera.vy = 0;
       camera.x = x;
@@ -146,12 +151,12 @@
     }
     function bounds(card) {
       // Card limits belong to the finite world, independently of camera and zoom.
-      const pad = 18;
+      const pad = 18 / fit;
       return {
-        left: pad - card.offsetLeft,
-        right: world.offsetWidth - pad - card.offsetLeft - card.offsetWidth,
-        top: pad - card.offsetTop,
-        bottom: world.offsetHeight - pad - card.offsetTop - card.offsetHeight,
+        left: canvasArea.left + pad - card.offsetLeft,
+        right: canvasArea.left + canvasArea.width - pad - card.offsetLeft - card.offsetWidth,
+        top: canvasArea.top + pad - card.offsetTop,
+        bottom: canvasArea.top + canvasArea.height - pad - card.offsetTop - card.offsetHeight,
       };
     }
     function updateDragTarget() {

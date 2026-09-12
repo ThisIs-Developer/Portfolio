@@ -197,6 +197,20 @@ export async function canvasBounds(page, load) {
     await page.reload({ waitUntil: "networkidle" });
     const board = page.locator("[data-playground-board]");
     const world = page.locator(".playground-world");
+    const edgeCard = page.locator(".playground-note");
+    for (const direction of ["ArrowRight", "ArrowLeft"]) {
+      await edgeCard.focus();
+      for (let step = 0; step < 60; step++) await edgeCard.press(`Shift+${direction}`);
+      const edge = await edgeCard.evaluate((el, direction) => {
+        const world = el.parentElement;
+        const camera = new DOMMatrix(getComputedStyle(world).transform);
+        const card = new DOMMatrix(getComputedStyle(el).transform);
+        const x = camera.m41 + (el.offsetLeft + card.m41) * camera.a;
+        return direction === "ArrowLeft" ? x : world.parentElement.clientWidth - x - el.offsetWidth * camera.a;
+      }, direction);
+      assert(Math.abs(edge - 18) < 1, `${width}: card reaches the board's ${direction} edge`);
+    }
+    await page.locator("[data-playground-reset]").click();
     for (let step = 0; step < 5; step++) await page.locator('[data-playground-zoom="in"]').click();
     await board.focus();
     for (const key of ["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"]) {
@@ -220,7 +234,11 @@ export async function canvasBounds(page, load) {
       await page.waitForTimeout(1400);
       assert(await note.evaluate(el => {
         const x = el.offsetLeft + new DOMMatrix(getComputedStyle(el).transform).m41;
-        return x >= 17 && x + el.offsetWidth <= el.parentElement.offsetWidth - 17;
+        const board = el.closest("[data-playground-board]");
+        const zoom = parseInt(board.querySelector("[data-playground-zoom-label]").value) / 100;
+        const fit = new DOMMatrix(getComputedStyle(el.parentElement).transform).a / zoom;
+        const left = (el.parentElement.offsetWidth - board.clientWidth / fit) / 2;
+        return x >= left + 17 / fit && x + el.offsetWidth <= left + (board.clientWidth - 17) / fit;
       }), "Thrown card remains inside the world");
     }
   }
