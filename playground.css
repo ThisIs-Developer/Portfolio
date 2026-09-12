@@ -1413,3 +1413,79 @@
 .interaction-bloom .bloom-petal-7 {
   --petal: 7;
 }
+
+/* Reference-style canvas frame and floating tools; widget cards retain their design. */
+.page-surface:has(#canvas:not([hidden])) > .cursor-dot-layer { visibility: hidden; }
+@media screen {
+  .play-lab-switch { margin: 14px auto 12px; padding: 4px; border-radius: 30px; }
+  .play-lab-switch a { min-height: 34px; padding: 8px 18px; border-radius: 24px; font-size: 12px; }
+  .playground-section { max-width: none; padding: 0 3.3vw 72px; }
+  .playground-board { --canvas-color: #c8e6f7; height: calc(100svh - 148px); min-height: 560px; border-radius: 32px; border: 1px solid rgb(255 255 255 / .6); background-image: radial-gradient(rgb(82 120 142 / .27) .9px, transparent 1.3px); }
+  .playground-board[data-canvas-color="pink"] { --canvas-color: #f9d6e4; }
+  .playground-board[data-canvas-color="peach"] { --canvas-color: #fbdbb8; }
+  .playground-board[data-canvas-color="cream"] { --canvas-color: #fbf0ae; }
+  .playground-board[data-canvas-color="green"] { --canvas-color: #d3f2c7; }
+  .playground-board[data-canvas-color="lilac"] { --canvas-color: #dcd0f5; }
+  .playground-swatch-pink { background: #f9d6e4; }
+  .playground-swatch-peach { background: #fbdbb8; }
+  .playground-swatch-cream { background: #fbf0ae; }
+  .playground-swatch-green { background: #d3f2c7; }
+  .playground-swatch-blue { background: #c8e6f7; }
+  .playground-swatch-lilac { background: #dcd0f5; }
+  .playground-board .playground-view,
+  .playground-pin-tray,
+  .playground-canvas-hint,
+  .playground-palette,
+  .playground-controls { position: absolute; z-index: 50; background: rgb(250 249 246 / .93); color: #4f5357; border: 1px solid rgb(255 255 255 / .7); box-shadow: 0 3px 12px rgb(44 65 76 / .05); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+  .playground-board .playground-view { top: 16px; right: 16px; padding: 11px 16px; font-size: 12px; }
+  .playground-pin-tray { top: 16px; left: 16px; display: flex; gap: 6px; padding: 10px 12px; border-radius: 18px; }
+  .playground-pin-tool { width: 32px; height: 38px; border: 0; background: transparent; padding: 4px; cursor: grab; touch-action: none; border-radius: 8px; }
+  .playground-pin-tool[aria-pressed="true"] { outline: 2px solid #526575; outline-offset: 2px; }
+  [data-pin-colour="gold"], [data-pinned="gold"] { --pin: #a7791e; --pin-light: #d6b15d; }
+  [data-pin-colour="teal"], [data-pinned="teal"] { --pin: #24768d; --pin-light: #63b0c1; }
+  [data-pin-colour="violet"], [data-pinned="violet"] { --pin: #7951ac; --pin-light: #b591d8; }
+  .playground-pin-tool span, .playground-card-pin, .playground-pin-ghost { display: block; width: 24px; height: 24px; border: 0; border-radius: 50%; background: radial-gradient(circle at 35% 26%, var(--pin-light), var(--pin) 70%); box-shadow: inset 0 2px 2px #ffffff50, inset 0 -3px 2px #00000026, 0 7px 0 -1px var(--pin), 0 10px 5px #00000020; }
+  .playground-card-pin { position: absolute; z-index: 5; top: -10px; left: calc(50% - 12px); cursor: pointer; }
+  .playground-pin-ghost { position: fixed; z-index: 1000; transform: translate(-50%, -50%); pointer-events: none; }
+  .playground-ready .playground-card[data-pinned] { cursor: default; }
+  .playground-board.is-pinning .playground-card { cursor: crosshair; }
+  .playground-palette { left: 16px; bottom: 16px; gap: 7px; padding: 8px; border-radius: 24px; }
+  .playground-swatch { width: 23px; height: 23px; }
+  .playground-swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px #fff, 0 0 0 3px #70818a; }
+  .playground-background-reset { border: 0; background: transparent; color: #737c82; font-size: 19px; width: 24px; height: 24px; border-radius: 50%; }
+  .playground-controls { left: 50%; right: auto; transform: translateX(-50%); bottom: 16px; padding: 0; border-radius: 14px; overflow: hidden; gap: 0; }
+  .playground-controls button { border-radius: 0; width: 38px; height: 38px; font-size: 22px; }
+  .playground-controls button + button { border-left: 1px solid rgb(80 90 100 / .1); }
+  .playground-canvas-hint { bottom: 78px; left: 50%; transform: translateX(-50%); border-radius: 24px; padding: 11px 16px; display: flex; align-items: center; gap: 8px; white-space: nowrap; font-size: 12px; pointer-events: none; }
+  .playground-board.is-list { min-height: 0; padding-top: 78px; }
+  .playground-board.is-list :is(.playground-canvas-hint, .playground-pin-tray, .playground-palette, .playground-controls),
+  .playground-board:not(.playground-ready) :is(.playground-canvas-hint, .playground-pin-tray) { display: none; }
+}
+@media screen and (max-width: 767px) {
+  .play-lab-switch { margin-top: 80px; }
+  .playground-section { padding: 0 12px 28px; }
+  .playground-board { border-radius: 24px; height: calc(100svh - 154px); min-height: 610px; }
+  .playground-world { width: 660px; height: 1440px; }
+  .playground-ready:not(.is-list) .playground-note { left: 30px; top: 30px; }
+  .playground-ready:not(.is-list) .playground-focus { left: 350px; top: 50px; }
+  .playground-ready:not(.is-list) .playground-todo { left: 35px; top: 390px; }
+  .playground-ready:not(.is-list) .playground-clock { left: 370px; top: 450px; }
+  .playground-ready:not(.is-list) .playground-vote { left: 30px; top: 770px; }
+  .playground-ready:not(.is-list) .playground-mixer { left: 350px; top: 800px; }
+  .playground-ready:not(.is-list) .playground-work { left: 190px; top: 1120px; }
+  .playground-pin-tray { top: 12px; left: 12px; padding: 8px; gap: 3px; }
+  .playground-board .playground-view { top: 14px; right: 12px; }
+  .playground-palette { left: 12px; bottom: 14px; gap: 5px; padding: 7px; }
+  .playground-swatch { width: 20px; height: 20px; }
+  .playground-background-reset { width: 21px; }
+  .playground-controls { right: 12px; left: auto; bottom: 14px; transform: none; }
+  .playground-controls button { width: 33px; height: 36px; }
+  .playground-canvas-hint { bottom: 70px; padding: 9px 12px; font-size: 11px; }
+}
+@media screen and (max-width: 359px) {
+  .playground-controls { bottom: 65px; }
+  .playground-canvas-hint { bottom: 115px; }
+}
+@media print { .playground-pin-tray, .playground-canvas-hint, .playground-card-pin { display: none; } }
+/* Direct canvas links should not draw a full-width programmatic focus ring. */
+:root:not([data-input-modality="keyboard"]) .playground-section:focus { outline: none; }

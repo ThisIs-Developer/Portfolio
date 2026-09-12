@@ -61,6 +61,18 @@ export async function canvasMotion(page, load) {
   const board = page.locator("[data-playground-board]");
   const world = page.locator(".playground-world");
   const card = page.locator(".playground-clock");
+  await page.locator('[data-pin-colour="gold"]').click();
+  await card.focus();
+  await card.press("Enter");
+  assert.equal(await card.getAttribute("data-pinned"), "gold");
+  const pinnedX = (await card.boundingBox()).x;
+  await card.press("ArrowRight");
+  assert.equal((await card.boundingBox()).x, pinnedX, "Pinned cards stay in place");
+  await card.locator(".playground-card-pin").click();
+  assert.equal(await card.getAttribute("data-pinned"), null);
+  await page.locator('[data-playground-color="peach"]').click();
+  await page.locator("[data-playground-background-reset]").click();
+  assert.equal(await board.getAttribute("data-canvas-color"), "blue");
   await board.scrollIntoViewIfNeeded();
   const zoomLabel = page.locator("[data-playground-zoom-label]");
   const wheelBox = await board.boundingBox();
