@@ -1,0 +1,1411 @@
+[
+  {
+    "id": 3634973,
+    "title": "Markdown Viewer: one workspace across browser and desktop",
+    "originalTitle": "A Markdown Editor That Lives in Your Browser, Your Desktop, and a Single URL",
+    "slug": "a-markdown-editor-that-lives-in-your-browser-your-desktop-and-a-single-url-488m",
+    "localPath": "/blog/a-markdown-editor-that-lives-in-your-browser-your-desktop-and-a-single-url-488m",
+    "url": "https://dev.to/thisisdeveloper/a-markdown-editor-that-lives-in-your-browser-your-desktop-and-a-single-url-488m",
+    "date": "2026-05-08",
+    "sourceUpdatedAt": "2026-05-08T16:29:09Z",
+    "tags": [
+      "javascript",
+      "productivity",
+      "showdev",
+      "webdev"
+    ],
+    "readingTime": 7,
+    "summary": "A closer look at document tabs, desktop delivery, GitHub imports and sharing documents through a URL.",
+    "featured": true,
+    "cover": {
+      "src": "/assets/articles/3634973-cover.webp",
+      "width": 1000,
+      "height": 420,
+      "alt": "A Markdown Editor That Lives in Your Browser, Your Desktop, and a Single URL — article cover"
+    },
+    "assets": [
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F87zd5eoep35517c7eudw.png",
+        "src": "/assets/articles/3634973-cover.webp",
+        "width": 1000,
+        "height": 420
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fu0ls61hsm3py2ttd54zk.png",
+        "src": "/assets/articles/3634973-9bcd1022ca28.webp",
+        "width": 800,
+        "height": 228
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fl1c9x9vkvl5qr0ies5vq.png",
+        "src": "/assets/articles/3634973-bc98bc2ffcae.webp",
+        "width": 800,
+        "height": 228
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0ze5ljp2of5s2ypw16sm.png",
+        "src": "/assets/articles/3634973-b19d2e31b04c.webp",
+        "width": 800,
+        "height": 450
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxbox7x6lz6y8k83cqcp3.png",
+        "src": "/assets/articles/3634973-37c458dab329.webp",
+        "width": 800,
+        "height": 450
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F01ua07cmv8y685v2a19t.png",
+        "src": "/assets/articles/3634973-1726851b8a40.webp",
+        "width": 800,
+        "height": 450
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fmrdamu4pqh6dmjlf72iy.png",
+        "src": "/assets/articles/3634973-676caabc4659.webp",
+        "width": 800,
+        "height": 223
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fts449g3o8ku3b83hk9e6.png",
+        "src": "/assets/articles/3634973-1bbc75a22335.webp",
+        "width": 800,
+        "height": 379
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fp2z4indsinb7r84qs0sg.png",
+        "src": "/assets/articles/3634973-116b4b3ef5bf.webp",
+        "width": 800,
+        "height": 351
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F68ienac2fljz5ddcevgc.png",
+        "src": "/assets/articles/3634973-45ab952cfd81.webp",
+        "width": 800,
+        "height": 450
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F6bx0y8hdqupd2ynq5848.png",
+        "src": "/assets/articles/3634973-57d69f5e55aa.webp",
+        "width": 800,
+        "height": 450
+      }
+    ],
+    "bodyHtml": "<p>The latest Markdown Viewer rebuild brings document management, rendering and sharing into one workspace. This article explains the changes to multi-tab sessions, desktop delivery, GitHub imports and URL-based sharing, alongside the decisions behind them.</p>\n\n\n<hr>\n\n<p>If you've been following this project, you know <a href=\"/blog/building-a-markdown-viewer-web-application-a-comprehensive-guide-to-development-and-features-4gpf\">where it started</a>: a simple split-pane editor with live preview. <a href=\"/blog/introducing-markdown-viewer-v20-com\">Then came v2</a> — dark mode, MathJax, Mermaid, syntax highlighting. Good progress. But honest feedback from users kept pointing to the same gaps: <em>\"Can I have multiple documents open?\"</em> <em>\"Can I use this offline?\"</em> <em>\"Can I share this without uploading anything?\"</em></p>\n\n<p>So I stopped adding features to the old architecture and rebuilt it. This is what came out.</p>\n\n<p> <strong>Live Demo</strong>: <a href=\"https://markdownviewer.pages.dev/\" rel=\"noopener noreferrer\">markdownviewer.pages.dev</a><br>\n <strong>GitHub</strong>: <a href=\"https://github.com/ThisIs-Developer/Markdown-Viewer\" rel=\"noopener noreferrer\">ThisIs-Developer/Markdown-Viewer</a></p>\n\n<hr>\n<h2 id=\"article-multidocument-tabs-the-biggest-ask\">Multi-Document Tabs — The Biggest Ask</h2>\n\n<p>The single-document model was the most-requested limitation to fix. Markdown Viewer now supports a <strong>full multi-tab workflow</strong> — create, rename, duplicate, delete, and drag-reorder tabs, all from a persistent tab bar.</p>\n\n<p>Every tab is an independent document with its own content and view mode. Switch between them instantly. Close one, the others stay exactly where you left them.</p>\n\n<p>The entire session — all tabs, their content, active tab, untitled counter — is <strong>saved automatically to <code>localStorage</code></strong>. Close the browser, come back tomorrow, everything is right where you left it.<br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"plaintext\">Tab 1: README.md      Tab 2: API Docs      Tab 3: Untitled 3  [+]\n</code></pre>\n\n\n\n\n<p>Keyboard shortcuts to match:</p>\n\n<ul>\n<li>\n<code>Ctrl/Cmd + T</code> → New tab</li>\n<li>\n<code>Ctrl/Cmd + W</code> → Close current tab</li>\n</ul>\n\n<p><img src=\"/assets/articles/3634973-9bcd1022ca28.webp\" width=\"800\" height=\"228\" alt=\"\" loading=\"lazy\" decoding=\"async\"></p>\n\n<hr>\n<h2 id=\"article-desktop-app-native-offline-instant\">Desktop App — Native, Offline, Instant</h2>\n\n<p>One of the most exciting additions: <strong>a real desktop app</strong> for Windows, Linux (x64 and ARM64), and macOS — built with <a href=\"https://neutralino.js.org/\" rel=\"noopener noreferrer\">Neutralinojs</a>.</p>\n\n<p>It's not an Electron app. No 200MB runtime. No Chromium bundled inside. The app uses the OS's built-in webview and weighs in at a fraction of typical Electron apps, while still delivering the full feature set.</p>\n\n<p>Download a prebuilt binary from the <a href=\"https://github.com/ThisIs-Developer/Markdown-Viewer/releases\" rel=\"noopener noreferrer\">Releases page</a> and you're done. Or build from source:<br>\n</p>\n\n<pre tabindex=\"0\"><code data-language=\"shell\">cd desktop-app\nnpm run dev       # Run with hot reload\nnpm run build     # Build single-file executables\n</code></pre>\n\n\n\n\n<p>The desktop app <strong>shares its core codebase</strong> with the web version. A build script (<code>prepare.js</code>) copies <code>script.js</code>, <code>styles.css</code>, and assets into the <code>resources/</code> folder and injects desktop-specific additions at build time. No divergent codebases to maintain.</p>\n\n<hr>\n<h2 id=\"article-github-import-entire-repos-in-one-click\">GitHub Import — Entire Repos in One Click</h2>\n\n<p>Pasting raw GitHub URLs one at a time was never going to cut it. The new <strong>GitHub import modal</strong> lets you:</p>\n\n<ol>\n<li>Paste any GitHub repository URL</li>\n<li>Browse the full file tree interactively</li>\n<li>Select <strong>multiple <code>.md</code> files</strong> at once</li>\n<li>Import them all as separate tabs in one action</li>\n</ol>\n\n<p>It resolves branches, navigates folders, filters for Markdown files, and shows a live count of what you've selected. For anyone working with documentation repos, changelogs, or wikis — this is the fastest way to load content.</p>\n\n<p><img src=\"/assets/articles/3634973-bc98bc2ffcae.webp\" width=\"800\" height=\"228\" alt=\"\" loading=\"lazy\" decoding=\"async\"></p>\n\n<p><img src=\"/assets/articles/3634973-b19d2e31b04c.webp\" width=\"800\" height=\"450\" alt=\"\" loading=\"lazy\" decoding=\"async\"></p>\n\n<p><img src=\"/assets/articles/3634973-37c458dab329.webp\" width=\"800\" height=\"450\" alt=\"\" loading=\"lazy\" decoding=\"async\"></p>\n\n<hr>\n<h2 id=\"article-share-via-url-zero-infrastructure\">Share via URL — Zero Infrastructure</h2>\n\n<p>Want to share a document without a database, without an account, without uploading anything?</p>\n\n<p>The <strong>Share button</strong> compresses your document using <strong>pako</strong> (zlib), encodes it as <strong>base64url</strong>, and appends it to the URL. Anyone with the link opens it directly in their browser — the full content, perfectly rendered, no server involved.<br>\n</p>\n\n<pre tabindex=\"0\"><code data-language=\"plaintext\">https://markdownviewer.pages.dev/?c=eJyNkk1...\n</code></pre>\n\n\n\n\n<p>Your content never leaves the browser. There's no backend. No storage. No expiry. If the URL fits, it works.</p>\n<h2 id=\"article-can-you-find-your-language-below-link\">Can You Find Your Language Below Link?</h2>\n\n\n<p><a href=\"https://markdownviewer.pages.dev/#share=eJxdUk1v00AQvedXWOLMj6AVkBYqIiiI6yZZ2ds4a7SJlUsOTWkEEviUWkII1FZ1YocPxwmK5B5aDr276SnObSTDiSDxE1jPpoDwYT373tPMvJm9of06fO1oRWqalrZFRK1qtXih0NbuE67bRKdae0W2C-2bf78_sYS121w3WcP4V6oVGa8yiYAXgBeCF0PfAc-D_guk1yjXiYmCwSn4DgxGMDiHwQT8Vyi4JUiZVSS_6Kbj9HMapD7i6wbjtJG39e3s6Hv_DMFN8oys0KzTy_Z6Wedj1jnOOiOk71mCEi7JpfvyR9f96b5Z7sfLtwdIPrQbDYbs7PBqdxbPJrPp1R5Sj2TWlS_LJAjdEZRXcmTN4juWLRC8S0UdMxTJtf2SJZq2bqueHpgXx4huNKVnVK4zooTbtqipGltUGKSsypSoWDWVflnsp_6ii_BjUbX_x7ZJnZn5HMMphCcQujBy8jMMZaAU1JSt5JIogCiEKIaxA5EHY7WLks135LBzQRBD4OFv6EAQwXBXXroQuBCcQzBB-RNGm5zUlbWnjGsV4-JImdngVUvugV0PY2XRIJg8_gCxD_EYgwOIp2p4gtKapJNeMk1Ok0_a5fPk66XyVqRlQVuSnA_n7-bu_L1aS4sYDN_OJqmXZY3f_zA9JQ\" rel=\"noopener noreferrer\">markdownviewer.pages.dev</a> — Markdown Viewer is a powerful GitHub-style Markdown rendering tool with live preview, LaTeX math, Mermaid diagrams, syntax highlighting, dark mode, and export options to PDF, HTML, and MD—all fully client-side and secure.</p>\n\n\n\n\n<hr>\n\n<h2 id=\"article-find-amp-replace\">Find &amp; Replace</h2>\n\n<p>Long documents needed proper search. The <strong>Find &amp; Replace modal</strong> supports:</p>\n\n<ul>\n<li>Live match highlighting as you type</li>\n<li>Jump to previous / next match</li>\n<li>Replace current match or replace all</li>\n<li>Match count display (<code>3 of 12</code>)</li>\n</ul>\n\n<p><code>Ctrl/Cmd + F</code> opens it. <code>Escape</code> closes it. It works exactly like you'd expect from a code editor.</p>\n\n\n<hr>\n\n<h2 id=\"article-three-view-modes-resizable-panes\">Three View Modes + Resizable Panes</h2>\n\n<p>The layout is now fully flexible:</p>\n\n<table tabindex=\"0\">\n<thead>\n<tr>\n<th scope=\"col\">Mode</th>\n<th scope=\"col\">When to use</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Split</strong></td>\n<td>Writing and reviewing simultaneously</td>\n</tr>\n<tr>\n<td><strong>Editor only</strong></td>\n<td>Focused writing, no distractions</td>\n</tr>\n<tr>\n<td><strong>Preview only</strong></td>\n<td>Reading / proofreading the rendered output</td>\n</tr>\n</tbody>\n</table>\n\n<p>In split mode, drag the <strong>divider</strong> between panes to give more space to whichever side you need. The minimum is 20% — both panes always stay usable. Pane widths are remembered per tab.</p>\n\n<p>On mobile, a dedicated <strong>slide-in menu</strong> replaces the toolbar entirely, and view mode buttons adapt to the smaller screen.</p>\n\n\n<hr>\n\n<h2 id=\"article-rtl-ltr-direction-toggle\">RTL / LTR Direction Toggle</h2>\n\n<p>Writing in Arabic, Hebrew, Persian, or any right-to-left language? A single click on the <strong>direction toggle</strong> flips the entire editor and preview to RTL layout — text alignment, cursor behavior, and flow all switch correctly.</p>\n\n<p>This is a small feature with a large impact for international users who were previously working around the layout.</p>\n\n<p><img src=\"/assets/articles/3634973-1726851b8a40.webp\" width=\"800\" height=\"450\" alt=\"\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h2 id=\"article-yaml-frontmatter-rendering\">YAML Frontmatter Rendering</h2>\n\n<p>If you write content for static site generators (Jekyll, Hugo, Eleventy), your Markdown files likely start with YAML frontmatter:<br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"yaml\">---\ntitle: \"My Post\"\ndate: 2025-05-01\ntags: [markdown, editor, tools]\nauthor: ThisIs-Developer\n---\n</code></pre>\n\n\n\n\n\n<p>Markdown Viewer now <strong>parses this block and renders it as a metadata table</strong> at the top of the preview — cleanly formatted, not just hidden or stripped. The rest of your document renders normally below it.</p>\n\n<p><img src=\"/assets/articles/3634973-676caabc4659.webp\" width=\"800\" height=\"223\" alt=\"\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h2 id=\"article-githubstyle-alerts\">GitHub-Style Alerts</h2>\n\n<p>The five standard GitHub alert types are fully supported:<br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"markdown\">&gt; [!NOTE]\n&gt; Highlights information that users should take into account.\n\n&gt; [!TIP]\n&gt; Optional information to help a user be more successful.\n\n&gt; [!WARNING]\n&gt; Critical content demanding immediate user attention.\n\n&gt; [!IMPORTANT]\n&gt; Crucial information necessary for users to succeed.\n\n&gt; [!CAUTION]\n&gt; Negative potential consequences of an action.\n</code></pre>\n\n\n\n\n\n<p>Each renders with the correct icon, color, and styling — identical to how GitHub renders them in READMEs and issues.</p>\n\n<p><img src=\"/assets/articles/3634973-1bbc75a22335.webp\" width=\"800\" height=\"379\" alt=\"\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h2 id=\"article-mermaid-toolbar-zoom-pan-export\">Mermaid Toolbar — Zoom, Pan, Export</h2>\n\n<p>Mermaid diagrams now come with a <strong>dedicated interactive toolbar</strong>:</p>\n\n<ul>\n<li> Zoom in / out</li>\n<li> Pan around large diagrams</li>\n<li> Copy SVG source to clipboard</li>\n<li> Export as <strong>PNG</strong> or <strong>SVG</strong>\n</li>\n</ul>\n\n<p>For complex architecture diagrams or flowcharts that overflow the preview pane, this makes a real difference.<br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"plaintext\">flowchart TD\n    A[Write Markdown] --&gt; B[Live Preview]\n    B --&gt; C{Happy with it?}\n    C --&gt;|Yes| D[Export / Share]\n    C --&gt;|No| A\n    D --&gt; E[PDF / HTML / URL]\n</code></pre>\n\n\n\n\n\n<p><img src=\"/assets/articles/3634973-116b4b3ef5bf.webp\" width=\"800\" height=\"351\" alt=\"\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h2 id=\"article-smarter-pdf-export\">Smarter PDF Export</h2>\n\n<p>PDF generation has always been tricky to get right. This version adds:</p>\n\n<ul>\n<li>\n<strong>Automatic page-break detection</strong> — elements are analyzed against A4 page height and breaks are inserted intelligently, not just at arbitrary pixel boundaries</li>\n<li>\n<strong>Oversized graphics scaling</strong> — images and diagrams that exceed page width are scaled down automatically, with a minimum scale of 50% to preserve readability</li>\n<li>\n<strong>Whitespace optimization</strong> — small gaps before page breaks are collapsed to avoid wasted space</li>\n</ul>\n\n<p>The result is PDFs that actually look like they were laid out intentionally.</p>\n\n\n<hr>\n\n<h2 id=\"article-copy-rendered-html\">Copy Rendered HTML</h2>\n\n<p>A small but very practical addition: <code>Ctrl/Cmd + C</code> with no text selected copies the <strong>full rendered HTML</strong> of the current document to your clipboard.</p>\n\n<p>Useful for pasting directly into a CMS, email client, or any tool that accepts rich HTML — no manual export step needed.</p>\n\n\n<hr>\n\n<h2 id=\"article-docker-deployment\">Docker Deployment</h2>\n\n<p>Self-hosting is now a one-liner:<br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"shell\">docker run -d \\\n  --name markdown-viewer \\\n  -p 8080:80 \\\n  --restart unless-stopped \\\n  ghcr.io/thisis-developer/markdown-viewer:latest\n</code></pre>\n\n\n\n\n\n<p>Open <code>http://localhost:8080</code>. That's it. The image is published to GitHub Container Registry and updated automatically on every release via GitHub Actions.</p>\n\n<p>Or with Compose:<br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"shell\">git clone https://github.com/ThisIs-Developer/Markdown-Viewer.git\ncd Markdown-Viewer\ndocker compose up -d\n</code></pre>\n\n\n\n\n\n\n<hr>\n\n<h2 id=\"article-full-keyboard-shortcut-reference\">Full Keyboard Shortcut Reference</h2>\n\n<table tabindex=\"0\">\n<thead>\n<tr>\n<th scope=\"col\">Shortcut</th>\n<th scope=\"col\">Action</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>Ctrl/Cmd + S</code></td>\n<td>Export Markdown</td>\n</tr>\n<tr>\n<td><code>Ctrl/Cmd + Shift + S</code></td>\n<td>Toggle sync scrolling</td>\n</tr>\n<tr>\n<td><code>Ctrl/Cmd + T</code></td>\n<td>New tab</td>\n</tr>\n<tr>\n<td><code>Ctrl/Cmd + W</code></td>\n<td>Close tab</td>\n</tr>\n<tr>\n<td><code>Ctrl/Cmd + C</code></td>\n<td>Copy rendered HTML (no selection)</td>\n</tr>\n<tr>\n<td><code>Ctrl/Cmd + F</code></td>\n<td>Find &amp; Replace</td>\n</tr>\n<tr>\n<td><code>Tab</code></td>\n<td>Insert indentation in editor</td>\n</tr>\n</tbody>\n</table>\n\n<p><img src=\"/assets/articles/3634973-45ab952cfd81.webp\" width=\"800\" height=\"450\" alt=\"\" loading=\"lazy\" decoding=\"async\"></p>\n\n<p><img src=\"/assets/articles/3634973-57d69f5e55aa.webp\" width=\"800\" height=\"450\" alt=\"\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h2 id=\"article-tech-stack-updated\">Tech Stack (Updated)</h2>\n\n<table tabindex=\"0\">\n<thead>\n<tr>\n<th scope=\"col\">Purpose</th>\n<th scope=\"col\">Library</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Markdown parsing</td>\n<td><code>marked.js</code></td>\n</tr>\n<tr>\n<td>Syntax highlighting</td>\n<td><code>highlight.js</code></td>\n</tr>\n<tr>\n<td>Math rendering</td>\n<td><code>MathJax</code></td>\n</tr>\n<tr>\n<td>Diagrams</td>\n<td><code>Mermaid.js</code></td>\n</tr>\n<tr>\n<td>PDF generation</td>\n<td>\n<code>html2canvas</code> + <code>jsPDF</code>\n</td>\n</tr>\n<tr>\n<td>HTML sanitization</td>\n<td><code>DOMPurify</code></td>\n</tr>\n<tr>\n<td>Emoji</td>\n<td><code>JoyPixels</code></td>\n</tr>\n<tr>\n<td>File saving</td>\n<td><code>FileSaver.js</code></td>\n</tr>\n<tr>\n<td>URL compression</td>\n<td><code>pako</code></td>\n</tr>\n<tr>\n<td>Desktop runtime</td>\n<td><code>Neutralinojs</code></td>\n</tr>\n<tr>\n<td>UI framework</td>\n<td><code>Bootstrap</code></td>\n</tr>\n</tbody>\n</table>\n\n\n<hr>\n\n<h2 id=\"article-get-started-in-30-seconds\">Get Started in 30 Seconds</h2>\n\n<p><strong>Browser (no install):</strong><br>\n <a href=\"https://markdownviewer.pages.dev/\" rel=\"noopener noreferrer\">markdownviewer.pages.dev</a></p>\n\n<p><strong>Run locally:</strong><br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"shell\">git clone https://github.com/ThisIs-Developer/Markdown-Viewer.git\ncd Markdown-Viewer\npython3 -m http.server 8080\n# Open http://localhost:8080\n</code></pre>\n\n\n\n\n\n<p><strong>Desktop app:</strong><br>\nDownload from the <a href=\"https://github.com/ThisIs-Developer/Markdown-Viewer/releases\" rel=\"noopener noreferrer\">Releases page</a> — Windows, Linux, macOS, all covered.</p>\n\n<p><strong>Docker:</strong><br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"shell\">docker run -d -p 8080:80 ghcr.io/thisis-developer/markdown-viewer:latest\n</code></pre>\n\n\n\n\n\n\n<hr>\n\n<h2 id=\"article-whats-next\">What's Next?</h2>\n\n<p>The roadmap isn't finalized, but the most-requested items still on the list include:</p>\n\n<ul>\n<li>\n<strong>AI writing assistant</strong> integration for grammar, tone, and suggestions</li>\n<li>\n<strong>Real-time collaborative editing</strong> for teams</li>\n<li>\n<strong>Custom themes</strong> and typography settings</li>\n<li>\n<strong>Plugin API</strong> for community extensions</li>\n</ul>\n\n\n\n\n<hr>",
+    "headings": [
+      {
+        "id": "article-multidocument-tabs-the-biggest-ask",
+        "text": "Multi-Document Tabs — The Biggest Ask",
+        "level": 2
+      },
+      {
+        "id": "article-desktop-app-native-offline-instant",
+        "text": "Desktop App — Native, Offline, Instant",
+        "level": 2
+      },
+      {
+        "id": "article-github-import-entire-repos-in-one-click",
+        "text": "GitHub Import — Entire Repos in One Click",
+        "level": 2
+      },
+      {
+        "id": "article-share-via-url-zero-infrastructure",
+        "text": "Share via URL — Zero Infrastructure",
+        "level": 2
+      },
+      {
+        "id": "article-can-you-find-your-language-below-link",
+        "text": "Can You Find Your Language Below Link?",
+        "level": 2
+      },
+      {
+        "id": "article-find-amp-replace",
+        "text": "Find & Replace",
+        "level": 2
+      },
+      {
+        "id": "article-three-view-modes-resizable-panes",
+        "text": "Three View Modes + Resizable Panes",
+        "level": 2
+      },
+      {
+        "id": "article-rtl-ltr-direction-toggle",
+        "text": "RTL / LTR Direction Toggle",
+        "level": 2
+      },
+      {
+        "id": "article-yaml-frontmatter-rendering",
+        "text": "YAML Frontmatter Rendering",
+        "level": 2
+      },
+      {
+        "id": "article-githubstyle-alerts",
+        "text": "GitHub-Style Alerts",
+        "level": 2
+      },
+      {
+        "id": "article-mermaid-toolbar-zoom-pan-export",
+        "text": "Mermaid Toolbar — Zoom, Pan, Export",
+        "level": 2
+      },
+      {
+        "id": "article-smarter-pdf-export",
+        "text": "Smarter PDF Export",
+        "level": 2
+      },
+      {
+        "id": "article-copy-rendered-html",
+        "text": "Copy Rendered HTML",
+        "level": 2
+      },
+      {
+        "id": "article-docker-deployment",
+        "text": "Docker Deployment",
+        "level": 2
+      },
+      {
+        "id": "article-full-keyboard-shortcut-reference",
+        "text": "Full Keyboard Shortcut Reference",
+        "level": 2
+      },
+      {
+        "id": "article-tech-stack-updated",
+        "text": "Tech Stack (Updated)",
+        "level": 2
+      },
+      {
+        "id": "article-get-started-in-30-seconds",
+        "text": "Get Started in 30 Seconds",
+        "level": 2
+      },
+      {
+        "id": "article-whats-next",
+        "text": "What's Next?",
+        "level": 2
+      }
+    ],
+    "editorialUpdated": "2026-09-09"
+  },
+  {
+    "id": 2488718,
+    "title": "Inside Markdown Viewer 2.0",
+    "originalTitle": "🚀 Introducing Markdown Viewer v2.0",
+    "slug": "introducing-markdown-viewer-v20-com",
+    "localPath": "/blog/introducing-markdown-viewer-v20-com",
+    "url": "https://dev.to/thisisdeveloper/introducing-markdown-viewer-v20-com",
+    "date": "2025-05-14",
+    "sourceUpdatedAt": "2025-05-14T19:30:38Z",
+    "tags": [],
+    "readingTime": 3,
+    "summary": "Extending a live-preview editor with diagrams, mathematical notation, syntax highlighting and a more complete writing interface.",
+    "featured": true,
+    "cover": {
+      "src": "/assets/articles/2488718-cover.webp",
+      "width": 1000,
+      "height": 420,
+      "alt": "Introducing Markdown Viewer v2.0 — article cover"
+    },
+    "assets": [
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F7xsuyk2nx2hq91jg169y.png",
+        "src": "/assets/articles/2488718-cover.webp",
+        "width": 1000,
+        "height": 420
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxib4ovoo81tmtatds2sq.png",
+        "src": "/assets/articles/2488718-e425145246b3.webp",
+        "width": 800,
+        "height": 450
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fhfo4g1n4npjqzwo6ap0n.png",
+        "src": "/assets/articles/2488718-26c7f397f3a4.webp",
+        "width": 637,
+        "height": 119
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fsiorr282433lxreshjl7.png",
+        "src": "/assets/articles/2488718-ed3b2b4eb322.webp",
+        "width": 800,
+        "height": 304
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fx6b2xepndufq73capukk.png",
+        "src": "/assets/articles/2488718-56b6c8fe331e.webp",
+        "width": 800,
+        "height": 450
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fanhq2psio4e6nrwjkzqj.png",
+        "src": "/assets/articles/2488718-7279701a1461.webp",
+        "width": 563,
+        "height": 189
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fbawzasq1cc7o9eog1uo4.png",
+        "src": "/assets/articles/2488718-fb0835d4a7f1.webp",
+        "width": 800,
+        "height": 262
+      },
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fc6bm1flqjsx457fy4n0d.png",
+        "src": "/assets/articles/2488718-a5efd7f75c48.webp",
+        "width": 800,
+        "height": 323
+      }
+    ],
+    "bodyHtml": "<p>Markdown Viewer 2.0 expands the original split-pane editor with diagrams, mathematical notation, syntax highlighting and an updated interface. This release overview covers the features added to support a broader technical-writing workflow.</p>\n\n\n<hr>\n\n\n\n<p>Let’s take a look at what’s new!</p>\n\n\n<hr>\n\n<h2 id=\"article-whats-new\">Release highlights</h2>\n\n<p>Markdown Viewer has been redesigned from the ground up to offer a seamless and professional experience. Below are the key features and enhancements added in this major update.</p>\n\n\n<hr>\n\n<h3 id=\"article-githubstyle-markdown-rendering\">GitHub-Style Markdown Rendering</h3>\n\n<p>See exactly how your Markdown would look on GitHub. From headings and tables to task lists and emoji shortcodes, the rendering engine closely mirrors GitHub’s own Markdown parser — perfect for developers and open-source contributors.</p>\n\n<p><img src=\"/assets/articles/2488718-e425145246b3.webp\" width=\"800\" height=\"450\" alt=\"GitHub-style rendering\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h3 id=\"article-live-preview-with-sync-scrolling\">Live Preview with Sync Scrolling</h3>\n\n<p>The dual-pane interface gives you a live HTML preview as you type. And with <strong>sync scrolling</strong>, your editor and preview stay perfectly aligned — making writing and proofreading incredibly smooth.</p>\n\n\n<hr>\n\n<h3 id=\"article-dark-mode-toggle\">Dark Mode Toggle</h3>\n\n<p>Whether you’re coding at midnight or just love a sleek interface, the built-in <strong>dark mode</strong> has you covered. Toggle between light and dark themes anytime with a single click.</p>\n\n\n<hr>\n\n<h3 id=\"article-content-statistics\">Content Statistics</h3>\n\n<p>Keep track of your writing with <strong>word count</strong>, <strong>character count</strong>, and <strong>estimated reading time</strong>. Great for content creators, bloggers, and technical writers who want to meet specific writing goals.</p>\n\n<p><img src=\"/assets/articles/2488718-26c7f397f3a4.webp\" width=\"637\" height=\"119\" alt=\"Statistics\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h3 id=\"article-latex-math-support\">LaTeX Math Support</h3>\n\n<p>For academics, scientists, and engineers — Markdown Viewer now supports <strong>LaTeX-style math expressions</strong> using MathJax. Both inline and block-level equations are rendered beautifully.<br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"markdown\">Inline equation: $$E = mc^2$$\n\nDisplay equations:\n$$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$\n\n$$\\frac{\\partial f}{\\partial x} = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}$$\n\n$$\\sum_{i=1}^{n} i^2 = \\frac{n(n+1)(2n+1)}{6}$$\n</code></pre>\n\n\n\n\n\n<p><img src=\"/assets/articles/2488718-ed3b2b4eb322.webp\" width=\"800\" height=\"304\" alt=\"Math support\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h3 id=\"article-mermaid-diagrams\">Mermaid Diagrams</h3>\n\n<p>Markdown Viewer integrates <strong>Mermaid.js</strong> for generating flowcharts, sequence diagrams, Gantt charts, and more — directly inside your Markdown.<br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"plaintext\">flowchart LR\n    A[Start] --&gt; B{Is it working?}\n    B --&gt;|Yes| C[Great!]\n    B --&gt;|No| D[Debug]\n    C --&gt; E[Deploy]\n    D --&gt; B\n</code></pre>\n\n\n\n\n\n<p><img src=\"/assets/articles/2488718-56b6c8fe331e.webp\" width=\"800\" height=\"450\" alt=\"Mermaid\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h3 id=\"article-import-amp-export-options\">Import &amp;  Export Options</h3>\n\n<p>Now you can:</p>\n\n<ul>\n<li>\n<strong>Import</strong> <code>.md</code> files via drag &amp; drop or file picker</li>\n<li>\n<strong>Export</strong> your content as:\n\n<ul>\n<li>Markdown (<code>.md</code>)</li>\n<li>HTML (<code>.html</code>)</li>\n<li>PDF (<code>.pdf</code>)</li>\n</ul>\n\n\n</li>\n\n</ul>\n\n<p>It’s fast, secure, and 100% client-side — <strong>no data leaves your browser</strong>.</p>\n\n<p><img src=\"/assets/articles/2488718-7279701a1461.webp\" width=\"563\" height=\"189\" alt=\"Import &amp; Export Options\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h3 id=\"article-syntax-highlighting-for-code-blocks\">Syntax Highlighting for Code Blocks</h3>\n\n<p>Code blocks are rendered with beautiful, multi-language <strong>syntax highlighting</strong> powered by <code>highlight.js</code>. Your technical documentation will look as sharp as your code.<br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"javascript\">  function renderMarkdown() {\n    const markdown = markdownEditor.value;\n    const html = marked.parse(markdown);\n    const sanitizedHtml = DOMPurify.sanitize(html);\n    markdownPreview.innerHTML = sanitizedHtml;\n\n    // Apply syntax highlighting to code blocks\n    markdownPreview.querySelectorAll('pre code').forEach((block) =&gt; {\n        hljs.highlightElement(block);\n    });\n  }\n</code></pre>\n\n\n\n\n\n<p><img src=\"/assets/articles/2488718-fb0835d4a7f1.webp\" width=\"800\" height=\"262\" alt=\"Code Blocks\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h3 id=\"article-emoji-support\">Emoji Support</h3>\n\n<p>Write with personality! Emoji shortcodes like <code>:sparkles:</code> or <code>:rocket:</code> are automatically converted into visual emojis using JoyPixels.<br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"markdown\">:sparkles: Welcome to Markdown Viewer! :rocket:\n</code></pre>\n\n\n\n\n\n<p><img src=\"/assets/articles/2488718-a5efd7f75c48.webp\" width=\"800\" height=\"323\" alt=\"Emoji Support\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h2 id=\"article-tech-stack-overview\">Tech Stack Overview</h2>\n\n<ul>\n<li>\n<strong>Frontend</strong>: HTML5, CSS3, JavaScript, Bootstrap</li>\n<li>\n<p><strong>Libraries</strong>:</p>\n\n<ul>\n<li>\n<code>marked.js</code> - Markdown parsing</li>\n<li>\n<code>highlight.js</code> - Code syntax highlighting</li>\n<li>\n<code>MathJax</code> - LaTeX rendering</li>\n<li>\n<code>Mermaid.js</code> - Diagram rendering</li>\n<li>\n<code>html2canvas.js</code> + <code>jsPDF</code> - PDF generation</li>\n<li>\n<code>DOMPurify</code> - HTML sanitization</li>\n<li>\n<code>JoyPixels</code> - Emoji parsing</li>\n<li>\n<code>FileSaver.js</code> - File Handling</li>\n</ul>\n\n\n</li>\n\n</ul>\n\n\n<hr>\n\n<h2 id=\"article-how-to-try-it-out\">How to Try It Out</h2>\n\n<p>Getting started with Markdown Viewer is super simple:<br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"shell\">git clone https://github.com/ThisIs-Developer/Markdown-Viewer.git\ncd Markdown-Viewer\n</code></pre>\n\n\n\n\n\n<p>Then open <code>index.html</code> in your browser — no installation required!</p>\n\n<p>Or skip all that and try the <strong><a href=\"https://markdownviewer.pages.dev/\" rel=\"noopener noreferrer\">Live Demo</a></strong> now!</p>\n\n\n<hr>\n\n<h2 id=\"article-a-look-back-the-evolution-of-markdown-viewer\">A Look Back: The Evolution of Markdown Viewer</h2>\n\n<blockquote>\n<p>From basic previewer to fully-featured editor.</p>\n</blockquote>\n\n<p>This journey started with a minimal editor. Over time, through iteration, feedback, and a passion for improvement, Markdown Viewer has become a powerful writing and visualization tool.</p>\n\n<p>Compare it yourself:<br>\n <strong>Current version</strong>: <a href=\"https://markdownviewer.pages.dev/\" rel=\"noopener noreferrer\">markdownviewer.pages.dev</a><br>\n <strong>Original version</strong>: <a href=\"https://a1b91221.markdownviewer.pages.dev/\" rel=\"noopener noreferrer\">v1 demo</a></p>\n\n\n<hr>\n\n<h2 id=\"article-final-thoughts\">Final Thoughts</h2>\n\n<p>Whether you're a student, developer, blogger, or technical writer, Markdown Viewer v2.0 is built to support your workflow — fast, flexible, and fully featured.</p>\n\n\n\n\n\n\n<hr>",
+    "headings": [
+      {
+        "id": "article-whats-new",
+        "text": "Release highlights",
+        "level": 2
+      },
+      {
+        "id": "article-githubstyle-markdown-rendering",
+        "text": "GitHub-Style Markdown Rendering",
+        "level": 3
+      },
+      {
+        "id": "article-live-preview-with-sync-scrolling",
+        "text": "Live Preview with Sync Scrolling",
+        "level": 3
+      },
+      {
+        "id": "article-dark-mode-toggle",
+        "text": "Dark Mode Toggle",
+        "level": 3
+      },
+      {
+        "id": "article-content-statistics",
+        "text": "Content Statistics",
+        "level": 3
+      },
+      {
+        "id": "article-latex-math-support",
+        "text": "LaTeX Math Support",
+        "level": 3
+      },
+      {
+        "id": "article-mermaid-diagrams",
+        "text": "Mermaid Diagrams",
+        "level": 3
+      },
+      {
+        "id": "article-import-amp-export-options",
+        "text": "Import &  Export Options",
+        "level": 3
+      },
+      {
+        "id": "article-syntax-highlighting-for-code-blocks",
+        "text": "Syntax Highlighting for Code Blocks",
+        "level": 3
+      },
+      {
+        "id": "article-emoji-support",
+        "text": "Emoji Support",
+        "level": 3
+      },
+      {
+        "id": "article-tech-stack-overview",
+        "text": "Tech Stack Overview",
+        "level": 2
+      },
+      {
+        "id": "article-how-to-try-it-out",
+        "text": "How to Try It Out",
+        "level": 2
+      },
+      {
+        "id": "article-a-look-back-the-evolution-of-markdown-viewer",
+        "text": "A Look Back: The Evolution of Markdown Viewer",
+        "level": 2
+      },
+      {
+        "id": "article-final-thoughts",
+        "text": "Final Thoughts",
+        "level": 2
+      }
+    ],
+    "editorialUpdated": "2026-09-09"
+  },
+  {
+    "id": 2016959,
+    "title": "Managing public membership in large GitHub organizations",
+    "originalTitle": "🚀 How to change visibility in massive GitHub organizations like EpicGames? (Step-by-Step Guide)",
+    "slug": "epic-games-membership-on-github-3ml",
+    "localPath": "/blog/epic-games-membership-on-github-3ml",
+    "url": "https://dev.to/thisisdeveloper/epic-games-membership-on-github-3ml",
+    "date": "2024-09-27",
+    "sourceUpdatedAt": "2024-10-14T17:22:23Z",
+    "tags": [
+      "git",
+      "epicgames",
+      "github",
+      "tutorial"
+    ],
+    "readingTime": 3,
+    "summary": "A practical guide to changing organization membership visibility when the member directory is difficult to navigate.",
+    "featured": false,
+    "cover": {
+      "src": "/assets/articles/2016959-cover.webp",
+      "width": 800,
+      "height": 336,
+      "alt": "How to change visibility in massive GitHub organizations like EpicGames? (Step-by-Step Guide) — article cover"
+    },
+    "assets": [
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fy8n87lfe06mr6tloywmo.jpeg",
+        "src": "/assets/articles/2016959-cover.webp",
+        "width": 800,
+        "height": 336
+      },
+      {
+        "source": "https://media.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ff8ajfmtu01mae6qsqta9.gif",
+        "src": "/assets/articles/2016959-90e5b644198f.webp",
+        "width": 500,
+        "height": 365
+      },
+      {
+        "source": "https://media.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F4k2jpsb6a23p496jekho.png",
+        "src": "/assets/articles/2016959-54a538de9bc0.webp",
+        "width": 586,
+        "height": 391
+      },
+      {
+        "source": "https://media.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1ksvoxkhh8nmshhqy48y.png",
+        "src": "/assets/articles/2016959-efbfcbdffdac.webp",
+        "width": 730,
+        "height": 144
+      },
+      {
+        "source": "https://media.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fv51y6e5kgi7krbqqrqrw.gif",
+        "src": "/assets/articles/2016959-be2302b14304.webp",
+        "width": 320,
+        "height": 240
+      },
+      {
+        "source": "https://media.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fencycjuf082rep793p8k.gif",
+        "src": "/assets/articles/2016959-bb59211ab2df.webp",
+        "width": 500,
+        "height": 300
+      },
+      {
+        "source": "https://media.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Flwbpi9qjhs2t6nqb52sq.gif",
+        "src": "/assets/articles/2016959-e0157b866708.webp",
+        "width": 480,
+        "height": 334
+      }
+    ],
+    "bodyHtml": "<p>Organization membership visibility determines whether an organization appears on your public GitHub profile. This guide documents a workflow for changing that setting in a large organization, using Epic Games as the example.</p><p><img src=\"/assets/articles/2016959-90e5b644198f.webp\" width=\"500\" height=\"365\" alt=\"GitHub Fun Gif\" loading=\"lazy\" decoding=\"async\"></p>\n\n<p>Ever wondered what it's like being part of a massive GitHub organization like Epic Games? With over 498,800 members, it's not just about the cool access to private repos and source codes—it’s also about the sheer scale of it all. But here's where it gets interesting: GitHub's web interface wasn’t exactly built to handle this many people.</p>\n\n<p>So, you might run into trouble if you're trying to tweak something simple—like hiding or showing Epic Games' logo on your profile. The filter function times out, and with the member list capped at 50,000, good luck finding your account! Even clever tricks like changing the URL for an alphabetical search can leave you stuck.</p>\n\n<p>Well, fret not! I’ll walk you through how to publicize your membership using <strong>cURL</strong> and <strong>GitHub’s REST API</strong>.</p>\n\n<h2 id=\"article-section\"><img src=\"/assets/articles/2016959-54a538de9bc0.webp\" width=\"586\" height=\"391\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></h2>\n\n<h3 id=\"article-why-make-your-membership-public\">Why Make Your Membership Public?</h3>\n\n<p>Because:</p>\n\n<ul>\n<li> <strong>Bragging Rights</strong>: Who wouldn’t want to show off being part of something cool like <strong>Epic Games</strong>?</li>\n<li> <strong>Networking</strong>: Let employers, collaborators, and random cool coders know you're part of something BIG.</li>\n<li> <strong>Credibility</strong>: When people see <strong>Epic Games</strong> on your GitHub, they'll know you're not messing around!</li>\n</ul>\n\n<p>However, the GitHub UI can struggle with big orgs (409k members ), so you’ll need to use some API magic  to do this!</p>\n\n\n<hr>\n\n<h2 id=\"article-how-to-make-your-github-membership-public-with-curl\">How to Make Your GitHub Membership Public with cURL</h2>\n\n<p>Follow these steps and become the public face of your GitHub org in no time:</p>\n\n\n<hr>\n\n<h3 id=\"article-step-1-create-a-personal-access-token-pat\">Step 1: Create a Personal Access Token (PAT)</h3>\n\n<p>First things first, you'll need to generate a <strong>PAT</strong> to access the GitHub API. Here's how:</p>\n\n<ol>\n<li>\n<p><strong>Go to Your GitHub Settings</strong>:</p>\n\n<ul>\n<li>Navigate to <strong>Developer settings</strong>.</li>\n<li>Head to <strong>Personal access tokens</strong>.</li>\n</ul>\n</li>\n<li>\n<p><strong>Generate a New Token</strong>:</p>\n\n<ul>\n<li>Click on <strong>Generate new token</strong>.</li>\n<li>Ensure you check the <code>read:org</code> scope.</li>\n</ul>\n</li>\n<li>\n<p><strong>Copy That Token!</strong>: </p>\n\n<ul>\n<li>Be quick! Once generated, <strong>copy it</strong> because you won’t see it again. </li>\n</ul>\n</li>\n</ol>\n\n\n<hr>\n\n<h3 id=\"article-step-2-use-curl-to-make-your-membership-public\">Step 2: Use cURL to Make Your Membership Public</h3>\n\n<p>Now, time to flex those <strong>cURL</strong> muscles ! Open your terminal and run this command:<br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"shell\">curl -X PUT -H \"Accept: application/vnd.github.v3+json\" -u YOUR_GITHUB_USERNAME:YOUR_PAT_TOKEN https://api.github.com/orgs/ORGANIZATION_NAME/public_members/YOUR_GITHUB_USERNAME\n</code></pre>\n\n\n\n\n\n<h4 id=\"article-example\">Example:</h4>\n\n\n\n\n<pre tabindex=\"0\"><code data-language=\"shell\">curl -X PUT -H \"Accept: application/vnd.github.v3+json\" -u ThisIs-Developer:ghp_12345MYTOKEN https://api.github.com/orgs/EpicGames/public_members/ThisIs-Developer\n</code></pre>\n\n\n\n\n\n<blockquote>\n<p>Don’t forget to replace the placeholders with your real username and token! </p>\n</blockquote>\n\n<h2 id=\"article-section-2\"><img src=\"/assets/articles/2016959-efbfcbdffdac.webp\" width=\"730\" height=\"144\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></h2>\n\n<h3 id=\"article-step-3-check-out-your-public-membership\">Step 3: Check Out Your Public Membership</h3>\n\n<p>Done with the cURL command? Head over to your GitHub profile and check out your shiny new <strong>public membership</strong> under the <strong>Organizations</strong> section. </p>\n\n<p><img src=\"/assets/articles/2016959-be2302b14304.webp\" width=\"320\" height=\"240\" alt=\"Mission Accomplished Gif\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h3 id=\"article-quick-tip-running-curl-commands\">Quick Tip: Running cURL Commands</h3>\n\n<h4 id=\"article-for-windows-users\">For Windows Users:</h4>\n\n<ul>\n<li>Open <strong>Command Prompt</strong> or <strong>PowerShell</strong>.</li>\n<li>Paste the command, hit <strong>Enter</strong>, and you’re done!</li>\n</ul>\n\n<h4 id=\"article-for-macoslinux-users\">For macOS/Linux Users:</h4>\n\n<ul>\n<li>Open <strong>Terminal</strong>.</li>\n<li>Paste and execute that command!</li>\n</ul>\n\n\n<hr>\n\n<h3 id=\"article-a-word-of-caution-protect-your-pat\">A Word of Caution: Protect Your PAT!</h3>\n\n<p>Your <strong>PAT</strong> is like your GitHub password . Keep it safe and <strong>never</strong> share it publicly. If it gets leaked, revoke it through GitHub settings to keep your account secure.</p>\n\n<p><img src=\"/assets/articles/2016959-bb59211ab2df.webp\" width=\"500\" height=\"300\" alt=\"PAT Warning Gif\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n\n\n<p>Making your GitHub membership public is super easy and a great way to build your personal brand . It lets the world know you're part of the epic developer community. Plus, you can flex about being in orgs like <strong>Epic Games</strong>! </p>\n\n\n\n<p><img src=\"/assets/articles/2016959-e0157b866708.webp\" width=\"480\" height=\"334\" alt=\"Success Gif\" loading=\"lazy\" decoding=\"async\"></p>",
+    "headings": [
+      {
+        "id": "article-section",
+        "text": "",
+        "level": 2
+      },
+      {
+        "id": "article-why-make-your-membership-public",
+        "text": "Why Make Your Membership Public?",
+        "level": 3
+      },
+      {
+        "id": "article-how-to-make-your-github-membership-public-with-curl",
+        "text": "How to Make Your GitHub Membership Public with cURL",
+        "level": 2
+      },
+      {
+        "id": "article-step-1-create-a-personal-access-token-pat",
+        "text": "Step 1: Create a Personal Access Token (PAT)",
+        "level": 3
+      },
+      {
+        "id": "article-step-2-use-curl-to-make-your-membership-public",
+        "text": "Step 2: Use cURL to Make Your Membership Public",
+        "level": 3
+      },
+      {
+        "id": "article-example",
+        "text": "Example:",
+        "level": 4
+      },
+      {
+        "id": "article-section-2",
+        "text": "",
+        "level": 2
+      },
+      {
+        "id": "article-step-3-check-out-your-public-membership",
+        "text": "Step 3: Check Out Your Public Membership",
+        "level": 3
+      },
+      {
+        "id": "article-quick-tip-running-curl-commands",
+        "text": "Quick Tip: Running cURL Commands",
+        "level": 3
+      },
+      {
+        "id": "article-for-windows-users",
+        "text": "For Windows Users:",
+        "level": 4
+      },
+      {
+        "id": "article-for-macoslinux-users",
+        "text": "For macOS/Linux Users:",
+        "level": 4
+      },
+      {
+        "id": "article-a-word-of-caution-protect-your-pat",
+        "text": "A Word of Caution: Protect Your PAT!",
+        "level": 3
+      }
+    ],
+    "editorialUpdated": "2026-09-09"
+  },
+  {
+    "id": 2001798,
+    "title": "Signing Git commits with GPG",
+    "originalTitle": "Getting Verified on GitHub! 🔐✨",
+    "slug": "secure-your-github-commits-with-verification-3hja",
+    "localPath": "/blog/secure-your-github-commits-with-verification-3hja",
+    "url": "https://dev.to/thisisdeveloper/secure-your-github-commits-with-verification-3hja",
+    "date": "2024-09-15",
+    "sourceUpdatedAt": "2024-09-28T18:48:35Z",
+    "tags": [
+      "github",
+      "bash",
+      "git",
+      "tutorial"
+    ],
+    "readingTime": 3,
+    "summary": "Generate a GPG key, configure Git signing and verify signatures in your commit history.",
+    "featured": true,
+    "cover": {
+      "src": "/assets/articles/2001798-cover.webp",
+      "width": 1000,
+      "height": 420,
+      "alt": "Getting Verified on GitHub! — article cover"
+    },
+    "assets": [
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fa8anqs466wg45svw64yk.png",
+        "src": "/assets/articles/2001798-cover.webp",
+        "width": 1000,
+        "height": 420
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fw6mmy46tts1zi1hypyy4.png",
+        "src": "/assets/articles/2001798-8a7b5c358542.webp",
+        "width": 565,
+        "height": 281
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fj2dx982jrppg7196295i.png",
+        "src": "/assets/articles/2001798-96a4a5d2d91d.webp",
+        "width": 567,
+        "height": 115
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fdiv7ueif0p748v806y2a.png",
+        "src": "/assets/articles/2001798-0d3eb10601d9.webp",
+        "width": 562,
+        "height": 123
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fqjo3260jaxafc01nx379.png",
+        "src": "/assets/articles/2001798-0426940bb85f.webp",
+        "width": 554,
+        "height": 162
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fy024orqi7bey9cvdv4o9.png",
+        "src": "/assets/articles/2001798-80de94993d46.webp",
+        "width": 454,
+        "height": 274
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F551eamtybmsb44s45fgy.png",
+        "src": "/assets/articles/2001798-422e9ca4d98f.webp",
+        "width": 562,
+        "height": 232
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F3nf5iqp4ipl8fy5gmlal.png",
+        "src": "/assets/articles/2001798-1c591b9a0ef1.webp",
+        "width": 371,
+        "height": 173
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fsijv0x0qnfzs2lruf9rt.png",
+        "src": "/assets/articles/2001798-76b6b7bdaa6f.webp",
+        "width": 557,
+        "height": 276
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fmpf27ujsanip3q63m35g.png",
+        "src": "/assets/articles/2001798-226d5e9a2cb1.webp",
+        "width": 586,
+        "height": 453
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffepmbaip5k2rk4xf92uw.png",
+        "src": "/assets/articles/2001798-ae60d6171e84.webp",
+        "width": 606,
+        "height": 141
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fvsvrlvnvrk6ovv24kvyl.png",
+        "src": "/assets/articles/2001798-a02d00a32b56.webp",
+        "width": 620,
+        "height": 269
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9u55mxhl6k992lmnfte8.gif",
+        "src": "/assets/articles/2001798-45c2915d8c2a.webp",
+        "width": 220,
+        "height": 239
+      }
+    ],
+    "bodyHtml": "<p>Signed commits attach a cryptographic signature to a Git commit. This walkthrough covers generating a GPG key, adding its public component to GitHub, configuring Git and checking the resulting signatures.</p><h3 id=\"article-how-to-set-up-a-gpg-key-for-signed-git-commits-a-stepbystep-guide\"><strong>How to Set Up a GPG Key for Signed Git Commits: A Step-by-Step Guide</strong></h3>\n\n<p>Signing your commits with a GPG key is a great way to ensure authenticity and trust on GitHub. Let’s dive into the steps to generate and configure a GPG key for your Git commits! </p>\n\n<h3 id=\"article-step-1-generate-a-gpg-key\"><strong>Step 1: Generate a GPG Key</strong></h3>\n\n<ol>\n<li><p><strong>Open Git Bash</strong><br><br>\nLaunch Git Bash from your applications.</p></li>\n<li><p><strong>Generate a GPG Key</strong><br><br>\nRun the following command:<br>\n</p></li>\n</ol>\n\n\n<pre tabindex=\"0\"><code data-language=\"shell\">   gpg --full-generate-key\n</code></pre>\n\n\n\n\n\n<ol>\n<li><p><strong>Choose Key Type</strong><br><br>\nOpt for the default option: <code>(9) ECC (sign and encrypt) *default*</code><br><br>\n<img src=\"/assets/articles/2001798-8a7b5c358542.webp\" width=\"565\" height=\"281\" alt=\"Choose Key Type\" loading=\"lazy\" decoding=\"async\"></p></li>\n<li><p><strong>Select Elliptic Curve</strong><br><br>\nStick with the default: <code>(1) Curve 25519 *default*</code><br><br>\n<img src=\"/assets/articles/2001798-96a4a5d2d91d.webp\" width=\"567\" height=\"115\" alt=\"Select Elliptic Curve\" loading=\"lazy\" decoding=\"async\"></p></li>\n<li><p><strong>Set Key Expiry Date</strong><br><br>\nEnter <code>0</code> for no expiration.<br><br>\n<img src=\"/assets/articles/2001798-0d3eb10601d9.webp\" width=\"562\" height=\"123\" alt=\"Set Key Expiry Date\" loading=\"lazy\" decoding=\"async\"></p></li>\n<li><p><strong>Confirm Key Details</strong><br><br>\nType <code>y</code> and press <em>Enter</em>.</p></li>\n<li><p><strong>Enter User Information</strong><br><br>\nProvide your name and email, then press <em>Enter</em> after each.<br>\n</p></li>\n</ol>\n\n\n<pre tabindex=\"0\"><code data-language=\"plaintext\">   Real name: Your Name\n   Email address: example@gmail.com\n</code></pre>\n\n\n\n\n\n<ol>\n<li><p><strong>Final Confirmation</strong><br><br>\nType <code>o</code> to confirm.<br><br>\n<img src=\"/assets/articles/2001798-0426940bb85f.webp\" width=\"554\" height=\"162\" alt=\"Final Confirmation\" loading=\"lazy\" decoding=\"async\"></p></li>\n<li><p><strong>Set Passphrase</strong><br><br>\nWhen prompted, just click <strong>OK</strong> without entering anything.<br><br>\n<img src=\"/assets/articles/2001798-80de94993d46.webp\" width=\"454\" height=\"274\" alt=\"Set Passphrase\" loading=\"lazy\" decoding=\"async\"></p></li>\n</ol>\n\n\n<hr>\n\n<h3 id=\"article-step-2-locate-your-gpg-key\"><strong>Step 2: Locate Your GPG Key</strong></h3>\n\n<ol>\n<li>\n<strong>List Secret Keys</strong>\nRun:\n</li>\n</ol>\n\n\n<pre tabindex=\"0\"><code data-language=\"shell\">   gpg --list-secret-keys --keyid-format=long\n</code></pre>\n\n\n\n\n\n<ol>\n<li>\n<strong>Identify Key ID</strong>\nCopy the key ID from the line starting with <code>sec</code>:\n</li>\n</ol>\n\n\n<pre tabindex=\"0\"><code data-language=\"plaintext\">   sec   4096R/12345678 2024-09-15 [expires: 2025-09-15]\n</code></pre>\n\n\n\n\n\n<p><img src=\"/assets/articles/2001798-422e9ca4d98f.webp\" width=\"562\" height=\"232\" alt=\"Identify Key ID\" loading=\"lazy\" decoding=\"async\"></p>\n\n<ol>\n<li>\n<strong>Update Git Configuration</strong>\nEdit your <code>.gitconfig</code> file and add:\n</li>\n</ol>\n\n\n<pre tabindex=\"0\"><code data-language=\"ini\">   [user]\n     signingkey = 12345678\n</code></pre>\n\n\n\n\n\n<p><img src=\"/assets/articles/2001798-1c591b9a0ef1.webp\" width=\"371\" height=\"173\" alt=\"Update Git Configuration\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h3 id=\"article-step-3-export-your-public-key\"><strong>Step 3: Export Your Public Key</strong></h3>\n\n<ol>\n<li>\n<strong>Export Public Key</strong>\nRun:\n</li>\n</ol>\n\n\n<pre tabindex=\"0\"><code data-language=\"shell\">   gpg --armor --export\n</code></pre>\n\n\n\n\n\n<ol>\n<li>\n<strong>Copy Public Key</strong>\nCopy everything between the lines:\n</li>\n</ol>\n\n\n<pre tabindex=\"0\"><code data-language=\"plaintext\">   -----BEGIN PGP PUBLIC KEY BLOCK-----\n   ...\n   -----END PGP PUBLIC KEY BLOCK-----\n</code></pre>\n\n\n\n\n\n<p><img src=\"/assets/articles/2001798-76b6b7bdaa6f.webp\" width=\"557\" height=\"276\" alt=\"Export Public Key\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h3 id=\"article-step-4-add-your-gpg-key-to-github\"><strong>Step 4: Add Your GPG Key to GitHub</strong></h3>\n\n<ol>\n<li><p><strong>Log in to GitHub</strong><br><br>\nGo to your GitHub account.</p></li>\n<li><p><strong>Navigate to SSH and GPG Keys</strong><br><br>\nClick your profile picture &gt; <em>Settings</em> &gt; <em>SSH and GPG keys</em>.</p></li>\n<li><p><strong>Add New GPG Key</strong><br><br>\nClick <em>New GPG Key</em> and paste the public key.<br><br>\n<img src=\"/assets/articles/2001798-226d5e9a2cb1.webp\" width=\"586\" height=\"453\" alt=\"Add New GPG Key\" loading=\"lazy\" decoding=\"async\"></p></li>\n<li><p><strong>Authenticate</strong><br><br>\nEnter your GitHub password if prompted.</p></li>\n</ol>\n\n\n<hr>\n\n<h3 id=\"article-step-5-enable-commit-signing-in-git\"><strong>Step 5: Enable Commit Signing in Git</strong></h3>\n\n<ol>\n<li>\n<strong>Configure Git</strong>\nEnable signing by running:\n</li>\n</ol>\n\n\n<pre tabindex=\"0\"><code data-language=\"shell\">   git config --global commit.gpgsign true\n</code></pre>\n\n\n\n\n\n<p><img src=\"/assets/articles/2001798-ae60d6171e84.webp\" width=\"606\" height=\"141\" alt=\"Enable Commit Signing\" loading=\"lazy\" decoding=\"async\"></p>\n\n<ol>\n<li>\n<strong>Verify Configuration</strong>\nCheck that signing is enabled:\n</li>\n</ol>\n\n\n<pre tabindex=\"0\"><code data-language=\"shell\">   git config --global --get commit.gpgsign\n</code></pre>\n\n\n\n\n\n<p>It should return <code>true</code>.</p>\n\n\n<hr>\n\n<h3 id=\"article-step-6-test-signing-your-commits\"><strong>Step 6: Test Signing Your Commits</strong></h3>\n\n<ol>\n<li>\n<strong>Create a Test Repository</strong>\nRun:\n</li>\n</ol>\n\n\n<pre tabindex=\"0\"><code data-language=\"shell\">   git init test-repo\n   cd test-repo\n</code></pre>\n\n\n\n\n\n<ol>\n<li>\n<strong>Make a Test Commit</strong>\nAdd a file and commit:\n</li>\n</ol>\n\n\n<pre tabindex=\"0\"><code data-language=\"shell\">   echo \"Test file\" &gt; test.txt\n   git add test.txt\n   git commit -m \"Test commit\"\n</code></pre>\n\n\n\n\n\n<ol>\n<li>\n<strong>Verify Signed Commit</strong>\nRun:\n</li>\n</ol>\n\n\n<pre tabindex=\"0\"><code data-language=\"shell\">   git log --show-signature\n</code></pre>\n\n\n\n\n\n<p>You should see a message confirming the good signature.<br><br>\n   <img src=\"/assets/articles/2001798-a02d00a32b56.webp\" width=\"620\" height=\"269\" alt=\"Verify Signed Commit\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h3 id=\"article-congratulations\"><strong>Congratulations!</strong></h3>\n\n\n\n\n\n\n\n<p><img src=\"/assets/articles/2001798-45c2915d8c2a.webp\" width=\"220\" height=\"239\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>",
+    "headings": [
+      {
+        "id": "article-how-to-set-up-a-gpg-key-for-signed-git-commits-a-stepbystep-guide",
+        "text": "How to Set Up a GPG Key for Signed Git Commits: A Step-by-Step Guide",
+        "level": 3
+      },
+      {
+        "id": "article-step-1-generate-a-gpg-key",
+        "text": "Step 1: Generate a GPG Key",
+        "level": 3
+      },
+      {
+        "id": "article-step-2-locate-your-gpg-key",
+        "text": "Step 2: Locate Your GPG Key",
+        "level": 3
+      },
+      {
+        "id": "article-step-3-export-your-public-key",
+        "text": "Step 3: Export Your Public Key",
+        "level": 3
+      },
+      {
+        "id": "article-step-4-add-your-gpg-key-to-github",
+        "text": "Step 4: Add Your GPG Key to GitHub",
+        "level": 3
+      },
+      {
+        "id": "article-step-5-enable-commit-signing-in-git",
+        "text": "Step 5: Enable Commit Signing in Git",
+        "level": 3
+      },
+      {
+        "id": "article-step-6-test-signing-your-commits",
+        "text": "Step 6: Test Signing Your Commits",
+        "level": 3
+      },
+      {
+        "id": "article-congratulations",
+        "text": "Congratulations!",
+        "level": 3
+      }
+    ],
+    "editorialUpdated": "2026-09-09"
+  },
+  {
+    "id": 1980584,
+    "title": "Building a Markdown viewer for the web",
+    "originalTitle": "🚀 Building a Markdown Viewer Web App: A Fun & Simple Guide",
+    "slug": "building-a-markdown-viewer-web-application-a-comprehensive-guide-to-development-and-features-4gpf",
+    "localPath": "/blog/building-a-markdown-viewer-web-application-a-comprehensive-guide-to-development-and-features-4gpf",
+    "url": "https://dev.to/thisisdeveloper/building-a-markdown-viewer-web-application-a-comprehensive-guide-to-development-and-features-4gpf",
+    "date": "2024-08-30",
+    "sourceUpdatedAt": "2024-09-28T18:43:30Z",
+    "tags": [
+      "markdown",
+      "tutorial",
+      "beginners",
+      "programming"
+    ],
+    "readingTime": 3,
+    "summary": "The foundations of a browser-based Markdown editor: document input, rendered output and a practical setup workflow.",
+    "featured": false,
+    "cover": {
+      "src": "/assets/articles/1980584-cover.webp",
+      "width": 1000,
+      "height": 420,
+      "alt": "Building a Markdown Viewer Web App: A Fun & Simple Guide — article cover"
+    },
+    "assets": [
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fybi2e63pd3lrhhjvimy1.jpg",
+        "src": "/assets/articles/1980584-cover.webp",
+        "width": 1000,
+        "height": 420
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9udwbfe2mx7ebz08okhy.jpg",
+        "src": "/assets/articles/1980584-036622a51a4f.webp",
+        "width": 800,
+        "height": 800
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fyar2c7i7v27f913p3lha.jpg",
+        "src": "/assets/articles/1980584-e4a9c2f54b48.webp",
+        "width": 800,
+        "height": 395
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwfa19jh8u3zh98x1eh6b.jpg",
+        "src": "/assets/articles/1980584-46691cd4894c.webp",
+        "width": 800,
+        "height": 405
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fi8b8wt2junnj7790zule.gif",
+        "src": "/assets/articles/1980584-e856e127b02f.webp",
+        "width": 220,
+        "height": 239
+      }
+    ],
+    "bodyHtml": "<p>A Markdown viewer connects a plain-text writing surface to rendered output. This guide introduces the format, walks through the features of the original web application and shows how to run the project locally.</p>\n\n\n<hr>\n\n<h2 id=\"article-what-exactly-is-markdown\">Understanding Markdown</h2>\n\n<p>Markdown is like the <strong>secret sauce</strong> of formatting. Invented by John Gruber in 2004, it's a super simple way to convert plain text into beautiful HTML (or other formats) without dealing with complicated tags like in HTML or LaTeX.</p>\n\n<ul>\n<li> <strong>Documentation</strong>? </li>\n<li> <strong>Blogging</strong>? </li>\n<li> <strong>To-do lists</strong>? </li>\n</ul>\n\n<p>Basically, it's all about simplicity and flexibility!</p>\n\n\n<hr>\n\n<h3 id=\"article-markdown-essentials-you-should-know\">Markdown Essentials You Should Know:</h3>\n\n<p>Markdown is easy to use once you know the basic elements:</p>\n\n<ul>\n<li>\n<strong>Headings</strong>: <code># Big Title</code> (Use <code>#</code> for levels of headings)</li>\n<li>\n<strong>Lists</strong>: <code>* Bullet Points</code> or <code>1. Numbered Lists</code>\n</li>\n<li>\n<strong>Links</strong>: <code>[Click Here](https://example.com)</code>\n</li>\n<li>\n<strong>Images</strong>: <code>![Alt text](https://image.url)</code>\n</li>\n</ul>\n\n<blockquote>\n<p>Pro tip: Keep your Markdown clean and readable for the best results.</p>\n</blockquote>\n\n<p>For more fun syntax tips:  <a href=\"https://markdownviewer.pages.dev/tips\" rel=\"noopener noreferrer\">Check this out!</a></p>\n\n<p><img src=\"/assets/articles/1980584-036622a51a4f.webp\" width=\"800\" height=\"800\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<hr>\n\n<h2 id=\"article-key-features-every-markdown-viewer-should-have\">Key Features Every Markdown Viewer Should Have:</h2>\n\n<h3 id=\"article-1-realtime-preview\">1.  Real-Time Preview</h3>\n\n<p>Seeing your edits live as you write? Total game changer! With <strong>real-time preview</strong>, users can instantly check how their Markdown will render. Make sure your app refreshes the view dynamically so that users don’t even have to blink. </p>\n\n<h3 id=\"article-2-export-options\">2.  Export Options</h3>\n\n<p>Users love flexibility. Offer multiple export options like <strong>HTML</strong>, <strong>PDF</strong>, and even <strong>DOCX</strong>. This way, your Markdown viewer becomes a <strong>Swiss army knife</strong> for writers and coders alike. </p>\n\n<h3 id=\"article-3-enhanced-editing-tools\">3.  Enhanced Editing Tools</h3>\n\n<p>Power up your viewer with <strong>syntax highlighting</strong>, <strong>error checking</strong>, and <strong>keyboard shortcuts</strong> to keep the workflow smooth and fast. Speed + convenience = happy users!</p>\n\n\n<hr>\n\n<h2 id=\"article-designing-a-great-user-interface-ui\">Designing a Great User Interface (UI)</h2>\n\n<h3 id=\"article-1-keep-it-simple-keep-it-smart\">1.  Keep It Simple, Keep It Smart</h3>\n\n<p>Design your UI with <strong>simplicity</strong> in mind. A clean, user-centered design with intuitive navigation makes it easy for anyone to use. Don’t forget to make it <strong>responsive</strong> so it works beautifully on all devices! </p>\n\n<h3 id=\"article-2-add-a-splash-of-style\">2.  Add a Splash of Style</h3>\n\n<p>Make your app visually appealing! Use a modern color scheme and typography to create a delightful experience. Don’t shy away from branding—make your app <strong>memorable</strong>! </p>\n\n<h3 id=\"article-3-add-interactive-elements\">3.  Add Interactive Elements</h3>\n\n<p>Tooltips, quick help menus, and even a <strong>dark mode</strong> toggle can take your app from “meh” to “whoa!” Small, thoughtful additions like these make users want to stick around.</p>\n\n\n<hr>\n\n<h2 id=\"article-behind-the-scenes-technical-stuff\">Behind the Scenes: Technical Stuff</h2>\n\n<h3 id=\"article-1-choose-the-right-tech-stack\">1.  Choose the Right Tech Stack</h3>\n\n<p>Your stack matters! Popular frontend frameworks like <strong>React</strong> or <strong>Vue.js</strong> are excellent choices for building an interactive Markdown viewer. Pair this with a powerful backend for data storage, and you’re set.</p>\n\n<h3 id=\"article-2-markdown-parsing\">2.  Markdown Parsing</h3>\n\n<p>Use existing Markdown parsing libraries like <strong>markdown-it</strong> to handle all the heavy lifting. These will simplify converting user input into HTML, so you don’t have to reinvent the wheel.</p>\n\n<h3 id=\"article-3-testing\">3.  Testing</h3>\n\n<p>Good apps are built on <strong>solid testing</strong>. Make sure to test your app thoroughly for bugs and glitches before launching. User feedback is gold, so don’t hesitate to iterate based on what your users want.</p>\n\n\n<hr>\n\n<h2 id=\"article-the-future-of-markdown-viewers\">The Future of Markdown Viewers</h2>\n\n<h3 id=\"article-1-aipowered-markdown\">1.  AI-Powered Markdown</h3>\n\n<p>AI is here, and it's not just for chatbots. Imagine auto-suggesting content, grammar checks, and intelligent formatting options in your Markdown viewer. The future is bright!</p>\n\n<h3 id=\"article-2-team-collaboration\">2.  Team Collaboration</h3>\n\n<p>With remote work becoming the norm, real-time collaboration features—like <strong>shared editing</strong> and <strong>version control</strong>—are in demand. Markdown viewers are about to get even more collaborative! </p>\n\n\n<hr>\n\n<h2 id=\"article-spotlight-my-markdown-viewer-project\">Spotlight: My Markdown Viewer Project</h2>\n\n<p><img src=\"/assets/articles/1980584-e4a9c2f54b48.webp\" width=\"800\" height=\"395\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<p>Let’s talk about my very own <strong>Markdown Viewer</strong>. It’s packed with all the features we just discussed:</p>\n\n<ul>\n<li>\n<strong>Real-time preview</strong> with sync scroll </li>\n<li>\n<strong>Multiple export options</strong> (HTML, PDF) </li>\n<li>\n<strong>Responsive design</strong> for all devices </li>\n<li>\n<strong>Import and export Markdown/HTML</strong> files seamlessly </li>\n</ul>\n\n<p>Try it out live: <a href=\"https://markdownviewer.pages.dev/\" rel=\"noopener noreferrer\">markdownviewer.pages.dev</a><br><br>\nCode on GitHub: <a href=\"https://github.com/ThisIs-Developer/Markdown-Viewer\" rel=\"noopener noreferrer\">Markdown-Viewer</a></p>\n<h2 id=\"article-section\"><img src=\"/assets/articles/1980584-46691cd4894c.webp\" width=\"800\" height=\"405\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></h2>\n<h2 id=\"article-quick-setup-guide\">Quick Setup Guide:</h2>\n\n<p>Want to try it out yourself? Follow these steps to get started with my Markdown Viewer:</p>\n\n<ol>\n<li>\n<p>Clone the repo:<br>\n</p>\n\n<pre tabindex=\"0\"><code data-language=\"shell\">git clone https://github.com/ThisIs-Developer/Markdown-Viewer.git\n</code></pre>\n\n\n\n\n</li>\n\n<li><p>Open <code>index.html</code> in your browser and start exploring!</p></li>\n\n</ol>\n\n\n<hr>\n\n\n\n\n\n<p><img src=\"/assets/articles/1980584-e856e127b02f.webp\" width=\"220\" height=\"239\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>",
+    "headings": [
+      {
+        "id": "article-what-exactly-is-markdown",
+        "text": "Understanding Markdown",
+        "level": 2
+      },
+      {
+        "id": "article-markdown-essentials-you-should-know",
+        "text": "Markdown Essentials You Should Know:",
+        "level": 3
+      },
+      {
+        "id": "article-key-features-every-markdown-viewer-should-have",
+        "text": "Key Features Every Markdown Viewer Should Have:",
+        "level": 2
+      },
+      {
+        "id": "article-1-realtime-preview",
+        "text": "1.  Real-Time Preview",
+        "level": 3
+      },
+      {
+        "id": "article-2-export-options",
+        "text": "2.  Export Options",
+        "level": 3
+      },
+      {
+        "id": "article-3-enhanced-editing-tools",
+        "text": "3.  Enhanced Editing Tools",
+        "level": 3
+      },
+      {
+        "id": "article-designing-a-great-user-interface-ui",
+        "text": "Designing a Great User Interface (UI)",
+        "level": 2
+      },
+      {
+        "id": "article-1-keep-it-simple-keep-it-smart",
+        "text": "1.  Keep It Simple, Keep It Smart",
+        "level": 3
+      },
+      {
+        "id": "article-2-add-a-splash-of-style",
+        "text": "2.  Add a Splash of Style",
+        "level": 3
+      },
+      {
+        "id": "article-3-add-interactive-elements",
+        "text": "3.  Add Interactive Elements",
+        "level": 3
+      },
+      {
+        "id": "article-behind-the-scenes-technical-stuff",
+        "text": "Behind the Scenes: Technical Stuff",
+        "level": 2
+      },
+      {
+        "id": "article-1-choose-the-right-tech-stack",
+        "text": "1.  Choose the Right Tech Stack",
+        "level": 3
+      },
+      {
+        "id": "article-2-markdown-parsing",
+        "text": "2.  Markdown Parsing",
+        "level": 3
+      },
+      {
+        "id": "article-3-testing",
+        "text": "3.  Testing",
+        "level": 3
+      },
+      {
+        "id": "article-the-future-of-markdown-viewers",
+        "text": "The Future of Markdown Viewers",
+        "level": 2
+      },
+      {
+        "id": "article-1-aipowered-markdown",
+        "text": "1.  AI-Powered Markdown",
+        "level": 3
+      },
+      {
+        "id": "article-2-team-collaboration",
+        "text": "2.  Team Collaboration",
+        "level": 3
+      },
+      {
+        "id": "article-spotlight-my-markdown-viewer-project",
+        "text": "Spotlight: My Markdown Viewer Project",
+        "level": 2
+      },
+      {
+        "id": "article-section",
+        "text": "",
+        "level": 2
+      },
+      {
+        "id": "article-quick-setup-guide",
+        "text": "Quick Setup Guide:",
+        "level": 2
+      }
+    ],
+    "editorialUpdated": "2026-09-09"
+  },
+  {
+    "id": 1819015,
+    "title": "Question answering over CSV data with Llama 2",
+    "originalTitle": "Do you Know! Llama ?",
+    "slug": "do-you-know-llama--3c2d",
+    "localPath": "/blog/do-you-know-llama--3c2d",
+    "url": "https://dev.to/thisisdeveloper/do-you-know-llama--3c2d",
+    "date": "2024-04-11",
+    "sourceUpdatedAt": "2024-04-11T19:04:26Z",
+    "tags": [
+      "ai",
+      "programming",
+      "python",
+      "chatgpt"
+    ],
+    "readingTime": 2,
+    "summary": "An experimental retrieval workflow that combines CSV documents, a pretrained language model and a chat interface.",
+    "featured": false,
+    "cover": {
+      "src": "/assets/articles/1819015-cover.webp",
+      "width": 606,
+      "height": 255,
+      "alt": "Do you Know! Llama ? — article cover"
+    },
+    "editorNote": "Technical clarification: this project uses a pretrained, quantized Llama 2 model with retrieval. It does not train or fine-tune the model.",
+    "assets": [
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fydb5lbbm0a4fb7ys0n3p.png",
+        "src": "/assets/articles/1819015-cover.webp",
+        "width": 606,
+        "height": 255
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9ppzywy5tqfubjw8coqj.gif",
+        "src": "/assets/articles/1819015-57d0fee8a8f2.webp",
+        "width": 320,
+        "height": 256
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9t20r8sxqd0bwx6knq41.gif",
+        "src": "/assets/articles/1819015-3ee637ea8e76.webp",
+        "width": 200,
+        "height": 200
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fyrlerose1zv4ua5bjpp2.png",
+        "src": "/assets/articles/1819015-04f21b233993.webp",
+        "width": 800,
+        "height": 360
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Feupx6i9zaqhxwrej134l.png",
+        "src": "/assets/articles/1819015-dc68637196c2.webp",
+        "width": 238,
+        "height": 192
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F82ch9xxdd9l0ewjv2pn8.jpg",
+        "src": "/assets/articles/1819015-25c019f80165.webp",
+        "width": 630,
+        "height": 396
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fh4exsdxvymcbo4m9hfnz.gif",
+        "src": "/assets/articles/1819015-67e7083edd3f.webp",
+        "width": 600,
+        "height": 394
+      }
+    ],
+    "bodyHtml": "<p>This project explores question answering over CSV data using a pretrained, quantized Llama 2 model. Retrieval supplies relevant document context; the project does not train or fine-tune the model on the uploaded data.</p><h2 id=\"article-llama2-csv-chatbot\">Llama2 CSV ChatBot</h2>\n\n<blockquote>\n<p>It's a conversational tool powered by a fine-tuned large language model (LLM) known as <em>Llama-2 7B</em>. This chatbot utilizes CSV retrieval capabilities, enabling users to engage in multi-turn interactions based on uploaded CSV data.</p>\n</blockquote>\n\n<p><img src=\"/assets/articles/1819015-57d0fee8a8f2.webp\" width=\"320\" height=\"256\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h2 id=\"article-suuuuuuu-want-to-try\">Suuuuuuu Want to try:</h2>\n\n<h3 id=\"article-huggingfacecollama2ggmlcsvchatbot\"><a href=\"https://huggingface.co/spaces/ThisIs-Developer/Llama-2-GGML-CSV-Chatbot\" rel=\"noopener noreferrer\">huggingface.co/Llama-2-GGML-CSV-Chatbot</a></h3>\n\n<h2 id=\"article-chatbot-conversession\">Conversation examples</h2>\n\n<p><img src=\"/assets/articles/1819015-3ee637ea8e76.webp\" width=\"200\" height=\"200\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h3 id=\"article-streamlit-ver-on-v202dev20240102\">Streamlit ver. on<a href=\"https://github.com/ThisIs-Developer/Llama-2-GGML-CSV-Chatbot/releases/tag/v2.0.2.dev20240102\" rel=\"noopener noreferrer\">#v2.0.2.dev20240102</a></h3>\n\n<p><img src=\"/assets/articles/1819015-04f21b233993.webp\" width=\"800\" height=\"360\" alt=\"ChatBot Conversession img-1 png\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h2 id=\"article-development-specs\">Implementation overview</h2>\n\n<blockquote>\n<ul>\n<li>Utilizes <a href=\"https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/tree/main\" rel=\"noopener noreferrer\">Llama-2 7B</a> and <a href=\"https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2\" rel=\"noopener noreferrer\">Sentence Transformers</a> for robust functionality.</li>\n<li>Developed using <a href=\"https://github.com/langchain-ai/langchain\" rel=\"noopener noreferrer\">Langchain</a> and <a href=\"https://github.com/streamlit/streamlit\" rel=\"noopener noreferrer\">Streamlit</a> technologies for enhanced performance.</li>\n<li>Cross-platform compatibility with Linux, macOS, or Windows OS.</li>\n</ul>\n</blockquote>\n\n<h2 id=\"article-try-it-on-your\">Try it on your</h2>\n\n<blockquote>\n<ol>\n<li>\n<strong>Clone the Repository:</strong>\n</li>\n</ol>\n</blockquote>\n\n\n<pre tabindex=\"0\"><code data-language=\"plaintext\">git clone https://github.com/ThisIs-Developer/Llama-2-GGML-CSV-Chatbot.git\n</code></pre>\n\n\n\n\n\n<blockquote>\n<ol>\n<li>\n<strong>Install Dependencies:</strong>\n</li>\n</ol>\n</blockquote>\n\n\n<pre tabindex=\"0\"><code data-language=\"plaintext\">pip install -r requirements.txt\n</code></pre>\n\n\n\n\n\n<h3 id=\"article-download-the-llama-2-model\">Download the Llama 2 Model:</h3>\n\n<blockquote>\n<p>Download the Llama 2 model file named <code>llama-2-7b-chat.ggmlv3.q4_0.bin</code> from the following link:<br>\n<a href=\"https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML/tree/main\" rel=\"noopener noreferrer\">Download Llama 2 Model</a></p>\n</blockquote>\n\n<p><img src=\"/assets/articles/1819015-dc68637196c2.webp\" width=\"238\" height=\"192\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h3 id=\"article-llama-2-model-information\">Llama 2 Model Information</h3>\n\n<blockquote>\n<table tabindex=\"0\">\n<thead>\n<tr>\n<th scope=\"col\">Name</th>\n<th scope=\"col\">Quant method</th>\n<th scope=\"col\">Bits</th>\n<th scope=\"col\">Size</th>\n<th scope=\"col\">Max RAM required</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>llama-2-7b-chat.ggmlv3.q4_0.bin</td>\n<td>q4_0</td>\n<td>4</td>\n<td>3.79 GB</td>\n<td>6.29 GB</td>\n</tr>\n</tbody>\n</table>\n\n<p><strong>Note:</strong> After downloading the model, add the model file to the <code>models</code> directory. The file should be located at <code>models\\llama-2-7b-chat.ggmlv3.q4_0.bin</code>, in order to run the code.</p>\n</blockquote>\n\n<h2 id=\"article-usage\">Usage</h2>\n\n<blockquote>\n<ol>\n<li>\n<strong>Run the Application:</strong>\n</li>\n</ol>\n</blockquote>\n\n\n<pre tabindex=\"0\"><code data-language=\"plaintext\">streamlit run app.py\n</code></pre>\n\n\n\n\n\n<blockquote>\n<ol>\n<li>\n<strong>Access the Application:</strong>\n\n<ul>\n<li>Once the application is running, access it through the provided URL.</li>\n</ul>\n</li>\n</ol>\n</blockquote>\n\n<p><img src=\"/assets/articles/1819015-25c019f80165.webp\" width=\"630\" height=\"396\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h2 id=\"article-system-requirements\">System Requirements</h2>\n\n<blockquote>\n<ul>\n<li>\n<strong>CPU:</strong> Intel Core i5 or equivalent.</li>\n<li>\n<strong>RAM:</strong> 8 GB.</li>\n<li>\n<strong>Disk Space:</strong> 7 GB.</li>\n<li>\n<strong>Hardware:</strong> Operates on CPU; no GPU required.</li>\n</ul>\n</blockquote>\n\n<p><img src=\"/assets/articles/1819015-67e7083edd3f.webp\" width=\"600\" height=\"394\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h2 id=\"article-important-notes\">Important Notes</h2>\n\n<blockquote>\n<ul>\n<li>While robust, this chatbot is not a substitute for professional advice.</li>\n<li>Ensure the CSV file adheres to the expected format for optimal performance.</li>\n</ul>\n</blockquote>",
+    "headings": [
+      {
+        "id": "article-llama2-csv-chatbot",
+        "text": "Llama2 CSV ChatBot",
+        "level": 2
+      },
+      {
+        "id": "article-suuuuuuu-want-to-try",
+        "text": "Suuuuuuu Want to try:",
+        "level": 2
+      },
+      {
+        "id": "article-huggingfacecollama2ggmlcsvchatbot",
+        "text": "huggingface.co/Llama-2-GGML-CSV-Chatbot",
+        "level": 3
+      },
+      {
+        "id": "article-chatbot-conversession",
+        "text": "Conversation examples",
+        "level": 2
+      },
+      {
+        "id": "article-streamlit-ver-on-v202dev20240102",
+        "text": "Streamlit ver. on#v2.0.2.dev20240102",
+        "level": 3
+      },
+      {
+        "id": "article-development-specs",
+        "text": "Implementation overview",
+        "level": 2
+      },
+      {
+        "id": "article-try-it-on-your",
+        "text": "Try it on your",
+        "level": 2
+      },
+      {
+        "id": "article-download-the-llama-2-model",
+        "text": "Download the Llama 2 Model:",
+        "level": 3
+      },
+      {
+        "id": "article-llama-2-model-information",
+        "text": "Llama 2 Model Information",
+        "level": 3
+      },
+      {
+        "id": "article-usage",
+        "text": "Usage",
+        "level": 2
+      },
+      {
+        "id": "article-system-requirements",
+        "text": "System Requirements",
+        "level": 2
+      },
+      {
+        "id": "article-important-notes",
+        "text": "Important Notes",
+        "level": 2
+      }
+    ],
+    "editorialUpdated": "2026-09-09"
+  },
+  {
+    "id": 1817634,
+    "title": "Building a document-retrieval prototype with Llama 2",
+    "originalTitle": "Llama2 Chatbot esay-to-build ? 🦙😱",
+    "slug": "llama-2-ggml-medical-chatbot-5043",
+    "localPath": "/blog/llama-2-ggml-medical-chatbot-5043",
+    "url": "https://dev.to/thisisdeveloper/llama-2-ggml-medical-chatbot-5043",
+    "date": "2024-04-10",
+    "sourceUpdatedAt": "2024-04-17T09:43:29Z",
+    "tags": [
+      "ai",
+      "programming",
+      "python",
+      "opensource"
+    ],
+    "readingTime": 3,
+    "summary": "A Python experiment connecting reference passages to a pretrained language model through a conversational interface.",
+    "featured": false,
+    "cover": {
+      "src": "/assets/articles/1817634-cover.webp",
+      "width": 1000,
+      "height": 420,
+      "alt": "Llama2 Chatbot esay-to-build ? — article cover"
+    },
+    "editorNote": "Technical clarification: this prototype retrieves passages from a reference PDF and passes them to a pretrained, quantized Llama 2 model. It does not train or fine-tune the model on the PDF. It has not been clinically validated and is not a substitute for professional medical advice.",
+    "assets": [
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8mutl4bziher5x0muxkz.png",
+        "src": "/assets/articles/1817634-cover.webp",
+        "width": 1000,
+        "height": 420
+      },
+      {
+        "source": "https://media.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F6bnsp26ybt6y68570sv5.gif",
+        "src": "/assets/articles/1817634-cae6194514f4.webp",
+        "width": 200,
+        "height": 167
+      },
+      {
+        "source": "https://media.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fws7py7bz0kkph1csoppe.gif",
+        "src": "/assets/articles/1817634-b83a30b638d2.webp",
+        "width": 701,
+        "height": 500
+      },
+      {
+        "source": "https://media.dev.to/dynamic/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fpflbqrv6klj4ppvxl9sb.gif",
+        "src": "/assets/articles/1817634-712a315d0565.webp",
+        "width": 200,
+        "height": 200
+      },
+      {
+        "source": "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5ff39l5g3if62ftm0lr9.jpeg",
+        "src": "/assets/articles/1817634-d03786eb46a5.webp",
+        "width": 180,
+        "height": 280
+      },
+      {
+        "source": "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rlafb9c4mxegzahjrbxg.png",
+        "src": "/assets/articles/1817634-d0cb2ab518b4.webp",
+        "width": 800,
+        "height": 368
+      },
+      {
+        "source": "https://github.com/ThisIs-Developer/Llama-2-GGML-Medical-Chatbot/assets/109382325/583002bd-22a7-4ff0-8982-6067c1bcaade",
+        "src": "/assets/articles/1817634-566337339c99.webp",
+        "width": 800,
+        "height": 362
+      },
+      {
+        "source": "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7vidnv2djynyvkzxhmkh.png",
+        "src": "/assets/articles/1817634-5b9811819d87.webp",
+        "width": 800,
+        "height": 821
+      },
+      {
+        "source": "https://github.com/ThisIs-Developer/Llama-2-GGML-Medical-Chatbot/assets/109382325/d10d949f-37e5-4ec4-868d-2e62d8ad69dc",
+        "src": "/assets/articles/1817634-27e819382ce2.webp",
+        "width": 800,
+        "height": 4107
+      },
+      {
+        "source": "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/g0fttj6hsaebhvht0h61.gif",
+        "src": "/assets/articles/1817634-661b2d702ee1.webp",
+        "width": 500,
+        "height": 377
+      }
+    ],
+    "bodyHtml": "<p>This prototype retrieves passages from a medical reference document and supplies them to a pretrained, quantized Llama 2 model. It is an engineering experiment in retrieval and interface design. It has not been clinically validated and is not intended for medical decision-making.</p>\n\n<p><img src=\"/assets/articles/1817634-cae6194514f4.webp\" width=\"200\" height=\"167\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h2 id=\"article-try-it-for-free-huggingfacecollama2ggmlmedicalchatbot\">Try it for FREE:<a href=\"https://huggingface.co/spaces/ThisIs-Developer/Llama-2-GGML-Medical-Chatbot\" rel=\"noopener noreferrer\">huggingface.co/Llama-2-GGML-Medical-Chatbot</a></h2>\n\n<p><img src=\"/assets/articles/1817634-b83a30b638d2.webp\" width=\"701\" height=\"500\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n\n<h2 id=\"article-here-are-some-of-the-features-of-the-llama27bchatggmlmedicalchatbot\">Here are some of the features of the Llama-2-7B-Chat-GGML-Medical-Chatbot:</h2>\n\n<ul>\n<li>It uses the <em>Llama-2-7B-Chat-GGML</em> model, which is a <strong>large language model (LLM)</strong> that has been fine-tuned.\n\n<ul>\n<li>Name - <strong>llama-2-7b-chat.ggmlv3.q2_K.bin</strong>\n</li>\n<li>Quant method - q2_K</li>\n<li>Bits - 2</li>\n<li>Size - <strong>2.87 GB</strong>\n</li>\n<li>Max RAM required - 5.37 GB</li>\n<li>Use case - New k-quant method. Uses GGML_TYPE_Q4_K for the attention.vw and feed_forward.w2 tensors, GGML_TYPE_Q2_K for the other tensors.</li>\n<li>\n<strong>Model:</strong> Know more about model <strong><a href=\"https://huggingface.co/TheBloke/Llama-2-7B-Chat-GGML\" rel=\"noopener noreferrer\">Llama-2-7B-Chat-GGML</a></strong>\n</li>\n</ul>\n\n\n</li>\n\n<li>It retrieves reference passages from the PDF <strong><a href=\"https://github.com/ThisIs-Developer/Llama-2-GGML-Medical-Chatbot/blob/main/data/71763-gale-encyclopedia-of-medicine.-vol.-1.-2nd-ed.pdf\" rel=\"noopener noreferrer\">The Gale Encyclopedia of Medicine, Volume 1, 2nd Edition, 637-page PDF</a></strong>, which is a comprehensive medical reference that provides information on a wide range of medical topics. This means that the chatbot is able to answer questions about a variety of medical topics.</li>\n\n<li>This is a sophisticated medical chatbot, developed using Llama-2 7B and Sentence Transformers. Powered by <strong><a href=\"https://python.langchain.com/docs/get_started/introduction\" rel=\"noopener noreferrer\">Langchain</a></strong> and <strong><a href=\"https://docs.chainlit.io/overview\" rel=\"noopener noreferrer\">Chainlit</a></strong>, This bot operates on a powerful CPU computer that boasts a minimum of\n\n<ul>\n<li>Operating system: Linux, macOS, or Windows</li>\n<li>CPU: Intel Core i3</li>\n<li>RAM: <strong>8 GB</strong>\n</li>\n<li>Disk space: 7 GB</li>\n<li>GPU: None <strong>(CPU only)</strong>\n</li>\n</ul>\n\n\n</li>\n\n<li>It is still under development, and has not been validated for clinical use.</li>\n\n</ul>\n\n<p><img src=\"/assets/articles/1817634-712a315d0565.webp\" width=\"200\" height=\"200\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n<h2 id=\"article-quickstart\">Quickstart</h2>\n<ol>\n<li>Open Git Bash.</li>\n<li>Change the current working directory to the location where you want the cloned directory.</li>\n<li>Type <code>git clone</code>, and then paste the URL you copied earlier.\n<pre tabindex=\"0\"><code data-language=\"shell\">git clone https://github.com/ThisIs-Developer/Llama-2-GGML-Medical-Chatbot.git</code></pre>\n<p>Press Enter to create your local clone.</p></li>\n<li>Install the pip packages in requirements.txt\n<pre tabindex=\"0\"><code data-language=\"shell\">pip install -r requirements.txt</code></pre></li>\n<li>Now run it!\n<pre tabindex=\"0\"><code data-language=\"shell\">chainlit run model.py -w</code></pre></li>\n</ol>\n<p><img src=\"/assets/articles/1817634-d03786eb46a5.webp\" width=\"180\" height=\"280\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n<h2 id=\"article-chatbot-conversession\">Conversation examples</h2>\n<h3 id=\"article-chainlit-ver-on-v1-0-1-dev20230913\">Chainlit ver. on<a href=\"https://github.com/ThisIs-Developer/Llama-2-GGML-Medical-Chatbot/releases/tag/v1.0.1.dev20230913\" rel=\"noopener noreferrer\">#v1.0.1.dev20230913</a></h3>\n<p><img src=\"/assets/articles/1817634-d0cb2ab518b4.webp\" width=\"800\" height=\"368\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n<h3 id=\"article-streamlit-ver-on-v2-0-1-dev20231230\">Streamlit ver. on<a href=\"https://github.com/ThisIs-Developer/Llama-2-GGML-Medical-Chatbot/releases/tag/v2.0.1.dev20231230\" rel=\"noopener noreferrer\">#v2.0.1.dev20231230</a></h3>\n<p><img src=\"/assets/articles/1817634-566337339c99.webp\" width=\"800\" height=\"362\" alt=\"ChatBot Conversession img-4\" loading=\"lazy\" decoding=\"async\"></p>\n<h3 id=\"article-video-of-conversation\">Video of Conversation</h3>\n<p><a href=\"https://github.com/ThisIs-Developer/Llama-2-GGML-Medical-Chatbot/assets/109382325/6756fb69-40c0-4d49-b392-aa6906dca786\" rel=\"noopener noreferrer\">Video of Conversation</a></p>\n<h3 id=\"article-long-chats\">Long Chats</h3>\n<p><img src=\"/assets/articles/1817634-5b9811819d87.webp\" width=\"800\" height=\"821\" alt=\"ChatBot Conversession img-2\" loading=\"lazy\" decoding=\"async\"></p>\n<p><img src=\"/assets/articles/1817634-27e819382ce2.webp\" width=\"800\" height=\"4107\" alt=\"ChatBot Conversession img-3\" loading=\"lazy\" decoding=\"async\"></p>\n<h3 id=\"article-pdf\">PDF</h3>\n<p><a href=\"https://github.com/ThisIs-Developer/Llama-2-GGML-Medical-Chatbot/blob/main/conversession%20e.g/ChatBot%20Conversession%20img-3.pdf\" rel=\"noopener noreferrer\">Conversation examples img-3.pdf</a></p>\n<p><img src=\"/assets/articles/1817634-661b2d702ee1.webp\" width=\"500\" height=\"377\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n<h2 id=\"article-important-notes\">Important Notes</h2>\n<ul><li>While powerful, this chatbot isn't a substitute for professional medical advice.</li></ul>",
+    "headings": [
+      {
+        "id": "article-try-it-for-free-huggingfacecollama2ggmlmedicalchatbot",
+        "text": "Try it for FREE:huggingface.co/Llama-2-GGML-Medical-Chatbot",
+        "level": 2
+      },
+      {
+        "id": "article-here-are-some-of-the-features-of-the-llama27bchatggmlmedicalchatbot",
+        "text": "Here are some of the features of the Llama-2-7B-Chat-GGML-Medical-Chatbot:",
+        "level": 2
+      },
+      {
+        "id": "article-quickstart",
+        "text": "Quickstart",
+        "level": 2
+      },
+      {
+        "id": "article-chatbot-conversession",
+        "text": "Conversation examples",
+        "level": 2
+      },
+      {
+        "id": "article-chainlit-ver-on-v1-0-1-dev20230913",
+        "text": "Chainlit ver. on#v1.0.1.dev20230913",
+        "level": 3
+      },
+      {
+        "id": "article-streamlit-ver-on-v2-0-1-dev20231230",
+        "text": "Streamlit ver. on#v2.0.1.dev20231230",
+        "level": 3
+      },
+      {
+        "id": "article-video-of-conversation",
+        "text": "Video of Conversation",
+        "level": 3
+      },
+      {
+        "id": "article-long-chats",
+        "text": "Long Chats",
+        "level": 3
+      },
+      {
+        "id": "article-pdf",
+        "text": "PDF",
+        "level": 3
+      },
+      {
+        "id": "article-important-notes",
+        "text": "Important Notes",
+        "level": 2
+      }
+    ],
+    "editorialUpdated": "2026-09-09"
+  },
+  {
+    "id": 1560531,
+    "title": "Image processing with OpenCV: filters, contours and histograms",
+    "originalTitle": "📸OpenCV🔮the Enchanted Palette 🎨✨Part: 2",
+    "slug": "opencvthe-enchanted-palette-part-2-424k",
+    "localPath": "/blog/opencvthe-enchanted-palette-part-2-424k",
+    "url": "https://dev.to/thisisdeveloper/opencvthe-enchanted-palette-part-2-424k",
+    "date": "2023-08-06",
+    "sourceUpdatedAt": "2024-08-25T09:51:47Z",
+    "tags": [
+      "python",
+      "github",
+      "opensource",
+      "opencv"
+    ],
+    "readingTime": 2,
+    "summary": "Notebook examples covering resizing, morphology, filtering, thresholding and histogram analysis.",
+    "featured": false,
+    "cover": {
+      "src": "/assets/articles/1560531-cover.webp",
+      "width": 1000,
+      "height": 420,
+      "alt": "OpenCV🔮the Enchanted Palette 🎨✨Part: 2 — article cover"
+    },
+    "assets": [
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Foz4ys7yeupo590e1udde.png",
+        "src": "/assets/articles/1560531-cover.webp",
+        "width": 1000,
+        "height": 420
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F4mfpfn81lphamyxidqu1.gif",
+        "src": "/assets/articles/1560531-fe607480246a.webp",
+        "width": 498,
+        "height": 280
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fnkuuvwkbvcktu5pytvw0.png",
+        "src": "/assets/articles/1560531-2806169aaa10.webp",
+        "width": 640,
+        "height": 480
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F581ootsuq5b9ku47vdfz.png",
+        "src": "/assets/articles/1560531-1ad62a51f2c3.webp",
+        "width": 700,
+        "height": 700
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F6p3p4jc98g8hgvkfo96q.jpg",
+        "src": "/assets/articles/1560531-fee1a1c93e14.webp",
+        "width": 613,
+        "height": 510
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjfoje7yt0pglkkt2dij5.png",
+        "src": "/assets/articles/1560531-615098bc9e8d.webp",
+        "width": 660,
+        "height": 384
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjej4cc26719ug7jdc864.png",
+        "src": "/assets/articles/1560531-ef9e0d7efdf3.webp",
+        "width": 800,
+        "height": 414
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fmsw5848699gqqdbyalu4.png",
+        "src": "/assets/articles/1560531-d4fe6f00aa93.webp",
+        "width": 626,
+        "height": 626
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fmqn0w2gyuiiv4kl73eum.png",
+        "src": "/assets/articles/1560531-19791ffb4e90.webp",
+        "width": 626,
+        "height": 626
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ful8r9zam145bjbpn92zf.png",
+        "src": "/assets/articles/1560531-3d5c14b817d2.webp",
+        "width": 800,
+        "height": 427
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fpi67ftynqokgvrlxlskd.png",
+        "src": "/assets/articles/1560531-785e9b012075.webp",
+        "width": 800,
+        "height": 640
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fagxvyh68tlddz4uhf45d.png",
+        "src": "/assets/articles/1560531-b6d2f6a667f3.webp",
+        "width": 640,
+        "height": 480
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ftmgju8j0ejuda0l7c4ba.gif",
+        "src": "/assets/articles/1560531-c14839761f26.webp",
+        "width": 498,
+        "height": 445
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F3ldncx3r1jx1e91bnw55.gif",
+        "src": "/assets/articles/1560531-3de674e634c4.webp",
+        "width": 480,
+        "height": 400
+      }
+    ],
+    "bodyHtml": "<p>This collection extends the basic image-loading workflow with common OpenCV processing operations. The examples cover resizing, morphology, contours, filtering, thresholding and histogram analysis, with links to the corresponding notebook.</p><p> Embark on a Visual Journey: Explore the <strong>OpenCV</strong> Chronicles in my <strong>GitHub Repository</strong>!  #OpenCVMagic #ImageAlchemy #CodeCanvas <br>\nSource GitHub: <a href=\"https://github.com/ThisIs-Developer/AI-Development/tree/main/OpenCV\" rel=\"noopener noreferrer\">ThisIs-Developer/Python/OpenCV/Image Processing</a><br>\n<img src=\"/assets/articles/1560531-fe607480246a.webp\" width=\"498\" height=\"280\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h3 id=\"article-ready-set-lets-do-it\">Setup</h3>\n\n\n\n\n<pre tabindex=\"0\"><code data-language=\"plaintext\">!pip install opencv-python\n</code></pre>\n\n\n\n\n\n<h3 id=\"article-image-resizing\">Image Resizing</h3>\n\n<p><strong>Source Code: <a href=\"https://github.com/ThisIs-Developer/AI-Development/blob/main/OpenCV/Image%20Processing/OpenCV.ipynb\" rel=\"noopener noreferrer\">OpenCV/OpenCV.ipynb</a></strong> <br>\n<img src=\"/assets/articles/1560531-2806169aaa10.webp\" width=\"640\" height=\"480\" alt=\"Image Resizing\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h3 id=\"article-morphological-image-processing\">Morphological Image Processing</h3>\n\n<p><strong>Source Code: <a href=\"https://github.com/ThisIs-Developer/AI-Development/blob/main/OpenCV/Image%20Processing/OpenCV.ipynb\" rel=\"noopener noreferrer\">OpenCV/OpenCV.ipynb</a></strong> <br>\n<img src=\"/assets/articles/1560531-1ad62a51f2c3.webp\" width=\"700\" height=\"700\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h3 id=\"article-find-coordinates-of-contours\">Find Co-ordinates of Contours</h3>\n\n<p><strong>Source Code: <a href=\"https://github.com/ThisIs-Developer/AI-Development/blob/main/OpenCV/Image%20Processing/OpenCV.ipynb\" rel=\"noopener noreferrer\">OpenCV/OpenCV.ipynb</a></strong> <br>\n<img src=\"/assets/articles/1560531-fee1a1c93e14.webp\" width=\"613\" height=\"510\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"><br>\n<img src=\"/assets/articles/1560531-615098bc9e8d.webp\" width=\"660\" height=\"384\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h3 id=\"article-bilateral-filtering\">Bilateral Filtering</h3>\n\n<p><strong>Source Code: <a href=\"https://github.com/ThisIs-Developer/AI-Development/blob/main/OpenCV/Image%20Processing/OpenCV.ipynb\" rel=\"noopener noreferrer\">OpenCV/OpenCV.ipynb</a></strong> <br>\n<img src=\"/assets/articles/1560531-ef9e0d7efdf3.webp\" width=\"800\" height=\"414\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h3 id=\"article-grayscaling-of-images\">Grayscaling of Images</h3>\n\n<p><strong>Source Code: <a href=\"https://github.com/ThisIs-Developer/AI-Development/blob/main/OpenCV/Image%20Processing/OpenCV.ipynb\" rel=\"noopener noreferrer\">OpenCV/OpenCV.ipynb</a></strong> <br>\n<img src=\"/assets/articles/1560531-d4fe6f00aa93.webp\" width=\"626\" height=\"626\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h3 id=\"article-visualizing-image-in-different-color-spaces\">Visualizing image in different color spaces</h3>\n\n<p><strong>Source Code: <a href=\"https://github.com/ThisIs-Developer/AI-Development/blob/main/OpenCV/Image%20Processing/OpenCV.ipynb\" rel=\"noopener noreferrer\">OpenCV/OpenCV.ipynb</a></strong> <br>\n<img src=\"/assets/articles/1560531-19791ffb4e90.webp\" width=\"626\" height=\"626\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"><br>\n<img src=\"/assets/articles/1560531-3d5c14b817d2.webp\" width=\"800\" height=\"427\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h3 id=\"article-simple-adaptive-otsu-segmentation-using-thresholding\">Simple, Adaptive, Otsu, Segmentation using Thresholding</h3>\n\n<p><strong>Source Code: <a href=\"https://github.com/ThisIs-Developer/AI-Development/blob/main/OpenCV/Image%20Processing/OpenCV.ipynb\" rel=\"noopener noreferrer\">OpenCV/OpenCV.ipynb</a></strong> <br>\n<img src=\"/assets/articles/1560531-785e9b012075.webp\" width=\"800\" height=\"640\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h3 id=\"article-analyze-an-image-using-histogram\">Analyze an image using Histogram</h3>\n\n<p><strong>Source Code: <a href=\"https://github.com/ThisIs-Developer/AI-Development/blob/main/OpenCV/Image%20Processing/OpenCV.ipynb\" rel=\"noopener noreferrer\">OpenCV/OpenCV.ipynb</a></strong> <br>\n<img src=\"/assets/articles/1560531-b6d2f6a667f3.webp\" width=\"640\" height=\"480\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<p><img src=\"/assets/articles/1560531-c14839761f26.webp\" width=\"498\" height=\"445\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<blockquote>\n<p><em> Unlock the World of <strong>Image Processing with OpenCV!</strong>  Explore Countless Possibilities in *<em>My Repository GitHub: *</em><a href=\"https://github.com/ThisIs-Developer/AI-Development/blob/main/OpenCV/Image%20Processing\" rel=\"noopener noreferrer\">ThisIs-Developer/Python/OpenCV/Image Processing</a></em></p>\n</blockquote>\n\n\n\n\n\n<p><img src=\"/assets/articles/1560531-3de674e634c4.webp\" width=\"480\" height=\"400\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>",
+    "headings": [
+      {
+        "id": "article-ready-set-lets-do-it",
+        "text": "Setup",
+        "level": 3
+      },
+      {
+        "id": "article-image-resizing",
+        "text": "Image Resizing",
+        "level": 3
+      },
+      {
+        "id": "article-morphological-image-processing",
+        "text": "Morphological Image Processing",
+        "level": 3
+      },
+      {
+        "id": "article-find-coordinates-of-contours",
+        "text": "Find Co-ordinates of Contours",
+        "level": 3
+      },
+      {
+        "id": "article-bilateral-filtering",
+        "text": "Bilateral Filtering",
+        "level": 3
+      },
+      {
+        "id": "article-grayscaling-of-images",
+        "text": "Grayscaling of Images",
+        "level": 3
+      },
+      {
+        "id": "article-visualizing-image-in-different-color-spaces",
+        "text": "Visualizing image in different color spaces",
+        "level": 3
+      },
+      {
+        "id": "article-simple-adaptive-otsu-segmentation-using-thresholding",
+        "text": "Simple, Adaptive, Otsu, Segmentation using Thresholding",
+        "level": 3
+      },
+      {
+        "id": "article-analyze-an-image-using-histogram",
+        "text": "Analyze an image using Histogram",
+        "level": 3
+      }
+    ],
+    "editorialUpdated": "2026-09-09"
+  },
+  {
+    "id": 1556113,
+    "title": "Getting started with images in OpenCV",
+    "originalTitle": "🌟OpenCV🎨the Magic of Images✨Part: 1",
+    "slug": "opencvunleashing-the-magic-of-images-1kdb",
+    "localPath": "/blog/opencvunleashing-the-magic-of-images-1kdb",
+    "url": "https://dev.to/thisisdeveloper/opencvunleashing-the-magic-of-images-1kdb",
+    "date": "2023-08-01",
+    "sourceUpdatedAt": "2024-08-25T09:52:46Z",
+    "tags": [
+      "python",
+      "github",
+      "opensource",
+      "opencv"
+    ],
+    "readingTime": 1,
+    "summary": "A compact notebook-based introduction to loading and working with images using Python and OpenCV.",
+    "featured": false,
+    "cover": {
+      "src": "/assets/articles/1556113-cover.webp",
+      "width": 1000,
+      "height": 420,
+      "alt": "OpenCV🎨the Magic of Images✨Part: 1 — article cover"
+    },
+    "assets": [
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwp57nonzuj2ba11teq9l.png",
+        "src": "/assets/articles/1556113-cover.webp",
+        "width": 1000,
+        "height": 420
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fplv7sfwbvj4pyk68v290.png",
+        "src": "/assets/articles/1556113-3b1da6931fd4.webp",
+        "width": 800,
+        "height": 400
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fth6tqkcuf6teqphxgtbf.png",
+        "src": "/assets/articles/1556113-9a8225f1a277.webp",
+        "width": 640,
+        "height": 480
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fg5e1esylcmkydpwxphgq.png",
+        "src": "/assets/articles/1556113-c6e6d8492a6f.webp",
+        "width": 640,
+        "height": 480
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjicxjg5gc9fxu7m4meva.png",
+        "src": "/assets/articles/1556113-841e3dd68e0b.webp",
+        "width": 640,
+        "height": 480
+      }
+    ],
+    "bodyHtml": "<p>This notebook collection introduces working with images in Python using OpenCV. Install the package, open the linked notebook and follow the accompanying examples to explore the image-processing workflow.</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"plaintext\">!pip install opencv-python\n</code></pre>\n\n\n\n\n\n<p><strong>Source GitHub:</strong> <a href=\"https://github.com/ThisIs-Developer/AI-Development/blob/main/OpenCV/Working%20with%20Images\" rel=\"noopener noreferrer\">ThisIs-Developer/Python/OpenCV/Working with Images</a><br>\n<strong>Example:</strong><br>\n<img src=\"/assets/articles/1556113-3b1da6931fd4.webp\" width=\"800\" height=\"400\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<p><img src=\"/assets/articles/1556113-9a8225f1a277.webp\" width=\"640\" height=\"480\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"><br>\n<img src=\"/assets/articles/1556113-c6e6d8492a6f.webp\" width=\"640\" height=\"480\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"><br>\n<img src=\"/assets/articles/1556113-841e3dd68e0b.webp\" width=\"640\" height=\"480\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>",
+    "headings": [],
+    "editorialUpdated": "2026-09-09"
+  },
+  {
+    "id": 1554308,
+    "title": "Recording and analysing audio with Python",
+    "originalTitle": "🎤🎶 Elevate Your Sound Game: Recording and Processing Audio with Python! 🎧🔊",
+    "slug": "record-and-process-audio-with-python-2a3b",
+    "localPath": "/blog/record-and-process-audio-with-python-2a3b",
+    "url": "https://dev.to/thisisdeveloper/record-and-process-audio-with-python-2a3b",
+    "date": "2023-07-31",
+    "sourceUpdatedAt": "2023-08-04T16:08:05Z",
+    "tags": [
+      "python",
+      "opensource",
+      "audioprocessing",
+      "github"
+    ],
+    "readingTime": 2,
+    "summary": "Python examples for recording audio, loading files, plotting waveforms and generating spectrograms.",
+    "featured": false,
+    "cover": {
+      "src": "/assets/articles/1554308-cover.webp",
+      "width": 952,
+      "height": 400,
+      "alt": "Elevate Your Sound Game: Recording and Processing Audio with Python! — article cover"
+    },
+    "assets": [
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fsoemcltieih3a0bwwloz.png",
+        "src": "/assets/articles/1554308-cover.webp",
+        "width": 952,
+        "height": 400
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F3dsemu5elpa0fgwv15ou.png",
+        "src": "/assets/articles/1554308-51b02fe5544a.webp",
+        "width": 800,
+        "height": 320
+      }
+    ],
+    "bodyHtml": "<p>These examples bring together audio recording, playback and analysis in Python. The code covers loading audio, examining sample data, plotting waveforms and generating spectrograms with Librosa and Matplotlib.</p>\n\n<p><strong>GitHub:</strong> <a href=\"https://github.com/ThisIs-Developer/Python/tree/main/Audio%20Recorder\" rel=\"noopener noreferrer\">Python/Audio Recorder</a><br>\n<img src=\"/assets/articles/1554308-51b02fe5544a.webp\" width=\"800\" height=\"320\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"><br>\n<strong>Source Code:</strong> <a href=\"https://github.com/ThisIs-Developer/Python/blob/main/Audio%20Recorder/record%20audio.ipynb\" rel=\"noopener noreferrer\">Python/Audio Recorder/record audio.ipynb</a><br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"plaintext\">import os\nimport librosa\nimport librosa.display\nimport matplotlib.pyplot as plt\nimport warnings\nimport numpy as np\nwarnings.filterwarnings(\"ignore\", category=RuntimeWarning)\n\ndef load_audio(file_path, duration=None, offset=0):\n    audio_data, sample_rate = librosa.load(file_path, duration=duration, offset=offset)\n    return audio_data, sample_rate\n\ndef plot_waveform(audio_data, sample_rate, output_path):\n    plt.figure(figsize=(10, 4))\n    librosa.display.waveshow(audio_data, sr=sample_rate)\n    plt.title(\"Waveform\")\n    plt.xlabel(\"Time (seconds)\")\n    plt.ylabel(\"Amplitude\")\n    plt.savefig(os.path.join(output_path, \"waveform.png\"))\n    plt.show()\n    plt.close()\n\ndef plot_spectrogram(audio_data, sample_rate, output_path):\n    plt.figure(figsize=(10, 4))\n    spectrogram = librosa.feature.melspectrogram(y=audio_data, sr=sample_rate)\n    librosa.display.specshow(librosa.power_to_db(spectrogram, ref=np.max), y_axis='mel', x_axis='time')\n    plt.colorbar(format='%+2.0f dB')\n    plt.title(\"Spectrogram\")\n    plt.savefig(os.path.join(output_path, \"spectrogram.png\"))\n    plt.show()\n    plt.close()\n\nif __name__ == \"__main__\":\n    input_file = \"recorded_voice_sounddevice.wav\"\n    output_path = \".\"  # You can change this to the desired output directory\n\n    audio_data, sample_rate = load_audio(input_file)\n\n    # Print some information about the audio file\n    print(f\"Audio data shape: {audio_data.shape}\")\n    print(f\"Sample rate: {sample_rate} Hz\")\n\n    # Plot the audio waveform and spectrogram\n    plot_waveform(audio_data, sample_rate, output_path)\n    plot_spectrogram(audio_data, sample_rate, output_path)\n\n    print(\"Plots saved as 'waveform.png' and 'spectrogram.png' in the current directory.\")\n</code></pre>",
+    "headings": [],
+    "editorialUpdated": "2026-09-09"
+  },
+  {
+    "id": 1548167,
+    "title": "Connecting a portfolio contact form to Google Sheets",
+    "originalTitle": "📂Portfolio using JavaScript (ES6) Magic✨ | Google Apps Script Sorcery🚀",
+    "slug": "portfolio-thisis-developer-56bf",
+    "localPath": "/blog/portfolio-thisis-developer-56bf",
+    "url": "https://dev.to/thisisdeveloper/portfolio-thisis-developer-56bf",
+    "date": "2023-07-25",
+    "sourceUpdatedAt": "2024-07-07T16:20:15Z",
+    "tags": [
+      "portfolio",
+      "website",
+      "javascript",
+      "googleappsscript"
+    ],
+    "readingTime": 2,
+    "summary": "A historical implementation using browser JavaScript and Google Apps Script to store contact-form submissions.",
+    "featured": false,
+    "cover": {
+      "src": "/assets/articles/1548167-cover.webp",
+      "width": 1000,
+      "height": 420,
+      "alt": "Portfolio using JavaScript (ES6) Magic✨ | Google Apps Script Sorcery — article cover"
+    },
+    "assets": [
+      {
+        "source": "https://media2.dev.to/dynamic/image/width=1000,height=420,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Flhasfz9tv4jolr2haxh3.png",
+        "src": "/assets/articles/1548167-cover.webp",
+        "width": 1000,
+        "height": 420
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjhj9b6jaqh0rduc2dea2.gif",
+        "src": "/assets/articles/1548167-fd8d9177dce0.webp",
+        "width": 220,
+        "height": 163
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fz5s3dii6yanjk6b83csx.png",
+        "src": "/assets/articles/1548167-78ae3ba60617.webp",
+        "width": 800,
+        "height": 363
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fovwwxlkcmowzvc79x0wp.png",
+        "src": "/assets/articles/1548167-996e662ad74f.webp",
+        "width": 760,
+        "height": 527
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Flxy0c0ti95zfq7hezv4u.png",
+        "src": "/assets/articles/1548167-225c07403391.webp",
+        "width": 800,
+        "height": 499
+      },
+      {
+        "source": "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Faoo89p2qrigo90d86wub.gif",
+        "src": "/assets/articles/1548167-b8a8ef0bac69.webp",
+        "width": 500,
+        "height": 288
+      }
+    ],
+    "bodyHtml": "<p>An earlier version of my portfolio used browser JavaScript and Google Apps Script to send contact-form submissions to a spreadsheet. This article records that implementation and its interface states; it describes the older project, rather than the contact flow on this website.</p><h3 id=\"article-website-is-live-baivabsarkaroldvercelapp\">Website is<strong>Live:</strong><a href=\"https://baivabsarkar-old.vercel.app/\" rel=\"noopener noreferrer\">baivabsarkar-old.vercel.app</a></h3>\n\n\n\n<p><img src=\"/assets/articles/1548167-fd8d9177dce0.webp\" width=\"220\" height=\"163\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h3 id=\"article-source-code-githhubthisisdeveloperportfolioold\"><em>Source Code</em><strong>GithHub:</strong><a href=\"https://github.com/iam-baivab/Portfolio-old\" rel=\"noopener noreferrer\">ThisIs-Developer/Portfolio-old</a></h3>\n\n<h2 id=\"article-key-feature\">Key Feature</h2>\n\n<ul>\n<li>\n<strong>Submit a Form to Google Sheets</strong>\n<strong>This Portfolio Contact form can stores the submitted form data in Google Sheets using plain 'ol JavaScript (ES6), <a href=\"https://www.google.com/script/start/\" rel=\"noopener noreferrer\">Google Apps Script</a>.</strong>\n</li>\n</ul>\n\n<blockquote>\n<p>Discover the Process: Learn from <a href=\"https://github.com/jamiewilson\" rel=\"noopener noreferrer\">@jamiewilson</a> <a href=\"https://github.com/jamiewilson/form-to-google-sheets/tree/master\" rel=\"noopener noreferrer\">Form-to-Google-Sheets Repository</a>  #OpenSource\"</p>\n</blockquote>\n\n<h3 id=\"article-layout-of-contact-form\">Layout of Contact form:</h3>\n\n<p><img src=\"/assets/articles/1548167-78ae3ba60617.webp\" width=\"800\" height=\"363\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<p><strong>SCRIPT in the HTML file:</strong><br>\n</p>\n\n\n<pre tabindex=\"0\"><code data-language=\"plaintext\">&lt;script&gt;\n        const scriptURL = 'https://script.google.com/macros/s/AKfycbzwGkCv4dbdFpYjSYbThchpqYSgudoYmK_KtdmS6RkK-vyFqgPCKwxicx0xdmTErDjM/exec'\n        const form = document.forms['submit-to-google-sheet']\n        const msg = document.getElementById(\"msg\")\n        const waitMsg = document.getElementById(\"wait-msg\")\n        form.addEventListener('submit', e =&gt; {\n            e.preventDefault();\n            waitMsg.innerHTML = \"Please wait...\";\n            fetch(scriptURL, { method: 'POST', body: new FormData(form) })\n                .then(response =&gt; {\n                    waitMsg.innerHTML = \"\";\n                    msg.innerHTML = \"Message sent successfully\";\n                    setTimeout(function () {\n                        msg.innerHTML = \"\";\n                    }, 5000);\n                    form.reset();\n                })\n                .catch(error =&gt; {\n                    waitMsg.innerHTML = \"\";\n                    console.error('Error!', error.message);\n                });\n        });\n&lt;/script&gt;\n</code></pre>\n\n\n\n\n\n<h3 id=\"article-after-clicking-the-submit-buttom\">After clicking the \"Submit\" buttom.</h3>\n\n<blockquote>\n<p><strong>\"Please wait...\"</strong></p>\n</blockquote>\n\n<p><img src=\"/assets/articles/1548167-996e662ad74f.webp\" width=\"760\" height=\"527\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n<h3 id=\"article-after-sending-message\">After sending Message.</h3>\n\n<blockquote>\n<p><strong>\"Message sent successfully\"</strong></p>\n</blockquote>\n\n<p><img src=\"/assets/articles/1548167-225c07403391.webp\" width=\"800\" height=\"499\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>\n\n\n\n<p>Drop a <strong>Comment</strong> to Show <em>Your Support and Connect.</em> Let's Make Learning and Creating Together!  #ShareYourThoughts #EngageAndConnect<br>\n<img src=\"/assets/articles/1548167-b8a8ef0bac69.webp\" width=\"500\" height=\"288\" alt=\"Image description\" loading=\"lazy\" decoding=\"async\"></p>",
+    "headings": [
+      {
+        "id": "article-website-is-live-baivabsarkaroldvercelapp",
+        "text": "Website isLive:baivabsarkar-old.vercel.app",
+        "level": 3
+      },
+      {
+        "id": "article-source-code-githhubthisisdeveloperportfolioold",
+        "text": "Source CodeGithHub:ThisIs-Developer/Portfolio-old",
+        "level": 3
+      },
+      {
+        "id": "article-key-feature",
+        "text": "Key Feature",
+        "level": 2
+      },
+      {
+        "id": "article-layout-of-contact-form",
+        "text": "Layout of Contact form:",
+        "level": 3
+      },
+      {
+        "id": "article-after-clicking-the-submit-buttom",
+        "text": "After clicking the \"Submit\" buttom.",
+        "level": 3
+      },
+      {
+        "id": "article-after-sending-message",
+        "text": "After sending Message.",
+        "level": 3
+      }
+    ],
+    "editorialUpdated": "2026-09-09"
+  }
+]

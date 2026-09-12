@@ -1,0 +1,17 @@
+.page-surface {
+  isolation: isolate;
+}
+
+.cursor-dot-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Static dots remain visible on touch devices and with reduced motion.
+   The script disables the animated pointer response in those modes. */

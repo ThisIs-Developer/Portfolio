@@ -1,0 +1,22 @@
+[
+  {
+    "period": "2024 — ongoing",
+    "title": "Building in the open",
+    "organization": "Independent projects · Open source",
+    "description": "Developing Markdown Viewer and other tools, working through product details from responsive interfaces to document rendering and collaboration.",
+    "link": "https://github.com/ThisIs-Developer/Markdown-Viewer",
+    "linkLabel": "Explore the source"
+  },
+  {
+    "period": "Training completed",
+    "title": "Java & Selenium QA automation",
+    "organization": "Hands-on SDET training",
+    "description": "UI and API testing with Selenium WebDriver, TestNG, JUnit, Cucumber, Postman, and Jenkins. Practiced Page Object Model and repeatable test workflows."
+  },
+  {
+    "period": "Oct 2021 — May 2025",
+    "title": "B.Tech, Computer Science & Engineering",
+    "organization": "JIS College of Engineering",
+    "description": "Graduated with a CGPA of 9.15/10. Built a foundation in object-oriented programming, data structures, algorithms, databases, and the software development lifecycle."
+  }
+]

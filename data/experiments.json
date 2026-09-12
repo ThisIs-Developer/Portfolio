@@ -1,0 +1,97 @@
+[
+  {
+    "id": "ams",
+    "title": "AMS",
+    "category": "Full-stack · Team project",
+    "year": "2024",
+    "summary": "Role-based attendance workflows for administrators, teachers and students.",
+    "problem": "Academic attendance records need coordinated access and reporting across institution roles.",
+    "contribution": "Contributed to a five-person academic management project.",
+    "features": [
+      "Role-specific attendance interfaces.",
+      "Attendance recording and report workflows."
+    ],
+    "stack": ["JavaScript", "Spring", "Redis", "PostgreSQL", "JPA"],
+    "source": "https://github.com/ThisIs-Developer/AMS",
+    "live": "https://ams-system.pages.dev/",
+    "liveLabel": "View frontend",
+    "status": "Team prototype"
+  },
+  {
+    "id": "csv-chatbot",
+    "title": "Llama 2 GGML CSV Chatbot",
+    "category": "AI · Retrieval experiment",
+    "year": "2024",
+    "summary": "Ask questions of uploaded CSV data using local model inference and vector retrieval.",
+    "problem": "Exploring tabular data through natural language requires grounding responses in the uploaded file.",
+    "contribution": "Built a Streamlit prototype combining CSV ingestion, embedding search and a quantized Llama 2 model.",
+    "features": [
+      "Chunk CSV data and index it with sentence-transformer embeddings and FAISS.",
+      "Retrieve relevant rows for a Llama 2 question-answering workflow."
+    ],
+    "stack": ["Python", "LangChain", "Streamlit", "Llama 2", "FAISS"],
+    "source": "https://github.com/ThisIs-Developer/Llama-2-GGML-CSV-Chatbot",
+    "live": null,
+    "liveLabel": null,
+    "status": "Research prototype"
+  },
+  {
+    "id": "sketchflow",
+    "title": "SketchFlow",
+    "category": "Canvas · Creative tool",
+    "year": "2024–2026",
+    "summary": "A browser canvas for sketching ideas, diagrams and freehand drawings.",
+    "problem": "Quick visual thinking benefits from a lightweight drawing workspace.",
+    "contribution": "Built the canvas interaction, shape tools and drawing controls in vanilla JavaScript.",
+    "features": [
+      "Draw shapes, arrows, text and freehand strokes.",
+      "Adjust styling and zoom; export PNG or save JSON."
+    ],
+    "stack": ["JavaScript", "Canvas API", "HTML & CSS"],
+    "source": "https://github.com/ThisIs-Developer/SketchFlow",
+    "live": "https://sketchflow.pages.dev/",
+    "liveLabel": "Open canvas",
+    "status": "Open-source experiment"
+  },
+  {
+    "id": "body-language",
+    "title": "Body Language Detection",
+    "category": "Computer vision · Notebook",
+    "year": "2023",
+    "summary": "A computer-vision experiment comparing landmark-based classification pipelines.",
+    "problem": "Explore how video landmarks can be collected and used as classifier inputs.",
+    "contribution": "Built notebooks for collecting labeled landmark data, training classifiers and exporting models.",
+    "features": [
+      "Collect labeled landmark data from webcam or recorded video.",
+      "Compare scikit-learn pipelines and a TensorFlow Lite export."
+    ],
+    "stack": ["Python", "MediaPipe", "OpenCV", "scikit-learn", "TensorFlow"],
+    "source": "https://github.com/ThisIs-Developer/Body-Language-Detection-with-MediaPipe-and-OpenCV",
+    "live": null,
+    "liveLabel": null,
+    "status": "Archived research experiment",
+    "image": "assets/work/body-language-1400.webp",
+    "imageAlt": "Bar chart of labeled samples from the Body Language Detection experiment.",
+    "imageSrcset": "assets/work/body-language-800.webp 800w, assets/work/body-language-1400.webp 1400w",
+    "imageWidth": 1400,
+    "imageHeight": 1408
+  },
+  {
+    "id": "news-scraper",
+    "title": "News Scraping Platform",
+    "category": "Automation · Python",
+    "year": "2023–2024",
+    "summary": "A Django experiment for collecting news articles from multiple sources.",
+    "problem": "Repeated article collection can be automated into a consistent data workflow.",
+    "contribution": "Built scraping workflows with BeautifulSoup and Selenium, integrated into Django.",
+    "features": [
+      "Concurrent collection from multiple publications.",
+      "Export collected records to Excel or MySQL."
+    ],
+    "stack": ["Python", "Django", "Selenium", "BeautifulSoup", "MySQL"],
+    "source": "https://github.com/ThisIs-Developer/News-Scraping-using-BeautyfulSoup-Selenium-with-Django",
+    "live": null,
+    "liveLabel": null,
+    "status": "Archived experiment"
+  }
+]

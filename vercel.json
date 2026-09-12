@@ -1,0 +1,17 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/playground", "destination": "/play-lab", "permanent": true },
+    {
+      "source": "/interactions",
+      "destination": "/play-lab#interactions",
+      "permanent": true
+    },
+    { "source": "/tools", "destination": "/work", "permanent": true },
+    { "source": "/work/blazedemo", "destination": "/work", "permanent": true }
+  ]
+}

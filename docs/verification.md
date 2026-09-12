@@ -1,0 +1,113 @@
+# Portfolio verification
+
+## 9 September refinement
+
+The preceding revision removes decorative borders and dot bleed over controls, adds a Cloudflare Workers AI fact-selection endpoint, polishes all eleven local articles, introduces native article authoring, and replaces the playground and Interactions demos.
+
+- The local Chromium suite completed 60 passing checks and identified five failures: four contrast scans for the same three demo labels, and one overly broad Quick Ask match. Both causes were corrected. A subsequent targeted run passed all nine groups, including the four corrected light/dark scans, Quick Ask topic restrictions and network fallback, all eleven updated article readers, ten additional responsive views at 320/768px and focus-timer completion. There were no browser exceptions.
+- Five separate surface checks passed: dots fade over controls, opaque button surfaces, no mouse-focus rectangles, retained keyboard focus, homepage light/dark accessibility and twelve responsive views. The current widget controls, all six interaction demos, mobile List view, local persistence, reduced motion and no-JavaScript reading passed in the main browser suite.
+- Article-authoring validation passed for drafts, publishing, duplicate routes, safe links, escaped markup, dates, code blocks and missing images. Nine server-side Quick Ask groups passed, including invalid model output, topic restrictions, unavailable inference, request validation and burst handling. The article sanitizer and generated-file checks passed; npm audit found no vulnerabilities.
+- Wrangler 4.130.0 successfully compiled the Pages Function. Local tests exercise the honest portfolio fallback and a simulated AI binding. Actual deployment/inference results are recorded on [PR #1](https://github.com/ThisIs-Developer/Portfolio/pull/1). The Linux workflow reruns the complete suite on Chromium, Firefox and WebKit.
+- Desktop and mobile visual review covered the revised blog, article reader, all widgets, all interaction demos, Quick Ask and Bug Run. New article artwork is original vector code, with no imported cover images in the cards or reading headers.
+
+Reports are generated under `.qa-results/refinements`, `.qa-results/refinements-final` and `.qa-results/surface-polish`. Historical lab performance scores below belong to the 8 September build; they are not measurements of this update.
+
+## 8 September baseline
+
+Verified on Windows with Node.js 24.19, Playwright 1.63.0, axe-core 4.13.0 and Lighthouse 13.4.1. The following baseline covers the initial complete multipage revision.
+
+## Functional and responsive checks
+
+- **65 Chromium/shared checks passed, zero Chromium failures**, including 10 page families at 390/1440px, navigation, local readers, collection filters/search/sort, clipboard, theme persistence, keyboard controls, cursor dots and game behavior. All 12 listed projects and 11 full articles were opened in their local readers.
+- **40 light/dark axe scans returned zero automated WCAG A/AA violations**, with separate visible-label/accessibility-name checks. Article code blocks and tables support keyboard scrolling.
+- The final independent sweep checked **31 sitemap routes and 44 responsive views** across 320, 390, 768 and 1440px, including enterprise details. It found no horizontal overflow, broken images or browser exceptions. It also checked all article bodies, malformed playground storage, touch behavior, the JavaScript-free card layout, actual 404 responses and the resume hash.
+- **136 local links and fragments resolved.** Generated-file consistency, article sanitizer self-tests, whitespace validation and npm audit passed; npm reported zero vulnerabilities.
+- JavaScript-disabled navigation, projects and articles remain readable. The playground becomes a normal card grid. Reduced motion disables decorative animation, and touch devices do not create the pointer-dot canvas.
+
+The Windows Firefox run stalled with `RenderCompositorSWGL failed mapping default framebuffer`; the stuck test browser was terminated and its remaining checks did not complete. This is not recorded as a Firefox pass. The PR workflow runs Chromium, Firefox and WebKit on Ubuntu at 320/390/768/1440px, with screenshots and reports uploaded as artifacts. Consult the current [PR checks](https://github.com/ThisIs-Developer/Portfolio/pull/1/checks) for the independent Linux result. Physical devices and screen-reader sessions were not available; automated scans are not a conformance certification.
+
+## Visual review
+
+Review covered full page structures and reading content, then refined cropped covers, card alignment, the mobile playground/menu clearance, section navigation, placeholders and the cursor response. The supplied video was inspected for motion and interaction details.
+
+| Page | Desktop | Mobile |
+| --- | --- | --- |
+| home | [Desktop](screenshots/home-1440.webp) | [Mobile](screenshots/home-390.webp) |
+| about | [Desktop](screenshots/about-1440.webp) | [Mobile](screenshots/about-390.webp) |
+| work | [Desktop](screenshots/work-1440.webp) | [Mobile](screenshots/work-390.webp) |
+| blog | [Desktop](screenshots/blog-1440.webp) | [Mobile](screenshots/blog-390.webp) |
+| article | [Desktop](screenshots/article-1440.webp) | [Mobile](screenshots/article-390.webp) |
+| tools | [Desktop](screenshots/tools-1440.webp) | [Mobile](screenshots/tools-390.webp) |
+| playground | [Desktop](screenshots/playground-1440.webp) | [Mobile](screenshots/playground-390.webp) |
+| interactions | [Desktop](screenshots/interactions-1440.webp) | [Mobile](screenshots/interactions-390.webp) |
+| work enterprise | [Desktop](screenshots/work-enterprise-1440.webp) | [Mobile](screenshots/work-enterprise-390.webp) |
+| work markdown viewer | [Desktop](screenshots/work-markdown-viewer-1440.webp) | [Mobile](screenshots/work-markdown-viewer-390.webp) |
+| 404 | [Desktop](screenshots/404-1440.webp) | [Mobile](screenshots/404-390.webp) |
+
+## Performance
+
+These are local Lighthouse lab measurements with simulated mobile throttling, collected with functional browser tests idle. All measured profiles scored 100 for accessibility, best practices and SEO, with layout shift between 0 and 0.004. Mobile performance is lower than desktop, with main-thread layout/rendering and blocking time still the largest costs on this host. Scores are not production Core Web Vitals guarantees.
+
+| Profile | Performance | Accessibility | Best practices | SEO | LCP | TBT | CLS |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| home-mobile | 72 | 100 | 100 | 100 | 2.7 s | 1258 ms | 0.000 |
+| home-desktop | 99 | 100 | 100 | 100 | 0.6 s | 90 ms | 0.000 |
+| work-mobile | 88 | 100 | 100 | 100 | 3.0 s | 310 ms | 0.000 |
+| blog-mobile | 88 | 100 | 100 | 100 | 3.0 s | 277 ms | 0.004 |
+| article-mobile | 81 | 100 | 100 | 100 | 3.1 s | 500 ms | 0.000 |
+
+The home page omits inner-page CSS/JS; the blog prioritizes its first cover. Fonts and all 88 article images are local. Article imports resize/convert fresh images to WebP; visitors do not need DEV or another image host to read.
+
+## Content and deployment
+
+The Work collection now contains exactly twelve owner-selected projects split into six featured entries and six archive entries, plus four consolidated private enterprise summaries. Source code and private client data remain undisclosed. Real public screenshots are used where available; project visuals and About photos without supplied images are clearly labeled placeholders. Both historical chatbot articles carry visible technical corrections.
+
+Both supported resume URLs preserve the supplied PDF. SHA-256: `08f8cad9ebb007de02e6874302f04db3f17be7d8e8f7626e98f0d9ee98099d09`.
+
+The update targets the existing [PR #1](https://github.com/ThisIs-Developer/Portfolio/pull/1) and [Cloudflare branch preview](https://feat-editorial-portfolio-red.baivabsarkar.pages.dev/). The PR remains unmerged. The pre-existing Netlify account-installed Lighthouse v4 plugin has a Node compatibility failure; its account configuration is unchanged. Cloudflare/Vercel and the repository workflow have separate checks.
+
+## Reproduce
+
+```sh
+npm ci
+npm run build
+npm run check
+node scripts/import-articles.mjs --self-test
+npx playwright install --with-deps chromium firefox webkit
+npm test -- --dir dist --browsers chromium,firefox,webkit --widths 320,390,768,1440 --output .qa-results/release
+npm run test:performance
+```
+
+Run Lighthouse separately from browser tests. Local detailed logs remain in ignored .qa-results; CI publishes equivalent reports as workflow artifacts.
+
+## Project curation and Play Lab update
+
+The preceding revision made the owner’s twelve-project selection explicit in data/project-order.json, adds Simon, removes the BlazeDemo listing, and consolidates private audit work into one of four illustrated cards. Home uses the six featured projects; Work keeps the full featured/archive order. Filtering keeps that order; date sorting stays within each group.
+
+Play Lab replaces the separate Playground and Interactions pages. It retains the seven canvas widgets and six demos, with a petal bloom and ripple pond replacing process tabs and disclosures. Legacy URLs redirect to their replacement; Tools is removed from the generated pages and navigation. The repository browser suite covers the new ordering, groups, navigation, redirects and replacement controls. See the PR’s validation section for the current run results; earlier measurements above are historical baselines.
+
+Nine focused verification groups passed both locally and on the Cloudflare preview on 9 September 2026, covering exact ordering, complete folder content at four viewport widths, grouped search/sort, legacy redirects, bloom/ripple controls, reduced motion, and light/dark accessibility. The deployed HTML, Play Lab assets and assistant knowledge matched the build. Live Workers AI responses correctly described Simon and the featured/archive selection. Desktop and mobile screenshots were reviewed for the archive, private cards and interactions.
+
+## Readability and interaction refinement
+
+The current update removes Home’s archive, About copy and experience disclosure; strengthens background dots while masking readable content; adds the repository image for Body Language Detection; cycles capabilities with manual timer reset; and fixes the mobile article layout. About uses interactive photos, a location pin and twelve real technology logos. All Work projects use folders. Play Lab supports whole-card motion and stronger visible effects; Quick Ask has an integrated conversational panel.
+
+The focused browser checks cover the four-second capability cycle and wrap, manual reset, dot masks, mobile headlines, photo keyboard selection, icon loading and all twelve folder bounds. The initial Chromium sweep found a missing icon directory in the deployment copy list and an outdated reduced-motion expectation; both were corrected. Final CI and deployed-preview results are recorded in PR #1. Earlier counts in this document are historical baselines.
+
+## Responsive and motion pass — 10 September 2026
+
+Capabilities now use a four-second cycle and thicker bright-green ring, with one concise detail paragraph and no hover treatment. The wallet is compact. Quick Ask uses approved first-person copy, a two-second minimum loading state, a ten-second reply lifetime, immediate outside dismissal and cancellation-safe replacement. Play Lab uses exclusive accessible tabs, a pannable camera, zoom-aware card bounds, a damped spring and a refracted water simulation.
+
+The complete geometry audit checked all 30 published/404 routes at 16 widths (320, 360, 375, 390, 412, 440, 600, 768, 820, 912, 1024, 1152, 1280, 1440, 1600 and 1920), plus 568×320, 667×375, 844×390 and 1024×768 landscape layouts. It also checked open navigation and the Interactions panel: **640 states, zero geometry findings and zero browser errors**. It caught and corrected Home folder clipping caused by the grid item’s intrinsic width. Secondary labels, search fields and canvas controls were made easier to read and use; short mobile menus scroll within the screen.
+
+Additional checks exercised all five capability states, chat replies, all seven list cards and all six interactions at 320, 440, 768, 820, 1024 and 1920px. Touch input was checked for camera panning, zoom and water activation. Eight Interactions accessibility scans passed across light/dark themes at 320, 440, 820 and 1440px. The browser suite includes deterministic chat lifetime/replacement checks, zoomed card dragging, tab isolation, spring response and still feedback for reduced motion. Clock-based tests use isolated browser contexts so they cannot freeze unrelated animation tests.
+
+`npm run test:responsive` starts its own local server and runs the complete geometry audit. The GitHub workflow runs it after the Chromium/Firefox/WebKit suite and uploads both reports. Local screenshots remain in ignored `.qa-results`; the PR records the final deployment and CI result.
+
+## Dot field and wallet refinement — 12 September 2026
+
+The decorative canvas now protects visible words with minimal padding and rounded painted surfaces, without clearing transparent layout wrappers. Hovering a button or text link keeps the nearby dot response active. Both cursor strength and the four-sided edge mask fade gradually; intersecting masks soften all corners. Normal dots use a 1.15px radius so the field remains visible at small viewport sizes. Dark mode uses 0.13 base opacity and caps the hover tint at 0.24. Wallet cards use the requested 175px height, 0px decorative top and 44px auto -20px margin at all breakpoints.
+
+The full responsive audit was rerun after these changes: 640 states across all 30 routes, with zero geometry findings and zero browser errors. Desktop light/dark Hero and 320/390/768/1440px wallet screenshots were reviewed, including the actual hovered View work link. Pixel regression checks cover text protection, visible dots beside text, hover continuity around both Hero controls, edge/corner fading and restrained dark opacity. The existing browser suite also verifies the conversation timer, capability cycle and Play Lab motion; final CI results are recorded in the PR.
+
+Live review also caught insufficient clearance between the mobile name badge and Play Lab tabs. The mobile tab margin now leaves a clear gap; all 40 Play Lab viewport/states passed the follow-up audit.

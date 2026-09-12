@@ -1,66 +1,66 @@
-# Portfolio 
-[![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
+# Baivab Sarkar â€” Portfolio
 
-🚀 Explore the **Simplicity of HTML, CSS, and a Touch of JS** in Building Your Unique Showcase. Let's Elevate **Your Portfolio Game** Together! 💼❤
-### Website is Live: [baivabsarkar.pages.dev](https://baivabsarkar.pages.dev)
-## Key Feature
-### Welcome Message Pre-Loader
-https://github.com/user-attachments/assets/4909eb6c-d449-418a-b934-72f1ce3b2a08
+A complete portfolio for Baivab Sarkar: software projects, private freelance work, full-length writing and a small interactive playground. Warm serif typography, pastel glass folders and a floating dock connect every page.
 
-### Input the <SCRIPT> in `index.html`:
-```js
-const messages = ["Hello", "Bonjour", "स्वागत हे", "Ciao", "Olá", "おい", "Hallå", "Guten tag", "Hallo"];
-const preloader = document.getElementById('preloader');
-const content = document.getElementById('content');
+[Website](https://baivabsarkar.pages.dev/) Â· [GitHub](https://github.com/ThisIs-Developer) Â· [Blog](https://baivabsarkar.pages.dev/blog)
 
-let currentMessage = 0;
+## Develop
 
-function showNextMessage() {
-    if (currentMessage < messages.length) {
-        const messageElement = document.createElement('div');
-        messageElement.className = 'message';
-        messageElement.textContent = messages[currentMessage];
+Use Node.js 22 or newer. The pages have no client framework dependencies. Cloudflare Pages runs the optional Quick Ask endpoint with a Workers AI binding.
 
-        if (currentMessage === 0) {
-            messageElement.classList.add('fade-in');
-        }
-
-        preloader.innerHTML = '';
-        preloader.appendChild(messageElement);
-
-        let displayTime = 150;
-        if (currentMessage === 0) {
-            displayTime = 800;
-        }
-
-        currentMessage++;
-        setTimeout(showNextMessage, displayTime);
-    } else {
-        content.classList.add('show-content');
-        content.style.borderBottomLeftRadius = '0';
-        content.style.borderBottomRightRadius = '0';
-        
-        setTimeout(() => {
-            preloader.classList.add('slide-out');
-            setTimeout(() => {
-                preloader.style.display = 'none';
-            }, 400);
-        }, 400);
-    }
-}
+```sh
+npm ci
+npm run build
+npm run serve
 ```
-## UI 📈
-![WelcomePreloader-gif](https://github.com/user-attachments/assets/b3b0982a-66c8-4078-b1e7-9708258b51e3)
 
-### Landing Page
-![Capture 1](https://github.com/user-attachments/assets/6d116436-f3b2-4cab-b04b-e078f08b1268)
+Open http://127.0.0.1:4173. To serve deployment output, run `node scripts/serve.mjs --dir dist --port 4173`. The local server resolves nested extensionless routes, applies the content security headers and serves a real custom 404.
 
+## Pages and content
 
-### Projects Page
-![Capture 2](https://github.com/user-attachments/assets/0854c622-736f-4854-a514-948d0523fd39)
+| Route | Content |
+| --- | --- |
+| / | Introduction, six featured projects, timed capabilities, writing and Quick Ask |
+| /about | Personal story, photo fan, experience and education |
+| /work | Six featured and six archive folders, plus four private engagements |
+| /work/:id | Individual project details |
+| /work/enterprise | Confidentiality-safe enterprise summaries |
+| /blog | All published articles with search and categories |
+| /blog/:slug | Complete local article content |
+| /play-lab | Seven movable widgets and six visual interaction experiments |
+| missing URLs | 404 message and Bug Run game |
 
-[license-shield]: https://img.shields.io/badge/License-MIT-red.svg
-[license-url]: https://github.com/ThisIs-Developer/Action-Plan/blob/main/LICENSE
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat&logo=linkedin&colorB=blue
-[linkedin-url]: https://www.linkedin.com/in/baivabsarkar/
+The legacy /project and /project.html links still serve the project collection. /playground redirects to /play-lab; /interactions opens its Interactions tab. The removed /tools page and old BlazeDemo project route redirect to Work.
+
+`data/project-order.json` controls the exact featured/archive order shared by Home, Work, project readers and Quick Ask. Edit data/*.json, then build and commit the generated HTML and sitemap. Shared templates live in scripts/templates.mjs and scripts/site-pages.mjs; the playground has its own renderer. style.css contains the home/shared foundation, pages.css handles collections and reading pages, and cursor.css/js draws dots only in empty areas, masking text and UI.
+
+Create a native article with `npm run post:new -- "Your article title"`. Fill in the structured draft in content/posts, set `draft` to `false` when ready, and build. Titles, sections, code, screenshots, links, artwork, reading time and local URLs are handled by the publishing pipeline. See the [article publishing guide](docs/publishing-articles.md). The editorial presentation uses original article-art compositions in place of imported covers.
+
+Quick Ask uses Baivab’s first-person wording for public portfolio questions and casual greetings. Messages show a two-second loading state; replies dismiss after ten seconds or an outside click. Cloudflare Workers AI selects approved facts; all displayed wording and source links come from the checked-in content. Other hosts and local development use the same approved facts without inference. No API keys are sent to browsers. See [Quick Ask configuration](docs/quick-ask.md).
+
+Refresh full articles with `node scripts/import-articles.mjs`. Its sanitizer preserves readable text, code, safe links and local images while removing executable embeds. `node scripts/import-articles.mjs --self-test` verifies the sanitizer. Article imports happen during maintenance, never in the visitor's browser. The build itself is network-independent.
+
+Project images live in assets/work. Personal and project image placeholders are labeled SVGs generated by the build; update the project data or About photo strip when replacement images are available. Enterprise summaries deliberately exclude source code, architecture and client-sensitive details. The supplied resume is preserved byte for byte at both existing PDF paths.
+
+## Verify
+
+```sh
+npm run check
+npm run test:content
+npm run test:ask
+npx playwright install --with-deps chromium firefox webkit
+npm test -- --dir dist --browsers chromium,firefox,webkit --output .qa-results/release
+npm run test:responsive
+npm run test:performance
+```
+
+Run performance audits with functional browser tests idle. CI uploads its report and screenshots. The build publishes only generated pages and public assets to dist; development files and QA output stay out of that directory.
+
+## Notes
+
+- [Design system](docs/design-system.md)
+- [Content evidence](docs/content-sources.md)
+- [Asset provenance and font licenses](assets/README.md)
+- [Verification results](docs/verification.md)
+
+The current Cloudflare and Vercel integrations deploy dist. Cloudflare additionally discovers functions/api/ask.js and the AI binding in wrangler.jsonc. CNAME, verification files and legacy resume links remain intact. The PR stays open for review.

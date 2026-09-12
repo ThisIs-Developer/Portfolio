@@ -1,0 +1,18 @@
+{
+  "featured": [
+    "markdown-viewer",
+    "sei-sangeet-bangla",
+    "medical-chatbot",
+    "body-language",
+    "medichain",
+    "ams"
+  ],
+  "archive": [
+    "notemarker",
+    "sketchflow",
+    "csv-chatbot",
+    "news-scraper",
+    "taskflow",
+    "simon"
+  ]
+}

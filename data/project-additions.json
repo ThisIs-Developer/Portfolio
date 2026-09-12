@@ -1,0 +1,107 @@
+[
+  {
+    "id": "sei-sangeet-bangla",
+    "title": "Sei-Sangeet-Bangla",
+    "category": "Web app · Music",
+    "year": "2026",
+    "summary": "A Bengali music experience set inside an illustrated room, with a song list and a familiar player.",
+    "problem": "Create a dedicated web experience around Bengali music.",
+    "contribution": "Developed Sei-Sangeet-Bangla as a personal music project.",
+    "features": [
+      "Browse the song list inside a nostalgic, illustrated Bengali room.",
+      "Use track, playback, seek and volume controls in the music player."
+    ],
+    "stack": [
+      "Web development"
+    ],
+    "source": null,
+    "live": "https://seisangeetbangla.vercel.app/",
+    "liveLabel": "Visit project",
+    "status": "Private source",
+    "note": "The project is included in my portfolio, while its source repository remains private.",
+    "image": "assets/work/sei-sangeet-bangla-1400.webp",
+    "imageAlt": "Sei-Sangeet-Bangla music room with Bengali song list and player",
+    "imageWidth": 1400,
+    "imageHeight": 875
+  },
+  {
+    "id": "medical-chatbot",
+    "title": "Llama 2 GGML Medical Chatbot",
+    "category": "AI · Retrieval experiment",
+    "year": "2023–2024",
+    "summary": "An experiment in answering questions from medical reference documents with a quantized language model.",
+    "problem": "Explore document-grounded question answering using local model inference and retrieved source passages.",
+    "contribution": "Built the retrieval workflow, model integration and chatbot interface using Python and LangChain.",
+    "features": [
+      "Retrieve document passages using sentence-transformer embeddings and FAISS.",
+      "Pass retrieved context to a pretrained Llama 2 model and return source documents with the answer."
+    ],
+    "stack": [
+      "Python",
+      "Llama 2",
+      "LangChain",
+      "FAISS",
+      "Chainlit"
+    ],
+    "source": "https://github.com/ThisIs-Developer/Llama-2-GGML-Medical-Chatbot",
+    "live": null,
+    "liveLabel": null,
+    "status": "Research prototype",
+    "note": "This is a document-retrieval experiment, not a clinical system or a substitute for professional medical advice. It uses a pretrained model; no model-training or clinical-accuracy claim is made.",
+    "image": "assets/work/medical-chatbot-1400.webp",
+    "imageAlt": "Llama 2 medical document retrieval prototype interface",
+    "imageWidth": 1400,
+    "imageHeight": 633
+  },
+  {
+    "id": "taskflow",
+    "title": "TaskFlow",
+    "category": "Developer tools · Productivity",
+    "year": "2024–2025",
+    "summary": "A flexible task board for organizing work, one column and one card at a time.",
+    "problem": "Keep tasks, priorities and supporting details together in a lightweight visual workflow.",
+    "contribution": "Built a browser-based task management interface with customizable columns and drag-and-drop task cards.",
+    "features": [
+      "Organize tasks with due dates, priorities, assignees, tags, comments and checklists.",
+      "Search tasks, move cards between columns and save the board in browser localStorage."
+    ],
+    "stack": [
+      "JavaScript",
+      "HTML & CSS",
+      "Bootstrap",
+      "localStorage"
+    ],
+    "source": "https://github.com/ThisIs-Developer/TaskFlow",
+    "live": "https://taskflowapp.pages.dev/",
+    "liveLabel": "Open task board",
+    "status": "Open-source tool",
+    "note": "The board is stored in the current browser. Assignee fields help organize work; they do not imply a hosted multi-user collaboration backend.",
+    "image": "assets/work/taskflow-1400.webp",
+    "imageAlt": "TaskFlow task cards arranged in To Do, In Progress and Done columns",
+    "imageWidth": 1366,
+    "imageHeight": 768
+  },
+  {
+    "id": "simon",
+    "title": "Simon",
+    "category": "Web app · Memory game",
+    "year": "2024",
+    "summary": "A browser memory game built around color, sound and an increasingly long sequence to remember.",
+    "problem": "Recreate the classic Simon memory challenge with immediate visual feedback and simple browser controls.",
+    "contribution": "Built the game interface, randomized sequence logic, audio feedback and local high-score tracking in JavaScript.",
+    "features": [
+      "Follow flashing colors and repeat the growing sequence to advance through levels.",
+      "Hear feedback on button presses and mistakes, restart a round and keep the highest score in the current browser."
+    ],
+    "stack": [
+      "JavaScript",
+      "HTML & CSS",
+      "localStorage"
+    ],
+    "source": "https://github.com/ThisIs-Developer/Simon",
+    "live": "https://simonsays.pages.dev/",
+    "liveLabel": "Play Simon",
+    "status": "Open-source game",
+    "note": "The high score is saved locally in the current browser. The game is a personal implementation of the classic Simon memory challenge."
+  }
+]

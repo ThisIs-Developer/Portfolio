@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://baivabsarkar.pages.dev/sitemap.xml
