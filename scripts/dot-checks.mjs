@@ -214,10 +214,13 @@ export async function dotChecks(page, load) {
         sample.max > 90 && sample.max < lightActive.max && sample.max <= 110,
     );
     await test.emulateMedia({ reducedMotion: "reduce" });
+    // The far corner is outside the hover radius. Wait until the center
+    // matches it so the reduced-motion media change has reached the canvas.
+    const darkCorner = await point(14, 14);
     const darkNormal = await waitForPixels(
       test,
       centerRect,
-      (sample) => sample.max >= 55 && sample.max <= 70,
+      (sample) => sample.max === darkCorner.max,
     );
     assert(
       darkNormal.max >= 55 && darkNormal.max < center.max,
