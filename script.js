@@ -50,7 +50,7 @@ function setMenu(open, restoreFocus = false) {
             { opacity: 1, transform: "translateY(1px) scale(1.004)", offset: 0.18 },
             { opacity: 0, transform: "translateY(-5px) scale(.97)" },
           ],
-      { duration: open ? 420 : 320, easing: "cubic-bezier(.22,1,.36,1)" },
+      { duration: open ? 580 : 460, easing: "cubic-bezier(.22,1,.36,1)" },
     );
     navMotion.onfinish = () => {
       delete nav.dataset.closing;
@@ -62,7 +62,7 @@ function setMenu(open, restoreFocus = false) {
           { width: nextWidth + (open ? 4 : -3) + "px", offset: 0.76 },
           { width: nextWidth + "px" },
         ],
-        { duration: open ? 440 : 360, easing: "cubic-bezier(.22,1,.36,1)" },
+        { duration: open ? 600 : 500, easing: "cubic-bezier(.22,1,.36,1)" },
       );
     }
   }

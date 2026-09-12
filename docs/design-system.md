@@ -14,7 +14,7 @@ The portfolio uses a warm dotted canvas, expressive serif type, translucent past
 | Body and controls | Instrument Sans, 400â€“700 |
 | Handwritten asides | Nanum Pen Script |
 | Foreground surfaces | Opaque light/dark surfaces over the dotted canvas |
-| Navigation blur | 22px |
+| Navigation glass | 26px blur, 160% saturation, translucent theme tint, fine rim and inset highlight |
 | Contact canvas | #0a0a0a |
 
 The six folder tints are #b8f0d8, #d4c9f5, #b8cef5, #f5d4b8, #f2a65a and #c8e6c0. Folder labels use dark ink for readable contrast. Each folder has three fanned sheets, a frosted front starting at 32% height, and a 400:340 proportion.
@@ -58,6 +58,6 @@ The generated SVGs in assets/about and assets/placeholders are explicitly labele
 
 Capabilities open the first row when visible, fill a bright green progress ring over four seconds, then cycle forward. Each detail is one concise paragraph with no hover state. Selecting any row closes the previous one and restarts the timer. Offscreen and hidden tabs stop the cycle. Homeâ€™s personal cards share one integrated Quick Ask surface; mobile users can swipe through all five cards. The About photo fan lifts, tilts and pins individual photos with pointer, tap and keyboard controls.
 
-Desktop navigation is fully expanded at the top (within 1px), collapses as soon as scrolling moves downward, and reopens when returning to the top. A focused navigation link returns focus to the menu button on collapse. Width transitions use a restrained 4px opening overshoot and 3px closing undershoot, settling over 440ms and 360ms respectively. The menu button reopens it, and mobile keeps its compact initial menu. Navigation width changes use a short spring-shaped transition. Button presses, tabs, expandable content and cards have restrained motion. Reduced-motion preferences disable animated transitions and momentum without removing control feedback. The compact wallet shares a single white chat surface; messages load for at least two seconds, remain for ten seconds, and close on an outside click.
+Desktop navigation is fully expanded at the top (within 1px), collapses as soon as scrolling moves downward, and reopens when returning to the top. A focused navigation link returns focus to the menu button on collapse. Width transitions use a restrained 4px opening overshoot and 3px closing undershoot, settling over 600ms and 500ms respectively. The menu button reopens it, and mobile keeps its compact initial menu. Navigation width changes use a short spring-shaped transition. Button presses, tabs, expandable content and cards have restrained motion. Reduced-motion preferences disable animated transitions and momentum without removing control feedback. The compact wallet shares a single white chat surface; messages load for at least two seconds, remain for ten seconds, and close on an outside click.
 
 Wallet cards are 175px tall, their decorative top starts at 0px, and the wallet margin is 44px auto -20px at every breakpoint. Mobile retains a horizontally scrollable fan.
