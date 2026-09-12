@@ -2324,6 +2324,13 @@ input {
   }
   .nav-shell > .theme-toggle {
     order: 8;
+    background: transparent;
+    transition: background-color 0.2s ease;
+  }
+  @media (hover: hover) {
+    .nav-shell > .theme-toggle:hover {
+      background: var(--glass);
+    }
   }
   .nav-ready
     #site-nav[data-open="false"]
