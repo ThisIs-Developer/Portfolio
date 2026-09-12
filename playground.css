@@ -851,28 +851,6 @@
   outline: 2px solid #395732;
   outline-offset: 5px;
 }
-.spring-tether {
-  position: absolute;
-  left: var(--spring-left, 0px);
-  width: var(--spring-length, 0px);
-  height: 12px;
-  background: repeating-linear-gradient(
-    70deg,
-    transparent 0 5px,
-    #759268 5px 7px,
-    transparent 7px 12px
-  );
-  opacity: 0.75;
-}
-.interaction-spring-track::after {
-  content: "";
-  position: absolute;
-  left: calc(var(--spring-anchor, 0px) - 9px);
-  width: 18px;
-  height: 18px;
-  border: 2px solid #759268;
-  border-radius: 50%;
-}
 .interaction-depth-stage {
   background: #dde7f1;
   gap: 23px;
@@ -894,7 +872,7 @@
     inset 0 1px 2px #ffffff62;
   transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y)) rotate(-7deg);
   transition:
-    transform 0.2s,
+    transform 0.6s var(--out),
     background 0.3s;
 }
 .interaction-depth-card[aria-pressed="true"] {

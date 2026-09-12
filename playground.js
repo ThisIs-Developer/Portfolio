@@ -438,28 +438,35 @@
         save();
       }),
     );
+    function zoomAt(next, centerX, centerY) {
+      stopMovement();
+      const oldScale = fit * zoom;
+      const worldX = (centerX - camera.x) / oldScale;
+      const worldY = (centerY - camera.y) / oldScale;
+      zoom = Math.min(1.65, Math.max(0.65, next));
+      arrange();
+      camera.x = centerX - worldX * fit * zoom;
+      camera.y = centerY - worldY * fit * zoom;
+      paintCamera();
+    }
+    board.addEventListener("wheel", (event) => {
+      if (list || board.closest("[hidden]") || drag || panDrag ||
+          event.target.closest("input, textarea, select")) return;
+      if (!event.deltaY) return;
+      event.preventDefault();
+      const rect = board.getBoundingClientRect();
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? board.clientHeight : 1;
+      const delta = Math.max(-160, Math.min(160, event.deltaY * unit));
+      zoomAt(zoom * Math.exp(-delta * 0.0015),
+        event.clientX - rect.left - board.clientLeft,
+        event.clientY - rect.top - board.clientTop);
+    }, { passive: false });
     board.querySelectorAll("[data-playground-zoom]").forEach((button) =>
       button.addEventListener("click", () => {
-        stopMovement();
-        const oldScale = fit * zoom;
         const centerX = board.clientWidth / 2,
           centerY = (board.clientHeight - 88) / 2;
-        const worldX = (centerX - camera.x) / oldScale,
-          worldY = (centerY - camera.y) / oldScale;
-        zoom = Math.min(
-          1.65,
-          Math.max(
-            0.65,
-            Math.round(
-              (zoom + (button.dataset.playgroundZoom === "in" ? 0.15 : -0.15)) *
-                100,
-            ) / 100,
-          ),
-        );
-        arrange();
-        camera.x = centerX - worldX * fit * zoom;
-        camera.y = centerY - worldY * fit * zoom;
-        paintCamera();
+        zoomAt(Math.round((zoom + (button.dataset.playgroundZoom === "in" ? 0.15 : -0.15)) * 100) / 100,
+          centerX, centerY);
         announce(`Canvas zoom ${Math.round(zoom * 100)} percent.`);
       }),
     );
@@ -826,15 +833,6 @@
       ? 0
       : Math.min(0.17, Math.abs(springState.velocity) / 5000);
     ball.style.transform = `translateX(${springState.x - 38.5}px) scale(${1 + speed}, ${1 - speed * 0.7})`;
-    springTrack.style.setProperty("--spring-anchor", `${springState.target}px`);
-    springTrack.style.setProperty(
-      "--spring-length",
-      `${Math.abs(springState.x - springState.target)}px`,
-    );
-    springTrack.style.setProperty(
-      "--spring-left",
-      `${Math.min(springState.x, springState.target)}px`,
-    );
     ball.dataset.springState = springFrame || springDrag ? "moving" : "settled";
   }
   function stopSpring() {
@@ -1022,7 +1020,7 @@
           },
           { transform: "rotateY(0deg) rotate(-7deg) scale(1)" },
         ],
-        { duration: 560, easing: "cubic-bezier(.18,.7,.2,1)" },
+        { duration: 900, easing: "cubic-bezier(.18,.7,.2,1)" },
       );
   });
   const resetTilt = () => {
@@ -1164,65 +1162,25 @@
     heights,
     previousHeights,
     waterPixels,
-    bedPixels;
-  function waterBed() {
-    if (!waterWidth) return;
+    waterTint;
+  function setWaterPalette() {
     const theme = pond.closest(".interaction-ripple-stage").dataset.rippleTheme;
-    const palette = {
-      sky: [92, 163, 181],
-      mint: [116, 162, 131],
-      rose: [183, 129, 151],
+    waterTint = {
+      sky: [110, 165, 185],
+      mint: [123, 161, 134],
+      rose: [185, 139, 161],
     }[theme];
-    bedPixels = new Uint8ClampedArray(waterWidth * waterHeight * 3);
-    for (let y = 0; y < waterHeight; y++)
-      for (let x = 0; x < waterWidth; x++) {
-        // A shallow textured bed gives moving surface normals something to refract.
-        const depth = Math.hypot(
-          (x / waterWidth - 0.33) * 0.9,
-          (y / waterHeight - 0.23) * 0.75,
-        );
-        const caustic =
-          Math.sin(x * 0.105 + Math.sin(y * 0.074) * 2.2) *
-          Math.sin(y * 0.091 + Math.cos(x * 0.07) * 2.4);
-        const light = 37 - depth * 46 + Math.pow(Math.max(0, caustic), 5) * 48;
-        const grain = Math.sin(x * 23.7 + y * 11.3) * 1.8;
-        const index = (y * waterWidth + x) * 3;
-        for (let c = 0; c < 3; c++)
-          bedPixels[index + c] = palette[c] + light + grain;
-      }
   }
   function paintWater() {
     if (!waterContext || !waterWidth) return;
     const pixels = waterPixels.data;
-    for (let y = 0; y < waterHeight; y++)
-      for (let x = 0; x < waterWidth; x++) {
-        const i = y * waterWidth + x;
-        const dx = (heights[i - 1] || 0) - (heights[i + 1] || 0);
-        const dy =
-          (heights[i - waterWidth] || 0) - (heights[i + waterWidth] || 0);
-        const rx = Math.max(
-          0,
-          Math.min(waterWidth - 1, Math.round(x + dx * 1.7)),
-        );
-        const ry = Math.max(
-          0,
-          Math.min(waterHeight - 1, Math.round(y + dy * 1.7)),
-        );
-        const sample = (ry * waterWidth + rx) * 3;
-        const slope = Math.max(-30, Math.min(40, dx * -4 + dy * -6));
-        const reflection = Math.min(
-          100,
-          Math.max(0, dx * -0.5 + dy * -0.8) ** 2 * 9,
-        );
-        // Keep the pastel CSS pond visible at rest. The same refracted bed and
-        // surface normals supply only the moving light and shade above it.
-        let light = slope + reflection;
-        for (let c = 0; c < 3; c++)
-          light += (bedPixels[sample + c] - bedPixels[i * 3 + c]) / 3;
-        for (let c = 0; c < 3; c++)
-          pixels[i * 4 + c] = light > 0 ? 255 : bedPixels[i * 3 + c] * 0.42;
-        pixels[i * 4 + 3] = Math.min(170, Math.abs(light) * 3);
-      }
+    // Flat pastel wave bands, without refraction, caustics or specular glare.
+    for (let i = 0; i < heights.length; i++) {
+      const crest = heights[i];
+      for (let c = 0; c < 3; c++)
+        pixels[i * 4 + c] = crest >= 0 ? 255 : waterTint[c];
+      pixels[i * 4 + 3] = Math.min(72, Math.abs(crest) * 8);
+    }
     waterContext.putImageData(waterPixels, 0, 0);
   }
   function sizeWater() {
@@ -1235,7 +1193,7 @@
     heights = new Float32Array(width * height);
     previousHeights = new Float32Array(width * height);
     waterPixels = waterContext.createImageData(width, height);
-    waterBed();
+    setWaterPalette();
     paintWater();
     pond.dataset.waterState = "resting";
   }
@@ -1253,7 +1211,7 @@
             heights[i + waterWidth]) *
             0.5 -
             previousHeights[i]) *
-          0.982;
+          0.97;
         previousHeights[i] = next;
         energy = Math.max(energy, Math.abs(next));
       }
@@ -1315,20 +1273,20 @@
         const distance = Math.hypot(x - cx, y - cy) / radius;
         if (distance < 1)
           heights[y * waterWidth + x] +=
-            Math.cos((distance * Math.PI) / 2) * (announce ? 24 : 10);
+            Math.cos((distance * Math.PI) / 2) * (announce ? 12 : 5);
       }
     water.dataset.rippleOrigin = `${Math.round(cx)},${Math.round(cy)}`;
     if (announce) {
       ripples++;
       pond.dataset.rippleCount = String(ripples);
-      rippleStatus.textContent = `${ripples} ${ripples === 1 ? "ripple" : "ripples"} made. Watch the light follow the water.`;
+      rippleStatus.textContent = `${ripples} ${ripples === 1 ? "ripple" : "ripples"} made. Watch the soft rings spread.`;
     }
     if (motion.matches) {
       for (let i = 0; i < 22; i++) stepWater();
       paintWater();
       pond.dataset.waterState = "still";
     } else {
-      waterUntil = performance.now() + 7000;
+      waterUntil = performance.now() + 4500;
       pond.dataset.waterState = "moving";
       if (!waterFrame) {
         waterTime = performance.now();
@@ -1361,7 +1319,7 @@
         .querySelectorAll("[data-ripple-colour]")
         .forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
       rippleStatus.textContent = `${button.textContent} water selected. Make a ripple.`;
-      waterBed();
+      setWaterPalette();
       paintWater();
     });
   });

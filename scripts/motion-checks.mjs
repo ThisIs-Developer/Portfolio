@@ -61,6 +61,20 @@ export async function canvasMotion(page, load) {
   const board = page.locator("[data-playground-board]");
   const world = page.locator(".playground-world");
   const card = page.locator(".playground-clock");
+  await board.scrollIntoViewIfNeeded();
+  const zoomLabel = page.locator("[data-playground-zoom-label]");
+  const wheelBox = await board.boundingBox();
+  await page.mouse.move(wheelBox.x + 12, wheelBox.y + 100);
+  const scrollBeforeWheel = await page.evaluate(() => scrollY);
+  await page.mouse.wheel(0, -120);
+  await page.waitForFunction(() =>
+    parseInt(document.querySelector("[data-playground-zoom-label]").value) > 100);
+  assert.equal(await page.evaluate(() => scrollY), scrollBeforeWheel,
+    "Scrolling over canvas zooms without scrolling the page");
+  await page.mouse.wheel(0, 120);
+  await page.waitForFunction(() =>
+    document.querySelector("[data-playground-zoom-label]").value === "100%");
+  assert.equal(await zoomLabel.innerText(), "100%", "Wheel zoom works in both directions");
   for (let i = 0; i < 3; i++)
     await page.locator('[data-playground-zoom="out"]').click();
   assert.equal(
@@ -105,6 +119,8 @@ export async function canvasMotion(page, load) {
   assert(await board.isVisible());
   await page.locator("#canvas-tab").press("ArrowRight");
   const ball = page.locator(".interaction-spring-ball");
+  assert.equal(await page.locator(".spring-tether").count(), 0,
+    "Physics ball has no decorative spring wire");
   await page.locator('[data-spring-character="bouncy"]').click();
   const initialBall = await ball.boundingBox();
   await page.locator("[data-spring-launch]").click();
