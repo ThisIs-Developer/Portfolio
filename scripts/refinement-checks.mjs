@@ -10,7 +10,7 @@ export async function refinementChecks(page, load) {
     await page
       .locator(":root")
       .evaluate((el) => getComputedStyle(el).getPropertyValue("--dot")),
-    /0?\.42\)/,
+    /0?\.36\)/,
   );
   const project = page.locator('a.folder[href="/work/body-language"]');
   await project.scrollIntoViewIfNeeded();

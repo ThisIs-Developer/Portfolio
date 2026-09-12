@@ -12,14 +12,14 @@ function setMenu(open, restoreFocus = false) {
     return;
   }
   const changed = nav.dataset.open !== undefined;
-  navMotion?.cancel();
-  shellMotion?.cancel();
-  delete nav.dataset.closing;
   const shell = document.querySelector(".nav-shell");
   const previousWidth =
     changed && !smallScreen.matches && !reducedMotion.matches
       ? shell.getBoundingClientRect().width
       : 0;
+  navMotion?.cancel();
+  shellMotion?.cancel();
+  delete nav.dataset.closing;
   nav.dataset.open = String(open);
   nav.inert = !open && smallScreen.matches;
   menu.setAttribute("aria-expanded", String(open));
@@ -47,9 +47,10 @@ function setMenu(open, restoreFocus = false) {
           ]
         : [
             { opacity: 1, transform: "none" },
+            { opacity: 1, transform: "translateY(1px) scale(1.004)", offset: 0.18 },
             { opacity: 0, transform: "translateY(-5px) scale(.97)" },
           ],
-      { duration: open ? 420 : 200, easing: "cubic-bezier(.22,1,.36,1)" },
+      { duration: open ? 420 : 320, easing: "cubic-bezier(.22,1,.36,1)" },
     );
     navMotion.onfinish = () => {
       delete nav.dataset.closing;
@@ -58,10 +59,10 @@ function setMenu(open, restoreFocus = false) {
       shellMotion = shell.animate(
         [
           { width: previousWidth + "px" },
-          { width: nextWidth + (open ? 5 : -3) + "px", offset: 0.76 },
+          { width: nextWidth + (open ? 4 : -3) + "px", offset: 0.76 },
           { width: nextWidth + "px" },
         ],
-        { duration: open ? 460 : 240, easing: "cubic-bezier(.22,1,.36,1)" },
+        { duration: open ? 440 : 360, easing: "cubic-bezier(.22,1,.36,1)" },
       );
     }
   }
@@ -70,7 +71,9 @@ function setMenu(open, restoreFocus = false) {
 if (nav && menu) {
   document.documentElement.classList.add("nav-ready");
   menu.hidden = false;
-  setMenu(!smallScreen.matches);
+  const atTop = () => window.scrollY <= 1;
+  const syncNavigation = () => setMenu(!smallScreen.matches && atTop());
+  syncNavigation();
   menu.addEventListener("click", () =>
     setMenu(menu.getAttribute("aria-expanded") !== "true"),
   );
@@ -96,18 +99,19 @@ if (nav && menu) {
       }
     }),
   );
-  smallScreen.addEventListener("change", () => setMenu(!smallScreen.matches));
+  smallScreen.addEventListener("change", syncNavigation);
+  window.addEventListener("pageshow", syncNavigation);
   let previousScroll = window.scrollY;
   window.addEventListener(
     "scroll",
     () => {
-      if (
-        !smallScreen.matches &&
-        Math.abs(window.scrollY - previousScroll) > 32
-      ) {
-        if (!nav.contains(document.activeElement)) setMenu(false);
-        previousScroll = window.scrollY;
+      const currentScroll = Math.max(0, window.scrollY);
+      if (!smallScreen.matches) {
+        if (atTop()) setMenu(true);
+        else if (currentScroll > previousScroll)
+          setMenu(false, nav.contains(document.activeElement));
       }
+      previousScroll = currentScroll;
     },
     { passive: true },
   );

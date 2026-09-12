@@ -30,7 +30,7 @@
   --line: rgb(0 0 0 / 0.075);
   --glass: #fbfaf7;
   --strong-glass: #fff;
-  --dot: rgb(80 80 75 / 0.42);
+  --dot: rgb(80 80 75 / 0.36);
   --out: cubic-bezier(0.23, 1, 0.32, 1);
   --spring: cubic-bezier(0.34, 1.4, 0.64, 1);
   color-scheme: light;
@@ -43,7 +43,7 @@
   --line: rgb(255 255 255 / 0.1);
   --glass: #292a31;
   --strong-glass: #34353d;
-  --dot: rgb(200 200 210 / 0.27);
+  --dot: rgb(200 200 210 / 0.23);
   color-scheme: dark;
 }
 * {

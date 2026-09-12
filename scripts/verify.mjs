@@ -285,6 +285,14 @@ async function navigation(page) {
     await page.locator('#site-nav a[href="/play-lab"]').isVisible(),
     "Full desktop navigation links are visible on load",
   );
+  await page.evaluate(() => scrollTo({ top: 2, behavior: "instant" }));
+  await page.waitForFunction(
+    () => document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "false",
+  );
+  await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
+  await page.waitForFunction(
+    () => document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "true",
+  );
   await page.evaluate(() => scrollTo({ top: 80, behavior: "instant" }));
   await page.waitForFunction(
     () => document.querySelector(".menu-toggle").getAttribute("aria-expanded") === "false",

@@ -181,7 +181,7 @@ export async function dotChecks(page, load) {
     ]);
     const corner = await point(14, 14);
     assert(
-      center.max >= 90 &&
+      center.max >= 80 &&
         edges.every((edge) => edge.max === center.max),
       "Normal light dots stay visible at equal opacity through all four edges",
     );
@@ -223,7 +223,7 @@ export async function dotChecks(page, load) {
       (sample) => sample.max === darkCorner.max,
     );
     assert(
-      darkNormal.max >= 55 && darkNormal.max < center.max,
+      darkNormal.max >= 50 && darkNormal.max < center.max,
       `Dark normal dots remain clearly visible: ${JSON.stringify({ center, darkNormal })}`,
     );
     assert(
