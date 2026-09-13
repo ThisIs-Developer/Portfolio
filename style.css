@@ -670,16 +670,12 @@ input {
     border-color: var(--glass);
   }
   :root[data-theme="dark"] .folder-front {
-    background: linear-gradient(
-      155deg,
-      color-mix(in srgb, var(--tint) 92%, transparent),
-      color-mix(in srgb, var(--tint) 97%, transparent)
-    );
-    border-color: rgb(255 255 255 / 0.12);
+    /* Share the light theme's translucent gradient; dim only the backdrop. */
+    border-color: rgb(255 255 255 / 0.2);
     box-shadow:
-      inset 0 1px 0 #ffffff0d,
+      inset 0 1px 0 #ffffff2e,
       0 6px 18px #00000026;
-    backdrop-filter: blur(22px) saturate(120%);
+    backdrop-filter: blur(22px) saturate(190%) brightness(0.6);
   }
   :root[data-theme="dark"] .folder-tags span,
   :root[data-theme="dark"] .folder-arrow {
