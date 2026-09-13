@@ -1502,3 +1502,29 @@
     -webkit-user-select: none;
   }
 }
+.playground-calendar { width: 310px; background: #fffaf1; padding: 23px; }
+.calendar-navigation { display: flex; align-items: center; justify-content: space-between; margin: 17px 0; gap: 7px; }
+.calendar-navigation h2 { font: 500 18px/1.2 "Instrument Sans", sans-serif; margin: 0; }
+.calendar-navigation button { width: 32px; height: 32px; border: 0; border-radius: 50%; background: #efe9db; color: #514b41; font-size: 22px; }
+.calendar-weekdays, .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; text-align: center; }
+.calendar-weekdays { font-size: 10px; color: #7b7468; padding-bottom: 9px; }
+.calendar-grid button { min-width: 0; height: 32px; border: 0; border-radius: 50%; color: #484438; background: transparent; font-size: 11px; }
+.calendar-grid button:hover { background: #f1e8d3; }
+.calendar-grid button[aria-current="date"] { box-shadow: inset 0 0 0 1px #ae8753; }
+.calendar-grid button[aria-pressed="true"] { background: #705739; color: white; }
+.playground-calendar > p { min-height: 29px; font-size: 11px; color: #776a57; line-height: 1.5; margin: 16px 0 3px; }
+.playground-calculator { width: 290px; background: #e4eaf0; }
+.calculator-display { display: block; margin: 18px 0; padding: 16px 12px; border-radius: 12px; background: #f8faf9; font: 400 25px/1.3 "Instrument Sans", sans-serif; text-align: right; color: #344452; overflow-wrap: anywhere; }
+.calculator-keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+.calculator-keys button { height: 43px; border: 0; border-radius: 11px; background: #f6f7f9; color: #455360; font-size: 17px; box-shadow: 0 2px 0 #cbd4dd; }
+.calculator-keys button:nth-child(4n) { background: #bfcedd; }
+.calculator-keys button:last-child { background: #586f85; color: white; }
+.calculator-keys button:active { transform: translateY(2px); box-shadow: none; }
+.playground-mood { width: 285px; background: #f4dce4; }
+.playground-mood h2 { margin: 22px 0; font-size: 36px; }
+.mood-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
+.mood-options button { display: grid; gap: 8px; padding: 12px 3px; border: 0; border-radius: 14px; background: #fff7fa; color: #795465; font-size: 10px; }
+.mood-options button span { font-size: 24px; }
+.mood-options button[aria-pressed="true"] { background: #855d74; color: #fff; }
+.playground-mood > p { margin: 18px 0 5px; min-height: 32px; color: #795465; font-size: 11px; line-height: 1.6; }
+@media (prefers-reduced-motion: reduce) { .calculator-keys button:active { transform: none; } }

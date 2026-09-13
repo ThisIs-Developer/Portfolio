@@ -67,11 +67,19 @@ export async function canvasMotion(page, load) {
   await card.focus();
   await card.press("Enter");
   assert.equal(await card.getAttribute("data-pinned"), null, "Click and Enter cannot place a pin");
+  for (let i = 0; i < 35; i++) {
+    const box = await card.boundingBox(), rect = await board.boundingBox();
+    const dx = rect.x + rect.width / 2 - box.x - box.width / 2;
+    const dy = rect.y + rect.height / 2 - box.y - box.height / 2;
+    if (Math.abs(dx) > 55) await board.dispatchEvent("keydown", { key: dx > 0 ? "ArrowLeft" : "ArrowRight", shiftKey: true });
+    if (Math.abs(dy) > 55) await board.dispatchEvent("keydown", { key: dy > 0 ? "ArrowUp" : "ArrowDown", shiftKey: true });
+  }
+  await board.scrollIntoViewIfNeeded();
   const pinTool = await page.locator('[data-pin-colour="gold"]').boundingBox();
   const pinTarget = await card.boundingBox();
   await page.mouse.move(pinTool.x + pinTool.width / 2, pinTool.y + pinTool.height / 2);
   await page.mouse.down();
-  await page.mouse.move(pinTarget.x + pinTarget.width / 2, pinTarget.y + 30, { steps: 12 });
+  await page.mouse.move(pinTarget.x + pinTarget.width / 2, pinTarget.y + pinTarget.height / 2, { steps: 12 });
   await page.mouse.up();
   assert.equal(await card.getAttribute("data-pinned"), "gold");
   const pinnedX = (await card.boundingBox()).x;
@@ -219,9 +227,19 @@ export async function canvasBounds(page, load) {
     await board.scrollIntoViewIfNeeded();
     let rect = await board.boundingBox();
     const cameraBefore = await world.getAttribute("style");
-    await page.mouse.move(rect.x + 5, rect.y + rect.height / 2);
+    const empty = await board.evaluate(el => {
+      const rect = el.getBoundingClientRect(), world = el.querySelector(".playground-world");
+      for (let y = 120; y < rect.height - 110; y += 30) {
+        for (let x = 15; x < rect.width - 110; x += 30) {
+          const target = document.elementFromPoint(rect.x + x, rect.y + y);
+          if (target === el || target === world) return { x: rect.x + x, y: rect.y + y };
+        }
+      }
+    });
+    assert(empty, "Random layout retains empty space for panning");
+    await page.mouse.move(empty.x, empty.y);
     await page.mouse.down();
-    await page.mouse.move(rect.x + 90, rect.y + rect.height / 2, { steps: 10 });
+    await page.mouse.move(empty.x + 85, empty.y, { steps: 10 });
     await page.waitForTimeout(250);
     await page.mouse.up();
     assert.notEqual(await world.getAttribute("style"), cameraBefore, "Dragging empty space pans the camera");

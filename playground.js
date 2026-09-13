@@ -171,9 +171,23 @@
       };
     }
     function scatterCards() {
-      const layoutWidth = canvasArea.width * 0.65, layoutHeight = canvasArea.height * 0.65;
+      let layoutWidth = canvasArea.width * 0.65, layoutHeight = canvasArea.height * 0.65;
       const widest = Math.max(...cards.map(card => card.offsetWidth)) + 48;
-      const columns = Math.max(2, Math.min(canvasArea.compact ? 2 : 4, Math.floor(layoutWidth / widest)));
+      const tallest = Math.max(...cards.map(card => card.offsetHeight)) + 48;
+      const candidates = [];
+      for (let columns = 2; columns <= Math.floor(canvasArea.width / widest); columns++) {
+        const rows = Math.ceil(cards.length / columns);
+        const width = Math.max(layoutWidth, columns * widest);
+        const height = Math.max(layoutHeight, rows * tallest);
+        if (height <= canvasArea.height) candidates.push({ columns, width, height });
+      }
+      // Use more of the existing finite world as the collection grows, keeping
+      // widget text at the same readable scale and reserving room for rotation.
+      candidates.sort((a, b) => a.width * a.height - b.width * b.height);
+      const layout = candidates[0];
+      const columns = layout?.columns || Math.max(2, Math.floor(canvasArea.width / widest));
+      layoutWidth = layout?.width || canvasArea.width;
+      layoutHeight = layout?.height || canvasArea.height;
       const rows = Math.ceil(cards.length / columns);
       const slots = Array.from({ length: rows * columns }, (_, index) => index);
       for (let i = slots.length - 1; i > 0; i--) {
@@ -502,6 +516,100 @@
       });
     });
     taskProgress();
+    const today = new Date();
+    let calendarMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    let selectedDay = "";
+    function renderCalendar() {
+      const year = calendarMonth.getFullYear(), month = calendarMonth.getMonth();
+      board.querySelector("[data-calendar-month]").textContent =
+        calendarMonth.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+      const grid = board.querySelector("[data-calendar-grid]");
+      grid.replaceChildren();
+      const offset = (calendarMonth.getDay() + 6) % 7;
+      for (let i = 0; i < offset; i++) {
+        const spacer = document.createElement("span");
+        spacer.setAttribute("aria-hidden", "true");
+        grid.append(spacer);
+      }
+      for (let day = 1; day <= new Date(year, month + 1, 0).getDate(); day++) {
+        const date = new Date(year, month, day);
+        const key = `${year}-${month}-${day}`;
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = day;
+        button.setAttribute("aria-label", date.toLocaleDateString(undefined, { dateStyle: "full" }));
+        button.setAttribute("aria-pressed", String(selectedDay === key));
+        if (date.toDateString() === today.toDateString()) button.setAttribute("aria-current", "date");
+        button.addEventListener("click", () => {
+          selectedDay = key;
+          grid.querySelectorAll("button").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+          board.querySelector("[data-calendar-selection]").textContent = date.toLocaleDateString(undefined, { dateStyle: "long" });
+        });
+        grid.append(button);
+      }
+    }
+    board.querySelectorAll("[data-calendar-step]").forEach(button => button.addEventListener("click", () => {
+      calendarMonth.setMonth(calendarMonth.getMonth() + Number(button.dataset.calendarStep));
+      renderCalendar();
+    }));
+    board.querySelector("[data-calendar-today]").addEventListener("click", () => {
+      calendarMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+      selectedDay = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+      renderCalendar();
+      board.querySelector("[data-calendar-selection]").textContent = "Back to today.";
+    });
+    renderCalendar();
+
+    let calculatorValue = "0", calculatorMemory = null, calculatorOperator = null, newNumber = true;
+    const calculatorDisplay = board.querySelector("[data-calculator-display]");
+    function calculate(key) {
+      const number = Number(calculatorValue);
+      const format = value => Number.isFinite(value) ? String(Number(value.toPrecision(12))) : "Error";
+      const resolve = () => {
+        if (calculatorMemory === null || !calculatorOperator) return number;
+        return { "+": () => calculatorMemory + number, "−": () => calculatorMemory - number,
+          "×": () => calculatorMemory * number, "÷": () => number === 0 ? NaN : calculatorMemory / number }[calculatorOperator]();
+      };
+      if (key === "C") {
+        calculatorValue = "0"; calculatorMemory = calculatorOperator = null; newNumber = true;
+      } else if (/^[0-9.]$/.test(key)) {
+        if (calculatorValue === "Error") calculatorMemory = calculatorOperator = null;
+        if (newNumber || calculatorValue === "Error") calculatorValue = "0";
+        newNumber = false;
+        if (key === ".") { if (!calculatorValue.includes(".")) calculatorValue += "."; }
+        else if (calculatorValue.length < 13) calculatorValue = calculatorValue === "0" ? key : calculatorValue + key;
+      } else if (calculatorValue !== "Error") {
+        if (key === "±") calculatorValue = format(-number);
+        else if (key === "%") calculatorValue = format(number / 100);
+        else if (key === "⌫") { calculatorValue = calculatorValue.slice(0, -1); if (!calculatorValue || calculatorValue === "-") calculatorValue = "0"; }
+        else if (["+", "−", "×", "÷"].includes(key)) {
+          if (!newNumber) calculatorValue = format(resolve());
+          calculatorMemory = Number(calculatorValue); calculatorOperator = key; newNumber = true;
+        } else if (key === "=") {
+          calculatorValue = format(resolve()); calculatorMemory = calculatorOperator = null; newNumber = true;
+        }
+      }
+      calculatorDisplay.value = calculatorValue;
+    }
+    board.querySelectorAll("[data-calculator-key]").forEach(button => button.addEventListener("click", () => calculate(button.dataset.calculatorKey)));
+    board.querySelector(".playground-calculator").addEventListener("keydown", event => {
+      if (event.target !== event.currentTarget) return;
+      const key = ({ "*": "×", "/": "÷", "-": "−", Enter: "=", Backspace: "⌫", Escape: "C" })[event.key] || event.key;
+      if (/^[0-9.+%=]$/.test(key) || ["×", "÷", "−", "⌫", "C"].includes(key)) { event.preventDefault(); calculate(key); }
+    });
+
+    const moodDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+    function showMood(value) {
+      board.querySelectorAll("[data-mood]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.mood === value)));
+      board.querySelector("[data-mood-status]").textContent = value ? `${value[0].toUpperCase() + value.slice(1)} today. A little check-in, just for you.` : "No right answer. Just a moment for you.";
+    }
+    showMood(saved.moodDate === moodDate && ["quiet", "okay", "good", "great"].includes(saved.mood) ? saved.mood : null);
+    board.querySelectorAll("[data-mood]").forEach(button => button.addEventListener("click", () => {
+      saved.mood = button.dataset.mood; saved.moodDate = moodDate; save(); showMood(saved.mood);
+    }));
+    board.querySelector("[data-mood-clear]").addEventListener("click", () => {
+      delete saved.mood; delete saved.moodDate; save(); showMood(null);
+    });
     let pinDrag = null;
     let pinGhost = null;
     const pinTools = [...board.querySelectorAll("[data-pin-colour]")];

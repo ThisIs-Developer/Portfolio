@@ -9,6 +9,7 @@ import { projectCollections } from "./project-selection.mjs";
 import { refinementChecks } from "./refinement-checks.mjs";
 import { conversationTiming, canvasMotion, canvasBounds } from "./motion-checks.mjs";
 import { dotChecks } from "./dot-checks.mjs";
+import { playgroundWidgetChecks } from "./playground-widget-checks.mjs";
 
 const args = process.argv.slice(2);
 const option = (name, fallback) =>
@@ -1099,7 +1100,7 @@ async function playground(page) {
   assert(await page.locator("#canvas").isVisible());
   assert(!(await page.locator("#interactions").isVisible()));
   const card = page.locator("[data-playground-card]").first();
-  assert.equal(await page.locator("[data-playground-card]").count(), 7);
+  assert.equal(await page.locator("[data-playground-card]").count(), 10);
   await card.focus();
   const before = await card.boundingBox();
   await card.press("ArrowRight");
@@ -1135,7 +1136,7 @@ async function playground(page) {
   await page.locator("[data-playground-view]").click();
   assert.equal(
     await page.locator("[data-playground-card]:visible").count(),
-    7,
+    10,
     "All cards remain readable on mobile",
   );
   await page.locator('a[href="#interactions"]').click();
@@ -1456,7 +1457,7 @@ try {
         ],
         [
           "zoomed canvas, tab isolation and water feedback",
-          async () => { await canvasMotion(page, load); await canvasBounds(page, load); },
+          async () => { await canvasMotion(page, load); await canvasBounds(page, load); await playgroundWidgetChecks(page, load); },
         ],
         ["game start, pause, reset and keyboard", () => game(page)],
         ["clipboard success and denial", () => clipboard(browser)],
@@ -1624,8 +1625,8 @@ try {
           if (route === "/play-lab") {
             assert.equal(
               await fallback.locator("[data-playground-card]").count(),
-              7,
-              "Play Lab keeps the seven canvas widgets readable without JavaScript",
+              10,
+              "Play Lab keeps the ten canvas widgets readable without JavaScript",
             );
             assert.equal(
               await fallback.locator(".playground-experiment").count(),
