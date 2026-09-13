@@ -70,7 +70,7 @@
     const positions = new Map(
       cards.map((card) => [
         card,
-        { x: 0, y: 0, vx: 0, vy: 0, lift: 0, tilt: 0 },
+        { x: 0, y: 0, homeX: 0, homeY: 0, vx: 0, vy: 0, lift: 0, tilt: 0, angle: 0 },
       ]),
     );
     let frame = 0;
@@ -82,7 +82,7 @@
     let drag = null;
     let panDrag = null;
     const camera = { x: 0, y: 0, vx: 0, vy: 0, ready: false };
-    const canvasArea = { left: 0, top: 0, width: 0, height: 0 };
+    const canvasArea = { width: 0, height: 0, compact: null };
     let layer = 2;
     let saved;
     try {
@@ -97,25 +97,32 @@
     }
     function arrange() {
       if (list || !board.clientWidth) return;
-      fit = 1.12 * Math.max(
-        0.25,
-        Math.min(
-          (board.clientWidth - 40) / world.offsetWidth,
-          (board.clientHeight - 160) / world.offsetHeight,
-          1,
-        ),
-      );
+      const newLayout = canvasArea.compact !== compactScreen.matches;
+      if (newLayout) {
+        stopMovement();
+        canvasArea.compact = compactScreen.matches;
+        const layoutWidth = canvasArea.compact ? 660 : 1200;
+        const layoutHeight = canvasArea.compact ? 1440 : 780;
+        const initialScale = 1.12 * Math.max(0.25, Math.min(
+          (board.clientWidth - 40) / layoutWidth,
+          (board.clientHeight - 160) / layoutHeight, 1));
+        // Establish the finite workspace once per responsive layout. The full
+        // area visible at minimum zoom is usable, including beyond the start view.
+        canvasArea.width = board.clientWidth / (initialScale * 0.65);
+        canvasArea.height = board.clientHeight / (initialScale * 0.65);
+        world.style.setProperty("--world-width", `${canvasArea.width}px`);
+        world.style.setProperty("--world-height", `${canvasArea.height}px`);
+        scatterCards();
+        camera.ready = false;
+      }
+      // The minimum zoom covers the board. All space revealed by zooming out
+      // belongs to this same finite world; card bounds never depend on the view.
+      fit = Math.max(board.clientWidth / canvasArea.width,
+        board.clientHeight / canvasArea.height) / 0.65;
       const scale = fit * zoom;
-      // Keep the existing card layout/scale, but give it the full board as its
-      // movement area at 100%. Zoom changes the view, never these world limits.
-      canvasArea.width = board.clientWidth / fit;
-      canvasArea.height = board.clientHeight / fit;
-      canvasArea.left = (world.offsetWidth - canvasArea.width) / 2;
-      canvasArea.top = -Math.max(64,
-        (board.clientHeight - 100 - world.offsetHeight * fit) / 2) / fit;
       if (!camera.ready) {
-        camera.x = -canvasArea.left * scale;
-        camera.y = -canvasArea.top * scale;
+        camera.x = (board.clientWidth - canvasArea.width * scale) / 2;
+        camera.y = (board.clientHeight - canvasArea.height * scale) / 2;
         camera.ready = true;
       }
       paintCamera();
@@ -135,8 +142,8 @@
         size <= viewport - leading - trailing
           ? leading + (viewport - leading - trailing - size) / 2
           : Math.max(viewport - trailing - size, Math.min(leading, value));
-      const x = limit(camera.x + canvasArea.left * scale, board.clientWidth, canvasArea.width * scale, 0, 0) - canvasArea.left * scale;
-      const y = limit(camera.y + canvasArea.top * scale, board.clientHeight, canvasArea.height * scale, 0, 0) - canvasArea.top * scale;
+      const x = limit(camera.x, board.clientWidth, canvasArea.width * scale, 0, 0);
+      const y = limit(camera.y, board.clientHeight, canvasArea.height * scale, 0, 0);
       if (x !== camera.x) camera.vx = 0;
       if (y !== camera.y) camera.vy = 0;
       camera.x = x;
@@ -151,13 +158,43 @@
     }
     function bounds(card) {
       // Card limits belong to the finite world, independently of camera and zoom.
-      const pad = 18 / fit;
+      const p = positions.get(card);
+      const angle = (Math.abs(p.angle) + 7) * Math.PI / 180;
+      // Reserve the maximum rotation/lift footprint, including during a throw.
+      const padX = 18 + Math.max(0, (1.035 * (card.offsetWidth * Math.cos(angle) + card.offsetHeight * Math.sin(angle)) - card.offsetWidth) / 2);
+      const padY = 18 + Math.max(0, (1.035 * (card.offsetHeight * Math.cos(angle) + card.offsetWidth * Math.sin(angle)) - card.offsetHeight) / 2);
       return {
-        left: canvasArea.left + pad - card.offsetLeft,
-        right: canvasArea.left + canvasArea.width - pad - card.offsetLeft - card.offsetWidth,
-        top: canvasArea.top + pad - card.offsetTop,
-        bottom: canvasArea.top + canvasArea.height - pad - card.offsetTop - card.offsetHeight,
+        left: padX - card.offsetLeft,
+        right: canvasArea.width - padX - card.offsetLeft - card.offsetWidth,
+        top: padY - card.offsetTop,
+        bottom: canvasArea.height - padY - card.offsetTop - card.offsetHeight,
       };
+    }
+    function scatterCards() {
+      const layoutWidth = canvasArea.width * 0.65, layoutHeight = canvasArea.height * 0.65;
+      const widest = Math.max(...cards.map(card => card.offsetWidth)) + 48;
+      const columns = Math.max(2, Math.min(canvasArea.compact ? 2 : 4, Math.floor(layoutWidth / widest)));
+      const rows = Math.ceil(cards.length / columns);
+      const slots = Array.from({ length: rows * columns }, (_, index) => index);
+      for (let i = slots.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [slots[i], slots[j]] = [slots[j], slots[i]];
+      }
+      const originX = (canvasArea.width - layoutWidth) / 2, originY = (canvasArea.height - layoutHeight) / 2;
+      const cellWidth = layoutWidth / columns, cellHeight = layoutHeight / rows;
+      cards.forEach((card, index) => {
+        const p = positions.get(card), slot = slots[index];
+        p.angle = Math.random() * 10 - 5;
+        card.style.setProperty("--card-angle", `${p.angle}deg`);
+        const freeX = Math.max(0, cellWidth - card.offsetWidth - 48);
+        const freeY = Math.max(0, cellHeight - card.offsetHeight - 48);
+        p.x = originX + (slot % columns) * cellWidth + 24 + Math.random() * freeX - card.offsetLeft;
+        p.y = originY + Math.floor(slot / columns) * cellHeight + 24 + Math.random() * freeY - card.offsetTop;
+        clampPosition(card);
+        p.homeX = p.x;
+        p.homeY = p.y;
+        paint(card);
+      });
     }
     function updateDragTarget() {
       const b = bounds(drag.card), scale = fit * zoom;
@@ -535,6 +572,16 @@
       activityEvents.forEach(type => board.removeEventListener(type, hideInstructions, true));
     };
     activityEvents.forEach(type => board.addEventListener(type, hideInstructions, { capture: true, passive: true }));
+    board.addEventListener("focusin", event => {
+      const card = event.target.closest("[data-playground-card]");
+      if (list || drag || !card || !event.target.matches(":focus-visible")) return;
+      const rect = card.getBoundingClientRect(), viewport = board.getBoundingClientRect();
+      if (rect.left < viewport.left + 18) camera.x += viewport.left + 18 - rect.left;
+      else if (rect.right > viewport.right - 18) camera.x -= rect.right - viewport.right + 18;
+      if (rect.top < viewport.top + 70) camera.y += viewport.top + 70 - rect.top;
+      else if (rect.bottom > viewport.bottom - 80) camera.y -= rect.bottom - viewport.bottom + 80;
+      paintCamera();
+    });
     board.addEventListener("keydown", event => {
       if (event.key === "Escape") cancelPinDrag();
     });
@@ -586,8 +633,8 @@
         for (const [card, position] of positions) {
           delete card.dataset.pinned;
           card.querySelector(".playground-card-pin").hidden = true;
-          position.x = 0;
-          position.y = 0;
+          position.x = position.homeX;
+          position.y = position.homeY;
           card.style.zIndex = "";
           paint(card);
         }
@@ -625,6 +672,7 @@
         return;
       event.preventDefault();
       stopMovement();
+      window.getSelection()?.removeAllRanges();
       board.focus({ preventScroll: true });
       panDrag = {
         id: event.pointerId,
@@ -723,6 +771,7 @@
         )
           return;
         event.preventDefault();
+        window.getSelection()?.removeAllRanges();
         camera.vx = camera.vy = 0;
         card.focus({ preventScroll: true });
         const position = positions.get(card);

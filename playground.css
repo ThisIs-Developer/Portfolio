@@ -1485,3 +1485,20 @@
 @media print { .playground-pin-tray, .playground-canvas-hint, .playground-card-pin { display: none; } }
 /* Direct canvas links should not draw a full-width programmatic focus ring. */
 :root:not([data-input-modality="keyboard"]) .playground-section:focus { outline: none; }
+
+@media screen {
+  .playground-ready:not(.is-list) { overflow: clip; }
+  .playground-ready:not(.is-list) .playground-world {
+    width: var(--world-width, 1800px);
+    height: var(--world-height, 1400px);
+  }
+  .playground-board.is-panning,
+  .playground-board:has(.playground-card.is-dragging) {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .playground-board:has(.playground-card.is-dragging) :is(input, textarea, [contenteditable]) {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
