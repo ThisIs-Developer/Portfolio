@@ -1428,13 +1428,19 @@
     previousHeights,
     waterPixels,
     waterTint;
+  let waterDark = false;
   function setWaterPalette() {
     const theme = pond.closest(".interaction-ripple-stage").dataset.rippleTheme;
-    waterTint = {
+    waterDark = document.documentElement.dataset.theme === "dark";
+    waterTint = (waterDark ? {
+      sky: [33, 68, 84],
+      mint: [43, 75, 47],
+      rose: [88, 47, 76],
+    } : {
       sky: [110, 165, 185],
       mint: [123, 161, 134],
       rose: [185, 139, 161],
-    }[theme];
+    })[theme];
   }
   function paintWater() {
     if (!waterContext || !waterWidth) return;
@@ -1443,8 +1449,8 @@
     for (let i = 0; i < heights.length; i++) {
       const crest = heights[i];
       for (let c = 0; c < 3; c++)
-        pixels[i * 4 + c] = crest >= 0 ? 255 : waterTint[c];
-      pixels[i * 4 + 3] = Math.min(72, Math.abs(crest) * 8);
+        pixels[i * 4 + c] = crest >= 0 ? (waterDark ? waterTint[c] + 95 : 255) : waterTint[c];
+      pixels[i * 4 + 3] = Math.min(waterDark ? 48 : 72, Math.abs(crest) * 8);
     }
     waterContext.putImageData(waterPixels, 0, 0);
   }
@@ -1576,6 +1582,10 @@
     if (!event.detail) disturbWater();
   });
   if (pond) new ResizeObserver(sizeWater).observe(pond);
+  if (pond) new MutationObserver(() => {
+    setWaterPalette();
+    paintWater();
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   document.querySelectorAll("[data-ripple-colour]").forEach((button) => {
     button.addEventListener("click", () => {
       pond.closest(".interaction-ripple-stage").dataset.rippleTheme =

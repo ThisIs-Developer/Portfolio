@@ -10,6 +10,7 @@ import { refinementChecks } from "./refinement-checks.mjs";
 import { conversationTiming, canvasMotion, canvasBounds } from "./motion-checks.mjs";
 import { dotChecks } from "./dot-checks.mjs";
 import { playgroundWidgetChecks } from "./playground-widget-checks.mjs";
+import { playgroundThemeChecks } from "./playground-theme-checks.mjs";
 
 const args = process.argv.slice(2);
 const option = (name, fallback) =>
@@ -1457,7 +1458,7 @@ try {
         ],
         [
           "zoomed canvas, tab isolation and water feedback",
-          async () => { await canvasMotion(page, load); await canvasBounds(page, load); await playgroundWidgetChecks(page, load); },
+          async () => { await canvasMotion(page, load); await canvasBounds(page, load); await playgroundWidgetChecks(page, load); await playgroundThemeChecks(page, load); },
         ],
         ["game start, pause, reset and keyboard", () => game(page)],
         ["clipboard success and denial", () => clipboard(browser)],
