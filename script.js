@@ -276,9 +276,34 @@ if (capabilityGroup) {
 
 const wallet = document.querySelector(".wallet");
 if (wallet) {
-  wallet.querySelectorAll(".wallet-card").forEach((card) => {
+  const cards = [...wallet.querySelectorAll(".wallet-card")];
+  const switcher = wallet.querySelector(".wallet-switcher");
+  const choices = [...switcher.querySelectorAll("button")];
+  let selected = "wallet-me";
+  function showWalletCard(id = selected) {
+    selected = id;
+    cards.forEach((card) => {
+      card.hidden = smallScreen.matches && card.id !== selected;
+    });
+    choices.forEach((button) => {
+      button.setAttribute("aria-pressed", String(button.getAttribute("aria-controls") === selected));
+    });
+    switcher.hidden = !smallScreen.matches;
+  }
+  choices.forEach((button) => {
+    button.addEventListener("click", () => showWalletCard(button.getAttribute("aria-controls")));
+  });
+  smallScreen.addEventListener("change", () => {
+    const focusedCard = cards.find((card) => card.contains(document.activeElement));
+    const focusedChoice = switcher.contains(document.activeElement);
+    showWalletCard(focusedCard?.id || selected);
+    if (!smallScreen.matches && focusedChoice) document.getElementById(selected).focus();
+  });
+  wallet.dataset.walletReady = "";
+  showWalletCard();
+  cards.forEach((card) => {
     card.addEventListener("pointermove", (event) => {
-      if (reducedMotion.matches || event.pointerType === "touch") return;
+      if (smallScreen.matches || reducedMotion.matches || event.pointerType === "touch") return;
       const bounds = card.getBoundingClientRect();
       card.style.setProperty(
         "--wallet-lean",

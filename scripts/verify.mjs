@@ -12,6 +12,7 @@ import { dotChecks } from "./dot-checks.mjs";
 import { playgroundWidgetChecks } from "./playground-widget-checks.mjs";
 import { playgroundThemeChecks } from "./playground-theme-checks.mjs";
 import { themeChecks } from "./theme-checks.mjs";
+import { walletChecks } from "./wallet-checks.mjs";
 
 const args = process.argv.slice(2);
 const option = (name, fallback) =>
@@ -1474,6 +1475,7 @@ try {
           () => playground(page),
         ],
         ["cursor highlights and reduced motion", () => cursorDots(page)],
+        ["compact mobile wallet, card switching and no-scroll fallback", () => walletChecks(browser, preview.url)],
         [
           "tight dot masks, uniform edges, dark hover and compact wallet",
           () => dotChecks(page, load),
