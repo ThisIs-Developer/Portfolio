@@ -91,6 +91,7 @@ export async function themeChecks(browser, url) {
       await page.setViewportSize({ width, height: 1000 });
       for (const route of ["/blog", "/work", "/", article]) {
         await page.goto(`${url}${route}`, { waitUntil: "networkidle" });
+        let darkFolders;
         for (const dark of [true, false]) {
           if (await page.locator(".theme-toggle").getAttribute("aria-pressed") !== String(dark))
             await page.locator(".theme-toggle").dispatchEvent("click");
@@ -114,18 +115,21 @@ export async function themeChecks(browser, url) {
               }
             }
           }
-          if (dark) {
-            const folders = await page.locator(".folder").evaluateAll((elements) => elements.map((el) => ({
+          const folders = await page.locator(".folder").evaluateAll((elements) => elements.map((el) => ({
               background: getComputedStyle(el.querySelector(".folder-back")).backgroundColor,
               color: getComputedStyle(el.querySelector(".folder-front")).color,
+              glass: getComputedStyle(el.querySelector(".folder-front")).backgroundImage,
+              blur: getComputedStyle(el.querySelector(".folder-front")).backdropFilter,
+              rim: getComputedStyle(el.querySelector(".folder-front")).borderColor,
+              sheet: getComputedStyle(el.querySelector(".folder-sheet")).borderColor,
               filter: getComputedStyle(el.querySelector("img")).filter,
             })));
-            for (const folder of folders) {
-              assert(luminance(folder.background) < 0.1, "Project folders use dark tints");
-              assert(contrast(folder.color, folder.background) >= 4.5, "Folder text remains readable");
-              assert.equal(folder.filter, "none", "Original project screenshots keep their colours");
-            }
+          for (const folder of folders) {
+            assert(contrast(folder.color, folder.background) >= 4.5, "Folder text remains readable");
+            assert.equal(folder.filter, "none", "Original project screenshots keep their colours");
           }
+          if (dark) darkFolders = folders;
+          else assert.deepEqual(folders, darkFolders, `${route}: all project folders keep their colours and glass in both themes`);
           assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),
             `${route} at ${width}: no horizontal overflow`);
         }

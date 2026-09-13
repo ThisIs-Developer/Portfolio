@@ -640,49 +640,6 @@ input {
   width: 15px;
   height: 15px;
 }
-@media screen {
-  :root[data-theme="dark"] .folder {
-    --tint: #243f36;
-    --folder-ink: #c4eddb;
-  }
-  :root[data-theme="dark"] .folder-2 {
-    --tint: #37304e;
-    --folder-ink: #e1d6fa;
-  }
-  :root[data-theme="dark"] .folder-3 {
-    --tint: #293b57;
-    --folder-ink: #d0e0fa;
-  }
-  :root[data-theme="dark"] .folder-4 {
-    --tint: #493528;
-    --folder-ink: #f5ddc7;
-  }
-  :root[data-theme="dark"] .folder-5 {
-    --tint: #4b3422;
-    --folder-ink: #f9d6af;
-  }
-  :root[data-theme="dark"] .folder-6 {
-    --tint: #2f402c;
-    --folder-ink: #d7edcd;
-  }
-  :root[data-theme="dark"] .folder-sheet {
-    background: var(--glass);
-    border-color: var(--glass);
-  }
-  :root[data-theme="dark"] .folder-front {
-    /* Share the light theme's translucent gradient; dim only the backdrop. */
-    border-color: rgb(255 255 255 / 0.2);
-    box-shadow:
-      inset 0 1px 0 #ffffff2e,
-      0 6px 18px #00000026;
-    backdrop-filter: blur(22px) saturate(190%) brightness(0.6);
-  }
-  :root[data-theme="dark"] .folder-tags span,
-  :root[data-theme="dark"] .folder-arrow {
-    background: rgb(255 255 255 / 0.07);
-    border-color: rgb(255 255 255 / 0.12);
-  }
-}
 .folder:hover .sheet-1,
 .folder:focus-visible .sheet-1 {
   transform: translate(-18%, -20%) rotate(-8deg);
