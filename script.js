@@ -132,13 +132,16 @@ if (themeToggle) {
       .querySelector('meta[name="theme-color"]')
       ?.setAttribute("content", dark ? "#18191c" : "#f5f4f0");
   }
-  let saved;
-  try {
-    saved = localStorage.getItem("portfolio-theme");
-  } catch {
-    /* The default theme works without storage. */
-  }
-  applyTheme(saved === "dark");
+  // Adopt the theme already applied by the head script before first paint.
+  applyTheme(document.documentElement.dataset.theme === "dark");
+  window.addEventListener("pageshow", (event) => {
+    if (!event.persisted) return;
+    try {
+      applyTheme(localStorage.getItem("portfolio-theme") === "dark");
+    } catch {
+      /* Keep this page's theme when storage is unavailable. */
+    }
+  });
   themeToggle.hidden = false;
   themeToggle.addEventListener("click", () => {
     const dark = themeToggle.getAttribute("aria-pressed") !== "true";

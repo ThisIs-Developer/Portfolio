@@ -3,12 +3,17 @@
   --art-bg: #e6ebfa;
   --art-ink: #4e62ad;
   --art-shade: #cad5f1;
+  --art-sheet: #ffffffbf;
+  --art-glow: #ffffffa8;
+  --art-orbit: #ffffff38;
+  --art-shadow: #2932540a;
+  --art-check: #fff;
   isolation: isolate;
   height: auto;
   min-height: 210px;
   aspect-ratio: 1.5;
   background:
-    radial-gradient(ellipse at 80% 15%, #ffffffa8, transparent 65%),
+    radial-gradient(ellipse at 80% 15%, var(--art-glow), transparent 65%),
     var(--art-bg);
   color: var(--art-ink);
   border-radius: 18px;
@@ -42,6 +47,43 @@
   --art-ink: #8a7350;
   --art-shade: #e4d6be;
 }
+@media screen {
+  :root[data-theme="dark"] .editorial-art {
+    --art-bg: #222a3d;
+    --art-ink: #b0bfee;
+    --art-shade: #354366;
+    --art-sheet: color-mix(in srgb, var(--art-bg) 75%, var(--art-ink));
+    --art-glow: #ffffff06;
+    --art-orbit: #ffffff05;
+    --art-shadow: #00000026;
+    --art-check: var(--art-bg);
+  }
+  :root[data-theme="dark"] .editorial-art.art-git {
+    --art-bg: #202f29;
+    --art-ink: #a1d4b7;
+    --art-shade: #355744;
+  }
+  :root[data-theme="dark"] .editorial-art.art-ai {
+    --art-bg: #2d263c;
+    --art-ink: #c7b5eb;
+    --art-shade: #4b3c64;
+  }
+  :root[data-theme="dark"] .editorial-art.art-vision {
+    --art-bg: #372922;
+    --art-ink: #e6b393;
+    --art-shade: #62432f;
+  }
+  :root[data-theme="dark"] .editorial-art.art-audio {
+    --art-bg: #21303a;
+    --art-ink: #a6cfe4;
+    --art-shade: #355565;
+  }
+  :root[data-theme="dark"] .editorial-art.art-web {
+    --art-bg: #312c23;
+    --art-ink: #d8c29a;
+    --art-shade: #574934;
+  }
+}
 .editorial-art > svg {
   width: 82%;
   max-height: 90%;
@@ -49,8 +91,8 @@
   transition: transform 0.45s var(--out);
 }
 .editorial-art .art-sheet {
-  fill: #ffffffbf;
-  filter: drop-shadow(0 8px 8px #2932540a);
+  fill: var(--art-sheet);
+  filter: drop-shadow(0 8px 8px var(--art-shadow));
 }
 .editorial-art .art-back {
   fill: var(--art-shade);
@@ -66,6 +108,9 @@
   stroke-width: 6;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+.editorial-art .art-check {
+  stroke: var(--art-check);
 }
 .editorial-art .art-connector {
   stroke: currentColor;
@@ -83,7 +128,7 @@
   height: auto;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: #ffffff38;
+  background: var(--art-orbit);
   transform: none;
   z-index: 0;
 }

@@ -19,6 +19,10 @@ The portfolio uses a warm dotted canvas, expressive serif type, translucent past
 
 The six folder tints are #b8f0d8, #d4c9f5, #b8cef5, #f5d4b8, #f2a65a and #c8e6c0. Folder labels use dark ink for readable contrast. Each folder has three fanned sheets, a frosted front starting at 32% height, and a 400:340 proportion.
 
+Dark mode gives each folder a deep version of its original tint, lighter labels, dark sheet frames, and quieter glass highlights. Actual project screenshots retain their original colours. Shared Blog and private-work illustrations use matching dark backgrounds, sheets, accent colours, and subtle highlights; the same palettes also apply to home-page writing cards and article covers. Light and print artwork keep their original palettes.
+
+Every generated page loads the small synchronous `theme.js` script in its head before stylesheets and content. It reads `portfolio-theme`, applies the root theme and browser toolbar colour, and defaults to light if storage is unavailable. The deferred navigation script adopts that theme without resetting it and refreshes saved preferences when a page returns from the browser's back/forward cache. The bootstrap is self-hosted to work with the existing Content Security Policy. Run `npm run build` and `npm run test:theme` to verify dark first frames while the main script is delayed, navigation, card palettes, and storage failure behaviour against the built site.
+
 ## Page composition
 
 - Home: centered 88svh introduction, six featured project folders, timed capabilities, selected writing, personal cards and dark contact/game ending.

@@ -11,6 +11,7 @@ import { conversationTiming, canvasMotion, canvasBounds } from "./motion-checks.
 import { dotChecks } from "./dot-checks.mjs";
 import { playgroundWidgetChecks } from "./playground-widget-checks.mjs";
 import { playgroundThemeChecks } from "./playground-theme-checks.mjs";
+import { themeChecks } from "./theme-checks.mjs";
 
 const args = process.argv.slice(2);
 const option = (name, fallback) =>
@@ -1447,6 +1448,7 @@ try {
           "theme persistence and unavailable storage",
           () => theme(page, browser),
         ],
+        ["theme before first paint and dark card artwork", () => themeChecks(browser, preview.url)],
         [
           "project folders and capabilities",
           () => foldersAndCapabilities(page),
