@@ -5,16 +5,49 @@
     "category": "Developer tools · Open source",
     "year": "2024–2026",
     "summary": "A local-first Markdown workspace, from the first draft to the shared document.",
+    "detailDeck": "A privacy-first Markdown workspace that brings document organization, technical rendering, review, export and optional real-time collaboration into one focused product.",
     "problem": "Technical writing needs more than a preview: documents, diagrams, review and sharing should work together.",
-    "contribution": "Created and maintain the editor, its document workspace, rendering workflows and web/desktop delivery.",
+    "contribution": "Created and maintain the product end to end, from its document workspace and rendering pipeline to sharing infrastructure, desktop delivery, security hardening and tests.",
+    "overview": [
+      "Markdown Viewer started as a small personal previewer and evolved into a full local-first workspace for technical writing. The core workflow stays on-device: documents, folders, tabs, autosave, preview, review and most exports run locally.",
+      "The product keeps Markdown portable while adding the things technical documents often need around it—math, diagrams, maps, charts, 3D models, music notation, comments, backups, exports and optional sharing. No account is required, and the application implements no ads, analytics, telemetry or subscriptions."
+    ],
+    "problemDetails": [
+      "Markdown work often becomes fragmented across separate tools: one for writing, another for diagrams, another for review, and another for sharing or export. That context switching makes technical documents harder to organize, review and hand off.",
+      "The goal was to preserve plain Markdown as the source of truth while building a complete workspace around it, without turning everyday editing into an always-online cloud workflow."
+    ],
+    "contributionDetails": [
+      "I designed and maintain the workspace, storage model, editor and preview flows, rich renderer integrations, anchored review system, GitHub import, export pipeline, Share Snapshot and Live Share infrastructure, Neutralino desktop packaging and automated test coverage.",
+      "The application remains mostly vanilla JavaScript. Performance work includes size-aware render debouncing, Web Worker rendering for large documents, segmented preview updates, cached layout calculations and lazy loading for heavier renderer libraries."
+    ],
     "features": [
-      "Folders, tabs, IndexedDB autosave and encrypted workspace storage.",
-      "Rich rendering, anchored review comments and optional Live Share."
+      "Per-document local storage, nested folders, tabs, backup/restore, 30-day Trash and an AES-GCM encrypted Secret Workspace.",
+      "GFM, MathJax and rich technical renderers including Mermaid, PlantUML, Graphviz, D2, Vega-Lite, WaveDrom, Markmap, maps, STL and ABC notation.",
+      "Anchored comments, GitHub import, Markdown/HTML/PDF/PNG export, Share Snapshot and capability-based Live Share."
+    ],
+    "featureGroups": [
+      {
+        "title": "Local-first workspace",
+        "text": "Documents are stored per file in IndexedDB on the web and as ordinary Markdown files inside the desktop vault. Nested folders, Recent, Favorites, search, tabs, multi-select actions, ZIP backup and restore, 30-day Trash, Private mode and the encrypted Secret Workspace turn a single editor into a durable working environment."
+      },
+      {
+        "title": "Technical rendering",
+        "text": "The preview supports GFM, sanitized HTML, syntax highlighting, MathJax, Mermaid, PlantUML, Graphviz/DOT, D2, Vega-Lite, WaveDrom, Markmap, GeoJSON, TopoJSON, STL and ABC music notation. Heavy renderer libraries are loaded only when required."
+      },
+      {
+        "title": "Review and collaboration",
+        "text": "Selection-anchored comments and threaded replies stay outside the Markdown source. Share Snapshot creates point-in-time bearer links, while Live Share uses Yjs over a Cloudflare Durable Object relay with separate host, edit and view capabilities and live presence."
+      },
+      {
+        "title": "Import, export and delivery",
+        "text": "Users can import local Markdown or GitHub content from branches, tags and commits, including optional private-repository access through an encrypted local PAT vault. Documents export to Markdown, standalone HTML, PNG and PDF, and the product ships as a web app, PWA, Docker deployment and Neutralino desktop application."
+      }
     ],
     "stack": [
       "JavaScript",
-      "IndexedDB",
       "Cloudflare",
+      "Docker",
+      "IndexedDB",
       "Neutralinojs",
       "Playwright"
     ],
@@ -22,11 +55,26 @@
     "live": "https://markdownviewer.pages.dev/",
     "liveLabel": "Open editor",
     "status": "Actively maintained",
+    "note": "Open source under Apache 2.0. Normal editing is local-first; network-backed features are explicit and include GitHub import, remote diagram rendering, managed media, stored Share Snapshot and Live Share. Share and Live Share links are bearer capabilities, and Live Share is not end-to-end encrypted.",
     "image": "assets/work/markdown-viewer-1400.webp",
     "imageAlt": "Markdown Viewer workspace showing its document explorer, editor and rendered preview.",
     "imageSrcset": "assets/work/markdown-viewer-800.webp 800w, assets/work/markdown-viewer-1400.webp 1400w",
     "imageWidth": 1400,
-    "imageHeight": 787
+    "imageHeight": 787,
+    "gallery": [
+      {
+        "src": "assets/work/markdown-viewer-peek-1.webp",
+        "alt": "Markdown Viewer interface detail showing the workspace and authoring controls.",
+        "width": 400,
+        "height": 175
+      },
+      {
+        "src": "assets/work/markdown-viewer-peek-2.webp",
+        "alt": "Markdown Viewer interface detail showing rendered technical document content.",
+        "width": 400,
+        "height": 175
+      }
+    ]
   },
   {
     "id": "medichain",
