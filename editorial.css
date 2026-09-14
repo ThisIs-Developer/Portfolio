@@ -397,7 +397,7 @@
   min-height: 44px;
   gap: 8px;
 }
-.dev-publication img {
+.dev-publication .dev-logo {
   width: 28px;
   height: 28px;
   flex-shrink: 0;

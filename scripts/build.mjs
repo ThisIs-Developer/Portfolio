@@ -123,7 +123,7 @@ function metadata(options = {}) {
   <link rel="stylesheet" href="/style.css?v=20260914b">
   ${options.page ? '<link rel="stylesheet" href="/pages.css?v=20260910">' : ""}
   <link rel="stylesheet" href="/cursor.css?v=20260910">
-  <link rel="stylesheet" href="/editorial.css?v=20260914c">
+  <link rel="stylesheet" href="/editorial.css?v=20260914d">
   ${!options.page ? '<link rel="stylesheet" href="/quick-ask.css?v=20260910"><script type="module" src="/quick-ask.js?v=20260910"></script>' : ""}
   <script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script>
   <script src="/script.js?v=20260914b" defer></script>
@@ -248,7 +248,6 @@ if (!check) {
     "profile/baivab-800.webp",
     "social-preview.png",
     "apple-touch-icon.png",
-    "icons/dev-badge.svg",
     "resume/Baivab_Sarkar_Resume.pdf",
     "resume/CV-BAIVAB SARKAR.pdf",
   ]) {
