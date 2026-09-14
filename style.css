@@ -345,6 +345,7 @@ input {
 }
 .theme-toggle {
   border: 0;
+  padding: 0;
   background: var(--glass);
   border-radius: 50%;
   display: grid;
@@ -2348,9 +2349,6 @@ input {
     #site-nav[data-open="false"]
     a:not(:nth-child(1)):not(:nth-child(3)) {
     display: none;
-  }
-  .nav-ready #site-nav[data-open="false"] + .theme-toggle {
-    display: flex;
   }
 }
 
