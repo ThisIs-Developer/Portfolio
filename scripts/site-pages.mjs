@@ -57,6 +57,36 @@ function controls(kind, categories) {
 function articleCard(a, i) {
   return `<a class="journal-card" href="${esc(a.localPath)}" data-collection-item data-category="${esc(articleCategory(a))}" data-date="${a.date}" data-search-text="${esc(`${a.title} ${a.summary} ${a.tags.join(" ")}`)}">${articleArt(a)}<div class="journal-copy"><p class="article-meta"><time datetime="${a.date}">${date(a.date)}</time> · ${a.readingTime} min read</p><h2>${esc(a.title)}</h2><p class="journal-summary">${esc(a.summary)}</p><div class="journal-author">${photo("/assets/profile/baivab-480.webp", "", 480, 517)}<span>Baivab Sarkar</span><span class="card-arrow">${arrow}</span></div></div></a>`;
 }
+
+const caseToolIcons = {
+  JavaScript: "javascript",
+  Cloudflare: "cloudflare",
+  Docker: "docker",
+};
+const caseTech = (name) => {
+  const slug = caseToolIcons[name];
+  const icon = slug
+    ? `<img src="/assets/tools/${slug}.svg" alt="" width="18" height="18" loading="lazy" decoding="async" draggable="false" style="width:18px;height:18px;margin:0;border-radius:0;object-fit:contain">`
+    : "";
+  return `<span style="display:inline-flex;align-items:center;gap:8px">${icon}${esc(name)}</span>`;
+};
+const caseTechList = (items) => items.map(caseTech).join("");
+const paragraphs = (items = []) => items.map((item) => `<p>${esc(item)}</p>`).join("");
+
+function renderMarkdownViewerCase(p, next, entries) {
+  const gallery = (p.gallery || []).map((item) =>
+    photo(item.src, item.alt, item.width || 400, item.height || 225),
+  ).join("");
+  const featureGroups = (p.featureGroups || []).map((item) =>
+    `<h3>${esc(item.title)}</h3><p>${esc(item.text)}</p>`,
+  ).join("");
+  const builtWith = p.stack.slice(0, 3).map((name) =>
+    `<span style="display:inline-flex;align-items:center;gap:6px;margin:2px 8px 2px 0;white-space:nowrap">${caseToolIcons[name] ? `<img src="/assets/tools/${caseToolIcons[name]}.svg" alt="" width="16" height="16" loading="eager" decoding="async" draggable="false" style="width:16px;height:16px;object-fit:contain">` : ""}${esc(name)}</span>`,
+  ).join("");
+  const meta = `<dl class="detail-meta"><div><dt>Project</dt><dd>${esc(p.status)}</dd></div><div><dt>Period</dt><dd>${esc(p.year)}</dd></div><div><dt>Built with</dt><dd>${builtWith}</dd></div></dl>`;
+  return `<div class="reading-layout case-layout">${toc(entries)}<article class="reading-main"><header class="reading-header"><p class="detail-category">${esc(p.category)}</p><h1>${esc(p.title)}</h1><p class="reading-deck">${esc(p.detailDeck || p.summary)}</p>${meta}</header><figure class="case-hero">${projectImage(p, true)}</figure><div class="case-actions">${p.live ? link(p.live, p.liveLabel || "Visit project", "button") : ""}${p.source ? link(p.source, "Source code") : ""}</div><div class="prose"><section id="overview"><h2>Overview</h2>${paragraphs(p.overview?.length ? p.overview : [p.summary, p.contribution])}</section><section id="problem"><h2>The problem</h2>${paragraphs(p.problemDetails?.length ? p.problemDetails : [p.problem])}</section><section id="contribution"><h2>My contribution</h2>${paragraphs(p.contributionDetails?.length ? p.contributionDetails : [p.contribution])}<div class="project-facts">${caseTechList(p.stack)}</div></section><section id="inside"><h2>Inside the build</h2>${featureGroups || `<ul>${p.features.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>`}${gallery ? `<div class="case-gallery">${gallery}</div>` : ""}</section><section id="project-notes"><h2>Project notes</h2><div class="project-note-panel"><p class="eyebrow">${esc(p.status)}</p><p>${esc(p.note || `${p.title} is part of my work in ${p.category.toLowerCase()}.`)}</p></div></section></div><a class="next-reading" href="/work/${next.id}"><span>Next project</span><strong>${esc(next.title)}</strong>${arrow}</a></article></div>`;
+}
+
 export function renderSitePages(data, ui) {
   const { profile, articles, experience, certifications, enterprise } = data;
   const { all, selected, archive, folder, shell, gamePanel } = ui;
@@ -108,7 +138,9 @@ export function renderSitePages(data, ui) {
   ];
   for (const [i, p] of all.entries()) {
     const next = all[(i + 1) % all.length];
-    const content = `<div class="reading-layout case-layout">${toc(caseEntries)}<article class="reading-main"><header class="reading-header"><p class="detail-category">${esc(p.category)}</p><h1>${esc(p.title)}</h1><p class="reading-deck">${esc(p.summary)}</p>${metaPanel(
+    const content = p.id === "markdown-viewer"
+      ? renderMarkdownViewerCase(p, next, caseEntries)
+      : `<div class="reading-layout case-layout">${toc(caseEntries)}<article class="reading-main"><header class="reading-header"><p class="detail-category">${esc(p.category)}</p><h1>${esc(p.title)}</h1><p class="reading-deck">${esc(p.summary)}</p>${metaPanel(
       [
         ["Project", p.status],
         ["Period", p.year],
