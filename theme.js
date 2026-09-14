@@ -9,5 +9,5 @@
   document.documentElement.dataset.theme = dark ? "dark" : "light";
   document
     .querySelector('meta[name="theme-color"]')
-    ?.setAttribute("content", dark ? "#18191c" : "#f5f4f0");
+    ?.setAttribute("content", dark ? "#111113" : "#f5f4f0");
 })();

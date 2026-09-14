@@ -1475,7 +1475,7 @@ try {
           () => playground(page),
         ],
         ["cursor highlights and reduced motion", () => cursorDots(page)],
-        ["compact mobile wallet, card switching and no-scroll fallback", () => walletChecks(browser, preview.url)],
+        ["overlapping mobile wallet, links and no-scroll layout", () => walletChecks(browser, preview.url)],
         [
           "tight dot masks, uniform edges, dark hover and compact wallet",
           () => dotChecks(page, load),

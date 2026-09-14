@@ -145,12 +145,12 @@ export async function dotChecks(page, load) {
           })),
         };
       });
-      assert.equal(wallet.top, width < 768 ? "24px" : "44px", `Wallet top margin at ${width}px`);
-      assert.equal(wallet.bottom, width < 768 ? "12px" : "-20px", `Wallet spacing at ${width}px`);
+      assert.equal(wallet.top, width < 768 ? "28px" : "44px", `Wallet top margin at ${width}px`);
+      assert.equal(wallet.bottom, width < 768 ? "-14px" : "-20px", `Wallet spacing at ${width}px`);
       assert(
         wallet.cards.length === 5 &&
           wallet.cards.every(
-            (card) => card.height === (width < 768 ? "124px" : "175px") && card.cap === "0px",
+            (card) => card.height === (width < 768 ? "148px" : "175px") && card.cap === (width < 768 ? "-6px" : "0px"),
           ),
         `All wallet cards use the requested dimensions at ${width}px`,
       );

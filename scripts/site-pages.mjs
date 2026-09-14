@@ -87,7 +87,7 @@ export function renderSitePages(data, ui) {
     const editorNote = a.editorNote
       ? `<aside class="article-editor-note"><strong>Author’s update</strong><p>${esc(a.editorNote)}</p></aside>`
       : "";
-    const content = `<div class="reading-layout article-layout editorial-reader">${toc(entries, "/blog", "Back to blog")}<article class="reading-main"><header class="reading-header"><p class="detail-category">${esc(articleCategory(a))}</p><h1>${esc(a.title)}</h1><p class="reading-deck">${esc(a.summary)}</p><div class="editorial-byline">${photo("/assets/profile/baivab-480.webp", "", 480, 517)}<div><strong>${esc(profile.name)}</strong><p><time datetime="${a.date}">${date(a.date)}</time> · ${a.readingTime} min read</p></div></div></header>${articleArt(a, "article-hero-art")}${editorNote}<div class="prose article-body">${a.bodyHtml || ""}</div><div class="article-credit"><p>Written by ${esc(profile.name)}.</p>${a.url ? link(a.url, "Publication history") : `<span>Published on this website.</span>`}</div>${next && next !== a ? `<a class="next-reading" href="${esc(next.localPath)}"><span>Continue reading</span><strong>${esc(next.title)}</strong>${arrow}</a>` : ""}</article></div>`;
+    const content = `<div class="reading-layout article-layout editorial-reader">${toc(entries, "/blog", "Back to blog")}<article class="reading-main"><header class="reading-header"><p class="detail-category">${esc(articleCategory(a))}</p><h1>${esc(a.title)}</h1><p class="reading-deck">${esc(a.summary)}</p><div class="editorial-byline">${photo("/assets/profile/baivab-480.webp", "", 480, 517)}<div><strong>${esc(profile.name)}</strong><p><time datetime="${a.date}">${date(a.date)}</time> · ${a.readingTime} min read</p></div></div></header>${articleArt(a, "article-hero-art")}${editorNote}<div class="prose article-body">${a.bodyHtml || ""}</div><div class="article-credit">${a.url ? `<a class="text-link dev-publication" href="${esc(a.url)}"><span>View in</span><img src="/assets/icons/dev-badge.svg" width="30" height="30" alt="DEV">${arrow}</a>` : `<span>Published on this website.</span>`}</div>${next && next !== a ? `<a class="next-reading" href="${esc(next.localPath)}"><span>Continue reading</span><strong>${esc(next.title)}</strong>${arrow}</a>` : ""}</article></div>`;
     pages[`blog/${a.slug}.html`] = shell(content, {
       path: a.localPath,
       title: `${a.title} — Baivab Sarkar`,
@@ -131,7 +131,7 @@ export function renderSitePages(data, ui) {
         ["Focus", "Business automation"],
         ["Availability", "Confidential"],
       ],
-    )}</header><div class="prose">${enterprise.projects.map((p) => `<section id="${p.id}">${p.id === "audit-management" ? '<span id="enterprise-support" aria-hidden="true"></span>' : ""}<p class="eyebrow">${p.label}</p><h2>${p.title}</h2><p>${p.summary}</p></section>`).join("")}<aside class="confidential-note"><h2>Confidentiality notice</h2><p>${enterprise.notice}</p></aside></div>${link("/work", "Explore public work", "button")}</article></div>`,
+    )}</header><div class="prose">${enterprise.projects.map((p) => `<section id="${p.id}">${p.id === "audit-management" ? '<span id="enterprise-support" aria-hidden="true"></span>' : ""}<p class="eyebrow">${p.label}</p><h2>${p.title}</h2><p>${p.summary}</p></section>`).join("")}<aside class="confidential-note"><h2>Confidentiality notice</h2><p>${enterprise.notice}</p></aside></div></article></div>`,
     {
       path: "/work/enterprise",
       title: "Enterprise applications — Baivab Sarkar",

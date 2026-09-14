@@ -61,9 +61,9 @@ export async function themeChecks(browser, url) {
           `${route}: main script is still delayed`);
         const frames = await page.evaluate(() => window.themeFrames);
         assert(frames.every((frame) => frame.theme === "dark" && frame.scheme === "dark"
-          && frame.background === "rgb(24, 25, 28)"),
+          && frame.background === "rgb(17, 17, 19)"),
         `${route}: content is dark from the first rendered frame, before deferred initialization`);
-        assert.equal(await page.locator('meta[name="theme-color"]').getAttribute("content"), "#18191c");
+        assert.equal(await page.locator('meta[name="theme-color"]').getAttribute("content"), "#111113");
       } finally {
         release();
         await page.waitForLoadState("networkidle");

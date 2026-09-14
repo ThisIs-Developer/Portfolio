@@ -393,6 +393,16 @@
   border: 0;
   padding-top: 40px;
 }
+.article-credit .dev-publication {
+  min-height: 44px;
+  gap: 8px;
+}
+.dev-publication img {
+  width: 28px;
+  height: 32px;
+  background: #fff;
+  border-radius: 4px;
+}
 .editorial-reader .next-reading {
   border: 0;
   background: var(--strong-glass);
