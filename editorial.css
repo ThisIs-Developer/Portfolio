@@ -399,9 +399,8 @@
 }
 .dev-publication img {
   width: 28px;
-  height: 32px;
-  background: #fff;
-  border-radius: 4px;
+  height: 28px;
+  flex-shrink: 0;
 }
 .editorial-reader .next-reading {
   border: 0;
