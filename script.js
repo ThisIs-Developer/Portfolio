@@ -12,14 +12,14 @@ function setMenu(open, restoreFocus = false) {
     return;
   }
   const changed = nav.dataset.open !== undefined;
-  navMotion?.cancel();
-  shellMotion?.cancel();
-  delete nav.dataset.closing;
   const shell = document.querySelector(".nav-shell");
   const previousWidth =
     changed && !smallScreen.matches && !reducedMotion.matches
       ? shell.getBoundingClientRect().width
       : 0;
+  navMotion?.cancel();
+  shellMotion?.cancel();
+  delete nav.dataset.closing;
   nav.dataset.open = String(open);
   nav.inert = !open && smallScreen.matches;
   menu.setAttribute("aria-expanded", String(open));
@@ -47,9 +47,10 @@ function setMenu(open, restoreFocus = false) {
           ]
         : [
             { opacity: 1, transform: "none" },
+            { opacity: 1, transform: "translateY(1px) scale(1.004)", offset: 0.18 },
             { opacity: 0, transform: "translateY(-5px) scale(.97)" },
           ],
-      { duration: open ? 420 : 200, easing: "cubic-bezier(.22,1,.36,1)" },
+      { duration: open ? 580 : 460, easing: "cubic-bezier(.22,1,.36,1)" },
     );
     navMotion.onfinish = () => {
       delete nav.dataset.closing;
@@ -58,10 +59,10 @@ function setMenu(open, restoreFocus = false) {
       shellMotion = shell.animate(
         [
           { width: previousWidth + "px" },
-          { width: nextWidth + (open ? 5 : -3) + "px", offset: 0.76 },
+          { width: nextWidth + (open ? 4 : -3) + "px", offset: 0.76 },
           { width: nextWidth + "px" },
         ],
-        { duration: open ? 460 : 240, easing: "cubic-bezier(.22,1,.36,1)" },
+        { duration: open ? 600 : 500, easing: "cubic-bezier(.22,1,.36,1)" },
       );
     }
   }
@@ -70,7 +71,9 @@ function setMenu(open, restoreFocus = false) {
 if (nav && menu) {
   document.documentElement.classList.add("nav-ready");
   menu.hidden = false;
-  setMenu(false);
+  const atTop = () => window.scrollY <= 1;
+  const syncNavigation = () => setMenu(!smallScreen.matches && atTop());
+  syncNavigation();
   menu.addEventListener("click", () =>
     setMenu(menu.getAttribute("aria-expanded") !== "true"),
   );
@@ -96,18 +99,19 @@ if (nav && menu) {
       }
     }),
   );
-  smallScreen.addEventListener("change", () => setMenu(!smallScreen.matches));
-  let previousScroll = 0;
+  smallScreen.addEventListener("change", syncNavigation);
+  window.addEventListener("pageshow", syncNavigation);
+  let previousScroll = window.scrollY;
   window.addEventListener(
     "scroll",
     () => {
-      if (
-        !smallScreen.matches &&
-        Math.abs(window.scrollY - previousScroll) > 150
-      ) {
-        if (!nav.contains(document.activeElement)) setMenu(false);
-        previousScroll = window.scrollY;
+      const currentScroll = Math.max(0, window.scrollY);
+      if (!smallScreen.matches) {
+        if (atTop()) setMenu(true);
+        else if (currentScroll > previousScroll)
+          setMenu(false, nav.contains(document.activeElement));
       }
+      previousScroll = currentScroll;
     },
     { passive: true },
   );
@@ -126,15 +130,18 @@ if (themeToggle) {
     themeToggle.setAttribute("aria-pressed", String(dark));
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", dark ? "#18191c" : "#f5f4f0");
+      ?.setAttribute("content", dark ? "#111113" : "#f5f4f0");
   }
-  let saved;
-  try {
-    saved = localStorage.getItem("portfolio-theme");
-  } catch {
-    /* The default theme works without storage. */
-  }
-  applyTheme(saved === "dark");
+  // Adopt the theme already applied by the head script before first paint.
+  applyTheme(document.documentElement.dataset.theme === "dark");
+  window.addEventListener("pageshow", (event) => {
+    if (!event.persisted) return;
+    try {
+      applyTheme(localStorage.getItem("portfolio-theme") === "dark");
+    } catch {
+      /* Keep this page's theme when storage is unavailable. */
+    }
+  });
   themeToggle.hidden = false;
   themeToggle.addEventListener("click", () => {
     const dark = themeToggle.getAttribute("aria-pressed") !== "true";
@@ -271,7 +278,7 @@ const wallet = document.querySelector(".wallet");
 if (wallet) {
   wallet.querySelectorAll(".wallet-card").forEach((card) => {
     card.addEventListener("pointermove", (event) => {
-      if (reducedMotion.matches || event.pointerType === "touch") return;
+      if (smallScreen.matches || reducedMotion.matches || event.pointerType === "touch") return;
       const bounds = card.getBoundingClientRect();
       card.style.setProperty(
         "--wallet-lean",

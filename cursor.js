@@ -158,7 +158,7 @@
         .map(Number);
       // Hex colors avoid Canvas's CSS color resolver forcing style calculation.
       const dark = document.documentElement.dataset.theme === "dark";
-      const highlight = dark ? [170, 180, 210, 0.24] : [45, 52, 73, 0.48];
+      const highlight = dark ? [170, 180, 210, 0.42] : [45, 52, 73, 0.58];
       context.save();
       context.beginPath();
       context.rect(
@@ -177,7 +177,7 @@
             pointer && pointer.surface === surface
               ? Math.max(
                   0,
-                  1 - Math.hypot(x - pointer.x, y - pointer.y) / 185,
+                  1 - Math.hypot(x - pointer.x, y - pointer.y) / 225,
                 ) * strength
               : 0;
           const proximity = distance * distance * (3 - 2 * distance);
@@ -205,30 +205,8 @@
         }
         context.fill();
       });
-      // Multiply two gradients: all four sides and corners dissolve while the
-      // middle stays at full strength. This is independent of cursor falloff.
-      const edgeX = Math.min(120, bounds.width * 0.15);
-      const visibleTop = Math.max(0, bounds.top);
-      const visibleBottom = Math.min(height, bounds.bottom);
-      const edgeY = Math.min(100, (visibleBottom - visibleTop) * 0.18);
-      context.globalCompositeOperation = "destination-in";
-      for (const [start, end, fade, vertical] of [
-        [bounds.left, bounds.right, edgeX, false],
-        [visibleTop, visibleBottom, edgeY, true],
-      ]) {
-        const gradient = vertical
-          ? context.createLinearGradient(0, start, 0, end)
-          : context.createLinearGradient(start, 0, end, 0);
-        const stop = fade / (end - start);
-        gradient.addColorStop(0, "#0000");
-        gradient.addColorStop(stop * 0.35, "#0003");
-        gradient.addColorStop(stop, "#000f");
-        gradient.addColorStop(1 - stop, "#000f");
-        gradient.addColorStop(1 - stop * 0.35, "#0003");
-        gradient.addColorStop(1, "#0000");
-        context.fillStyle = gradient;
-        context.fillRect(0, 0, width, height);
-      }
+      // Keep normal dots uniform through the edges. Only pointer proximity
+      // above blends the highlight back into the static grid.
       context.globalCompositeOperation = "destination-out";
       context.fillStyle = "#000";
       context.beginPath();

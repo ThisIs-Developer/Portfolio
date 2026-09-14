@@ -99,6 +99,7 @@ function metadata(options = {}) {
   ${options.noindex ? '<meta name="robots" content="noindex">' : ""}
   <meta name="theme-color" content="#f5f4f0">
   <meta name="color-scheme" content="light dark">
+  <script src="/theme.js?v=20260914b"></script>
   <link rel="canonical" href="${canonical}">
   <meta property="og:type" content="${options.article ? "article" : "website"}">
   <meta property="og:site_name" content="Baivab Sarkar">
@@ -119,13 +120,13 @@ function metadata(options = {}) {
   <link rel="preload" href="/assets/fonts/instrument-serif-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/instrument-sans-latin-variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/instrument-serif-latin-italic.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/style.css?v=20260912b">
+  <link rel="stylesheet" href="/style.css?v=20260914c">
   ${options.page ? '<link rel="stylesheet" href="/pages.css?v=20260910">' : ""}
   <link rel="stylesheet" href="/cursor.css?v=20260910">
-  <link rel="stylesheet" href="/editorial.css?v=20260910">
+  <link rel="stylesheet" href="/editorial.css?v=20260914d">
   ${!options.page ? '<link rel="stylesheet" href="/quick-ask.css?v=20260910"><script type="module" src="/quick-ask.js?v=20260910"></script>' : ""}
   <script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script>
-  <script src="/script.js?v=20260912" defer></script>
+  <script src="/script.js?v=20260914b" defer></script>
   ${options.page ? '<script src="/pages.js?v=20260910" defer></script>' : ""}
   <script src="/cursor.js?v=20260912b" defer></script>`.replace(
     /\n[ \t]+\n/g,
@@ -211,6 +212,7 @@ if (!check) {
   const publicFiles = [
     ...Object.keys(outputs),
     "style.css",
+    "theme.js",
     "script.js",
     "game.js",
     "pages.css",

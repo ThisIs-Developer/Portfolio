@@ -145,12 +145,12 @@ export async function dotChecks(page, load) {
           })),
         };
       });
-      assert.equal(wallet.top, "44px", `Wallet top margin at ${width}px`);
-      assert.equal(wallet.bottom, "-20px", `Wallet overlap at ${width}px`);
+      assert.equal(wallet.top, width < 768 ? "28px" : "44px", `Wallet top margin at ${width}px`);
+      assert.equal(wallet.bottom, width < 768 ? "-14px" : "-20px", `Wallet spacing at ${width}px`);
       assert(
         wallet.cards.length === 5 &&
           wallet.cards.every(
-            (card) => card.height === "175px" && card.cap === "0px",
+            (card) => card.height === (width < 768 ? "148px" : "175px") && card.cap === (width < 768 ? "-6px" : "0px"),
           ),
         `All wallet cards use the requested dimensions at ${width}px`,
       );
@@ -181,13 +181,13 @@ export async function dotChecks(page, load) {
     ]);
     const corner = await point(14, 14);
     assert(
-      center.max > 0 &&
-        edges.every((edge) => edge.max > 0 && edge.max < center.max),
-      "All four edges fade while the center keeps its normal opacity",
+      center.max >= 80 &&
+        edges.every((edge) => edge.max === center.max),
+      "Normal light dots stay visible at equal opacity through all four edges",
     );
     assert(
-      corner.max < Math.min(edges[0].max, edges[2].max),
-      "Corner fade blends both intersecting edges",
+      corner.max === center.max,
+      "Normal dots retain their opacity in the corners",
     );
 
     await test.emulateMedia({ reducedMotion: "no-preference" });
@@ -211,24 +211,35 @@ export async function dotChecks(page, load) {
       test,
       centerRect,
       (sample) =>
-        sample.max > 32 && sample.max < lightActive.max && sample.max <= 64,
+        sample.max > 90 && sample.max < lightActive.max && sample.max <= 110,
     );
     await test.emulateMedia({ reducedMotion: "reduce" });
+    // The far corner is outside the hover radius. Wait until the center
+    // matches it so the reduced-motion media change has reached the canvas.
+    const darkCorner = await point(14, 14);
     const darkNormal = await waitForPixels(
       test,
       centerRect,
-      (sample) => sample.max <= 34 && sample.max < center.max,
+      (sample) => sample.max === darkCorner.max,
     );
     assert(
-      darkNormal.max < center.max,
-      `Dark mode reduces normal dot opacity: ${JSON.stringify({ center, darkNormal })}`,
+      darkNormal.max >= 50 && darkNormal.max < center.max,
+      `Dark normal dots remain clearly visible: ${JSON.stringify({ center, darkNormal })}`,
     );
     assert(
       darkActive.max > darkNormal.max &&
         darkActive.max < lightActive.max &&
-        darkActive.max <= 64,
+        darkActive.max <= 110,
       `Dark hover stays visible but substantially quieter than light mode: ${JSON.stringify({ lightActive, darkActive, darkNormal, pointerState })}`,
     );
+    for (const [x, y] of [
+      [14, 490], [1414, 490], [714, 14], [714, 994], [14, 14],
+    ])
+      assert.equal(
+        (await point(x, y)).max,
+        darkNormal.max,
+        "Dark normal dots retain equal opacity at edges and corners",
+      );
     return { center, edges, corner, lightActive, darkActive, darkNormal };
   } finally {
     await context.close();

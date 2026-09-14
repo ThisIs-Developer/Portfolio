@@ -70,7 +70,7 @@
     const positions = new Map(
       cards.map((card) => [
         card,
-        { x: 0, y: 0, vx: 0, vy: 0, lift: 0, tilt: 0 },
+        { x: 0, y: 0, homeX: 0, homeY: 0, vx: 0, vy: 0, lift: 0, tilt: 0, angle: 0 },
       ]),
     );
     let frame = 0;
@@ -78,10 +78,11 @@
     let zoom = 1;
     let fit = 1;
     const compactScreen = matchMedia("(max-width: 767px)");
-    let list = compactScreen.matches;
+    let list = false;
     let drag = null;
     let panDrag = null;
     const camera = { x: 0, y: 0, vx: 0, vy: 0, ready: false };
+    const canvasArea = { width: 0, height: 0, compact: null };
     let layer = 2;
     let saved;
     try {
@@ -96,26 +97,39 @@
     }
     function arrange() {
       if (list || !board.clientWidth) return;
-      fit = Math.max(
-        0.8,
-        Math.min(
-          (board.clientWidth - 12) / world.offsetWidth,
-          (board.clientHeight - 88) / world.offsetHeight,
-          1,
-        ),
-      );
+      const newLayout = canvasArea.compact !== compactScreen.matches;
+      if (newLayout) {
+        stopMovement();
+        canvasArea.compact = compactScreen.matches;
+        const layoutWidth = canvasArea.compact ? 660 : 1200;
+        const layoutHeight = canvasArea.compact ? 1440 : 780;
+        const initialScale = 1.12 * Math.max(0.25, Math.min(
+          (board.clientWidth - 40) / layoutWidth,
+          (board.clientHeight - 160) / layoutHeight, 1));
+        // Establish the finite workspace once per responsive layout. The full
+        // area visible at minimum zoom is usable, including beyond the start view.
+        canvasArea.width = board.clientWidth / (initialScale * 0.65);
+        canvasArea.height = board.clientHeight / (initialScale * 0.65);
+        world.style.setProperty("--world-width", `${canvasArea.width}px`);
+        world.style.setProperty("--world-height", `${canvasArea.height}px`);
+        scatterCards();
+        camera.ready = false;
+      }
+      // The minimum zoom covers the board. All space revealed by zooming out
+      // belongs to this same finite world; card bounds never depend on the view.
+      fit = Math.max(board.clientWidth / canvasArea.width,
+        board.clientHeight / canvasArea.height) / 0.65;
       const scale = fit * zoom;
       if (!camera.ready) {
-        camera.x = compactScreen.matches
-          ? -10
-          : (board.clientWidth - world.offsetWidth * scale) / 2;
-        camera.y = Math.max(
-          18,
-          (board.clientHeight - 88 - world.offsetHeight * scale) / 2,
-        );
+        camera.x = (board.clientWidth - canvasArea.width * scale) / 2;
+        camera.y = (board.clientHeight - canvasArea.height * scale) / 2;
         camera.ready = true;
       }
       paintCamera();
+      for (const card of cards) {
+        clampPosition(card);
+        paint(card);
+      }
       label.value = `${Math.round(zoom * 100)}%`;
       board.querySelector('[data-playground-zoom="out"]').disabled =
         zoom <= 0.65;
@@ -124,6 +138,16 @@
     }
     function paintCamera() {
       const scale = fit * zoom;
+      const limit = (value, viewport, size, leading, trailing) =>
+        size <= viewport - leading - trailing
+          ? leading + (viewport - leading - trailing - size) / 2
+          : Math.max(viewport - trailing - size, Math.min(leading, value));
+      const x = limit(camera.x, board.clientWidth, canvasArea.width * scale, 0, 0);
+      const y = limit(camera.y, board.clientHeight, canvasArea.height * scale, 0, 0);
+      if (x !== camera.x) camera.vx = 0;
+      if (y !== camera.y) camera.vy = 0;
+      camera.x = x;
+      camera.y = y;
       world.style.transform = `translate3d(${camera.x}px, ${camera.y}px, 0) scale(${scale})`;
       board.style.backgroundPosition = `${camera.x}px ${camera.y}px`;
       board.style.backgroundSize = `${24 * scale}px ${24 * scale}px`;
@@ -133,22 +157,76 @@
       card.style.transform = `translate3d(${position.x}px, ${position.y}px, 0) rotate(calc(var(--card-angle) + ${position.tilt}deg)) scale(${1 + position.lift * 0.035})`;
     }
     function bounds(card) {
-      // The usable world is the current camera viewport, not the original card
-      // arrangement. Zooming out therefore creates real space on every side.
-      const scale = fit * zoom;
-      const pad = 18;
+      // Card limits belong to the finite world, independently of camera and zoom.
+      const p = positions.get(card);
+      const angle = (Math.abs(p.angle) + 7) * Math.PI / 180;
+      // Reserve the maximum rotation/lift footprint, including during a throw.
+      const padX = 18 + Math.max(0, (1.035 * (card.offsetWidth * Math.cos(angle) + card.offsetHeight * Math.sin(angle)) - card.offsetWidth) / 2);
+      const padY = 18 + Math.max(0, (1.035 * (card.offsetHeight * Math.cos(angle) + card.offsetWidth * Math.sin(angle)) - card.offsetHeight) / 2);
       return {
-        left: (pad - camera.x) / scale - card.offsetLeft,
-        right:
-          (board.clientWidth - pad - camera.x) / scale -
-          card.offsetLeft -
-          card.offsetWidth,
-        top: (pad - camera.y) / scale - card.offsetTop,
-        bottom:
-          (board.clientHeight - 92 - camera.y) / scale -
-          card.offsetTop -
-          card.offsetHeight,
+        left: padX - card.offsetLeft,
+        right: canvasArea.width - padX - card.offsetLeft - card.offsetWidth,
+        top: padY - card.offsetTop,
+        bottom: canvasArea.height - padY - card.offsetTop - card.offsetHeight,
       };
+    }
+    function scatterCards() {
+      let layoutWidth = canvasArea.width * 0.65, layoutHeight = canvasArea.height * 0.65;
+      const widest = Math.max(...cards.map(card => card.offsetWidth)) + 48;
+      const tallest = Math.max(...cards.map(card => card.offsetHeight)) + 48;
+      const candidates = [];
+      for (let columns = 2; columns <= Math.floor(canvasArea.width / widest); columns++) {
+        const rows = Math.ceil(cards.length / columns);
+        const width = Math.max(layoutWidth, columns * widest);
+        const height = Math.max(layoutHeight, rows * tallest);
+        if (height <= canvasArea.height) candidates.push({ columns, width, height });
+      }
+      // Use more of the existing finite world as the collection grows, keeping
+      // widget text at the same readable scale and reserving room for rotation.
+      candidates.sort((a, b) => a.width * a.height - b.width * b.height);
+      const layout = candidates[0];
+      const columns = layout?.columns || Math.max(2, Math.floor(canvasArea.width / widest));
+      layoutWidth = layout?.width || canvasArea.width;
+      layoutHeight = layout?.height || canvasArea.height;
+      const rows = Math.ceil(cards.length / columns);
+      const slots = Array.from({ length: rows * columns }, (_, index) => index);
+      for (let i = slots.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [slots[i], slots[j]] = [slots[j], slots[i]];
+      }
+      const originX = (canvasArea.width - layoutWidth) / 2, originY = (canvasArea.height - layoutHeight) / 2;
+      const cellWidth = layoutWidth / columns, cellHeight = layoutHeight / rows;
+      cards.forEach((card, index) => {
+        const p = positions.get(card), slot = slots[index];
+        p.angle = Math.random() * 10 - 5;
+        card.style.setProperty("--card-angle", `${p.angle}deg`);
+        const freeX = Math.max(0, cellWidth - card.offsetWidth - 48);
+        const freeY = Math.max(0, cellHeight - card.offsetHeight - 48);
+        p.x = originX + (slot % columns) * cellWidth + 24 + Math.random() * freeX - card.offsetLeft;
+        p.y = originY + Math.floor(slot / columns) * cellHeight + 24 + Math.random() * freeY - card.offsetTop;
+        clampPosition(card);
+        p.homeX = p.x;
+        p.homeY = p.y;
+        paint(card);
+      });
+    }
+    function updateDragTarget() {
+      const b = bounds(drag.card), scale = fit * zoom;
+      drag.targetX = Math.max(b.left, Math.min(b.right,
+        drag.startX + (drag.lastX - drag.x + drag.cameraX - camera.x) / scale));
+      drag.targetY = Math.max(b.top, Math.min(b.bottom,
+        drag.startY + (drag.lastY - drag.y + drag.cameraY - camera.y) / scale));
+    }
+    function panAtDragEdge(dt) {
+      if (!drag?.moved) return;
+      const rect = board.getBoundingClientRect();
+      const speed = (point, low, high) => point < low + 48
+        ? Math.min(1, (low + 48 - point) / 48)
+        : point > high - 48 ? -Math.min(1, (point - high + 48) / 48) : 0;
+      camera.x += speed(drag.lastX, rect.left, rect.right) * dt * 0.65;
+      camera.y += speed(drag.lastY, rect.top + 64, rect.bottom - 80) * dt * 0.65;
+      paintCamera();
+      updateDragTarget();
     }
     function clampPosition(card) {
       const p = positions.get(card),
@@ -167,6 +245,7 @@
       const dt = Math.min(32, Math.max(1, now - lastFrame));
       lastFrame = now;
       let moving = false;
+      panAtDragEdge(dt);
       if (panDrag) {
         const ease = 1 - Math.pow(0.42, dt / 16.67);
         camera.x += (panDrag.targetX - camera.x) * ease;
@@ -412,6 +491,7 @@
     });
     function setColor(color) {
       board.dataset.canvasColor = color;
+      board.querySelector("[data-playground-background-reset]").disabled = color === "blue";
       board
         .querySelectorAll("[data-playground-color]")
         .forEach((button) =>
@@ -421,8 +501,13 @@
           ),
         );
     }
-    if (["blue", "cream", "green", "lilac", "pink"].includes(saved.color))
-      setColor(saved.color);
+    setColor(["blue", "cream", "peach", "green", "lilac", "pink"].includes(saved.color) ? saved.color : "blue");
+    board.querySelector("[data-playground-background-reset]").addEventListener("click", () => {
+      saved.color = "blue";
+      setColor("blue");
+      save();
+      announce("Canvas background reset.");
+    });
     board.querySelectorAll("[data-playground-check]").forEach((input) => {
       input.checked = saved[input.dataset.playgroundCheck] === true;
       input.addEventListener("change", () => {
@@ -431,6 +516,183 @@
       });
     });
     taskProgress();
+    const today = new Date();
+    let calendarMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+    let selectedDay = "";
+    function renderCalendar() {
+      const year = calendarMonth.getFullYear(), month = calendarMonth.getMonth();
+      board.querySelector("[data-calendar-month]").textContent =
+        calendarMonth.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+      const grid = board.querySelector("[data-calendar-grid]");
+      grid.replaceChildren();
+      const offset = (calendarMonth.getDay() + 6) % 7;
+      for (let i = 0; i < offset; i++) {
+        const spacer = document.createElement("span");
+        spacer.setAttribute("aria-hidden", "true");
+        grid.append(spacer);
+      }
+      for (let day = 1; day <= new Date(year, month + 1, 0).getDate(); day++) {
+        const date = new Date(year, month, day);
+        const key = `${year}-${month}-${day}`;
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = day;
+        button.setAttribute("aria-label", date.toLocaleDateString(undefined, { dateStyle: "full" }));
+        button.setAttribute("aria-pressed", String(selectedDay === key));
+        if (date.toDateString() === today.toDateString()) button.setAttribute("aria-current", "date");
+        button.addEventListener("click", () => {
+          selectedDay = key;
+          grid.querySelectorAll("button").forEach(item => item.setAttribute("aria-pressed", String(item === button)));
+          board.querySelector("[data-calendar-selection]").textContent = date.toLocaleDateString(undefined, { dateStyle: "long" });
+        });
+        grid.append(button);
+      }
+    }
+    board.querySelectorAll("[data-calendar-step]").forEach(button => button.addEventListener("click", () => {
+      calendarMonth.setMonth(calendarMonth.getMonth() + Number(button.dataset.calendarStep));
+      renderCalendar();
+    }));
+    board.querySelector("[data-calendar-today]").addEventListener("click", () => {
+      calendarMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+      selectedDay = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+      renderCalendar();
+      board.querySelector("[data-calendar-selection]").textContent = "Back to today.";
+    });
+    renderCalendar();
+
+    let calculatorValue = "0", calculatorMemory = null, calculatorOperator = null, newNumber = true;
+    const calculatorDisplay = board.querySelector("[data-calculator-display]");
+    function calculate(key) {
+      const number = Number(calculatorValue);
+      const format = value => Number.isFinite(value) ? String(Number(value.toPrecision(12))) : "Error";
+      const resolve = () => {
+        if (calculatorMemory === null || !calculatorOperator) return number;
+        return { "+": () => calculatorMemory + number, "−": () => calculatorMemory - number,
+          "×": () => calculatorMemory * number, "÷": () => number === 0 ? NaN : calculatorMemory / number }[calculatorOperator]();
+      };
+      if (key === "C") {
+        calculatorValue = "0"; calculatorMemory = calculatorOperator = null; newNumber = true;
+      } else if (/^[0-9.]$/.test(key)) {
+        if (calculatorValue === "Error") calculatorMemory = calculatorOperator = null;
+        if (newNumber || calculatorValue === "Error") calculatorValue = "0";
+        newNumber = false;
+        if (key === ".") { if (!calculatorValue.includes(".")) calculatorValue += "."; }
+        else if (calculatorValue.length < 13) calculatorValue = calculatorValue === "0" ? key : calculatorValue + key;
+      } else if (calculatorValue !== "Error") {
+        if (key === "±") calculatorValue = format(-number);
+        else if (key === "%") calculatorValue = format(number / 100);
+        else if (key === "⌫") { calculatorValue = calculatorValue.slice(0, -1); if (!calculatorValue || calculatorValue === "-") calculatorValue = "0"; }
+        else if (["+", "−", "×", "÷"].includes(key)) {
+          if (!newNumber) calculatorValue = format(resolve());
+          calculatorMemory = Number(calculatorValue); calculatorOperator = key; newNumber = true;
+        } else if (key === "=") {
+          calculatorValue = format(resolve()); calculatorMemory = calculatorOperator = null; newNumber = true;
+        }
+      }
+      calculatorDisplay.value = calculatorValue;
+    }
+    board.querySelectorAll("[data-calculator-key]").forEach(button => button.addEventListener("click", () => calculate(button.dataset.calculatorKey)));
+    board.querySelector(".playground-calculator").addEventListener("keydown", event => {
+      if (event.target !== event.currentTarget) return;
+      const key = ({ "*": "×", "/": "÷", "-": "−", Enter: "=", Backspace: "⌫", Escape: "C" })[event.key] || event.key;
+      if (/^[0-9.+%=]$/.test(key) || ["×", "÷", "−", "⌫", "C"].includes(key)) { event.preventDefault(); calculate(key); }
+    });
+
+    const moodDate = `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`;
+    function showMood(value) {
+      board.querySelectorAll("[data-mood]").forEach(button => button.setAttribute("aria-pressed", String(button.dataset.mood === value)));
+      board.querySelector("[data-mood-status]").textContent = value ? `${value[0].toUpperCase() + value.slice(1)} today. A little check-in, just for you.` : "No right answer. Just a moment for you.";
+    }
+    showMood(saved.moodDate === moodDate && ["quiet", "okay", "good", "great"].includes(saved.mood) ? saved.mood : null);
+    board.querySelectorAll("[data-mood]").forEach(button => button.addEventListener("click", () => {
+      saved.mood = button.dataset.mood; saved.moodDate = moodDate; save(); showMood(saved.mood);
+    }));
+    board.querySelector("[data-mood-clear]").addEventListener("click", () => {
+      delete saved.mood; delete saved.moodDate; save(); showMood(null);
+    });
+    let pinDrag = null;
+    let pinGhost = null;
+    const pinTools = [...board.querySelectorAll("[data-pin-colour]")];
+    function cancelPinDrag() {
+      const held = pinDrag;
+      pinDrag = null;
+      pinGhost?.remove();
+      pinGhost = null;
+      if (held) pinTools.forEach(tool => {
+        if (tool.hasPointerCapture(held.id)) tool.releasePointerCapture(held.id);
+      });
+    }
+    window.addEventListener("blur", cancelPinDrag);
+    document.addEventListener("playlab:panelchange", cancelPinDrag);
+    function pinCard(card, colour) {
+      stopMovement();
+      card.dataset.pinned = colour;
+      card.querySelector(".playground-card-pin").hidden = false;
+      announce("Card pinned. Select its pin to unpin it.");
+    }
+    for (const card of cards) {
+      const pin = document.createElement("button");
+      pin.type = "button";
+      pin.className = "playground-card-pin";
+      pin.setAttribute("aria-label", "Unpin this card");
+      pin.hidden = true;
+      pin.addEventListener("click", () => {
+        delete card.dataset.pinned;
+        pin.hidden = true;
+        card.focus({ preventScroll: true });
+        announce("Card unpinned.");
+      });
+      card.append(pin);
+    }
+    for (const tool of pinTools) {
+      tool.addEventListener("pointerdown", event => {
+        if (event.button !== 0) return;
+        pinDrag = { id: event.pointerId, x: event.clientX, y: event.clientY, colour: tool.dataset.pinColour };
+        tool.setPointerCapture(event.pointerId);
+      });
+      tool.addEventListener("pointermove", event => {
+        if (!pinDrag || pinDrag.id !== event.pointerId || Math.hypot(event.clientX - pinDrag.x, event.clientY - pinDrag.y) < 4) return;
+        if (!pinGhost) {
+          pinGhost = document.createElement("span");
+          pinGhost.className = "playground-pin-ghost";
+          pinGhost.dataset.pinned = pinDrag.colour;
+          document.body.append(pinGhost);
+        }
+        pinGhost.style.left = `${event.clientX}px`;
+        pinGhost.style.top = `${event.clientY}px`;
+      });
+      const releasePin = event => {
+        if (!pinDrag || pinDrag.id !== event.pointerId) return;
+        if (pinGhost && event.type === "pointerup") {
+          const card = document.elementFromPoint(event.clientX, event.clientY)?.closest("[data-playground-card]");
+          if (card && board.contains(card)) pinCard(card, pinDrag.colour);
+        }
+        pinDrag = null;
+        pinGhost?.remove();
+        pinGhost = null;
+        if (tool.hasPointerCapture(event.pointerId)) tool.releasePointerCapture(event.pointerId);
+      };
+      ["pointerup", "pointercancel", "lostpointercapture"].forEach(type => tool.addEventListener(type, releasePin));
+    }
+    const activityEvents = ["pointerdown", "pointermove", "click", "wheel", "keydown", "input"];
+    const hideInstructions = () => {
+      board.querySelector("#playground-instructions").hidden = true;
+      activityEvents.forEach(type => board.removeEventListener(type, hideInstructions, true));
+    };
+    activityEvents.forEach(type => board.addEventListener(type, hideInstructions, { capture: true, passive: true }));
+    board.addEventListener("focusin", event => {
+      const card = event.target.closest("[data-playground-card]");
+      if (list || drag || !card || !event.target.matches(":focus-visible")) return;
+      const rect = card.getBoundingClientRect(), viewport = board.getBoundingClientRect();
+      if (rect.left < viewport.left + 18) camera.x += viewport.left + 18 - rect.left;
+      else if (rect.right > viewport.right - 18) camera.x -= rect.right - viewport.right + 18;
+      if (rect.top < viewport.top + 70) camera.y += viewport.top + 70 - rect.top;
+      else if (rect.bottom > viewport.bottom - 80) camera.y -= rect.bottom - viewport.bottom + 80;
+      paintCamera();
+    });
+    board.addEventListener("keydown", event => {
+      if (event.key === "Escape") cancelPinDrag();
+    });
     board.querySelectorAll("[data-playground-color]").forEach((button) =>
       button.addEventListener("click", () => {
         saved.color = button.dataset.playgroundColor;
@@ -438,28 +700,35 @@
         save();
       }),
     );
+    function zoomAt(next, centerX, centerY) {
+      stopMovement();
+      const oldScale = fit * zoom;
+      const worldX = (centerX - camera.x) / oldScale;
+      const worldY = (centerY - camera.y) / oldScale;
+      zoom = Math.min(1.65, Math.max(0.65, next));
+      arrange();
+      camera.x = centerX - worldX * fit * zoom;
+      camera.y = centerY - worldY * fit * zoom;
+      paintCamera();
+    }
+    board.addEventListener("wheel", (event) => {
+      if (list || board.closest("[hidden]") || drag || panDrag ||
+          event.target.closest("input, textarea, select")) return;
+      if (!event.deltaY) return;
+      event.preventDefault();
+      const rect = board.getBoundingClientRect();
+      const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? board.clientHeight : 1;
+      const delta = Math.max(-160, Math.min(160, event.deltaY * unit));
+      zoomAt(zoom * Math.exp(-delta * 0.0015),
+        event.clientX - rect.left - board.clientLeft,
+        event.clientY - rect.top - board.clientTop);
+    }, { passive: false });
     board.querySelectorAll("[data-playground-zoom]").forEach((button) =>
       button.addEventListener("click", () => {
-        stopMovement();
-        const oldScale = fit * zoom;
         const centerX = board.clientWidth / 2,
           centerY = (board.clientHeight - 88) / 2;
-        const worldX = (centerX - camera.x) / oldScale,
-          worldY = (centerY - camera.y) / oldScale;
-        zoom = Math.min(
-          1.65,
-          Math.max(
-            0.65,
-            Math.round(
-              (zoom + (button.dataset.playgroundZoom === "in" ? 0.15 : -0.15)) *
-                100,
-            ) / 100,
-          ),
-        );
-        arrange();
-        camera.x = centerX - worldX * fit * zoom;
-        camera.y = centerY - worldY * fit * zoom;
-        paintCamera();
+        zoomAt(Math.round((zoom + (button.dataset.playgroundZoom === "in" ? 0.15 : -0.15)) * 100) / 100,
+          centerX, centerY);
         announce(`Canvas zoom ${Math.round(zoom * 100)} percent.`);
       }),
     );
@@ -470,8 +739,10 @@
         zoom = 1;
         camera.ready = false;
         for (const [card, position] of positions) {
-          position.x = 0;
-          position.y = 0;
+          delete card.dataset.pinned;
+          card.querySelector(".playground-card-pin").hidden = true;
+          position.x = position.homeX;
+          position.y = position.homeY;
           card.style.zIndex = "";
           paint(card);
         }
@@ -480,6 +751,7 @@
       });
     function setList(next) {
       stopMovement();
+      cancelPinDrag();
       list = next;
       board.classList.toggle("is-list", list);
       view.setAttribute("aria-pressed", String(list));
@@ -496,7 +768,7 @@
     view.addEventListener("click", () => setList(!list));
     compactScreen.addEventListener("change", () => {
       camera.ready = false;
-      setList(compactScreen.matches);
+      setList(list);
     });
     board.addEventListener("pointerdown", (event) => {
       if (
@@ -508,6 +780,7 @@
         return;
       event.preventDefault();
       stopMovement();
+      window.getSelection()?.removeAllRanges();
       board.focus({ preventScroll: true });
       panDrag = {
         id: event.pointerId,
@@ -596,6 +869,7 @@
       card.addEventListener("pointerdown", (event) => {
         if (
           list ||
+          card.dataset.pinned ||
           event.button !== 0 ||
           drag ||
           panDrag ||
@@ -605,6 +879,7 @@
         )
           return;
         event.preventDefault();
+        window.getSelection()?.removeAllRanges();
         camera.vx = camera.vy = 0;
         card.focus({ preventScroll: true });
         const position = positions.get(card);
@@ -616,6 +891,8 @@
           y: event.clientY,
           startX: position.x,
           startY: position.y,
+          cameraX: camera.x,
+          cameraY: camera.y,
           targetX: position.x,
           targetY: position.y,
           lastX: event.clientX,
@@ -634,16 +911,7 @@
         if (!drag || drag.card !== card || drag.id !== event.pointerId) return;
         const scale = fit * zoom;
         const now = performance.now(),
-          dt = Math.max(8, now - drag.time),
-          b = bounds(card);
-        drag.targetX = Math.max(
-          b.left,
-          Math.min(b.right, drag.startX + (event.clientX - drag.x) / scale),
-        );
-        drag.targetY = Math.max(
-          b.top,
-          Math.min(b.bottom, drag.startY + (event.clientY - drag.y) / scale),
-        );
+          dt = Math.max(8, now - drag.time);
         drag.vx = Math.max(
           -1.8,
           Math.min(
@@ -661,9 +929,11 @@
         drag.lastX = event.clientX;
         drag.lastY = event.clientY;
         drag.time = now;
+        updateDragTarget();
         drag.moved ||=
           Math.hypot(event.clientX - drag.x, event.clientY - drag.y) > 4;
         if (motion.matches) {
+          panAtDragEdge(Math.min(dt, 32));
           const p = positions.get(card);
           p.x = drag.targetX;
           p.y = drag.targetY;
@@ -698,6 +968,7 @@
       card.addEventListener("keydown", (event) => {
         if (
           list ||
+          card.dataset.pinned ||
           event.target !== card ||
           !["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(
             event.key,
@@ -767,6 +1038,7 @@
     view.hidden = false;
     board.querySelector(".playground-palette").hidden = false;
     board.querySelector(".playground-controls").hidden = false;
+    board.querySelector(".playground-pin-tray").hidden = false;
     new ResizeObserver(arrange).observe(board);
     arrange();
     updateClock();
@@ -826,15 +1098,6 @@
       ? 0
       : Math.min(0.17, Math.abs(springState.velocity) / 5000);
     ball.style.transform = `translateX(${springState.x - 38.5}px) scale(${1 + speed}, ${1 - speed * 0.7})`;
-    springTrack.style.setProperty("--spring-anchor", `${springState.target}px`);
-    springTrack.style.setProperty(
-      "--spring-length",
-      `${Math.abs(springState.x - springState.target)}px`,
-    );
-    springTrack.style.setProperty(
-      "--spring-left",
-      `${Math.min(springState.x, springState.target)}px`,
-    );
     ball.dataset.springState = springFrame || springDrag ? "moving" : "settled";
   }
   function stopSpring() {
@@ -1022,7 +1285,7 @@
           },
           { transform: "rotateY(0deg) rotate(-7deg) scale(1)" },
         ],
-        { duration: 560, easing: "cubic-bezier(.18,.7,.2,1)" },
+        { duration: 900, easing: "cubic-bezier(.18,.7,.2,1)" },
       );
   });
   const resetTilt = () => {
@@ -1164,65 +1427,31 @@
     heights,
     previousHeights,
     waterPixels,
-    bedPixels;
-  function waterBed() {
-    if (!waterWidth) return;
+    waterTint;
+  let waterDark = false;
+  function setWaterPalette() {
     const theme = pond.closest(".interaction-ripple-stage").dataset.rippleTheme;
-    const palette = {
-      sky: [92, 163, 181],
-      mint: [116, 162, 131],
-      rose: [183, 129, 151],
-    }[theme];
-    bedPixels = new Uint8ClampedArray(waterWidth * waterHeight * 3);
-    for (let y = 0; y < waterHeight; y++)
-      for (let x = 0; x < waterWidth; x++) {
-        // A shallow textured bed gives moving surface normals something to refract.
-        const depth = Math.hypot(
-          (x / waterWidth - 0.33) * 0.9,
-          (y / waterHeight - 0.23) * 0.75,
-        );
-        const caustic =
-          Math.sin(x * 0.105 + Math.sin(y * 0.074) * 2.2) *
-          Math.sin(y * 0.091 + Math.cos(x * 0.07) * 2.4);
-        const light = 37 - depth * 46 + Math.pow(Math.max(0, caustic), 5) * 48;
-        const grain = Math.sin(x * 23.7 + y * 11.3) * 1.8;
-        const index = (y * waterWidth + x) * 3;
-        for (let c = 0; c < 3; c++)
-          bedPixels[index + c] = palette[c] + light + grain;
-      }
+    waterDark = document.documentElement.dataset.theme === "dark";
+    waterTint = (waterDark ? {
+      sky: [33, 68, 84],
+      mint: [43, 75, 47],
+      rose: [88, 47, 76],
+    } : {
+      sky: [110, 165, 185],
+      mint: [123, 161, 134],
+      rose: [185, 139, 161],
+    })[theme];
   }
   function paintWater() {
     if (!waterContext || !waterWidth) return;
     const pixels = waterPixels.data;
-    for (let y = 0; y < waterHeight; y++)
-      for (let x = 0; x < waterWidth; x++) {
-        const i = y * waterWidth + x;
-        const dx = (heights[i - 1] || 0) - (heights[i + 1] || 0);
-        const dy =
-          (heights[i - waterWidth] || 0) - (heights[i + waterWidth] || 0);
-        const rx = Math.max(
-          0,
-          Math.min(waterWidth - 1, Math.round(x + dx * 1.7)),
-        );
-        const ry = Math.max(
-          0,
-          Math.min(waterHeight - 1, Math.round(y + dy * 1.7)),
-        );
-        const sample = (ry * waterWidth + rx) * 3;
-        const slope = Math.max(-30, Math.min(40, dx * -4 + dy * -6));
-        const reflection = Math.min(
-          100,
-          Math.max(0, dx * -0.5 + dy * -0.8) ** 2 * 9,
-        );
-        // Keep the pastel CSS pond visible at rest. The same refracted bed and
-        // surface normals supply only the moving light and shade above it.
-        let light = slope + reflection;
-        for (let c = 0; c < 3; c++)
-          light += (bedPixels[sample + c] - bedPixels[i * 3 + c]) / 3;
-        for (let c = 0; c < 3; c++)
-          pixels[i * 4 + c] = light > 0 ? 255 : bedPixels[i * 3 + c] * 0.42;
-        pixels[i * 4 + 3] = Math.min(170, Math.abs(light) * 3);
-      }
+    // Flat pastel wave bands, without refraction, caustics or specular glare.
+    for (let i = 0; i < heights.length; i++) {
+      const crest = heights[i];
+      for (let c = 0; c < 3; c++)
+        pixels[i * 4 + c] = crest >= 0 ? (waterDark ? waterTint[c] + 95 : 255) : waterTint[c];
+      pixels[i * 4 + 3] = Math.min(waterDark ? 48 : 72, Math.abs(crest) * 8);
+    }
     waterContext.putImageData(waterPixels, 0, 0);
   }
   function sizeWater() {
@@ -1235,7 +1464,7 @@
     heights = new Float32Array(width * height);
     previousHeights = new Float32Array(width * height);
     waterPixels = waterContext.createImageData(width, height);
-    waterBed();
+    setWaterPalette();
     paintWater();
     pond.dataset.waterState = "resting";
   }
@@ -1253,7 +1482,7 @@
             heights[i + waterWidth]) *
             0.5 -
             previousHeights[i]) *
-          0.982;
+          0.97;
         previousHeights[i] = next;
         energy = Math.max(energy, Math.abs(next));
       }
@@ -1315,20 +1544,20 @@
         const distance = Math.hypot(x - cx, y - cy) / radius;
         if (distance < 1)
           heights[y * waterWidth + x] +=
-            Math.cos((distance * Math.PI) / 2) * (announce ? 24 : 10);
+            Math.cos((distance * Math.PI) / 2) * (announce ? 12 : 5);
       }
     water.dataset.rippleOrigin = `${Math.round(cx)},${Math.round(cy)}`;
     if (announce) {
       ripples++;
       pond.dataset.rippleCount = String(ripples);
-      rippleStatus.textContent = `${ripples} ${ripples === 1 ? "ripple" : "ripples"} made. Watch the light follow the water.`;
+      rippleStatus.textContent = `${ripples} ${ripples === 1 ? "ripple" : "ripples"} made. Watch the soft rings spread.`;
     }
     if (motion.matches) {
       for (let i = 0; i < 22; i++) stepWater();
       paintWater();
       pond.dataset.waterState = "still";
     } else {
-      waterUntil = performance.now() + 7000;
+      waterUntil = performance.now() + 4500;
       pond.dataset.waterState = "moving";
       if (!waterFrame) {
         waterTime = performance.now();
@@ -1353,6 +1582,10 @@
     if (!event.detail) disturbWater();
   });
   if (pond) new ResizeObserver(sizeWater).observe(pond);
+  if (pond) new MutationObserver(() => {
+    setWaterPalette();
+    paintWater();
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
   document.querySelectorAll("[data-ripple-colour]").forEach((button) => {
     button.addEventListener("click", () => {
       pond.closest(".interaction-ripple-stage").dataset.rippleTheme =
@@ -1361,7 +1594,7 @@
         .querySelectorAll("[data-ripple-colour]")
         .forEach((b) => b.setAttribute("aria-pressed", String(b === button)));
       rippleStatus.textContent = `${button.textContent} water selected. Make a ripple.`;
-      waterBed();
+      setWaterPalette();
       paintWater();
     });
   });

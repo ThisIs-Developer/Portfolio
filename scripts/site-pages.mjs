@@ -12,6 +12,8 @@ const esc = (value = "") =>
   );
 const arrow =
   '<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14"/></svg>';
+const devLogo =
+  '<svg class="dev-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 32 448 448" width="28" height="28" role="img" aria-label="DEV"><rect y="32" width="448" height="448" rx="44" fill="#000"/><path fill="#fff" fill-rule="evenodd" d="M120.12 208.29c-3.88-2.9-7.77-4.35-11.65-4.35H91.03v104.47h17.45c3.88 0 7.77-1.45 11.65-4.35 3.88-2.9 5.82-7.25 5.82-13.06v-69.65c-.01-5.8-1.96-10.16-5.83-13.06zM154.2 291.19c0 18.81-11.61 47.31-48.36 47.25h-46.4V172.98h47.38c35.44 0 47.36 28.46 47.37 47.28l.01 70.93zm100.68-88.66H201.6v38.42h32.57v29.57H201.6v38.41h53.29v29.57h-62.18c-11.16.29-20.44-8.53-20.72-19.69V193.7c-.27-11.15 8.56-20.41 19.71-20.69h63.19l-.01 29.52zm103.64 115.29c-13.2 30.75-36.85 24.63-47.44 0l-38.53-144.8h32.57l29.71 113.72 29.57-113.72h32.58l-38.46 144.8z"/></svg>';
 const date = (value) =>
   new Intl.DateTimeFormat("en", {
     month: "long",
@@ -87,7 +89,7 @@ export function renderSitePages(data, ui) {
     const editorNote = a.editorNote
       ? `<aside class="article-editor-note"><strong>Author’s update</strong><p>${esc(a.editorNote)}</p></aside>`
       : "";
-    const content = `<div class="reading-layout article-layout editorial-reader">${toc(entries, "/blog", "Back to blog")}<article class="reading-main"><header class="reading-header"><p class="detail-category">${esc(articleCategory(a))}</p><h1>${esc(a.title)}</h1><p class="reading-deck">${esc(a.summary)}</p><div class="editorial-byline">${photo("/assets/profile/baivab-480.webp", "", 480, 517)}<div><strong>${esc(profile.name)}</strong><p><time datetime="${a.date}">${date(a.date)}</time> · ${a.readingTime} min read</p></div></div></header>${articleArt(a, "article-hero-art")}${editorNote}<div class="prose article-body">${a.bodyHtml || ""}</div><div class="article-credit"><p>Written by ${esc(profile.name)}.</p>${a.url ? link(a.url, "Publication history") : `<span>Published on this website.</span>`}</div>${next && next !== a ? `<a class="next-reading" href="${esc(next.localPath)}"><span>Continue reading</span><strong>${esc(next.title)}</strong>${arrow}</a>` : ""}</article></div>`;
+    const content = `<div class="reading-layout article-layout editorial-reader">${toc(entries, "/blog", "Back to blog")}<article class="reading-main"><header class="reading-header"><p class="detail-category">${esc(articleCategory(a))}</p><h1>${esc(a.title)}</h1><p class="reading-deck">${esc(a.summary)}</p><div class="editorial-byline">${photo("/assets/profile/baivab-480.webp", "", 480, 517)}<div><strong>${esc(profile.name)}</strong><p><time datetime="${a.date}">${date(a.date)}</time> · ${a.readingTime} min read</p></div></div></header>${articleArt(a, "article-hero-art")}${editorNote}<div class="prose article-body">${a.bodyHtml || ""}</div><div class="article-credit">${a.url ? `<a class="text-link dev-publication" href="${esc(a.url)}"><span>View in</span>${devLogo}${arrow}</a>` : `<span>Published on this website.</span>`}</div>${next && next !== a ? `<a class="next-reading" href="${esc(next.localPath)}"><span>Continue reading</span><strong>${esc(next.title)}</strong>${arrow}</a>` : ""}</article></div>`;
     pages[`blog/${a.slug}.html`] = shell(content, {
       path: a.localPath,
       title: `${a.title} — Baivab Sarkar`,
@@ -131,7 +133,7 @@ export function renderSitePages(data, ui) {
         ["Focus", "Business automation"],
         ["Availability", "Confidential"],
       ],
-    )}</header><div class="prose">${enterprise.projects.map((p) => `<section id="${p.id}">${p.id === "audit-management" ? '<span id="enterprise-support" aria-hidden="true"></span>' : ""}<p class="eyebrow">${p.label}</p><h2>${p.title}</h2><p>${p.summary}</p></section>`).join("")}<aside class="confidential-note"><h2>Confidentiality notice</h2><p>${enterprise.notice}</p></aside></div>${link("/work", "Explore public work", "button")}</article></div>`,
+    )}</header><div class="prose">${enterprise.projects.map((p) => `<section id="${p.id}">${p.id === "audit-management" ? '<span id="enterprise-support" aria-hidden="true"></span>' : ""}<p class="eyebrow">${p.label}</p><h2>${p.title}</h2><p>${p.summary}</p></section>`).join("")}<aside class="confidential-note"><h2>Confidentiality notice</h2><p>${enterprise.notice}</p></aside></div></article></div>`,
     {
       path: "/work/enterprise",
       title: "Enterprise applications — Baivab Sarkar",
