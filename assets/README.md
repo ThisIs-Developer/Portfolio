@@ -1,5 +1,7 @@
 # Published assets
 
+The Markdown Viewer project page uses eight author-supplied September 2026 screenshots, encoded proportionally as WebP under `work/markdown-viewer/`. Full provenance, selection decisions and source filenames are in the [case-study source audit](../docs/markdown-viewer-case-study.md). Technology marks are local SVGs from Devicon and Simple Icons; action and API symbols come from Lucide. See [sources and licenses](tools/SOURCES.md).
+
 Article cards and reader headers now use original inline SVG compositions from scripts/editorial.mjs, styled by editorial.css. The document, Git, AI, vision, audio and web illustrations are code-created for this portfolio. Historical imported covers remain in the source snapshot for provenance but are not displayed in the editorial layout.
 
 Project screenshots depict Baivab’s own projects. WebP variants resize and compress the original captures. Clearly labeled SVG placeholders in `assets/placeholders/` and three personal photo placeholders in `assets/about/` can be replaced with the author’s images. The fonts were obtained from official, licensed Google Fonts sources.

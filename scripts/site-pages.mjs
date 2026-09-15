@@ -1,6 +1,8 @@
 import { renderPlayground } from "./playground.mjs";
 import { articleArt, articleCategory } from "./editorial.mjs";
 import { enterpriseArt } from "./enterprise-art.mjs";
+import { technologyList } from "./technology-icons.mjs";
+import { markdownCaseEntries, renderMarkdownCaseStudy } from "./markdown-case-study.mjs";
 
 const esc = (value = "") =>
   String(value).replace(
@@ -45,7 +47,7 @@ const category = (p) =>
         ? "Tools"
         : "Web apps";
 const metaPanel = (entries) =>
-  `<dl class="detail-meta">${entries.map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join("")}</dl>`;
+  `<dl class="detail-meta">${entries.map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${Array.isArray(value) ? technologyList(value) : esc(value)}</dd></div>`).join("")}</dl>`;
 function toc(entries, back = "/work", label = "Back to work") {
   if (!entries.length)
     return `<aside class="reading-sidebar"><a class="reading-back" href="${back}">← ${label}</a></aside>`;
@@ -112,14 +114,15 @@ export function renderSitePages(data, ui) {
       [
         ["Project", p.status],
         ["Period", p.year],
-        ["Built with", p.stack.slice(0, 3).join(", ")],
+        ["Built with", p.stack.slice(0, 3)],
       ],
-    )}</header><figure class="case-hero">${projectImage(p, true)}${!p.image ? "<figcaption>Project image placeholder</figcaption>" : ""}</figure><div class="case-actions">${p.live ? link(p.live, p.liveLabel || "Visit project", "button") : ""}${p.source ? link(p.source, "Source code") : ""}</div><div class="prose"><section id="overview"><h2>Overview</h2><p>${esc(p.summary)}</p><p>${esc(p.contribution)}</p></section><section id="problem"><h2>The problem</h2><p>${esc(p.problem)}</p></section><section id="contribution"><h2>My contribution</h2><p>${esc(p.contribution)}</p><div class="project-facts">${p.stack.map((s) => `<span>${esc(s)}</span>`).join("")}</div></section><section id="inside"><h2>Inside the build</h2><ul>${p.features.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>${["markdown-viewer", "medichain", "notemarker"].includes(p.id) ? `<div class="case-gallery">${[1, 2].map((j) => photo(`/assets/work/${p.id}-peek-${j}.webp`, `${p.title}, interface detail ${j}`, 400, p.id === "markdown-viewer" ? 175 : p.id === "medichain" && j === 1 ? 174 : 225)).join("")}</div>` : ""}</section><section id="project-notes"><h2>Project notes</h2><div class="project-note-panel"><p class="eyebrow">${esc(p.status)}</p><p>${esc(p.note || `${p.title} is part of my work in ${p.category.toLowerCase()}. The links above provide the available project and implementation details.`)}</p></div></section></div><a class="next-reading" href="/work/${next.id}"><span>Next project</span><strong>${esc(next.title)}</strong>${arrow}</a></article></div>`;
-    pages[`work/${p.id}.html`] = shell(content, {
+    )}</header><figure class="case-hero">${projectImage(p, true)}${!p.image ? "<figcaption>Project image placeholder</figcaption>" : ""}</figure><div class="case-actions">${p.live ? link(p.live, p.liveLabel || "Visit project", "button") : ""}${p.source ? link(p.source, "Source code") : ""}</div><div class="prose"><section id="overview"><h2>Overview</h2><p>${esc(p.summary)}</p><p>${esc(p.contribution)}</p></section><section id="problem"><h2>The problem</h2><p>${esc(p.problem)}</p></section><section id="contribution"><h2>My contribution</h2><p>${esc(p.contribution)}</p>${technologyList(p.stack)}</section><section id="inside"><h2>Inside the build</h2><ul>${p.features.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>${["markdown-viewer", "medichain", "notemarker"].includes(p.id) ? `<div class="case-gallery">${[1, 2].map((j) => photo(`/assets/work/${p.id}-peek-${j}.webp`, `${p.title}, interface detail ${j}`, 400, p.id === "markdown-viewer" ? 175 : p.id === "medichain" && j === 1 ? 174 : 225)).join("")}</div>` : ""}</section><section id="project-notes"><h2>Project notes</h2><div class="project-note-panel"><p class="eyebrow">${esc(p.status)}</p><p>${esc(p.note || `${p.title} is part of my work in ${p.category.toLowerCase()}. The links above provide the available project and implementation details.`)}</p></div></section></div><a class="next-reading" href="/work/${next.id}"><span>Next project</span><strong>${esc(next.title)}</strong>${arrow}</a></article></div>`;
+    pages[`work/${p.id}.html`] = shell(p.id === "markdown-viewer" ? renderMarkdownCaseStudy({ sidebar: toc(markdownCaseEntries), next }) : content, {
       path: `/work/${p.id}`,
       title: `${p.title} — Baivab Sarkar`,
       description: p.summary,
       page: "case-study",
+      markdownCaseStudy: p.id === "markdown-viewer",
     });
   }
   const privateEntries = enterprise.projects.map((x) => ({

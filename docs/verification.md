@@ -1,5 +1,23 @@
 # Portfolio verification
 
+## Markdown Viewer case study — 15 September 2026
+
+The Markdown Viewer reader is rebuilt around seven sections and eight author-supplied screenshots. Project metadata and full technology lists use locally served brand marks and labeled Lucide symbols. The [source audit](markdown-viewer-case-study.md) records the documentation review, screenshot provenance and maintenance entry points.
+
+- The focused Chromium run passed **29 groups**, including all eight screenshot dialogs, keyboard focus containment and return, Escape, close/backdrop dismissal, the original-image link, and the JavaScript-free disclosure/image fallback. No browser exceptions occurred.
+- **14 automated WCAG A/AA scans passed** across light/dark themes at 320, 390, 600, 768, 1024, 1440 and 1920px with the additional gallery expanded and all assets loaded.
+- All twelve project readers passed icon/label loading checks. The geometry audit covered those readers at 320, 390, 768 and 1440px plus four landscape sizes: **96 states, zero geometry findings and zero browser errors**.
+- Generated-file consistency, content validation, all 13 Quick Ask test groups and whitespace checks passed. The main browser suite now includes `scripts/work-case-checks.mjs`; its image audit distinguishes unloaded images inside a closed native disclosure from visible broken assets.
+
+The broader Chromium run finished with **58 passing checks and four Play Lab failures**: small mobile targets in light/dark mode, a synthetic pointer-capture error, and a blocked widget click. Separate checks against unmodified main at `3f8d72b` reproduced the target-size violations and pointer error, and the unchanged widget-control test also failed on an intercepted click there. These are not recorded as passes or addressed by this project-page change. CI reruns the existing Chromium/Firefox/WebKit workflow; local checks do not establish a deployed or cross-browser pass.
+
+Reports are under ignored `.qa-results/markdown-case-final`, `.qa-results/markdown-case-final-suite`, `.qa-results/markdown-case-responsive`, and the two `play-lab-*-baseline.json` reports. Fresh full-page previews:
+
+| Theme | Desktop | Mobile |
+| --- | --- | --- |
+| Light | [1440px](screenshots/work-markdown-viewer-1440.webp) | [390px](screenshots/work-markdown-viewer-390.webp) |
+| Dark | [1440px](screenshots/work-markdown-viewer-1440-dark.webp) | [390px](screenshots/work-markdown-viewer-390-dark.webp) |
+
 ## 9 September refinement
 
 The preceding revision removes decorative borders and dot bleed over controls, adds a Cloudflare Workers AI fact-selection endpoint, polishes all eleven local articles, introduces native article authoring, and replaces the playground and Interactions demos.

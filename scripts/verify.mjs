@@ -13,6 +13,7 @@ import { playgroundWidgetChecks } from "./playground-widget-checks.mjs";
 import { playgroundThemeChecks } from "./playground-theme-checks.mjs";
 import { themeChecks } from "./theme-checks.mjs";
 import { walletChecks } from "./wallet-checks.mjs";
+import { workCaseChecks } from "./work-case-checks.mjs";
 
 const args = process.argv.slice(2);
 const option = (name, fallback) =>
@@ -185,7 +186,7 @@ async function inspectLayout(page, noJs = false) {
       brokenImages: [...document.images]
         .filter(
           (image) =>
-            image.getClientRects().length &&
+            image.checkVisibility() &&
             (!image.complete || !image.naturalWidth),
         )
         .map((image) => image.currentSrc || image.src),
@@ -1466,6 +1467,7 @@ try {
         ["game start, pause, reset and keyboard", () => game(page)],
         ["clipboard success and denial", () => clipboard(browser)],
         ["work and blog search, filters and sort", () => archive(page)],
+        ["Markdown Viewer screenshots, keyboard focus and responsive gallery", () => workCaseChecks(page, load)],
         [
           "all project and article readers and playable 404",
           () => readers(page),
