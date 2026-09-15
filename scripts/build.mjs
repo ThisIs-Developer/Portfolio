@@ -123,7 +123,7 @@ function metadata(options = {}) {
   <link rel="stylesheet" href="/style.css?v=20260914c">
   ${options.page ? '<link rel="stylesheet" href="/pages.css?v=20260910">' : ""}
   <link rel="stylesheet" href="/cursor.css?v=20260910">
-  <link rel="stylesheet" href="/editorial.css?v=20260914d">
+  <link rel="stylesheet" href="/editorial.css?v=20260914d">${options.page === 'case-study' ? '\n  <link rel="stylesheet" href="/work-case.css?v=20260914">' : ""}${options.markdownCaseStudy ? '\n  <script src="/work-case.js?v=20260914" defer></script>' : ""}
   ${!options.page ? '<link rel="stylesheet" href="/quick-ask.css?v=20260910"><script type="module" src="/quick-ask.js?v=20260910"></script>' : ""}
   <script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script>
   <script src="/script.js?v=20260914b" defer></script>
@@ -220,6 +220,8 @@ if (!check) {
     "cursor.css",
     "cursor.js",
     "editorial.css",
+    "work-case.css",
+    "work-case.js",
     "quick-ask.css",
     "quick-ask.js",
     "quick-ask-core.js",
